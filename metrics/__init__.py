@@ -69,10 +69,12 @@ class Result(object):
                     self.histogram[val] = 0
                 self.histogram[val] += 1
 
-    def calculate_stats(self):
+    def finish(self):
         if self.result_type in ('integer', 'real'):
             self.mean = stats.mean(self.values)
             self.std_dev = stats.stdev(self.values)
+            self.count = len(self.values) # this should be the same as self.tests_completed_without_error, but is a little clearer for adding stats
+        del self.values # no need to keep all that garbage
         
         
 
@@ -143,15 +145,14 @@ class MetricTester(object):
             if success:
                 self.results['__all__'].record_success()
             
-
         
     def finish(self):
         """ calculate aggregate values """
         for cfda_program_num in self.results:
             for metric in self.results[cfda_program_num]:
-                self.results[cfda_program_num][metric].calculate_stats()
+                self.results[cfda_program_num][metric].finish()
 
-        self.results['__all__'].calculate_stats()
+        self.results['__all__'].finish()
 
         self.finished = True
 
