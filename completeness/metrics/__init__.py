@@ -82,7 +82,7 @@ class Result(object):
 class MetricTester(object):
     """ Performs specified tests on rows """
     def __init__(self):
-        super(Tester, self).__init__()
+        super(MetricTester, self).__init__()
         
         self.finished = False
 
