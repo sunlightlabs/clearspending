@@ -9,7 +9,7 @@ from datetime import datetime
 
 if __name__ == '__main__':
 
-    conn = MySQLdb.connect(host=MYSQL_HOST, user=MYSQL_USER, passwd=MYSQL_PASSWORD, db=MYSQL_DATABASE, port=3308)
+    conn = MySQLdb.connect(host=MYSQL_HOST, user=MYSQL_USER, passwd=MYSQL_PASSWORD, db=MYSQL_DATABASE, port=MYSQL_PORT)
     cursor = conn.cursor()
     f = open('csv/consistency_report_%s' % datetime.today(), 'w')
     nonfinancial = open('csv/nonfinancial_programs', 'w')
