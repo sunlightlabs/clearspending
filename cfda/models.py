@@ -7,11 +7,6 @@ from django.utils.encoding import smart_unicode
 import faads_scorecard.helpers.unicode as un
 from datetime import datetime
 
-#assistance types generally separated by semicolon
-#obligations should be parsed out and entered as their own object, by fiscal year
-#account identification has periods on the end and multiples are separated by semicolon
-#website address should have period stripped off the end
-
 
 class AssistanceType(models.Model):
     def __unicode__(self):
