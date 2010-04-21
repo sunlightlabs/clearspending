@@ -9,66 +9,39 @@ from datetime import datetime
 
 if __name__ == '__main__':
 
+    MIN_FY = 2006  # We only want fiscal years over 2006
     conn = MySQLdb.connect(host=MYSQL_HOST, user=MYSQL_USER, passwd=MYSQL_PASSWORD, db=MYSQL_DATABASE, port=MYSQL_PORT)
     cursor = conn.cursor()
-    f = open('csv/consistency_report_%s' % datetime.today(), 'w')
-    nonfinancial = open('csv/nonfinancial_programs', 'w')
-    no_cfda_obligations = open('csv/programs_without_cfda_obligations', 'w')
+    bogus_cfda = open('csv/bogus_cfda_program_numbers', 'w')
+    bogus_cfda_writer = csv.writer(bogus_cfda)
 
-    data_writer = csv.writer(f)
-    nf_writer = csv.writer(nonfinancial)
-    no_ob_writer = csv.writer(no_cfda_obligations)
-
-    programs = Program.objects.all()
+    programs = Program.objects.all().order_by('program_number')
     program_data = {}
 
-    for p in programs:
+    usa_query = "SELECT cfda_program_num, fiscal_year, SUM(fed_funding_amount) FROM %s WHERE fiscal_year > %s GROUP BY cfda_program_num, fiscal_year ORDER BY cfda_program_num" % (MYSQL_TABLE_NAME, MIN_FY)
+    print usa_query
+    print "fetching summary query with rollup of programs, fiscal years and total obligations"
+    cursor.execute(usa_query)
 
-        obligations = ProgramObligation.objects.filter(program=p)
-        financial = False
-        for assistance in  p.types_of_assistance.all():
-            if assistance.financial: 
-                financial = True
+    rows = cursor.fetchall()
+    
+    for row in rows:
+        try:    
+            program = Program.objects.get(program_number=row[0])
+            cfda_ob = ProgramObligation.objects.get(program=program, fiscal_year=row[1])
+            cfda_ob.usaspending_obligation = row[2]
+            cfda_ob.save()
 
-        if financial: 
-            if len(obligations) > 0:
-                sql = "SELECT fiscal_year, SUM(fed_funding_amount) FROM %s WHERE cfda_program_num=%s GROUP BY fiscal_year ORDER BY fiscal_year" % (MYSQL_TABLE_NAME, p.program_number)
+            print "MATCH: %s - %s - %s - %s diff %s" % (row[0], row[1], cfda_ob.obligation, cfda_ob.usaspending_obligation, cfda_ob.obligation - cfda_ob.usaspending_obligation)
 
-                print "Executing query on %s-%s\n" % (p.program_number, p.program_title)
-                cursor.execute(sql)
-                rows = cursor.fetchall()
-                
-                for ob in obligations:
+        except Program.DoesNotExist, e:
+            bogus_cfda_writer.writerow([row[0]])
 
-                    usa_obligation = 0  #base case for no records in USASpending
-            
-                    for row in rows:
-                        if row[0] == ob.fiscal_year:
-                            usa_obligation = row[1]
-
-                    delta = ob.obligation - usa_obligation
-                    data = (ob.fiscal_year, ob.obligation, usa_obligation, delta)
-                    
-                    try:
-                        program_data[p.program_number].append(data)
-
-                    except Exception, e:
-                        #key doesn't exist yet
-                        program_data[p.program_number] = [data]
-                    
-                    data_writer.writerow(data)
-                    print data
-                    
-            else:
-                no_ob_writer.writerow((p.program_number, p.program_title))
-        else:
-            nf_writer.writerow((p.program_number, p.program_title))
+        except ProgramObligation.DoesNotExist, e:
+            pass
 
     cursor.close()
     conn.close()  
 
-    data_writer.close()
-    nf_writer.close()
-    no_ob_writer.close()
          
 
