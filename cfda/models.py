@@ -55,6 +55,7 @@ class ProgramObligation(models.Model):
     program = models.ForeignKey('Program', blank=False, null=False)
     fiscal_year = models.IntegerField(blank=False, null=False)
     obligation = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
+    usaspending_obligation = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
 
 class ProgramAccount(models.Model):
 
