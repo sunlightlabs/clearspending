@@ -3,45 +3,55 @@
 
 from settings import *
 from cfda.models import *
-import MySQLdb
+from django.db.models import Avg
 import csv
-from datetime import datetime
+#from matplotlib import pyplot 
+
+FISCAL_YEAR = 2008
+
+def main():
+    
+    nonreporting = 0
+    underreporting = 0
+    overreporting = 0
+    avg_under = 0
+    avg_over = 0
+
+    fin_programs = Program.objects.filter(types_of_assistance__financial=True)
+    nr_programs = ProgramObligation.objects.filter(usaspending_obligation=None, program__in=fin_programs, fiscal_year=FISCAL_YEAR)
+    nonreporting = len(nr_programs)
+
+    under_programs = ProgramObligation.objects.filter(fiscal_year=FISCAL_YEAR, delta__gt=0, program__in=fin_programs)
+    avg_under = under_programs.aggregate(Avg('delta'))    
+    under_values = under_programs.values_list('delta', flat=True)
+    under_floats = [float(v) for v in under_values]
+    underreporting = len(under_programs)
+
+    over_programs = ProgramObligation.objects.filter(fiscal_year=FISCAL_YEAR, delta__lt=0, program__in=fin_programs)
+    avg_over = over_programs.aggregate(Avg('delta'))
+    over_values = over_programs.values_list('delta', flat=True)
+    over_floats = [float(v) for v in over_values]
+    overreporting = len(over_programs)
+
+    exact = ProgramObligation.objects.filter(fiscal_year=FISCAL_YEAR, program__in=fin_programs, delta=0)
+    
+    print "Number of non reporting programs: %s\nNumber of underreporting programs: %s\nNumber of overreporting programs: %s\nTotal: %s\nTotal number of applicable programs: %s\nExact:%s\nAverage underreporting amount:%s\nAverage overreporting amount:%s" % (nonreporting, underreporting, overreporting, nonreporting+underreporting+overreporting, len(fin_programs), len(exact), avg_under, avg_over)
+
+#    pyplot.hist(under_floats)
+#    pyplot.show()
+    print under_floats
+    un = csv.writer(open('csv/under_deltas.txt', 'w'))
+    ov = csv.writer(open('csv/over_deltas.txt', 'w'))
+
+    for u in under_floats:
+        un.writerow([u]) 
+    for o in over_floats:
+        ov.writerow([o]) 
+#hist(over_floats)
+
 
 if __name__ == '__main__':
-
-    MIN_FY = 2006  # We only want fiscal years over 2006
-    conn = MySQLdb.connect(host=MYSQL_HOST, user=MYSQL_USER, passwd=MYSQL_PASSWORD, db=MYSQL_DATABASE, port=MYSQL_PORT)
-    cursor = conn.cursor()
-    bogus_cfda = open('csv/bogus_cfda_program_numbers', 'w')
-    bogus_cfda_writer = csv.writer(bogus_cfda)
-
-    programs = Program.objects.all().order_by('program_number')
-    program_data = {}
-
-    usa_query = "SELECT cfda_program_num, fiscal_year, SUM(fed_funding_amount) FROM %s WHERE fiscal_year > %s GROUP BY cfda_program_num, fiscal_year ORDER BY cfda_program_num" % (MYSQL_TABLE_NAME, MIN_FY)
-    print usa_query
-    print "fetching summary query with rollup of programs, fiscal years and total obligations"
-    cursor.execute(usa_query)
-
-    rows = cursor.fetchall()
+    main()
     
-    for row in rows:
-        try:    
-            program = Program.objects.get(program_number=row[0])
-            cfda_ob = ProgramObligation.objects.get(program=program, fiscal_year=row[1])
-            cfda_ob.usaspending_obligation = row[2]
-            cfda_ob.save()
-
-            print "MATCH: %s - %s - %s - %s diff %s" % (row[0], row[1], cfda_ob.obligation, cfda_ob.usaspending_obligation, cfda_ob.obligation - cfda_ob.usaspending_obligation)
-
-        except Program.DoesNotExist, e:
-            bogus_cfda_writer.writerow([row[0]])
-
-        except ProgramObligation.DoesNotExist, e:
-            pass
-
-    cursor.close()
-    conn.close()  
-
          
 

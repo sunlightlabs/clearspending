@@ -10,7 +10,7 @@ from datetime import datetime
 
 class AssistanceType(models.Model):
     def __unicode__(self):
-        return self.name
+        return "%s" % self.code
     
     class Meta:
         verbose_name = 'Assistance Type'
@@ -56,6 +56,7 @@ class ProgramObligation(models.Model):
     fiscal_year = models.IntegerField(blank=False, null=False)
     obligation = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
     usaspending_obligation = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
+    delta = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
 
 class ProgramAccount(models.Model):
 
