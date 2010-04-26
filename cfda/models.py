@@ -42,13 +42,17 @@ class AssistanceTypeManager(models.Manager):
     def generate(self):
 
         for i in range(1, len(AssistanceType.CODE_OPTIONS)+1):
-            n = AssistanceType(code=i)
-            if i < 6:
-                n.financial = True
-            else:
-                n.financial = False
+            try:
+                at = AssistanceType.objects.get(code=i)
+            except AssistanceType.DoesNotExist:
+                at = AssistanceType(code=i)
 
-            n.save()
+            if i < 5:
+                at.financial = True
+            else:
+                at.financial = False
+
+            at.save()
 
 class ProgramObligation(models.Model):
 
@@ -57,10 +61,16 @@ class ProgramObligation(models.Model):
     obligation = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
     usaspending_obligation = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
     delta = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
+    weighted_delta = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
 
 class ProgramAccount(models.Model):
 
     account_number = models.TextField(blank=False, null=False)
+
+class Agency(models.Model):
+
+    code = models.IntegerField(primary_key=True, blank=False, null=False)
+    name = models.TextField("Federal Agency", blank=True, default="")
 
 class Program(models.Model):
 
@@ -71,6 +81,7 @@ class Program(models.Model):
     program_title = models.CharField("Program title", max_length=255)
     popular_name = models.CharField("Populat name", max_length=100)
     federal_agency = models.TextField("Federal agency", blank=True, default="")
+    agency = models.ForeignKey('Agency', blank=True, null=True)
     authorization = models.TextField("Authorization",blank=True,default="")
     objectives = models.TextField("Objectives",blank=True,default="")
     types_of_assistance = models.ManyToManyField(AssistanceType)
@@ -161,7 +172,7 @@ class ProgramManager(models.Manager):
         #updated kevin's regex to include 2010 funding
         re_funding = re.compile('FY ([0-1][0,6-9]{1,1})( est. | est | )[\$]([0-9,]+)')
         re_funding_type = re.compile('\((.*)\)')
-        
+        re_exclude = re.compile('[sS]alaries|[lL]oans')
         #regex to pull account numbers ONLY out of free text
         account = re.compile('[\d]{2}[-][\d]{4}[-][\d]{1}[-][\d]{1}[-][\d]{3}')
 
@@ -191,6 +202,13 @@ class ProgramManager(models.Manager):
                 new_program_count += 1
             else:
                 matching_program = matching_programs[0]
+       
+            try:
+                agency = Agency.objects.get(code=int(program_number[:2]))
+                matching_program.agency = agency
+            
+            except Exception,e:
+                print "cfda program: %s, %s" % (program_number, e)
         
             for (i,s) in enumerate(self.FIELD_MAPPINGS):
                 if s is None:
@@ -202,20 +220,21 @@ class ProgramManager(models.Manager):
                         clean_obs = smart_unicode(un.kill_gremlins(row[i]))
                         matches = re_funding.findall(clean_obs)
                         type_matches = re_funding_type.findall(clean_obs)
-
+                        
                         for tuple in matches:
-                            year = '20' + tuple[0]
-                            obligation = tuple[2].replace(",", "")
-                            matching_obligation = ProgramObligation.objects.filter(program=matching_program, fiscal_year=int(year))
+                            if len(re_exclude.findall(tuple[1])) <= 0:
+                                year = '20' + tuple[0]
+                                obligation = tuple[2].replace(",", "")
+                                matching_obligation = ProgramObligation.objects.filter(program=matching_program, fiscal_year=int(year))
 
-                            if len(matching_obligation) == 0:
-                                matching_ob = ProgramObligation(program=matching_program, fiscal_year=int(year))
+                                if len(matching_obligation) == 0:
+                                    matching_ob = ProgramObligation(program=matching_program, fiscal_year=int(year))
 
-                            else:
-                                matching_ob = matching_obligation[0]
+                                else:
+                                    matching_ob = matching_obligation[0]
 
-                            matching_ob.obligation = obligation
-                            matching_ob.save()
+                                matching_ob.obligation = obligation
+                                matching_ob.save()
 
                     except Exception, e:
                         print str(e)
