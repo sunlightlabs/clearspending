@@ -93,7 +93,8 @@ class MetricTester(object):
         self.metrics = {}
         for filename in os.listdir(str(''.join(__path__))):
             if filename[-3:]==".py" and not "__init__" in filename:
-                module_name = filename[-3:]
+                module_name = filename[:-3]
+                print filename, module_name
                 (p_file, p_pathname, p_description) = imp.find_module(module_name, [__name__])
                 if p_file is not None:                    
                     m = imp.load_module(module_name, p_file, p_pathname, p_description)
