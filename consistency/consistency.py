@@ -3,9 +3,11 @@
 
 from settings import *
 from cfda.models import *
+from faads_scorecard.consistency.models import AgencyConsistency
 from django.db.models import Avg, Sum
 import csv
 import numpy as np
+import math
 
 FISCAL_YEARS = [2007, 2008, 2009, 2010]
 FISCAL_YEAR = 2008
@@ -51,25 +53,14 @@ def main():
                     over_programs.filter(weighted_delta__gte=str(2*over_stats['std']), weighted_delta__lte=str(3*over_stats['std'])), 
                     over_programs.filter(weighted_delta__gte=str(3*over_stats['std']))]
     
-    show_outliers(under_outliers, over_outliers)  #this is to catch cfda obligaton errors
-
-    
-
-
+    #show_outliers(under_outliers, over_outliers)  #this is to catch cfda obligaton errors
 
     print "\nNumber of non reporting programs: %s\nNumber of underreporting programs: %s\nNumber of overreporting programs: %s\nExact:%s" % (nonreporting, underreporting, overreporting, len(exact))
     
     print "STD of underreported values:%s\nSTD of overreported values:%s\n" % (under_stats['std'], over_stats['std'])
     print "weighted avg of underreporting programs:%s\nweighted average of overreporting programs:%s\n" % (under_stats['avg'], over_stats['avg'])
     
-    un = csv.writer(open('csv/under_weighted_deltas.txt', 'w'))
-    ov = csv.writer(open('csv/over_weighted_deltas.txt', 'w'))
     agency_writer = csv.writer(open('csv/agency_stats.txt', 'w'))
-
-    for u in under_floats:
-        un.writerow([u]) 
-    for o in over_floats:
-        ov.writerow([o]) 
 
     agency_writer.writerow(('Agency Name', 'Fiscal Year', 'CFDA Obligations', 'USASpending Obligations', 'Avg underreporting %', 'underreporting % std', 'Avg overreporting %', 'overreporting % std', 'Non-reporting Programs', 'Non-reporting obligations', '% of obligations NOT reported', 'Total programs'))
     for agency in Agency.objects.all():
@@ -83,8 +74,8 @@ def score_agency(agency, fin_obligations, fiscal_year, writer):
     under = obs.filter(delta__lt=0)
     over = obs.filter(delta__gt=0)
     exact = obs.filter(delta=0)
-    avg_under_pct = under.aggregate(Avg('weighted_delta'))
-    avg_over_pct = over.aggregate(Avg('weighted_delta'))
+    avg_under_pct = under.aggregate(Avg('weighted_delta'))['weighted_delta__avg'] or 0 
+    avg_over_pct = over.aggregate(Avg('weighted_delta'))['weighted_delta__avg'] or 0
     unreported = obs.filter(usaspending_obligation=None)
 
     summary = obs.aggregate(Sum('obligation'), Sum('usaspending_obligation'))
@@ -92,6 +83,8 @@ def score_agency(agency, fin_obligations, fiscal_year, writer):
     over_summary = over.aggregate(Sum('delta'))
     over_sd = np.std([float(v) for v in over.values_list('weighted_delta', flat=True)])
     under_sd = np.std([float(v) for v in under.values_list('weighted_delta', flat=True)])
+    over_var = np.var([float(v) for v in over.values_list('weighted_delta', flat=True)])
+    under_var = np.var([float(v) for v in under.values_list('weighted_delta', flat=True)])
     nr_sum = unreported.aggregate(Sum('obligation'))['obligation__sum'] or 0
     try:
         nr_pct = nr_sum / summary['obligation__sum']
@@ -100,16 +93,31 @@ def score_agency(agency, fin_obligations, fiscal_year, writer):
         print e
 
     if obs:
-        writer.writerow((agency.name, fiscal_year, summary['obligation__sum'], summary['usaspending_obligation__sum'], avg_under_pct['weighted_delta__avg'], under_sd, avg_over_pct['weighted_delta__avg'], over_sd, len(unreported), nr_sum, nr_pct, len(obs)))
+        ac_collection = AgencyConsistency.objects.filter(agency=agency, fiscal_year=fiscal_year)
+        if len(ac_collection) == 0:
+            ac = AgencyConsistency(fiscal_year=fiscal_year, agency=agency)
+        else:
+            ac = ac_collection[0]
 
-#        print "\n%s\n" % agency.name
-#        print "Total CFDA Obligations:%s\tTotal USASpending Obligations:%s" % (summary['obligation__sum'], summary['usaspending_obligation__sum'])
-#        print "Average percentage of program funds underreported: %s, standard deviation: %s" % (avg_under_pct['weighted_delta__avg'], under_sd)
-#        print "Average percentage of program funds overreported: %s, standard deviation: %s" % (avg_over_pct['weighted_delta__avg'], over_sd)
-#        print "Number of non reporting programs: %s\t\tTotal obligations of non reporting programs:%s" % (len(unreported), unreported.aggregate(Sum('obligation'))['obligation__sum'])
+        ac.total_cfda_obligations = summary['obligation__sum'] or 0
+        ac.total_usa_obligations = summary['usaspending_obligation__sum'] or 0
+        ac.total_programs = str(len(obs))
+        ac.non_reported_obligations = str(nr_sum)
+        ac.avg_under_pct = str(avg_under_pct)
+        ac.avg_over_pct = str(avg_over_pct)
+        ac.std_under_pct = str(under_sd)
+        ac.std_over_pct = str(over_sd)
+        ac.var_under_pct = str(under_var)
+        ac.var_over_pct = str(over_var)
+        
+        ac.save() #save to be able to add to many to many
+        for nr_ob in unreported:
+            if nr_ob.program not in ac.non_reporting_programs.all():
+                ac.non_reporting_programs.add(nr_ob.program)
+        
+        ac.save()
 
-
-
+        writer.writerow((agency.name, fiscal_year, summary['obligation__sum'], summary['usaspending_obligation__sum'], avg_under_pct, under_sd, avg_over_pct, over_sd, len(unreported), nr_sum, nr_pct, len(obs)))
 
 def calc_stats(float_array):
     stats = {}
