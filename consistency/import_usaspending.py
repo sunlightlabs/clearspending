@@ -1,0 +1,103 @@
+
+#Metric for consistency in USASpending versus CFDA reported obligations
+
+from settings import *
+from cfda.models import *
+import MySQLdb
+import csv
+from datetime import datetime
+import numpy as np
+FISCAL_YEAR = 2008
+
+def fix_cfda():
+    #Identify possible cfda mistakes
+        
+    fin_programs = Program.objects.filter(types_of_assistance__financial=True)
+    fin_obligations = ProgramObligation.objects.filter(program__in=fin_programs)
+
+    over_programs = fin_obligations.filter(fiscal_year=FISCAL_YEAR, weighted_delta__gt=0)
+    sd = np.std([float(v) for v in over_programs.values_list('weighted_delta', flat=True)])
+    new_over = over_programs.filter(weighted_delta__lte=str((5*sd)))
+    sd_new = np.std([float(v) for v in new_over.values_list('weighted_delta', flat=True)])
+
+    outliers = over_programs.filter(weighted_delta__gte=str(3*sd_new))
+    i = 1
+    for o in outliers:
+        print "%s: %s\t%s\t%s\t%s\t%s" % (i, o.program.program_number, o.program.program_title, o.obligation, o.usaspending_obligation, o.weighted_delta)
+        i += 1
+
+    while True:
+        input = raw_input("fix an obligation? (enter number of obligation or q to quit): ")
+        if input == 'q':
+            sys.exit()
+
+        elif 0 < int(input) <= len(outliers):
+            program = outliers[int(input)-1]
+            new_obligation = raw_input("Enter the new CFDA obligation for %s: " % program.program.program_title)
+            if int(new_obligation) > program.obligation:
+                program.obligation = new_obligation
+                program.save()
+                print "%s obligation updated to %s" % (program.program.program_title, new_obligation)
+            else:
+                confirm = raw_input('amount entered is less than original obligation. Continue anyway?(y or n): ')
+                if confirm == 'y':
+                    program.obligaton = new_obligation
+                    program.save()
+
+                else:
+                    continue
+                
+
+
+if __name__ == '__main__':
+
+
+    MIN_FY = 2006  # We only want fiscal years over 2006
+    conn = MySQLdb.connect(host=MYSQL_HOST, user=MYSQL_USER, passwd=MYSQL_PASSWORD, db=MYSQL_DATABASE, port=MYSQL_PORT)
+    cursor = conn.cursor()
+    bogus_cfda = open('csv/bogus_cfda_program_numbers', 'w')
+    bogus_cfda_writer = csv.writer(bogus_cfda)
+
+    programs = Program.objects.all().order_by('program_number')
+    program_data = {}
+
+    usa_query = "SELECT cfda_program_num, fiscal_year, SUM(fed_funding_amount), SUM(face_loan_guran), SUM(orig_sub_guran) FROM %s WHERE fiscal_year > %s GROUP BY cfda_program_num, fiscal_year ORDER BY cfda_program_num" % (MYSQL_TABLE_NAME, MIN_FY)
+    print usa_query
+    print "fetching summary query with rollup of programs, fiscal years and total obligations"
+    cursor.execute(usa_query)
+
+    rows = cursor.fetchall()
+    
+    for row in rows:
+        try:    
+            program = Program.objects.get(program_number=row[0])
+            cfda_ob = ProgramObligation.objects.get(program=program, fiscal_year=row[1])
+
+            #if row[3] > 0:
+            #    cfda_ob.usaspending_obligation = row[3] #it's a loan guarantee
+            #else:
+            cfda_ob.usaspending_obligation = row[2]
+
+            cfda_ob.delta = (cfda_ob.usaspending_obligation - cfda_ob.obligation)
+            try:
+                cfda_ob.weighted_delta = (cfda_ob.delta / cfda_ob.obligation)
+            except Exception:
+                if cfda_ob.obligation == 0:
+                    cfda_ob.weighted_delta = 1
+
+            cfda_ob.save()
+
+            #print "MATCH: %s - %s - %s - %s diff %s" % (row[0], row[1], cfda_ob.obligation, cfda_ob.usaspending_obligation, cfda_ob.delta)
+
+        except Program.DoesNotExist, e:
+            bogus_cfda_writer.writerow([row[0]])
+
+        except ProgramObligation.DoesNotExist, e:
+            pass
+
+    cursor.close()
+    conn.close()
+    
+    fix_cfda()
+
+
