@@ -3,14 +3,12 @@
 
 from settings import *
 from cfda.models import *
-from faads_scorecard.consistency.models import AgencyConsistency
+from metrics.models import Consistency
 from django.db.models import Avg, Sum
 import csv
 import numpy as np
 import math
 
-FISCAL_YEARS = [2007, 2008, 2009, 2010]
-FISCAL_YEAR = 2008
 
 def main():
     
@@ -20,46 +18,48 @@ def main():
 
     fin_programs = Program.objects.filter(types_of_assistance__financial=True)
     fin_obligations = ProgramObligation.objects.filter(program__in=fin_programs)
-    nr_programs = fin_obligations.filter(usaspending_obligation=None, fiscal_year=FISCAL_YEAR)
-    nonreporting = len(nr_programs)
 
-    under_programs = fin_obligations.filter(fiscal_year=FISCAL_YEAR, weighted_delta__lt=0).exclude(program__in=nr_programs)
-    under_floats = [float(v) for v in under_programs.values_list('weighted_delta', flat=True)]
-    underreporting = len(under_programs)
+    for fy in FISCAL_YEARS:
+        nr_programs = fin_obligations.filter(usaspending_obligation=None, fiscal_year=fy)
+        nonreporting = len(nr_programs)
 
-    over_programs = fin_obligations.filter(fiscal_year=FISCAL_YEAR, weighted_delta__gt=0)
-    over_floats = [float(v) for v in over_programs.values_list('weighted_delta', flat=True)]
-    overreporting = len(over_programs)
+        under_programs = fin_obligations.filter(fiscal_year=fy, weighted_delta__lt=0).exclude(program__in=nr_programs)
+        under_floats = [float(v) for v in under_programs.values_list('weighted_delta', flat=True)]
+        underreporting = len(under_programs)
 
-    exact = fin_obligations.filter(fiscal_year=FISCAL_YEAR, weighted_delta=0)
-    
-    #calc some basic stats
-    under_stats = calc_stats(under_floats)
-    over_stats = calc_stats(over_floats)
+        over_programs = fin_obligations.filter(fiscal_year=fy, weighted_delta__gt=0)
+        over_floats = [float(v) for v in over_programs.values_list('weighted_delta', flat=True)]
+        overreporting = len(over_programs)
 
-    #The student loan program is totally screwing up finding less obscene outliers. Here's a hack:
-    #calculate new stats with outliers > 5 standard deviations left out
-    new_under = under_programs.filter(weighted_delta__gte=str(-5*under_stats['std']))
-    new_over = over_programs.filter(weighted_delta__lte=str((5*over_stats['std'])))
-    under_stats = calc_stats([float(v) for v in new_under.values_list('weighted_delta', flat=True)])
-    over_stats = calc_stats([float(v) for v in new_over.values_list('weighted_delta', flat=True)])
+        exact = fin_obligations.filter(fiscal_year=fy, weighted_delta=0)
+        
+        #calc some basic stats
+        under_stats = calc_stats(under_floats)
+        over_stats = calc_stats(over_floats)
 
-    under_outliers = [ under_programs.filter(weighted_delta__lte=str(-under_stats['std']), weighted_delta__gte=str(-2*under_stats['std'])), 
-                       under_programs.filter(weighted_delta__lte=str(-2*under_stats['std']), weighted_delta__gte=str(-3*under_stats['std'])), 
-                       under_programs.filter(weighted_delta__lte=str(-3*under_stats['std']))]
+        #The student loan program is totally screwing up finding less obscene outliers. Here's a hack:
+        #calculate new stats with outliers > 5 standard deviations left out
+        new_under = under_programs.filter(weighted_delta__gte=str(-5*under_stats['std']))
+        new_over = over_programs.filter(weighted_delta__lte=str((5*over_stats['std'])))
+        under_stats = calc_stats([float(v) for v in new_under.values_list('weighted_delta', flat=True)])
+        over_stats = calc_stats([float(v) for v in new_over.values_list('weighted_delta', flat=True)])
 
-    over_outliers = [over_programs.filter(weighted_delta__gte=str(over_stats['std']), 
-                    weighted_delta__lte=str(2*over_stats['std'])), 
-                    over_programs.filter(weighted_delta__gte=str(2*over_stats['std']), weighted_delta__lte=str(3*over_stats['std'])), 
-                    over_programs.filter(weighted_delta__gte=str(3*over_stats['std']))]
-    
-    #show_outliers(under_outliers, over_outliers)  #this is to catch cfda obligaton errors
+        under_outliers = [ under_programs.filter(weighted_delta__lte=str(-under_stats['std']), weighted_delta__gte=str(-2*under_stats['std'])), 
+                        under_programs.filter(weighted_delta__lte=str(-2*under_stats['std']), weighted_delta__gte=str(-3*under_stats['std'])), 
+                        under_programs.filter(weighted_delta__lte=str(-3*under_stats['std']))]
 
-    print "\nNumber of non reporting programs: %s\nNumber of underreporting programs: %s\nNumber of overreporting programs: %s\nExact:%s" % (nonreporting, underreporting, overreporting, len(exact))
-    
-    print "STD of underreported values:%s\nSTD of overreported values:%s\n" % (under_stats['std'], over_stats['std'])
-    print "weighted avg of underreporting programs:%s\nweighted average of overreporting programs:%s\n" % (under_stats['avg'], over_stats['avg'])
-    
+        over_outliers = [over_programs.filter(weighted_delta__gte=str(over_stats['std']), 
+                        weighted_delta__lte=str(2*over_stats['std'])), 
+                        over_programs.filter(weighted_delta__gte=str(2*over_stats['std']), weighted_delta__lte=str(3*over_stats['std'])), 
+                        over_programs.filter(weighted_delta__gte=str(3*over_stats['std']))]
+        
+        #show_outliers(under_outliers, over_outliers)  #this is to catch cfda obligaton errors
+        print fy
+        print "\nNumber of non reporting programs: %s\nNumber of underreporting programs: %s\nNumber of overreporting programs: %s\nExact:%s" % (nonreporting, underreporting, overreporting, len(exact))
+        
+        print "STD of underreported values:%s\nSTD of overreported values:%s\n" % (under_stats['std'], over_stats['std'])
+        print "weighted avg of underreporting programs:%s\nweighted average of overreporting programs:%s\n" % (under_stats['avg'], over_stats['avg'])
+        
     agency_writer = csv.writer(open('csv/agency_stats.txt', 'w'))
 
     agency_writer.writerow(('Agency Name', 'Fiscal Year', 'CFDA Obligations', 'USASpending Obligations', 'Avg underreporting %', 'underreporting % std', 'Avg overreporting %', 'overreporting % std', 'Non-reporting Programs', 'Non-reporting obligations', '% of obligations NOT reported', 'Total programs'))
@@ -90,12 +90,11 @@ def score_agency(agency, fin_obligations, fiscal_year, writer):
         nr_pct = nr_sum / summary['obligation__sum']
     except Exception, e:
         nr_pct = 0
-        print e
 
     if obs:
-        ac_collection = AgencyConsistency.objects.filter(agency=agency, fiscal_year=fiscal_year)
+        ac_collection = Consistency.objects.filter(agency=agency, fiscal_year=fiscal_year)
         if len(ac_collection) == 0:
-            ac = AgencyConsistency(fiscal_year=fiscal_year, agency=agency)
+            ac = Consistency(fiscal_year=fiscal_year, agency=agency)
         else:
             ac = ac_collection[0]
 
