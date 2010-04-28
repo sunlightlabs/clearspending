@@ -1,6 +1,7 @@
 #!/bin/python
 
-from metrics import *
+
+from completeness.metrics import *
 import re
 
 re_non_nummeric = re.compile(r'[^\d]')
@@ -27,10 +28,8 @@ def recipient_name_length(row):
     return len(row['recipient_name'].strip())
 
 @boolean
-def recipient_city_code():
-    """docstring for recipient_city_code"""
-    # TODO
-    pass
+def recipient_city_code_not_empty():
+    return len(row['recipient_city_code'].strip()) > 0
     
 @boolean
 def recipient_city_name_not_empty(row):
@@ -112,6 +111,10 @@ def assistance_type_is_not_empty(row):
 @boolean
 def record_type_is_not_empty(row):
     return len(row['record_type'])>0
+
+@boolean
+def principal_place_code_not_empty(row):
+    return len(row['principal_place_code'])>0
 
 @boolean
 def principal_place_state_not_empty(row):

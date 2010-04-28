@@ -1,8 +1,6 @@
-#!/bin/python
-
-import sys, csv
-from settings import *
+from django.core.management.base import NoArgsCommand
 import MySQLdb
+from settings import *
 
 def generate_csvs(num_pages=None):
     """ Creates the chunked CSV files that will be fed into the script """
@@ -28,9 +26,9 @@ def generate_csvs(num_pages=None):
                 if num_pages is not None and p>=num_pages:
                     break
 
-            f = open('csv/%d-%d.csv' % (n, (n + ROWS_PER_CSV_FILE)), 'w')
+            f = open('completeness/csv/%d-%d.csv' % (n, (n + ROWS_PER_CSV_FILE)), 'w')
             writer = csv.writer(f)
-        
+    
         writer.writerow(row)
 
         n += 1
@@ -39,9 +37,12 @@ def generate_csvs(num_pages=None):
 
     cursor.close()
     conn.close()
-    
-if __name__ == '__main__':
-    if '--test' in sys.argv:
+
+class Command(NoArgsCommand):
+    help = "Generates CSVs"
+
+    def handle_noargs(self, **options):       
         generate_csvs(num_pages=1)
-    else:
-        generate_csvs()
+                
+            
+                
