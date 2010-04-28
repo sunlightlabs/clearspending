@@ -15,38 +15,43 @@ def fix_cfda():
     fin_programs = Program.objects.filter(types_of_assistance__financial=True)
     fin_obligations = ProgramObligation.objects.filter(program__in=fin_programs)
 
-    over_programs = fin_obligations.filter(fiscal_year=FISCAL_YEAR, weighted_delta__gt=0)
-    sd = np.std([float(v) for v in over_programs.values_list('weighted_delta', flat=True)])
-    new_over = over_programs.filter(weighted_delta__lte=str((5*sd)))
-    sd_new = np.std([float(v) for v in new_over.values_list('weighted_delta', flat=True)])
+    for fy in FISCAL_YEARS:
+        over_programs = fin_obligations.filter(fiscal_year=fy, weighted_delta__gt=0)
+        sd = np.std([float(v) for v in over_programs.values_list('weighted_delta', flat=True)])
+        new_over = over_programs.filter(weighted_delta__lte=str((5*sd)))
+        sd_new = np.std([float(v) for v in new_over.values_list('weighted_delta', flat=True)])
 
-    outliers = over_programs.filter(weighted_delta__gte=str(3*sd_new))
-    i = 1
-    for o in outliers:
-        print "%s: %s\t%s\t%s\t%s\t%s" % (i, o.program.program_number, o.program.program_title, o.obligation, o.usaspending_obligation, o.weighted_delta)
-        i += 1
+        outliers = over_programs.filter(weighted_delta__gte=str(3*sd_new))
+        i = 1
+        print "Possible CFDA mistakes for FY %s" % fy
+        for o in outliers:
+            print "%s: %s\t%s\t%s\t%s\t%s" % (i, o.program.program_number, o.program.program_title, o.obligation, o.usaspending_obligation, o.weighted_delta)
+            i += 1
 
-    while True:
-        input = raw_input("fix an obligation? (enter number of obligation or q to quit): ")
-        if input == 'q':
-            sys.exit()
+        while True:
+            input = raw_input("fix an obligation? (enter number of obligation, q to quit, or n to move to the next FY): ")
+            if input == 'q':
+                sys.exit()
 
-        elif 0 < int(input) <= len(outliers):
-            program = outliers[int(input)-1]
-            new_obligation = raw_input("Enter the new CFDA obligation for %s: " % program.program.program_title)
-            if int(new_obligation) > program.obligation:
-                program.obligation = new_obligation
-                program.save()
-                print "%s obligation updated to %s" % (program.program.program_title, new_obligation)
-            else:
-                confirm = raw_input('amount entered is less than original obligation. Continue anyway?(y or n): ')
-                if confirm == 'y':
-                    program.obligaton = new_obligation
+            elif input == 'n':
+                break
+
+            elif 0 < int(input) <= len(outliers):
+                program = outliers[int(input)-1]
+                new_obligation = raw_input("Enter the new CFDA obligation for %s: " % program.program.program_title)
+                if int(new_obligation) > program.obligation:
+                    program.obligation = new_obligation
                     program.save()
-
+                    print "%s obligation updated to %s" % (program.program.program_title, new_obligation)
                 else:
-                    continue
-                
+                    confirm = raw_input('amount entered is less than original obligation. Continue anyway?(y or n): ')
+                    if confirm == 'y':
+                        program.obligaton = new_obligation
+                        program.save()
+
+                    else:
+                        continue
+                    
 
 
 if __name__ == '__main__':
