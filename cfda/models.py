@@ -8,6 +8,11 @@ import faads_scorecard.helpers.unicode as un
 from datetime import datetime
 
 
+class Agency(models.Model):
+
+    code = models.IntegerField(primary_key=True, blank=False, null=False)
+    name = models.TextField("Federal Agency", blank=True, default="")
+
 class AssistanceType(models.Model):
     def __unicode__(self):
         return "%s" % self.code
@@ -62,15 +67,12 @@ class ProgramObligation(models.Model):
     usaspending_obligation = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
     delta = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
     weighted_delta = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
+    cfda_version = models.IntegerField(blank=False, null=False)
 
 class ProgramAccount(models.Model):
 
     account_number = models.TextField(blank=False, null=False)
 
-class Agency(models.Model):
-
-    code = models.IntegerField(primary_key=True, blank=False, null=False)
-    name = models.TextField("Federal Agency", blank=True, default="")
 
 class Program(models.Model):
 
@@ -169,6 +171,7 @@ class ProgramManager(models.Manager):
         date = datetime.today()
         new_program_count = 0
         f = open(file, 'rU')
+        this_version = int(file[-9:-4]) #pull the date off of the programs csv file
         #updated kevin's regex to include 2010 funding
         re_funding = re.compile('FY ([0-1][0,6-9]{1,1})( est. | est | )[\$]([0-9,]+)')
         re_funding_type = re.compile('\((.*)\)')
@@ -227,17 +230,22 @@ class ProgramManager(models.Manager):
                                 obligation = tuple[2].replace(",", "")
                                 matching_obligation = ProgramObligation.objects.filter(program=matching_program, fiscal_year=int(year))
 
-                                if len(matching_obligation) == 0:
-                                    matching_ob = ProgramObligation(program=matching_program, fiscal_year=int(year))
+                                if len(matching_obligation) == 0 or matching_obligation[0].cfda_version < this_version:
+                                    try:
+                                        #either it doesn't exist yet or this is a newer version of cfda
+                                        if len(matching_obligation) == 0:
+                                            matching_ob = ProgramObligation(program=matching_program, fiscal_year=int(year))
+                                        else:
+                                            matching_ob = matching_obligation[0]
+                                        matching_ob.cfda_version = this_version
+                                        matching_ob.obligation = obligation
+                                        matching_ob.save()
+                                    except Exception, e:
+                                        print "in obs %s" % e
 
-                                else:
-                                    matching_ob = matching_obligation[0]
-
-                                matching_ob.obligation = obligation
-                                matching_ob.save()
 
                     except Exception, e:
-                        print str(e)
+                        print "in obs exception %s" % e
                         print "\n"
                         error_log.write("unicode or parsing error on program obligations for program %s" % matching_program)
 
@@ -299,7 +307,7 @@ class ProgramManager(models.Manager):
                                 matching_program.save()
 
                     except Exception, e:
-                        print str(e)
+                        print "account error %s" % e
                         error_log.write("error processing account id, program: %s, error: %s\n" % (program_number, str(e)))
 
                 elif s == 'recovery':
@@ -311,7 +319,7 @@ class ProgramManager(models.Manager):
                         else:
                             setattr(matching_program, s, False)
                     except Exception, e:
-                        print str(e)
+                        print "recovery field error %s" % e 
                         error_log.write("unicode error on recovery field, program: %s, error: %s\n" % (program_number, str(e)))
                 else:
                     #everything else
@@ -323,7 +331,7 @@ class ProgramManager(models.Manager):
                             matching_program.save()
                         
                     except Exception, e:
-                        print str(e)
+                        print "general field error on %s, error: %s" % (s, e)
                         error_log.write("unicode error on field %s, program: %s, %s\n" % (s, program_number, str(e)))
                         continue
 
