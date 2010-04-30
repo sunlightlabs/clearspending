@@ -252,7 +252,7 @@ def main_mysql():
                 offset = row[RECORD_ID_INDEX]
 
             # store intermediate results
-            f = open('output/%d/%d.pickle' % (year, offset), 'w')
+            f = open('completeness/output/%d/%d.pickle' % (year, offset), 'w')
             f.write(mtester.emit())
             f.close()
             
