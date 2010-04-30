@@ -12,15 +12,19 @@ import math
 
 def main():
     
+    type = 1 #default to grants and direct assistance
+    if len(sys.argv) > 1:
+        type = sys.argv[1]
+    
     nonreporting = 0
     underreporting = 0
     overreporting = 0
 
     fin_programs = Program.objects.filter(types_of_assistance__financial=True)
-    fin_obligations = ProgramObligation.objects.filter(program__in=fin_programs)
+    fin_obligations = ProgramObligation.objects.filter(program__in=fin_programs, type=type)
 
     for fy in FISCAL_YEARS:
-        nr_programs = fin_obligations.filter(usaspending_obligation=None, fiscal_year=fy)
+        nr_programs = fin_obligations.filter(usaspending_obligation=None, fiscal_year=fy, type=type)
         nonreporting = len(nr_programs)
 
         under_programs = fin_obligations.filter(fiscal_year=fy, weighted_delta__lt=0).exclude(program__in=nr_programs)

@@ -19,10 +19,7 @@ class AssistanceType(models.Model):
     
     class Meta:
         verbose_name = 'Assistance Type'
-
-    code = models.IntegerField("Numeric Code", max_length=2, blank=False)
-    financial = models.BooleanField(default=True)
-     
+    
     CODE_OPTIONS = (
         (1, "Formula Grants", ("Formula Grants (Cooperative Agreements)")),
         (2, "Project Grants", ("Project Grants (Discretionary)", "Project Grants (Cooperative Agreements)", "Project Grants (Contracts)", "Project Grants (Special)", "Project Grants (Fellowships)")), 
@@ -42,6 +39,9 @@ class AssistanceType(models.Model):
         (16, "Cooperative Agreements"),
     )
 
+    code = models.IntegerField("Numeric Code", max_length=2, blank=False)
+    financial = models.BooleanField(default=True)
+     
 class AssistanceTypeManager(models.Manager):
 
     def generate(self):
@@ -52,7 +52,7 @@ class AssistanceTypeManager(models.Manager):
             except AssistanceType.DoesNotExist:
                 at = AssistanceType(code=i)
 
-            if i < 5:
+            if i < 8:
                 at.financial = True
             else:
                 at.financial = False
@@ -63,11 +63,21 @@ class ProgramObligation(models.Model):
 
     program = models.ForeignKey('Program', blank=False, null=False)
     fiscal_year = models.IntegerField(blank=False, null=False)
-    obligation = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
-    usaspending_obligation = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
+    obligation = models.DecimalField(max_digits=27, decimal_places=2, blank=False, null=False)
+    usaspending_obligation = models.DecimalField(max_digits=27, decimal_places=2, blank=True, null=True)
     delta = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
     weighted_delta = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
     cfda_version = models.IntegerField(blank=False, null=False)
+
+    TYPE_CHOICES = (
+        (1, 'Grants'),
+        (2, 'Loans'),
+        (3, 'Loan Guarantees'),
+        (4, 'Insurance')
+    )
+
+    type = models.IntegerField(max_length=1, choices=TYPE_CHOICES)
+
 
 class ProgramAccount(models.Model):
 
@@ -174,13 +184,16 @@ class ProgramManager(models.Manager):
         this_version = int(file[-9:-4]) #pull the date off of the programs csv file
         #updated kevin's regex to include 2010 funding
         re_funding = re.compile('FY ([0-1][0,6-9]{1,1})( est. | est | )[\$]([0-9,]+)')
-        re_funding_type = re.compile('\((.*)\)')
-        re_exclude = re.compile('[sS]alaries|[lL]oans')
+        re_funding_type = re.compile('\((.*?)\)')
+        re_exclude = re.compile('[sS]alaries')
+        re_loan = re.compile('[lL]oan')
+        re_guar = re.compile('[gG]uarantee')
+        re_insur = re.compile('[iI]nsur')
+        
         #regex to pull account numbers ONLY out of free text
         account = re.compile('[\d]{2}[-][\d]{4}[-][\d]{1}[-][\d]{1}[-][\d]{3}')
 
-        new_program_log = open('new_programs_log_%s' % date, 'w')
-        error_log = open('cfda_import_error_log_%s' % date, 'w')
+        re_writer = csv.writer(open('csv/regex_check.csv', 'w')) 
 
         reader = csv.reader(f)
         reader.next() # skip headers
@@ -201,7 +214,6 @@ class ProgramManager(models.Manager):
            
             if len(matching_programs)==0:
                 matching_program = Program()
-                new_program_log.write("%s \n" % (program_number))
                 new_program_count += 1
             else:
                 matching_program = matching_programs[0]
@@ -223,23 +235,59 @@ class ProgramManager(models.Manager):
                         clean_obs = smart_unicode(un.kill_gremlins(row[i]))
                         matches = re_funding.findall(clean_obs)
                         type_matches = re_funding_type.findall(clean_obs)
-                        
-                        for tuple in matches:
-                            if len(re_exclude.findall(tuple[1])) <= 0:
-                                year = '20' + tuple[0]
-                                obligation = tuple[2].replace(",", "")
-                                matching_obligation = ProgramObligation.objects.filter(program=matching_program, fiscal_year=int(year))
+                        edited = []
+                        #re_writer.writerow((program_number, matches, type_matches, clean_obs))
 
-                                if len(matching_obligation) == 0 or matching_obligation[0].cfda_version < this_version:
+                        type_iter = iter(type_matches)
+                        if type_matches:
+                            curr_type = type_iter.next()
+                        else:
+                            curr_type = 'default'
+                        curr_year = '2000'
+                        for tuple in matches:
+                            year = '20' + tuple[0]
+
+                            if year < curr_year:
+                                try:
+                                    curr_type = type_iter.next()
+
+                                except StopIteration:
+                                    pass
+                                                                    
+                            curr_year = year
+
+                            if len(re_exclude.findall(curr_type)) <= 0:
+                                obligation = tuple[2].replace(",", "")
+                                
+                                if len(re_guar.findall(curr_type)) > 0: type = 3
+                                elif len(re_loan.findall(curr_type)) > 0: type = 2
+                                elif len(re_insur.findall(curr_type)) > 0: type = 4
+                                else: type = 1
+                                
+                                #re_writer.writerow((program_number, type, curr_type))
+
+                                matching_obligation = ProgramObligation.objects.filter(program=matching_program, fiscal_year=int(year), type=type)
+                                if len(matching_obligation) == 0 or matching_obligation[0].cfda_version <= this_version:
                                     try:
                                         #either it doesn't exist yet or this is a newer version of cfda
                                         if len(matching_obligation) == 0:
-                                            matching_ob = ProgramObligation(program=matching_program, fiscal_year=int(year))
+                                            matching_ob = ProgramObligation(program=matching_program, fiscal_year=int(year), type=type)
                                         else:
                                             matching_ob = matching_obligation[0]
+
                                         matching_ob.cfda_version = this_version
-                                        matching_ob.obligation = obligation
+                                        if matching_ob in edited:
+                                            #there are multiple line items for this type, year and program in the obligation text, so we add instead of replacing
+                                            matching_ob = edited[edited.index(matching_ob)]
+                                            print "%s - %s" % (matching_ob.program.program_number, int(matching_ob.obligation)+int(obligation))
+                                            matching_ob.obligation += int(obligation)
+                                        else:
+                                            matching_ob.obligation = int(obligation)
+                                            edited.append(matching_ob)
+
                                         matching_ob.save()
+
+                                        #print "%s\t%s\t%s\t%s\t%s" % (matching_ob.program.program_number, matching_ob.program.program_title, matching_ob.fiscal_year, matching_ob.type, matching_ob.obligation)
                                     except Exception, e:
                                         print "in obs %s" % e
 
@@ -247,7 +295,6 @@ class ProgramManager(models.Manager):
                     except Exception, e:
                         print "in obs exception %s" % e
                         print "\n"
-                        error_log.write("unicode or parsing error on program obligations for program %s" % matching_program)
 
                 elif s == 'types_of_assistance':
                     # do extra assistance classifying
@@ -285,7 +332,6 @@ class ProgramManager(models.Manager):
 
                     except Exception, e:
                         print str(e) + 'bla'
-                        error_log.write("unicode or parsing error on program %s, assistance type: %s, error: %s\n" % (program_number, row[i], str(e)))                            
 
                 elif s == 'account_identification':
                     # do extra accounts parsing
@@ -308,7 +354,6 @@ class ProgramManager(models.Manager):
 
                     except Exception, e:
                         print "account error %s" % e
-                        error_log.write("error processing account id, program: %s, error: %s\n" % (program_number, str(e)))
 
                 elif s == 'recovery':
                     # do extra parsing to change "No" and "Yes" to bool
@@ -320,7 +365,6 @@ class ProgramManager(models.Manager):
                             setattr(matching_program, s, False)
                     except Exception, e:
                         print "recovery field error %s" % e 
-                        error_log.write("unicode error on recovery field, program: %s, error: %s\n" % (program_number, str(e)))
                 else:
                     #everything else
                     try:
@@ -331,8 +375,7 @@ class ProgramManager(models.Manager):
                             matching_program.save()
                         
                     except Exception, e:
-                        print "general field error on %s, error: %s" % (s, e)
-                        error_log.write("unicode error on field %s, program: %s, %s\n" % (s, program_number, str(e)))
+                        #print "general field error on %s, error: %s" % (s, e)
                         continue
 
 
@@ -343,8 +386,6 @@ class ProgramManager(models.Manager):
             #    print "%s - %s\n" % (k, matching_program.__dict__[k])
 
         f.close()
-        new_program_log.close()
-        error_log.close()
 
         print "Run complete. \n%s new programs were added" % new_program_count
         
