@@ -11,6 +11,11 @@ class Metric(models.Model):
         abstract = True
 
 class Consistency(Metric):
+    
+    TYPE_CHOICES = (
+        (1, 'Grants'),
+        (2, 'Loans and Loan Guarantees')
+    )
 
     total_cfda_obligations = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
     total_usa_obligations =  models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
@@ -23,6 +28,7 @@ class Consistency(Metric):
     var_over_pct = models.DecimalField(max_digits=20, decimal_places=4, null=True) 
     std_under_pct = models.DecimalField(max_digits=20, decimal_places=4, null=True)
     std_over_pct = models.DecimalField(max_digits=20, decimal_places=4, null=True)
+    type = models.IntegerField(blank=False, null=False, choices=TYPE_CHOICES)
 
     
 

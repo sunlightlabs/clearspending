@@ -66,7 +66,7 @@ if __name__ == '__main__':
     programs = Program.objects.all().order_by('program_number')
     program_data = {}
 
-    usa_query = "SELECT cfda_program_num, fiscal_year, SUM(fed_funding_amount), SUM(face_loan_guran), SUM(orig_sub_guran) FROM %s WHERE fiscal_year > %s GROUP BY cfda_program_num, fiscal_year ORDER BY cfda_program_num" % (MYSQL_TABLE_NAME, MIN_FY)
+    usa_query = "SELECT cfda_program_num, fiscal_year, SUM(fed_funding_amount), SUM(face_loan_guran) FROM %s WHERE fiscal_year > %s GROUP BY cfda_program_num, fiscal_year ORDER BY cfda_program_num" % (MYSQL_TABLE_NAME, MIN_FY)
     print usa_query
     print "fetching summary query with rollup of programs, fiscal years and total obligations"
     cursor.execute(usa_query)
@@ -76,23 +76,28 @@ if __name__ == '__main__':
     for row in rows:
         try:    
             program = Program.objects.get(program_number=row[0])
-            cfda_ob = ProgramObligation.objects.get(program=program, fiscal_year=row[1])
 
-            #if row[3] > 0:
-            #    cfda_ob.usaspending_obligation = row[3] #it's a loan guarantee
-            #else:
-            cfda_ob.usaspending_obligation = row[2]
+            cfda_obligations = ProgramObligation.objects.filter(program=program, fiscal_year=row[1])
+            
+            for cfda_ob in cfda_obligations:
+                if cfda_ob.type == 1:
+                    #its direct spending/grants
+                    obligation = row[2]
+                else:
+                    obligation = row[3]
+            
+                cfda_ob.usaspending_obligation = obligation
 
-            cfda_ob.delta = (cfda_ob.usaspending_obligation - cfda_ob.obligation)
-            try:
-                cfda_ob.weighted_delta = (cfda_ob.delta / cfda_ob.obligation)
-            except Exception:
-                if cfda_ob.obligation == 0:
-                    cfda_ob.weighted_delta = 1
+                cfda_ob.delta = (cfda_ob.usaspending_obligation - cfda_ob.obligation)
+                try:
+                    cfda_ob.weighted_delta = (cfda_ob.delta / cfda_ob.obligation)
+                except Exception:
+                    if cfda_ob.obligation == 0:
+                        cfda_ob.weighted_delta = 1
 
-            cfda_ob.save()
+                cfda_ob.save()
 
-            #print "MATCH: %s - %s - %s - %s diff %s" % (row[0], row[1], cfda_ob.obligation, cfda_ob.usaspending_obligation, cfda_ob.delta)
+                print "MATCH: %s - %s - %s - %s diff %s" % (row[0], row[1], cfda_ob.obligation, cfda_ob.usaspending_obligation, cfda_ob.delta)
 
         except Program.DoesNotExist, e:
             bogus_cfda_writer.writerow([row[0]])
