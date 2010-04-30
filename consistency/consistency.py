@@ -12,15 +12,25 @@ import math
 
 def main():
     
+    assistance_type = 1 #default to grants and direct assistance
+    if len(sys.argv) > 1:
+        assistance_type = sys.argv[1]
+    
     nonreporting = 0
     underreporting = 0
     overreporting = 0
+    
+    agency_writer = csv.writer(open('csv/agency_stats_%s.csv' % assistance_type, 'w'))
+    program_writer = csv.writer(open('csv/program_stats_%s.csv' % assistance_type, 'w'))
+
+    agency_writer.writerow(('Agency Name', 'Fiscal Year', 'CFDA Obligations', 'USASpending Obligations', 'Avg underreporting %', 'underreporting % std', 'Avg overreporting %', 'overreporting % std', 'Non-reporting Programs', 'Non-reporting obligations', '% of obligations NOT reported', 'Total programs'))
+    program_writer.writerow(('Program Name', 'Fiscal Year', 'Agency', 'CFDA Obligations', 'USASpending Obligations', 'Delta', 'Percent under/over reported'))
 
     fin_programs = Program.objects.filter(types_of_assistance__financial=True)
-    fin_obligations = ProgramObligation.objects.filter(program__in=fin_programs)
+    fin_obligations = ProgramObligation.objects.filter(program__in=fin_programs, type=assistance_type)
 
     for fy in FISCAL_YEARS:
-        nr_programs = fin_obligations.filter(usaspending_obligation=None, fiscal_year=fy)
+        nr_programs = fin_obligations.filter(usaspending_obligation=None, fiscal_year=fy, type=assistance_type)
         nonreporting = len(nr_programs)
 
         under_programs = fin_obligations.filter(fiscal_year=fy, weighted_delta__lt=0).exclude(program__in=nr_programs)
@@ -60,15 +70,25 @@ def main():
         print "STD of underreported values:%s\nSTD of overreported values:%s\n" % (under_stats['std'], over_stats['std'])
         print "weighted avg of underreporting programs:%s\nweighted average of overreporting programs:%s\n" % (under_stats['avg'], over_stats['avg'])
         
-    agency_writer = csv.writer(open('csv/agency_stats.txt', 'w'))
 
-    agency_writer.writerow(('Agency Name', 'Fiscal Year', 'CFDA Obligations', 'USASpending Obligations', 'Avg underreporting %', 'underreporting % std', 'Avg overreporting %', 'overreporting % std', 'Non-reporting Programs', 'Non-reporting obligations', '% of obligations NOT reported', 'Total programs'))
-    for agency in Agency.objects.all():
-        for year in FISCAL_YEARS:
-            score_agency(agency, fin_obligations, year, agency_writer)
-        
+        under_std = float(under_stats['std'])
+        under_avg = float(under_stats['avg'])
+        over_std = float(over_stats['std'])
+        over_avg = float(over_stats['std'])
 
-def score_agency(agency, fin_obligations, fiscal_year, writer):
+        for agency in Agency.objects.all():
+            score_agency(agency, fin_obligations, fy, agency_writer, assistance_type)
+
+        for prog in fin_programs:
+            obs = ProgramObligation.objects.filter(program=prog, fiscal_year=fy, type=assistance_type)
+            for p in obs:
+                try:
+                    program_writer.writerow((p.program.program_title.replace(u'\u2013', "").replace(u'\xa0', ''), fy, p.program.agency.name, p.obligation, p.usaspending_obligation, p.delta, p.weighted_delta) ) 
+                except UnicodeEncodeError, e:
+                    print e
+                    print "%s - %s" % (p.program.program_number, p.program.program_title)
+
+def score_agency(agency, fin_obligations, fiscal_year, writer, type):
     
     obs = fin_obligations.filter(program__agency=agency,fiscal_year=fiscal_year)
     under = obs.filter(delta__lt=0)
@@ -92,9 +112,9 @@ def score_agency(agency, fin_obligations, fiscal_year, writer):
         nr_pct = 0
 
     if obs:
-        ac_collection = Consistency.objects.filter(agency=agency, fiscal_year=fiscal_year)
+        ac_collection = Consistency.objects.filter(agency=agency, fiscal_year=fiscal_year, type=type)
         if len(ac_collection) == 0:
-            ac = Consistency(fiscal_year=fiscal_year, agency=agency)
+            ac = Consistency(fiscal_year=fiscal_year, agency=agency, type=type)
         else:
             ac = ac_collection[0]
 
