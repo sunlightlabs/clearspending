@@ -163,6 +163,7 @@ class MetricTester(object):
     def finish(self):
         """ calculate aggregate values """
         for cfda_program_num in self.results:
+            print self.results[cfda_program_num]
             for metric in self.results[cfda_program_num]:
                 self.results[cfda_program_num][metric].finish()
 
