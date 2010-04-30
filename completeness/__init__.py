@@ -113,7 +113,7 @@ class MetricTester(object):
                                 self.metrics["%s.%s" % (module_name, candidate_name)] = candidate
     
     
-    def _row_to_dict(row):
+    def _row_to_dict(self, row):
         """ Turns the incoming row into a hash for ease of use """
         r = {}
         for (field_index, field_name) in enumerate(CANONICAL_FIELD_ORDER):
