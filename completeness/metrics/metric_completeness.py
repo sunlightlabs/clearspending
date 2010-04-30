@@ -1,6 +1,5 @@
 #!/bin/python
 
-
 from completeness.metrics import *
 import re
 
@@ -132,66 +131,3 @@ def principal_place_cc_not_empty(row):
 def principal_place_cc_length(row):
     return len(row['principal_place_cc'].strip())
 
-
-
-    
-# fyq   varchar(6)  YES MUL NULL    
-# cfda_program_num  varchar(7)  YES MUL NULL    
-# sai_number    varchar(20) YES MUL NULL    
-# recipient_name    varchar(45) YES MUL NULL    
-# recipient_city_code   varchar(5)  YES     NULL    
-# recipient_city_name   varchar(21) YES MUL NULL    
-# recipient_county_code char(3) YES     NULL    
-# recipient_county_name varchar(21) YES MUL NULL    
-# recipient_state_code  char(2) YES MUL NULL    
-# recipient_zip varchar(9)  YES MUL NULL    
-# recipient_type    char(2) YES MUL NULL    
-# action_type   char(1) YES     NULL    
-# recipient_cong_district   char(2) YES MUL NULL    
-# agency_code   varchar(4)  YES MUL NULL    
-# federal_award_id  varchar(16) YES MUL NULL    
-# federal_award_mod varchar(4)  YES     NULL    
-# fed_funding_amount    bigint(11)  YES     NULL    
-# non_fed_funding_amount    bigint(11)  YES     NULL    
-# total_funding_amount  bigint(12)  YES     NULL    
-# obligation_action_date    date    YES     NULL    
-# starting_date date    YES     NULL    
-# ending_date   date    YES     NULL    
-# assistance_type   char(2) YES MUL NULL    
-# record_type   char(1) YES     NULL    
-# correction_late_ind   char(1) YES     NULL    
-# fyq_correction    varchar(5)  YES     NULL    
-# principal_place_code  varchar(7)  YES MUL NULL    
-# principal_place_state varchar(25) YES     NULL    
-# principal_place_cc    varchar(25) YES MUL NULL    
-# principal_place_zip   varchar(9)  YES MUL NULL    
-# principal_place_cd    char(2) YES MUL NULL    
-# cfda_program_title    varchar(74) YES     NULL    
-# agency_name   varchar(72) YES     NULL    
-# recipient_state_name  varchar(25) YES     NULL    
-# project_description   varchar(149)    YES MUL NULL    
-# duns_no   varchar(13) YES MUL NULL    
-# duns_conf_code    char(2) YES MUL NULL    
-# progsrc_agen_code char(2) YES MUL NULL    
-# progsrc_acnt_code varchar(4)  YES MUL NULL    
-# progsrc_subacnt_code  char(3) YES MUL NULL    
-# receip_addr1  varchar(35) YES     NULL    
-# receip_addr2  varchar(35) YES     NULL    
-# receip_addr3  varchar(35) YES     NULL    
-# face_loan_guran   bigint(16)  YES     0   
-# orig_sub_guran    bigint(16)  YES     0   
-# parent_duns_no    varchar(13) YES MUL NULL    
-# record_id bigint(20)  NO  PRI NULL    auto_increment
-# fiscal_year   smallint(6) YES MUL NULL    
-# principal_place_state_code    char(2) YES MUL NULL    
-# award_id  bigint(11)  YES     0   
-# recip_cat_type    char(1) YES MUL NULL    
-# asst_cat_type char(1) YES MUL NULL    
-# recipient_cd  varchar(4)  YES MUL NULL    
-# maj_agency_cat    char(2) YES MUL NULL    
-# mod_name  varchar(45) YES MUL     
-# recip_id  bigint(11)  YES MUL 0   
-# lookup_record_id  bigint(20)  YES MUL 0   
-# lookup_recip_id   bigint(20)  YES MUL 0   
-# business_identifier   char(3) YES     NULL    
-# rec_flag  char(1) YES    

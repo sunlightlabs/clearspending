@@ -17,7 +17,7 @@ def generate_csvs(num_pages=None):
         if row is None:
             break
 
-        if (n % ROWS_PER_CSV_FILE) == 0:
+        if (n % ROWS_PER_CYCLE) == 0:
             if type(f) is file and not f.closed:
                 f.close()
 
@@ -26,7 +26,7 @@ def generate_csvs(num_pages=None):
                 if num_pages is not None and p>=num_pages:
                     break
 
-            f = open('completeness/csv/%d-%d.csv' % (n, (n + ROWS_PER_CSV_FILE)), 'w')
+            f = open('completeness/csv/%d-%d.csv' % (n, (n + ROWS_PER_CYCLE)), 'w')
             writer = csv.writer(f)
     
         writer.writerow(row)
