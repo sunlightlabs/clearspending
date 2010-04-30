@@ -214,6 +214,8 @@ def _store_bookmark(offset):
 
 def main_mysql():
 
+    RECORD_ID_INDEX = CANONICAL_FIELD_ORDER.index('record_id')
+    
     mtester_all = MetricTester()
     mtester = MetricTester()
     
@@ -245,10 +247,9 @@ def main_mysql():
                     break
             
                 # convert to a hash for ease of use
-                row = row_to_dict(row)
                 mtester.run_metrics(row)        
 
-                offset = row['record_id']
+                offset = row[RECORD_ID_INDEX]
 
             # store intermediate results
             f = open('output/%d/%d.pickle' % (year, offset), 'w')
