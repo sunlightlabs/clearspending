@@ -33,6 +33,18 @@ class Consistency(Metric):
     
 
     
+class ProgramMetric(Metric):
     
+    GRADE_CHOICES = (
+        ('p', 'Pass'),
+        ('o', 'Overreporting Obligations'),
+        ('u', 'Underreporting Obligations'),
+        ('n', 'Not reporting Obligations'),
+        ('t', 'Late reporting'),
+        ('c', 'Incomplete reporting')
+    )
+
+    program = models.ForeignKey('cfda.Program', blank=False, null=False)
+    grade = models.TextField(choices=GRADE_CHOICES)
 
 
