@@ -59,7 +59,8 @@ class Result(object):
 
     def finish(self):
         if self.result_type in ('integer', 'real'):
-            self.mean = stats.mean(self.values)
+            if len(self.values)>0:
+                self.mean = stats.mean(self.values)
             if len(self.values)>1:
                 self.std_dev = stats.stdev(self.values)
             self.count = len(self.values) # this should be the same as self.tests_completed_without_error, but is a little clearer for adding stats
@@ -107,8 +108,8 @@ class MetricTester(object):
         self.finished = False
 
         # sanity check for row length
-        if len(row)!=len(CANONICAL_FIELD_ORDER):
-            raise Exception("input row length (%d) does not match canonical row length (%d)" % (len(row), len(CANONICAL_FIELD_ORDER)))
+        #if len(row)!=len(CANONICAL_FIELD_ORDER):
+        #    raise Exception("input row length (%d) does not match canonical row length (%d)" % (len(row), len(CANONICAL_FIELD_ORDER)))
 
         # if necessary, convert to a hash for convenience of the metric test functions
         if type(row) is list:
