@@ -24,9 +24,9 @@ def main():
     program_writer = csv.writer(open('csv/program_stats_%s.csv' % assistance_type, 'w'))
 
     agency_writer.writerow(('Agency Name', 'Fiscal Year', 'CFDA Obligations', 'USASpending Obligations', 'Avg underreporting %', 'underreporting % std', 'Avg overreporting %', 'overreporting % std', 'Non-reporting Programs', 'Non-reporting obligations', '% of obligations NOT reported', 'Total programs'))
-    program_writer.writerow(('Program Name', 'Fiscal Year', 'Agency', 'CFDA Obligations', 'USASpending Obligations', 'Delta', 'Percent under/over reported'))
+    program_writer.writerow(('Program Number', 'Program Name', 'Fiscal Year', 'Agency', 'CFDA Obligations', 'USASpending Obligations', 'Delta', 'Percent under/over reported'))
 
-    fin_programs = Program.objects.filter(types_of_assistance__financial=True)
+    fin_programs = Program.objects.filter(types_of_assistance__financial=True ).distinct()
     fin_obligations = ProgramObligation.objects.filter(program__in=fin_programs, type=assistance_type)
 
     for fy in FISCAL_YEARS:
@@ -75,7 +75,6 @@ def main():
         under_avg = float(under_stats['avg'])
         over_std = float(over_stats['std'])
         over_avg = float(over_stats['std'])
-
         
         good = 0
         bad = 0
@@ -91,7 +90,7 @@ def main():
                     pm = ProgramMetric.objects.get(program=p.program, fiscal_year=fy)
 
                 except ProgramMetric.DoesNotExist:
-                    pm = ProgramMetric(program=p.program, fiscal_year=fy, agency=p.program.agency)
+                    pm = ProgramMetric(program=p.program, fiscal_year=fy, agency=p.program.agency, type=assistance_type)
 
                 try:
                     if p.weighted_delta:
@@ -117,7 +116,7 @@ def main():
                                 good += float(p.obligation)
                                 pm.grade = 'p'
                     else:
-                        if p.usaspending_obligation is None and p.obligation is not None:
+                        if p.usaspending_obligation is None and p.obligation is not None and p.obligation != 0:
                             bad += float(p.obligation)
                             pm.grade = 'n'
 
@@ -129,12 +128,12 @@ def main():
                             print "weighted delta is none: %s\t%s\t%s\t%s" % (p.program.program_number, p.program.program_title, p.obligation, p.usaspending_obligation)
 
                     pm.save()
-                    program_writer.writerow((p.program.program_title.replace(u'\u2013', "").replace(u'\xa0', ''), fy, p.program.agency.name, p.obligation, p.usaspending_obligation, p.delta, p.weighted_delta) ) 
+                    program_writer.writerow((p.program.program_number, p.program.program_title.replace(u'\u2013', "").replace(u'\xa0', ''), fy, p.program.agency.name, p.obligation, p.usaspending_obligation, p.delta, p.weighted_delta)) 
                 except UnicodeEncodeError, e:
                     print e
                     print "%s - %s" % (p.program.program_number, p.program.program_title)
 
-        program_writer.writerow((fy, "good: %s" % good, "ok: %s" % ok, "bad: %s" % bad))
+        program_writer.writerow(('',fy, "good:", good, "ok: ", ok, "bad: ", bad))
 
 def score_agency(agency, fin_obligations, fiscal_year, writer, type):
     
