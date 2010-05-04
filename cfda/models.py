@@ -255,15 +255,28 @@ class ProgramManager(models.Manager):
                                     pass
                                                                     
                             curr_year = year
-
+                                 
                             if len(re_exclude.findall(curr_type)) <= 0:
                                 obligation = tuple[2].replace(",", "")
                                 
-                                if len(re_guar.findall(curr_type)) > 0: type = 3
+                                if len(re_guar.findall(curr_type)) > 0: type = 2  #guarantees and insurance had their own types but it was getting complicated so I collapsed them
                                 elif len(re_loan.findall(curr_type)) > 0: type = 2
-                                elif len(re_insur.findall(curr_type)) > 0: type = 4
-                                else: type = 1
-                                
+                                elif len(re_insur.findall(curr_type)) > 0: type = 2
+                                else:
+                                    try: 
+                                        assist_types = matching_program.types_of_assistance.all()
+                                        if assist_types[0].code == 6:
+                                            type = 2
+                                        elif assist_types[0].code == 7:
+                                            type = 2
+                                        elif assist_types[0].code == 5:
+                                            type = 2
+                                        else:
+                                            type = 1
+
+                                    except Exception:
+                                        type = 1
+                                    
                                 #re_writer.writerow((program_number, type, curr_type))
 
                                 matching_obligation = ProgramObligation.objects.filter(program=matching_program, fiscal_year=int(year), type=type)
@@ -279,7 +292,7 @@ class ProgramManager(models.Manager):
                                         if matching_ob in edited:
                                             #there are multiple line items for this type, year and program in the obligation text, so we add instead of replacing
                                             matching_ob = edited[edited.index(matching_ob)]
-                                            print "%s - %s" % (matching_ob.program.program_number, int(matching_ob.obligation)+int(obligation))
+                                            #print "%s - %s" % (matching_ob.program.program_number, int(matching_ob.obligation)+int(obligation))
                                             matching_ob.obligation += int(obligation)
                                         else:
                                             matching_ob.obligation = int(obligation)
