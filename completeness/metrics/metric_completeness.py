@@ -43,10 +43,6 @@ def cfda_program_num_is_descriptive(row):
 def recipient_name_not_empty(row):
     return len(row['recipient_name'].strip()) > 0
 
-@integer
-def recipient_name_length(row):
-    return len(row['recipient_name'].strip())
-
 @boolean
 def recipient_city_code_not_empty(row):
     return len(row['recipient_city_code'].strip()) > 0
@@ -68,17 +64,9 @@ def recipient_county_name_not_empty(row):
 def recipient_state_code_not_empty(row):
     return len(row['recipient_state_code'].strip())>0
 
-@integer
-def recipient_state_code_length(row):
-    return len(row['recipient_state_code'].strip())
-    
 @boolean
 def recipient_zip_code_not_empty(row):
     return len(row['recipient_zip'].strip())>0
-
-@integer
-def recipient_zip_code_length(row):
-    return len(row['recipient_zip'].strip())
 
 @boolean
 def recipient_zip_code_is_numeric(row):
@@ -99,10 +87,6 @@ def recipient_cong_district_is_not_empty(row):
 @boolean
 def federal_agency_code_is_not_empty(row):
     return len(row['agency_code'])>0
-
-@integer
-def federal_agency_code_length(row):
-    return len(row['agency_code'])
 
 @boolean
 def federal_award_id_is_not_empty(row):
@@ -140,15 +124,30 @@ def principal_place_code_not_empty(row):
 def principal_place_state_not_empty(row):
     return len(row['principal_place_state'].strip())>0
 
-@integer
-def principal_place_state_length(row):
-    return len(row['principal_place_state'].strip())
-
 @boolean
 def principal_place_cc_not_empty(row):
     return len(row['principal_place_cc'].strip())>0
 
-@integer
-def principal_place_cc_length(row):
-    return len(row['principal_place_cc'].strip())
-
+# @integer
+# def principal_place_state_length(row):
+#     return len(row['principal_place_state'].strip())
+# 
+# @integer
+# def principal_place_cc_length(row):
+#     return len(row['principal_place_cc'].strip())
+# 
+# @integer
+# def recipient_name_length(row):
+#     return len(row['recipient_name'].strip())
+#     
+# @integer
+# def federal_agency_code_length(row):
+#     return len(row['agency_code'])
+# 
+# @integer
+# def recipient_zip_code_length(row):
+#     return len(row['recipient_zip'].strip())
+#     
+# @integer
+# def recipient_state_code_length(row):
+#     return len(row['recipient_state_code'].strip())    
