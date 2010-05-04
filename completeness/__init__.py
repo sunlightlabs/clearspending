@@ -40,6 +40,7 @@ class Result(object):
         
     def record_val(self, val, *args, **kwargs):
         """ To be passed the result of the metric/test """
+
         if kwargs.has_key('dollars') and kwargs['dollars'] is not None:
             self.dollars_sum += kwargs['dollars']
 
@@ -50,6 +51,7 @@ class Result(object):
                     self.dollars_of_passed_tests += kwargs['dollars']
         else:        
             self.sum += val
+            
             self.values.append(val)
 
             if self.result_type is 'integer':
@@ -65,6 +67,7 @@ class Result(object):
                 self.std_dev = stats.stdev(self.values)
             self.count = len(self.values) # this should be the same as self.tests_completed_without_error, but is a little clearer for adding stats
         del self.values # no need to keep all that garbage
+        self.values = []
         
         
 
