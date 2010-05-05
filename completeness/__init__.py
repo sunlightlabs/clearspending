@@ -101,8 +101,11 @@ class MetricTester(object):
     def _row_to_dict(self, row):
         """ Turns the incoming row into a hash for ease of use """
         r = {}
-        for (field_index, field_name) in enumerate(CANONICAL_FIELD_ORDER):
-            r[field_name] = row[field_index]
+        if len(row)!=len(CANONICAL_FIELD_ORDER):
+            print "FAILED ON ROW OF LENGTH %d\n%s" % (len(row), str(row))
+        else:
+            for (field_index, field_name) in enumerate(CANONICAL_FIELD_ORDER):
+                r[field_name] = row[field_index]
         return r 
 
     def run_metrics(self, row):
