@@ -330,14 +330,22 @@ def main_csv():
 
     for year in FISCAL_YEARS:
 
+        print "Processing FAADS results for %d" % year
+
         mtester = MetricTester()
 
         f = open('faads-%d.csv' % year, 'r')
         reader = csv.reader(f)
 
+        i = 0
         for row in reader:
             row = mtester._row_to_dict(row)
             mtester.run_metrics(row)        
+
+            if (i%10000)==0:
+                print "     processing record %d" % i
+
+            i += 1
 
         f.close()
 
