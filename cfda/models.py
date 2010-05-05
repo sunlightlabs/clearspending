@@ -68,6 +68,7 @@ class ProgramObligation(models.Model):
     delta = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
     weighted_delta = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
     cfda_version = models.IntegerField(blank=False, null=False)
+    corrected = models.BooleanField(default=False)
 
     TYPE_CHOICES = (
         (1, 'Grants'),
@@ -76,7 +77,7 @@ class ProgramObligation(models.Model):
         (4, 'Insurance')
     )
 
-    type = models.IntegerField(max_length=1, choices=TYPE_CHOICES)
+    type = models.IntegerField(max_length=1, choices=TYPE_CHOICES) #for simplicity's sake this has been collapsed in the actual processing, grants=1 everything else=2
 
 
 class ProgramAccount(models.Model):
@@ -236,8 +237,6 @@ class ProgramManager(models.Manager):
                         matches = re_funding.findall(clean_obs)
                         type_matches = re_funding_type.findall(clean_obs)
                         edited = []
-                        #re_writer.writerow((program_number, matches, type_matches, clean_obs))
-
                         type_iter = iter(type_matches)
                         if type_matches:
                             curr_type = type_iter.next()
@@ -277,8 +276,6 @@ class ProgramManager(models.Manager):
                                     except Exception:
                                         type = 1
                                     
-                                #re_writer.writerow((program_number, type, curr_type))
-
                                 matching_obligation = ProgramObligation.objects.filter(program=matching_program, fiscal_year=int(year), type=type)
                                 if len(matching_obligation) == 0 or matching_obligation[0].cfda_version <= this_version:
                                     try:
@@ -287,20 +284,19 @@ class ProgramManager(models.Manager):
                                             matching_ob = ProgramObligation(program=matching_program, fiscal_year=int(year), type=type)
                                         else:
                                             matching_ob = matching_obligation[0]
+                                        
+                                        if not matching_ob.corrected: #if it's been corrected don't update it
+                                            matching_ob.cfda_version = this_version
+                                            if matching_ob in edited:
+                                                #there are multiple line items for this type, year and program in the obligation text, so we add instead of replacing
+                                                matching_ob = edited[edited.index(matching_ob)]
+                                                matching_ob.obligation += int(obligation)
+                                            else:
+                                                matching_ob.obligation = int(obligation)
+                                                edited.append(matching_ob)
+    
+                                            matching_ob.save()
 
-                                        matching_ob.cfda_version = this_version
-                                        if matching_ob in edited:
-                                            #there are multiple line items for this type, year and program in the obligation text, so we add instead of replacing
-                                            matching_ob = edited[edited.index(matching_ob)]
-                                            #print "%s - %s" % (matching_ob.program.program_number, int(matching_ob.obligation)+int(obligation))
-                                            matching_ob.obligation += int(obligation)
-                                        else:
-                                            matching_ob.obligation = int(obligation)
-                                            edited.append(matching_ob)
-
-                                        matching_ob.save()
-
-                                        #print "%s\t%s\t%s\t%s\t%s" % (matching_ob.program.program_number, matching_ob.program.program_title, matching_ob.fiscal_year, matching_ob.type, matching_ob.obligation)
                                     except Exception, e:
                                         print "in obs %s" % e
 
@@ -388,16 +384,9 @@ class ProgramManager(models.Manager):
                             matching_program.save()
                         
                     except Exception, e:
-                        #print "general field error on %s, error: %s" % (s, e)
                         continue
 
-
             matching_program.save()
-            #print matching_program 
-            #print " added\n"
-            #for k in matching_program.__dict__.keys():
-            #    print "%s - %s\n" % (k, matching_program.__dict__[k])
-
         f.close()
 
         print "Run complete. \n%s new programs were added" % new_program_count
