@@ -63,14 +63,13 @@ def main():
                         over_programs.filter(weighted_delta__gte=str(2*over_stats['std']), weighted_delta__lte=str(3*over_stats['std'])), 
                         over_programs.filter(weighted_delta__gte=str(3*over_stats['std']))]
         
-        #show_outliers(under_outliers, over_outliers)  #this is to catch cfda obligaton errors
         print fy
         print "\nNumber of non reporting programs: %s\nNumber of underreporting programs: %s\nNumber of overreporting programs: %s\nExact:%s" % (nonreporting, underreporting, overreporting, len(exact))
         
         print "STD of underreported values:%s\nSTD of overreported values:%s\n" % (under_stats['std'], over_stats['std'])
         print "weighted avg of underreporting programs:%s\nweighted average of overreporting programs:%s\n" % (under_stats['avg'], over_stats['avg'])
         
-
+        #convert to float from weirdo numpy float format
         under_std = float(under_stats['std'])
         under_avg = float(under_stats['avg'])
         over_std = float(over_stats['std'])
@@ -90,7 +89,7 @@ def main():
                     pm = ProgramMetric.objects.get(program=p.program, fiscal_year=fy)
 
                 except ProgramMetric.DoesNotExist:
-                    pm = ProgramMetric(program=p.program, fiscal_year=fy, agency=p.program.agency, type=assistance_type)
+                    pm = ProgramMetric(program=p.program, fiscal_year=fy, agency=p.program.agency)
 
                 try:
                     if p.weighted_delta:
@@ -133,7 +132,8 @@ def main():
                     print e
                     print "%s - %s" % (p.program.program_number, p.program.program_title)
 
-        program_writer.writerow(('',fy, "good:", good, "ok: ", ok, "bad: ", bad))
+        #temp hack to show a summary of what programs would be excluded
+        #program_writer.writerow(('',fy, "good:", good, "ok: ", ok, "bad: ", bad))
 
 def score_agency(agency, fin_obligations, fiscal_year, writer, type):
     
@@ -192,28 +192,6 @@ def calc_stats(float_array):
     stats['var'] = np.var(float_array)
 
     return stats
-
-def show_outliers(under_outliers, over_outliers):
-
-    print "\nUnderreporting outliers:\noutside of 3 standard deviations:"
-    for o in under_outliers[2]: print "%s\t%s\t%s\t%s\t%s" % (o.program.program_number, o.program.program_title, o.obligation, o.usaspending_obligation, o.weighted_delta)
-
-    #print "\noutside of 2 standard deviations"
-    #for o in under_outliers[1]: print "%s\t%s\t%s\t%s\t%s" % (o.program.program_number, o.program.program_title, o.obligation, o.usaspending_obligation, o.weighted_delta)
-
-    #print "\noutside of 1 standard deviation"
-    #for o in under_outliers[0]: print "%s\t%s\t%s\t%s\t%s" % (o.program.program_number, o.program.program_title, o.obligation, o.usaspending_obligation, o.weighted_delta)
-
-    print "\nOverreporting outliers:\noutside of 3 standard deviations"
-    for o in over_outliers[2]: print "%s\t%s\t%s\t%s\t%s" % (o.program.program_number, o.program.program_title, o.obligation, o.usaspending_obligation, o.weighted_delta)
-
-    print "\noutside of 2 standard deviations"
-    for o in over_outliers[1]: print "%s\t%s\t%s\t%s\t%s" % (o.program.program_number, o.program.program_title, o.obligation, o.usaspending_obligation, o.weighted_delta)
-
-    #print "\noutside of 1 standard deviation"
-    #for o in over_outliers[0]: print "%s\t%s\t%s\t%s\t%s" % (o.program.program_number, o.program.program_title, o.obligation, o.usaspending_obligation, o.weighted_delta)
-
-
 
 if __name__ == '__main__':
     main()

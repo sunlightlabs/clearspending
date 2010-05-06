@@ -48,3 +48,12 @@ class ProgramMetric(Metric):
     grade = models.TextField(choices=GRADE_CHOICES)
 
 
+class ProgramCorrection(models.Model):
+
+    program = models.ForeignKey('cfda.Program', null=False, blank=False)
+    program_obligation = models.ForeignKey('cfda.ProgramObligation', null=False, blank=False)
+    correction_date = models.DateTimeField(null=False, blank=False)
+    corrected_obligation = models.DecimalField(max_digits=20, decimal_places=2, blank=False)
+    old_obligation = models.DecimalField(max_digits=20, decimal_places=2, blank=False)
+    note = models.TextField("Notes on Correction", blank=True, null=True)
+
