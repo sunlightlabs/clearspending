@@ -134,14 +134,13 @@ class MetricTester(object):
             
             success = True
 
-            # try:
 
             dollars = None
             try:
                 amt = len(str(row['fed_funding_amount']).strip())>0 and str(row['fed_funding_amount']) or '0'
                 dollars = Decimal(amt)
             except Exception, e:
-                raise e
+                dollars = 0
             self.results[cfda_number][metric_name].record_attempt()
             mf = metric_func(row)
             self.results[cfda_number][metric_name].record_val(mf, dollars=dollars)
