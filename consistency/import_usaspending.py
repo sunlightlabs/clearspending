@@ -3,6 +3,7 @@
 
 from settings import *
 from cfda.models import *
+from metrics.models import ProgramCorrection
 import MySQLdb
 import csv
 from datetime import datetime
@@ -18,10 +19,12 @@ def fix_cfda():
     for fy in FISCAL_YEARS:
         over_programs = fin_obligations.filter(fiscal_year=fy, weighted_delta__gt=0)
         sd = np.std([float(v) for v in over_programs.values_list('weighted_delta', flat=True)])
-        new_over = over_programs.filter(weighted_delta__lte=str((5*sd)))
+        avg = np.average([float(v) for v in over_programs.values_list('weighted_delta', flat=True)])
+        new_over = over_programs.filter(weighted_delta__lte=str(((3*sd) + avg)))
         sd_new = np.std([float(v) for v in new_over.values_list('weighted_delta', flat=True)])
+        avg_new = np.average([float(v) for v in new_over.values_list('weighted_delta', flat=True)])
 
-        outliers = over_programs.filter(weighted_delta__gte=str(3*sd_new))
+        outliers = over_programs.filter(weighted_delta__gte=str(avg_new))
         i = 1
         print "Possible CFDA mistakes for FY %s" % fy
         for o in outliers:
@@ -40,19 +43,34 @@ def fix_cfda():
                 program = outliers[int(input)-1]
                 new_obligation = raw_input("Enter the new CFDA obligation for %s: " % program.program.program_title)
                 if int(new_obligation) > program.obligation:
-                    program.obligation = new_obligation
-                    program.save()
+                    update_obligation(new_obligation, program)
                     print "%s obligation updated to %s" % (program.program.program_title, new_obligation)
                 else:
                     confirm = raw_input('amount entered is less than original obligation. Continue anyway?(y or n): ')
                     if confirm == 'y':
-                        program.obligaton = new_obligation
-                        program.save()
-
+                        update_obligation(new_obligation, program)
                     else:
                         continue
                     
 
+def update_obligation(new_obligation, program):
+    
+    old_obligation = program.obligation
+    program.obligation = int(new_obligation)
+    program.delta = program.usaspending_obligation - program.obligation
+    try:
+        program.weighted_delta = program.delta / program.obligation
+    except Exception:
+        if program.obligation == 0:
+            if not program.usaspending_obligation:
+                program.weighted_delta = 0
+            else:
+                program.weighted_delta = 1
+    program.corrected = True
+    program.save()
+
+    correction = ProgramCorrection(program=program.program, program_obligation=program, corrected_obligation=program.obligation, old_obligation=old_obligation, note="Corrected manually in program run",  correction_date=datetime.today())
+    correction.save()
 
 if __name__ == '__main__':
 
@@ -93,11 +111,14 @@ if __name__ == '__main__':
                     cfda_ob.weighted_delta = (cfda_ob.delta / cfda_ob.obligation)
                 except Exception:
                     if cfda_ob.obligation == 0:
-                        cfda_ob.weighted_delta = 1
+                        if not cfda_ob.usaspending_obligation:
+                            cfda_ob.weighted_delta = 0
+                        else:
+                            cfda_ob.weighted_delta = 1
 
                 cfda_ob.save()
 
-                print "MATCH: %s - %s - %s - %s diff %s" % (row[0], row[1], cfda_ob.obligation, cfda_ob.usaspending_obligation, cfda_ob.delta)
+                #print "MATCH: %s - %s - %s - %s diff %s" % (row[0], row[1], cfda_ob.obligation, cfda_ob.usaspending_obligation, cfda_ob.delta)
 
         except Program.DoesNotExist, e:
             bogus_cfda_writer.writerow([row[0]])
