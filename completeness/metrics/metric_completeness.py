@@ -94,7 +94,9 @@ def federal_award_id_is_not_empty(row):
 
 @boolean
 def federal_funding_amount_is_not_empty(row):
-    return row['fed_funding_amount'] is not None and len(str(row['fed_funding_amount']).strip())>0
+    obligation_amount_is_not_empty = row['fed_funding_amount'] is not None and len(str(row['fed_funding_amount']).strip())>0
+    loan_guarantee_amount_is_not_empty = row['face_loan_guran'] is not None and len(str(row['face_loan_guran']).strip())>0
+    return obligation_amount_is_not_empty or loan_guarantee_amount_is_not_empty
 
 @boolean
 def federal_funding_amount_is_numeric(row):
