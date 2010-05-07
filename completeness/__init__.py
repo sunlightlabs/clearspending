@@ -10,6 +10,20 @@ import doctest
 BOOKMARK = 'completeness/bookmark.pickle'
 
 
+def success_rate(year):
+    f = open('completeness/output/%d.pickle' % year, 'r')
+    obj = pickle.load(f)
+    f.close()
+    
+    for program in obj:
+        if program!='__all__':
+            for (test, result) in obj[program].items():
+                test_name = test.replace('metric_completeness.', '')
+                if test_name=='obligation_action_date_is_properly_formatted':
+                    rate = (result.sum / (result.tests_completed_without_error * 1.0))
+                    print "%7s %20s %f" % (program, test_name, rate)
+    
+
 class Result(object):
     """ Stores the results of our metric tests. A bit fancier than a dict. """
     def __init__(self, result_type="boolean"):
