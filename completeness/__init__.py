@@ -349,6 +349,8 @@ def main_csv():
 
         f.close()
 
+        mtester.emit(filename='completeness/output/%d.pickle' % year)
+
 
 def main():
     main_csv()
