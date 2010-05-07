@@ -102,12 +102,12 @@ def federal_funding_amount_is_numeric(row):
 
 @boolean
 def obligation_action_date_is_not_empty(row):
-    return (type(row['obligation_action_date']) is datetime.date) or len(str(row['obligation_action_date']))>0
+    return len(str(row['obligation_action_date']))
 
 @boolean
 def obligation_action_date_is_properly_formatted(row):
-    return type(row['obligation_action_date'] is datetime.date) or (not (re_good_date.match(str(row['obligation_action_date'])) is None))
-
+    return not (re_good_date.match(str(row['obligation_action_date'].strip())) is None)
+    
 @boolean
 def assistance_type_is_not_empty(row):
     return len(row['assistance_type'])>0
