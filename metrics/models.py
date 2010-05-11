@@ -30,6 +30,16 @@ class Consistency(Metric):
     std_over_pct = models.DecimalField(max_digits=20, decimal_places=4, null=True)
     type = models.IntegerField(blank=False, null=False, choices=TYPE_CHOICES)
 
+
+class Timeliness(Metric):
+        
+    num_records_tracked = models.IntegerField(blank=False, null=False)
+    num_records_45days_late = models.IntegerField(blank=False, null=False)
+    
+    total_obligations_tracked = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
+    total_obligations_45days_late = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
+    
+    
     
 
     
@@ -46,7 +56,10 @@ class ProgramMetric(Metric):
 
     program = models.ForeignKey('cfda.Program', blank=False, null=False)
     grade = models.TextField(choices=GRADE_CHOICES)
-
+    
+    class Meta:
+        abstract = True
+    
 
 class ProgramCorrection(models.Model):
 
