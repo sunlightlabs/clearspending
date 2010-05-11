@@ -154,8 +154,11 @@ class MetricTester(object):
             except Exception, e:
                 dollars = 0
             self.results[cfda_number][metric_name].record_attempt()
+
             mf = metric_func(row)
             self.results[cfda_number][metric_name].record_val(mf, dollars=dollars)
+            self.results['__all__'].record_val(mf, dollars=dollars)
+
             self.results[cfda_number][metric_name].record_success()             
                                
             # except Exception,e:

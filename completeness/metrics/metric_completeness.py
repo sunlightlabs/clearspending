@@ -102,9 +102,9 @@ def federal_funding_amount_is_not_empty(row):
 def federal_funding_amount_is_numeric(row):
     return re_non_nummeric.search(str(row['fed_funding_amount'])) is None
 
-@boolean
-def obligation_action_date_is_not_empty(row):
-    return len(str(row['obligation_action_date']))
+# @boolean
+# def obligation_action_date_is_not_empty(row):
+#     return len(str(row['obligation_action_date'])) > 0
 
 @boolean
 def obligation_action_date_is_properly_formatted(row):
