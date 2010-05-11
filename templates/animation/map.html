@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load media %}
+{% load math %}
+
+{% block container %}
+
+	 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
+	 {% js "/scripts/mapbox.js" %}
+	 
+	 <style type="text/css"> 
+       #viewport { 
+           width: 692px; 
+           height: 432px; 
+           cursor: move; 
+           margin: 20px auto; 
+           overflow: hidden; /*keep map contents from spilling over if JS is disabled*/ 
+       } 
+   </style>
+	 
+<div id="container">
+  
+  <div id="viewport"> 
+      <div style="background: url({% media_url %}/images/map/layer0.png) no-repeat; width: 692px; height: 432px;"> 
+          <!--top level map content goes here--> 
+      </div> 
+      <div style="width: 1152px; height: 720px;"> 
+          <img src="{% media_url %}/images/map/layer1.png" alt="" /> 
+          <div class="mapcontent"> 
+              <!--map content goes here--> 
+          </div> 
+      </div> 
+      <div style="width: 1728px; height: 1080px;"> 
+          <img src="{% media_url %}/images/map/layer2.png" alt="" /> 
+           <div class="mapcontent"> 
+              <!--map content goes here--> 
+          </div> 
+      </div> 
+      
+      {# <div style="height: 2492px; width: 2922px;">  #}
+      {#     <img src="images/layer4.jpg" alt="" />  #}
+      {#      <div class="mapcontent">  #}
+      {#         <!--map content goes here-->  #}
+      {#     </div>  #}
+      {# </div>  #}
+  </div>
+   
+  <script type="text/javascript"> 
+   
+  function SmoothZoomOut(i)
+  {
+    if (i<0)
+      return;
+      
+    $('#viewport').mapbox('back', 1);
+    
+    window.setTimeout(function(){ SmoothZoomOut(i-1);}, 20);
+  }
+     
+  function SmoothZoomIn(i)
+  {
+    if (i<0)
+      return;
+      
+    $('#viewport').mapbox('zoom', 1);
+    
+    window.setTimeout(function(){ SmoothZoomIn(i-1);}, 20);
+  }
+  
+  function SmoothPanTo()
+  {
+
+    var mb = $('#viewport').get(0);
+    var layers = $(mb).find(">div"), limit = layers.length - 1, current = $(mb).find(".current-map-layer");
+    console.log(mb.xPos + ' ' + mb.yPos);
+    console.log($(layers[limit]).width() + 'x' + $(layers[limit]).height());
+  }
+   
+  $(document).ready(function() { 
+     $("#viewport").mapbox({doubleClickZoomOut: true, clickZoom: true, layerSplit: 8}); 
+     
+     $('#zoom-in').click(function() { SmoothZoomIn(15); });
+     $('#zoom-out').click(function() { SmoothZoomOut(24); });
+     $('#pan').click(function() { SmoothPanTo(); });
+  }); 
+  </script>
+   
+   <input type="button" id="zoom-in" value="Zoom In" />
+   <input type="button" id="zoom-out" value="Zoom Out" />
+   <input type="button" id="pan" value="Pan" />
+   
+</div>
+
+{% endblock %}
