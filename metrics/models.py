@@ -34,12 +34,14 @@ class Consistency(Metric):
 
 class AgencyTimeliness(Metric):
         
-    num_records_tracked = models.IntegerField(blank=False, null=False)
-    num_records_45days_late = models.IntegerField(blank=False, null=False)
+    late_dolars = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False) 
+    late_rows = models.IntegerField(blank=False, null=False)
     
-    total_obligations_tracked = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
-    total_obligations_45days_late = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
-    
+    total_dolars = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False) 
+    total_rows = models.IntegerField(blank=False, null=False)
+
+    avg_lag_rows = models.IntegerField(blank=False, null=False)
+    avg_lag_dollars = models.IntegerField(blank=False, null=False)
     
     
 
@@ -65,14 +67,14 @@ class ProgramMetric(Metric):
 
 class ProgramTimeliness(ProgramMetric):
         
-    num_records_tracked = models.IntegerField(blank=False, null=False)
-    num_records_45days_late = models.IntegerField(blank=False, null=False)
+    late_dolars = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False) 
+    late_rows = models.IntegerField(blank=False, null=False)
     
-    total_obligations_tracked = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
-    total_obligations_45days_late = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
-    
-    avg_delay_days = models.IntegerField()
-    avg_dollar_weighted_delay_days = models.IntegerField()
+    total_dolars = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False) 
+    total_rows = models.IntegerField(blank=False, null=False)
+
+    avg_lag_rows = models.IntegerField(blank=False, null=False)
+    avg_lag_dollars = models.IntegerField(blank=False, null=False)
 
 
 class ProgramCorrection(models.Model):
