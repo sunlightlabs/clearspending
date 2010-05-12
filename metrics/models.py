@@ -30,10 +30,24 @@ class Consistency(Metric):
     std_over_pct = models.DecimalField(max_digits=20, decimal_places=4, null=True)
     type = models.IntegerField(blank=False, null=False, choices=TYPE_CHOICES)
 
+
+
+class AgencyTimeliness(Metric):
+        
+    late_dolars = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False) 
+    late_rows = models.IntegerField(blank=False, null=False)
+    
+    total_dolars = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False) 
+    total_rows = models.IntegerField(blank=False, null=False)
+
+    avg_lag_rows = models.IntegerField(blank=False, null=False)
+    avg_lag_dollars = models.IntegerField(blank=False, null=False)
+    
     
 
     
 class ProgramMetric(Metric):
+    
     
     GRADE_CHOICES = (
         ('p', 'Pass'),
@@ -46,6 +60,21 @@ class ProgramMetric(Metric):
 
     program = models.ForeignKey('cfda.Program', blank=False, null=False)
     grade = models.TextField(choices=GRADE_CHOICES)
+    
+    class Meta:
+        abstract = True
+    
+
+class ProgramTimeliness(ProgramMetric):
+        
+    late_dolars = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False) 
+    late_rows = models.IntegerField(blank=False, null=False)
+    
+    total_dolars = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False) 
+    total_rows = models.IntegerField(blank=False, null=False)
+
+    avg_lag_rows = models.IntegerField(blank=False, null=False)
+    avg_lag_dollars = models.IntegerField(blank=False, null=False)
 
 
 class ProgramCorrection(models.Model):
