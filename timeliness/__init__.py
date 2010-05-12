@@ -7,6 +7,8 @@ import cPickle as pickle
 from timeliness.cube import Cube
 from BeautifulSoup import BeautifulSoup
 from datetime import date    
+from metrics.models import ProgramTimeliness 
+from cfda.models import Program, Agency
     
 DOWNLOAD_URL = 'http://www.usaspending.gov/downloads.php'
 DATA_URL = 'http://www.usaspending.gov/'
@@ -236,6 +238,13 @@ def analyze():
                 sum += i['dollars']
         return sum
     
+    def count_records_45days_late(data):
+        count = 0
+        for i in data:
+            if i['days'] > 45:
+                count += 1
+        return count
+    
     def avg_days_by_awards(data):
         award_count = 0
         sum_days = 0
@@ -258,23 +267,21 @@ def analyze():
     
     print 'load results into db...'
     
-    
-    f = open(DATA_DIR + 'cfda_reporting_lag.csv', 'w')
-    writer = csv.writer(f)
-    
     for cfda in result.values:
-        row = []
         
-        row.append(cfda)
+        program = Program.objects.get(program_number=cfda)
         
         for fy in range(2007, 2010):
             
-            row.append(result.values[cfda].values[fy].get_data(aggregator=len))
-            row.append(result.values[cfda].values[fy].get_data(aggregator=sum_dollars))
-            row.append(result.values[cfda].values[fy].get_data(aggregator=sum_dollars_45days_late))
-            row.append(result.values[cfda].values[fy].get_data(aggregator=avg_days_by_awards))
-            row.append(result.values[cfda].values[fy].get_data(aggregator=avg_days_by_dollars))
-    
-        writer.writerow(row)
+            metric, created = ProgramTimeliness.objects.get_or_create(program=program, fiscal_year=fy)
+            
+            metric.num_records_tracked = result.values[cfda].values[fy].get_data(aggregator=len)
+            metric.total_obligations_tracked = result.values[cfda].values[fy].get_data(aggregator=sum_dollars)
         
-    f.close()
+            metric.num_records_45days_late = result.values[cfda].values[fy].get_data(aggregator=count_records_45days_late)
+            metric.total_obligations_45days_late = result.values[cfda].values[fy].get_data(aggregator=sum_dollars_45days_late) 
+            
+            metric.avg_delay_days = result.values[cfda].values[fy].get_data(aggregator=avg_days_by_awards)
+            metric.avg_dollar_weighted_delay_days = result.values[cfda].values[fy].get_data(aggregator=avg_days_by_dollars)
+    
+            metric.save()
