@@ -74,10 +74,6 @@ def main():
             for y in FISCAL_YEARS:
                 result = data[y].get(program_number, {}).get(test_name, None)
                 
-                # result_y = data[y]
-                # result_p = result_y[program_number]
-                # result_t = result_p[test_name]
-                
                 if result is None:
                     for i in range(6):
                         row.append(BLANK)
