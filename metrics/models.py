@@ -31,7 +31,8 @@ class Consistency(Metric):
     type = models.IntegerField(blank=False, null=False, choices=TYPE_CHOICES)
 
 
-class Timeliness(Metric):
+
+class AgencyTimeliness(Metric):
         
     num_records_tracked = models.IntegerField(blank=False, null=False)
     num_records_45days_late = models.IntegerField(blank=False, null=False)
@@ -44,6 +45,7 @@ class Timeliness(Metric):
 
     
 class ProgramMetric(Metric):
+    
     
     GRADE_CHOICES = (
         ('p', 'Pass'),
@@ -60,6 +62,18 @@ class ProgramMetric(Metric):
     class Meta:
         abstract = True
     
+
+class ProgramTimeliness(ProgramMetric):
+        
+    num_records_tracked = models.IntegerField(blank=False, null=False)
+    num_records_45days_late = models.IntegerField(blank=False, null=False)
+    
+    total_obligations_tracked = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
+    total_obligations_45days_late = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
+    
+    avg_delay_days = models.IntegerField()
+    avg_dollar_weighted_delay_days = models.IntegerField()
+
 
 class ProgramCorrection(models.Model):
 
