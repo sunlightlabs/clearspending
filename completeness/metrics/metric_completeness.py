@@ -94,20 +94,22 @@ def federal_award_id_is_not_empty(row):
 
 @boolean
 def federal_funding_amount_is_not_empty(row):
-    return row['fed_funding_amount'] is not None and len(str(row['fed_funding_amount']).strip())>0
+    obligation_amount_is_not_empty = row['fed_funding_amount'] is not None and len(str(row['fed_funding_amount']).strip())>0
+    loan_guarantee_amount_is_not_empty = row['face_loan_guran'] is not None and len(str(row['face_loan_guran']).strip())>0
+    return obligation_amount_is_not_empty or loan_guarantee_amount_is_not_empty
 
 @boolean
 def federal_funding_amount_is_numeric(row):
     return re_non_nummeric.search(str(row['fed_funding_amount'])) is None
 
-@boolean
-def obligation_action_date_is_not_empty(row):
-    return (type(row['obligation_action_date']) is datetime.date) or len(str(row['obligation_action_date']))>0
+# @boolean
+# def obligation_action_date_is_not_empty(row):
+#     return len(str(row['obligation_action_date'])) > 0
 
 @boolean
 def obligation_action_date_is_properly_formatted(row):
-    return type(row['obligation_action_date'] is datetime.date) or (not (re_good_date.match(str(row['obligation_action_date'])) is None))
-
+    return not (re_good_date.match(str(row['obligation_action_date'].strip())) is None)
+    
 @boolean
 def assistance_type_is_not_empty(row):
     return len(row['assistance_type'])>0

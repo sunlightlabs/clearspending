@@ -10,6 +10,20 @@ import doctest
 BOOKMARK = 'completeness/bookmark.pickle'
 
 
+def success_rate(year):
+    f = open('completeness/output/%d.pickle' % year, 'r')
+    obj = pickle.load(f)
+    f.close()
+    
+    for program in obj:
+        if program!='__all__':
+            for (test, result) in obj[program].items():
+                test_name = test.replace('metric_completeness.', '')
+                if test_name=='obligation_action_date_is_properly_formatted':
+                    rate = (result.sum / (result.tests_completed_without_error * 1.0))
+                    print "%7s %20s %f" % (program, test_name, rate)
+    
+
 class Result(object):
     """ Stores the results of our metric tests. A bit fancier than a dict. """
     def __init__(self, result_type="boolean"):
@@ -86,6 +100,8 @@ class MetricTester(object):
         self.results = {}
         self.results['__all__'] = Result()
         
+        self.misreported_dollars = {}        
+        
         # bootstrap tests
         self.metrics = {}
         for filename in os.listdir('./completeness/metrics'):
@@ -97,14 +113,19 @@ class MetricTester(object):
                     if callable(candidate):
                         if getattr(candidate, 'is_metric', False):
                             self.metrics["%s.%s" % (module_name, candidate_name)] = candidate
+    
+    def record_misreported_dollars(self, cfda_program, dollars):
+        if not self.misreported_dollars.has_key(cfda_program):
+            self.misreported_dollars[cfda_program] = 0
+        self.misreported_dollars[cfda_program] += dollars
         
+        
+    
     def _row_to_dict(self, row):
         """ Turns the incoming row into a hash for ease of use """
         r = {}
-        if len(row)!=len(CANONICAL_FIELD_ORDER):
-            print "FAILED ON ROW OF LENGTH %d\n%s" % (len(row), str(row))
-        else:
-            for (field_index, field_name) in enumerate(CANONICAL_FIELD_ORDER):
+        for (field_index, field_name) in enumerate(CANONICAL_FIELD_ORDER):
+            if field_index < len(row):
                 r[field_name] = row[field_index]
         return r 
 
@@ -120,7 +141,17 @@ class MetricTester(object):
         # if necessary, convert to a hash for convenience of the metric test functions
         if type(row) is list:
             row = self._row_to_dict(row)
+
+
+        dollars = None
+        try:
+            amt = len(str(row['fed_funding_amount']).strip())>0 and str(row['fed_funding_amount']) or '0'
+            dollars = Decimal(amt)
+        except Exception, e:
+            dollars = 0        
+
         
+        row_all_clean = True
         for (metric_name, metric_func) in self.metrics.items():            
             
             self.results['__all__'].record_attempt()            
@@ -128,31 +159,33 @@ class MetricTester(object):
             # set up necessary hashes and result objects
             cfda_number = row['cfda_program_num']
             if not self.results.has_key(cfda_number):
-                self.results[cfda_number] = {}
+                self.results[cfda_number] = {}            
+            if not self.results[cfda_number].has_key('__all__'):
+                self.results[cfda_number]['__all__'] = Result()
+            if not self.results[cfda_number].has_key('__byrow__'):
+                self.results[cfda_number]['__byrow__'] = Result()
             if not self.results[cfda_number].has_key(metric_name):
                 self.results[cfda_number][metric_name] = Result(result_type=metric_func.metric_type)            
             
-            success = True
-
-            # try:
-
-            dollars = None
-            try:
-                amt = len(str(row['fed_funding_amount']).strip())>0 and str(row['fed_funding_amount']) or '0'
-                dollars = Decimal(amt)
-            except Exception, e:
-                raise e
+            
             self.results[cfda_number][metric_name].record_attempt()
+
             mf = metric_func(row)
+
             self.results[cfda_number][metric_name].record_val(mf, dollars=dollars)
+            self.results[cfda_number]['__all__'].record_val(mf, dollars=dollars)
+            self.results['__all__'].record_val(mf, dollars=dollars)
+
             self.results[cfda_number][metric_name].record_success()             
                                
-            # except Exception,e:
-            #     raise e
-            #     success = False
-                
-            if success:
-                self.results['__all__'].record_success()
+            row_all_clean = row_all_clean and mf
+
+            self.results['__all__'].record_success()
+        
+        # record by-row metric -- if it passed all tests, it's okay
+        # this lets us only count problem rows once
+        if not row_all_clean:
+            self.record_misreported_dollars(cfda_program=cfda_number, dollars=dollars)
             
         
     def finish(self):
@@ -178,28 +211,15 @@ class MetricTester(object):
             f = open(filename, 'w')
             pickle.dump(self.results, f)
             f.close()
-
-def main_csv():
-    """
-    >>> from completeness.metrics import MetricTester
-    >>> t = MetricTester()
-    """    
-    
-    mtester = MetricTester()
-    
-    reader = csv.reader(sys.stdin)
-    while True:
-        row = reader.next()
             
-        # break if done
-        if not row:
-            break
-        
-        # convert to a hash for ease of use
-        row = row_to_dict(row)
-        mtester.run_metrics(row)
-        
-    print mtester.emit()
+    def emit_dollars(self, filename=None):
+        if filename is None:
+            return pickle.dumps(self.misreported_dollars)
+        else:
+            f = open(filename, 'w')
+            pickle.dump(self.misreported_dollars, f)
+            f.close()
+            
         
 
 def _store_bookmark(offset):
@@ -352,6 +372,8 @@ def main_csv():
 
         f.close()
 
+        mtester.emit(filename='completeness/output/%d.pickle' % year)
+        mtester.emit_dollars(filename='completeness/output/%d-dollars.pickle' % year)
 
 def main():
     main_csv()

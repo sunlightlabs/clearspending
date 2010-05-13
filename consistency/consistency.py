@@ -148,10 +148,10 @@ def score_agency(agency, fin_obligations, fiscal_year, writer, type):
     summary = obs.aggregate(Sum('obligation'), Sum('usaspending_obligation'))
     under_summary = under.aggregate(Sum('delta'))
     over_summary = over.aggregate(Sum('delta'))
-    over_sd = np.std([float(v) for v in over.values_list('weighted_delta', flat=True)])
-    under_sd = np.std([float(v) for v in under.values_list('weighted_delta', flat=True)])
-    over_var = np.var([float(v) for v in over.values_list('weighted_delta', flat=True)])
-    under_var = np.var([float(v) for v in under.values_list('weighted_delta', flat=True)])
+    over_sd = np.std([float(v) for v in over.values_list('weighted_delta', flat=True) if v])
+    under_sd = np.std([float(v) for v in under.values_list('weighted_delta', flat=True) if v])
+    over_var = np.var([float(v) for v in over.values_list('weighted_delta', flat=True) if v])
+    under_var = np.var([float(v) for v in under.values_list('weighted_delta', flat=True) if v])
     nr_sum = unreported.aggregate(Sum('obligation'))['obligation__sum'] or 0
     try:
         nr_pct = nr_sum / summary['obligation__sum']
