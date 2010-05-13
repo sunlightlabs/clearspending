@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% load media %}
+{% load math %}
+
+{% block container %}
+
+	 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
+	 
+	 
+	 <style type="text/css">
+    #animation { z-index:300; display: block; height: 400px; position: absolute; clear: both; top: 200px; }
+    #animation div { text-align: center; position:absolute; }
+    #animation .agency { background-color: blue; color: white; width: 300px; height: 275px;}
+    #animation .program { background-color: green; color: white; width: 150px; height: 150px; top: 100px;}
+    
+    #animation #program-1 { left: 0; top: 0px; height: 275px;}
+    #animation #program-2 { left: 151px; width:149px; top: 110px; height: 165px;}
+    #animation #program-3 { left: 151px; width:149px; top: 0px; height: 109px;}
+
+
+    #animation .obligation { z-index: 99; background-color: red; height: 20px; width: 20px;}
+    #animation #obligation-2-1 { top: 60px; left: 5px;}
+    #animation #obligation-2-2 { top: 60px; left: 35px;}
+    #animation #obligation-2-3 { top: 60px; left: 65px;}  
+    #animation #obligation-2-4 { top: 60px; left: 95px;}  
+    #animation #obligation-2-5 { top: 60px; left: 125px;}  
+    #animation #obligation-2-6 { top: 90px; left: 5px;}
+    #animation #obligation-2-7 { top: 90px; left: 35px;}
+    #animation #obligation-2-8 { top: 90px; left: 65px;}  
+    #animation #obligation-2-9 { top: 90px; left: 95px;}  
+    #animation #obligation-2-10 { top: 90px; left: 125px;}        
+
+    #animation #treasury { background-color: orange; left: 400px; height: 200px; width: 200px; z-index: 10; display: none;}
+
+    #animation #advance { margin-top: 500px;}
+
+    
+    #animation .dollar-sign { left: 100px; top: 100px; color: green; width: 30px; height: 30px; background-image: url({% media_url %}/images/dollar.png); background-repeat: no-repeat; z-index: -1;}
+
+    #animation #caption { display: block; font-size: 1.5em; margin-top: 350px; width:950px;}
+
+    #animation #usaspending { left: 400px; height: 360px; width: 170px; background-color: purple;}
+    #animation #usaspending #faads { position: absolute; left: 20px; top: 20px; heigth: 150px; width: 150px; background-color: yellow; color: black;}
+    #animation #usaspending #faads { position: absolute; left: 20px; top: 170px; heigth: 150px; width: 150px; background-color: yellow; color: black;}
+
+/*    #animation div { display: none;}*/
+
+
+	 </style>
+	 
+	 <script type="text/javascript">
+   var STEP = 0;
+   
+   var STEP_CAPTION = [
+    "For our purposes, the process begins when an agency is given <strong>budget authority</strong> &mdash; the power to spend some money.",
+    "The agency's budget is organized into <strong>programs</strong>, which spend money in order to achieve some particular goal.",
+    "That spending takes the form of awards to specific recipients.  These awards can take different forms, like grants, or contracts, or loans. The umbrella term for all of these is <strong>obligations</strong>. An obligation means that although the government may not yet have actually cut a check, the money is committed and can't be spent on something else.",
+    "Eventually, these obligations are sent to Treasury, which sends actual payments to the recipients. At this point the obligations become <strong>disbursements</strong>. Unfortunately, details about this process aren't available to the public in a useful form.",
+    "Fortunately, there are other systems for tracking this spending.  <strong>FAADS-PLUS</strong> tracks grants, loans, loan guarantees and insurance.  <strong>FPDS-NG</strong> tracks contracts.  Both are run by the <a href=\"http://www.whitehouse.gov/omb\">Office of Management and Budget</a>. Together, they provide the data that appears on <a href=\"http://www.usaspending.gov\">USASpending.gov</a>.  Agencies report their obligations to these systems on a continuous basis.",
+    "Agencies also report information on the program level. Once a year they submit information about grant programs to the <a href=\"http://www.cfda.gov\">Catalog of Federal Domestic Assistance</a>, which is maintained by the <a href=\"http://www.gsa.gov/\">General Services Administration</a>. The CFDA includes information about each program's purpose, who is eligible to participate in the program, and an estimate of the program's total obligations.",
+    "In theory, we should be able to add up the grant information reported to FAADS and compare the total against the number that's reported to CFDA. In practice, things don't always work that well..."
+   ];
+   
+   
+   function StartingState(step)
+   {
+     if(step>=1)
+     {
+       $('#animation .agency').show();
+       if(step>=2)
+       {
+         $('#animation .agency .program').show();
+         if(step>=3)
+         {
+           $('#animation .agency .program .obligation').show();
+           
+           if(step>=4)
+           {
+             $('#treasury').show();
+           }           
+         }
+       }
+     }
+   }
+   
+   function Advance()
+   {
+     // TODO: insert check for non-sequential movement -- if this is the case, start by hiding everything
+          
+     var temp_step = STEP;
+     $('#animation #caption').fadeOut(function(){ $('#caption').html(STEP_CAPTION[temp_step % STEP_CAPTION.length]).fadeIn(); });
+     
+     switch (STEP){
+       
+       case 0:            
+          $('#animation .agency').fadeIn();
+          break;
+        
+        case 1:    
+          $('#animation .agency>label').fadeOut(function() { $('#animation #program-1').fadeIn(function(){ $('#animation #program-2').fadeIn(function(){ $('#animation #program-3').fadeIn() } ) } ); });        
+          break;
+       
+        case 2:
+          
+          $('#animation .agency').animate({ backgroundColor: 'transparent'}, 500);
+          $('#animation #program-1').add('#animation #program-3').animate({ opacity: 0.3}, 500);
+        
+          var ids = [];
+          for(var i=1;i<=10;i++)
+          {
+            ids.push(11-i);
+            window.setTimeout(function(){ $('#obligation-2-' + ids.pop()).fadeIn(); }, i*100);
+          }
+          break;
+          
+        case 3:      
+          $('#animation #treasury').fadeIn(function(){ 
+            window.setTimeout(function(){   
+              var ids = [];
+              for(var i=1;i<=10;i++)
+              {
+                var target_top = '-30px';
+                var target_left = '340px';
+                ids.push(11-i);
+                window.setTimeout(function(){ $('#animation #obligation-2-' + ids.pop()).animate({ top: target_top, left: target_left, opacity: 0 }, 1000, function(){
+                  var index = $('#animation .dollar-sign:visible').length;                  
+                  var angle = 0;
+                  if ((index%2)==0)
+                    angle = (index * (Math.PI / 20)) - (Math.PI/4);                  
+                  else
+                    angle = ((10-index) * (Math.PI / 20)) - (Math.PI/4);                  
+                    
+                  var end_x = 100 + Math.cos(angle) * 400;
+                  var end_y = 100 + Math.sin(angle) * 400;
+
+                  $('#animation .dollar-sign:hidden:first').show().animate({top: end_y, left: end_x, opacity: 0}, 2000);
+                }); }, i*100);
+              }
+            }, 300);
+          });
+          break;
+          
+        case 4:          
+          break;
+          
+       
+     }
+     
+     STEP++;
+   }
+   
+   $(function(){
+     $('#advance').click(function(){ Advance(); });
+   });
+	 </script>
+	 
+	 <div id="animation">
+	 
+	  <div class="agency">
+
+	    <label>Department of Illustrative Examples</label>
+
+	    <div class="program" id="program-1">
+	      <label>Program XYZ</label>
+	    </div>
+
+	    <div class="program" id="program-2">
+	      <label>Program ABC</label>
+        <div class="obligation" id="obligation-2-1"><img src="new_imgs/blank.gif" alt="" /></div>
+        <div class="obligation" id="obligation-2-2"><img src="new_imgs/blank.gif" alt="" /></div>
+        <div class="obligation" id="obligation-2-3"><img src="new_imgs/blank.gif" alt="" /></div>
+        <div class="obligation" id="obligation-2-4"><img src="new_imgs/blank.gif" alt="" /></div>
+        <div class="obligation" id="obligation-2-5"><img src="new_imgs/blank.gif" alt="" /></div>
+        <div class="obligation" id="obligation-2-6"><img src="new_imgs/blank.gif" alt="" /></div>
+        <div class="obligation" id="obligation-2-7"><img src="new_imgs/blank.gif" alt="" /></div>
+        <div class="obligation" id="obligation-2-8"><img src="new_imgs/blank.gif" alt="" /></div>
+        <div class="obligation" id="obligation-2-9"><img src="new_imgs/blank.gif" alt="" /></div>
+        <div class="obligation" id="obligation-2-10"><img src="new_imgs/blank.gif" alt="" /></div>
+	    </div>
+      <div class="program" id="program-3">
+        <label>Program DEF</label>        
+      </div>
+    </div>
+
+
+    <div class="treasury" id="treasury">
+      <label>Treasury</label>
+      <div class="dollar-sign" id="dollar-sign-1"></div>
+      <div class="dollar-sign" id="dollar-sign-2"></div>
+      <div class="dollar-sign" id="dollar-sign-3"></div>
+      <div class="dollar-sign" id="dollar-sign-4"></div>
+      <div class="dollar-sign" id="dollar-sign-5"></div>
+      <div class="dollar-sign" id="dollar-sign-6"></div>
+      <div class="dollar-sign" id="dollar-sign-7"></div>
+      <div class="dollar-sign" id="dollar-sign-8"></div>
+      <div class="dollar-sign" id="dollar-sign-9"></div>
+      <div class="dollar-sign" id="dollar-sign-10"></div>
+    </div>
+
+	 
+	 <div id="usaspending">
+	   <div id="faads">FAADS-PLUS</div>
+	   <div id="fpds">FPDS-NG</div>
+	 </div>
+	 
+	 <div id="caption"></div>
+	 
+	 
+	 <input type="button" id="advance" value="Advance" />
+   
+</div>
+
+{% endblock %}

@@ -1,2 +1,4 @@
 *.pyc
+timeliness_data/
 fips/*
+misc/*

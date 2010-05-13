@@ -114,7 +114,7 @@ if __name__ == '__main__':
                         if not cfda_ob.usaspending_obligation:
                             cfda_ob.weighted_delta = 0
                         else:
-                            cfda_ob.weighted_delta = 1
+                            cfda_ob.weighted_delta = None
 
                 cfda_ob.save()
 
