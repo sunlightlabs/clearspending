@@ -35,6 +35,7 @@ class Result(object):
         self.tests_completed_without_error = 0     
         self.dollars_sum = 0
         self.dollars_of_passed_tests = 0   
+        self.dollars_of_failed_tests = 0
         self.sum = 0
         self.values = []
         
@@ -56,13 +57,16 @@ class Result(object):
         """ To be passed the result of the metric/test """
 
         if kwargs.has_key('dollars') and kwargs['dollars'] is not None:
-            self.dollars_sum += kwargs['dollars']
+            self.dollars_sum += abs(kwargs['dollars'])
 
         if self.result_type is 'boolean':
             if val is True:
                 self.sum += 1
                 if kwargs.has_key('dollars') and kwargs['dollars'] is not None:
-                    self.dollars_of_passed_tests += kwargs['dollars']
+                    self.dollars_of_passed_tests += abs(kwargs['dollars'])
+            elif val is False:
+                if kwargs.has_key('dollars') and kwargs['dollars'] is not None:
+                    self.dollars_of_failed_tests += abs(kwargs['dollars'])
         else:        
             self.sum += val
             
@@ -117,7 +121,7 @@ class MetricTester(object):
     def record_misreported_dollars(self, cfda_program, dollars):
         if not self.misreported_dollars.has_key(cfda_program):
             self.misreported_dollars[cfda_program] = 0
-        self.misreported_dollars[cfda_program] += dollars
+        self.misreported_dollars[cfda_program] += abs(dollars)
         
         
     
@@ -133,10 +137,6 @@ class MetricTester(object):
         """ runs the specified metrics/tests on the passed row (which is a dict) """
         
         self.finished = False
-
-        # sanity check for row length
-        #if len(row)!=len(CANONICAL_FIELD_ORDER):
-        #    raise Exception("input row length (%d) does not match canonical row length (%d)" % (len(row), len(CANONICAL_FIELD_ORDER)))
 
         # if necessary, convert to a hash for convenience of the metric test functions
         if type(row) is list:
@@ -221,135 +221,8 @@ class MetricTester(object):
             f.close()
             
         
-
-def _store_bookmark(offset):
-    f = open(BOOKMARK, 'w')
-    pickle.dump(offset, f)
-    f.close()
-
-
-def main_debug():
-
-    RECORD_ID_INDEX = CANONICAL_FIELD_ORDER.index('record_id')
-
-    mtester_all = MetricTester()
-    mtester = MetricTester()
-
-    if not os.path.exists(BOOKMARK):
-        _store_bookmark(0)
-
-    f = open(BOOKMARK, 'r')
-    offset = pickle.load(f)
-    f.close()
-
-    conn = MySQLdb.connect(host=MYSQL_HOST, user=MYSQL_USER, passwd=MYSQL_PASSWORD, db=MYSQL_DATABASE, cursorclass=MySQLdb.cursors.DictCursor)    
-    cursor = conn.cursor()
-
-    for year in FISCAL_YEARS:
-
-        while True:
-
-            print "querying - FY%d / offset %d" % (year, offset)
-            # 
-            # sql = "SELECT * FROM %s WHERE (fiscal_year=%d) AND record_id>%d ORDER BY record_id ASC LIMIT %d" % (MYSQL_TABLE_NAME, year, offset, ROWS_PER_CYCLE)
-            # print sql
-            # cursor.execute(sql.replace("\n", " "))
-
-            print "finished query, processing..."
-
-            while True:
-                row = pickle.load(open('debug_row.pickle'))
-
-                # convert to a hash for ease of use
-                mtester.run_metrics(row)        
-                mtester_all.run_metrics(row)
-                offset = row['record_id']
-                
-                break
-
-            # store intermediate results
-            f = open('completeness/output/%d/%d.pickle' % (year, offset), 'w')
-            f.write(mtester.emit())
-            f.close()
-
-            # compact/reset tester objects
-            mtester_all.finish()
-            del mtester
-            mtester = MetricTester()
-
-            # increment
-            offset += ROWS_PER_CYCLE
-            _store_bookmark(offset)
-
-
-        f = open('output/%d/all.pickle', 'w')
-        f.write(mtester_all.emit())
-        f.close()
-
-
-def main_mysql():
-
-    RECORD_ID_INDEX = CANONICAL_FIELD_ORDER.index('record_id')
-    
-    mtester_all = MetricTester()
-    mtester = MetricTester()
-    
-    if not os.path.exists(BOOKMARK):
-        _store_bookmark(0)
-    
-    f = open(BOOKMARK, 'r')
-    offset = pickle.load(f)
-    f.close()
-    
-    conn = MySQLdb.connect(host=MYSQL_HOST, user=MYSQL_USER, passwd=MYSQL_PASSWORD, db=MYSQL_DATABASE, cursorclass=MySQLdb.cursors.DictCursor)    
-    cursor = conn.cursor()
-
-    for year in FISCAL_YEARS:
-        
-        while True:
-            
-            print "querying - FY%d / offset %d" % (year, offset)
-            
-            sql = "SELECT * FROM %s WHERE (fiscal_year=%d) AND record_id>%d ORDER BY record_id ASC LIMIT %d" % (MYSQL_TABLE_NAME, year, offset, ROWS_PER_CYCLE)
-            print sql
-            cursor.execute(sql.replace("\n", " "))
-
-            print "finished query, processing..."
-
-            while True:
-                row = cursor.fetchone()
-                if row is None:
-                    break
-            
-                pickle.dump(row, open('debug_row.pickle', 'w'))
-            
-                # convert to a hash for ease of use
-                mtester.run_metrics(row)        
-                mtester_all.run_metrics(row)
-                offset = row['record_id']
-
-            # store intermediate results
-            f = open('completeness/output/%d/%d.pickle' % (year, offset), 'w')
-            f.write(mtester.emit())
-            f.close()
-            
-            # compact/reset tester objects
-            mtester_all.finish()
-            del mtester
-            mtester = MetricTester()
-                
-            # increment
-            offset += ROWS_PER_CYCLE
-            _store_bookmark(offset)
-
-
-        f = open('output/%d/all.pickle', 'w')
-        f.write(mtester_all.emit())
-        f.close()
         
 def main_csv():
-
-    RECORD_ID_INDEX = CANONICAL_FIELD_ORDER.index('record_id')
 
     for year in FISCAL_YEARS:
 
@@ -377,8 +250,6 @@ def main_csv():
 
 def main():
     main_csv()
-    # main_mysql()
-    # main_debug()
 
 if __name__ == '__main__':
     if '--test' in sys.argv:
