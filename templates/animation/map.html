@@ -46,69 +46,111 @@
   </div>
    
   <script type="text/javascript"> 
+  var STEPS = [
+    { x:934, y:94, z:24 },
+    { x:700, y:182, z:20 },
+    { x:560, y:318, z:24 },
+    { x:674, y:616, z:20 },
+    { x:690, y:364, z:24 },
+    { x:1326, y:302, z:20 },
+    { x:1344, y:688, z:24 }
+  ];
+  var CURRENT_ZOOM = 1;
    
-  function SmoothZoomOut(i)
+  function SmoothZoomOut(i, f)
   {
+    if (f === undefined)
+    {
+      var f = function(){ };
+    }
+    
     if (i<0)
+    {
+      CURRENT_ZOOM = CURRENT_ZOOM + 1;
+      f();
       return;
+    }
       
+    CURRENT_ZOOM = Math.max(0, CURRENT_ZOOM - 1);
     $('#viewport').mapbox('back', 1);
     
-    window.setTimeout(function(){ SmoothZoomOut(i-1);}, 20);
+    window.setTimeout(function(){ SmoothZoomOut(i-1, f);}, 20);
   }
      
-  function SmoothZoomIn(i)
+  function SmoothZoomIn(i, f)
   {
+    if (f === undefined)
+    {
+      var f = function(){ };
+    }
+    
     if (i<0)
+    {
+      CURRENT_ZOOM = Math.max(0, CURRENT_ZOOM - 1);
+      f();
       return;
+    }
       
+    CURRENT_ZOOM = CURRENT_ZOOM + 1;
     $('#viewport').mapbox('zoom', 1);
-    
-    window.setTimeout(function(){ SmoothZoomIn(i-1);}, 20);
-  }
-  
-  function SmoothPanTo(i, config)
-  {
-    if (i>config.steps)
-      return;
-     
-    var mb = $('#viewport').get(0);
-    var layers = $(mb).find(">div"), limit = layers.length - 1, current = $(mb).find(".current-map-layer");
-            
-    console.log(config.deltaX + ', ' + config.deltaY + ' / ' + (mb.xPos + config.deltaX) + ', ' + (mb.yPos + config.deltaY));
-    
-    // $('#viewport').mapbox('center', { x: (mb.xPos + config.deltaX), y: (mb.yPos + config.deltaY) });
-    $('#viewport').mapbox('down', config.deltaY);
-    $('#viewport').mapbox('right', config.deltaX);
-    
-    window.setTimeout(function() { SmoothPanTo(i+1, config); }, 20);    
-  }
-  
-  function PanConfig(steps, x, y)
-  {
-    var r = new Object();
-    var mb = $('#viewport').get(0);
-    var layers = $(mb).find(">div"), limit = layers.length - 1, current = $(mb).find(".current-map-layer");
 
-    var max_width = $(layers[limit]).width();
-    var max_height = $(layers[limit]).height();
-    var current_width = $(current).width();
-    var current_height = $(current).height();
-    
-    var currentXPosAsFraction = mb.xPos / (1.0 * current_width);
-    var currentYPosAsFraction = mb.yPos / (1.0 * current_height);
-    var goalXAsFraction = x / (1.0 * max_width);
-    var goalYAsFraction = y / (1.0 * max_height);
-    
-    r.goalX = x;
-    r.goalY = y;
-    r.deltaX = Math.floor(((goalXAsFraction - currentXPosAsFraction) * current_width) / steps);
-    r.deltaY = Math.floor(((goalYAsFraction - currentYPosAsFraction) * current_height) / steps);
-    r.steps = steps;
-    
-    return r;
+    window.setTimeout(function(){ SmoothZoomIn(i-1, f);}, 20);
   }
+  
+  // function SmoothPanTo(i, config)
+  // {
+  //   if (i>config.steps)
+  //     return;
+  //    
+  //   var mb = $('#viewport').get(0);
+  //   var layers = $(mb).find(">div"), limit = layers.length - 1, current = $(mb).find(".current-map-layer");
+  //           
+  //   console.log(config.deltaX + ', ' + config.deltaY + ' / ' + (mb.xPos + config.deltaX) + ', ' + (mb.yPos + config.deltaY));
+  //   
+  //   // $('#viewport').mapbox('center', { x: (mb.xPos + config.deltaX), y: (mb.yPos + config.deltaY) });
+  //   $('#viewport').mapbox('down', config.deltaY);
+  //   $('#viewport').mapbox('right', config.deltaX);
+  //   
+  //   window.setTimeout(function() { SmoothPanTo(i+1, config); }, 20);    
+  // }
+  
+  // function PanConfig(steps, x, y)
+  // {
+  //   var r = new Object();
+  //   var mb = $('#viewport').get(0);
+  //   var layers = $(mb).find(">div"), limit = layers.length - 1, current = $(mb).find(".current-map-layer");
+  // 
+  //   var max_width = $(layers[limit]).width();
+  //   var max_height = $(layers[limit]).height();
+  //   var current_width = $(current).width();
+  //   var current_height = $(current).height();
+  //   
+  //   var currentXPosAsFraction = mb.xPos / (1.0 * current_width);
+  //   var currentYPosAsFraction = mb.yPos / (1.0 * current_height);
+  //   var goalXAsFraction = x / (1.0 * max_width);
+  //   var goalYAsFraction = y / (1.0 * max_height);
+  //   
+  //   r.goalX = x;
+  //   r.goalY = y;
+  //   r.deltaX = Math.floor(((goalXAsFraction - currentXPosAsFraction) * current_width) / steps);
+  //   r.deltaY = Math.floor(((goalYAsFraction - currentYPosAsFraction) * current_height) / steps);
+  //   r.steps = steps;
+  //   
+  //   return r;
+  // }
    
+  function GoToStep(i)
+  {
+    var step = STEPS[i];
+    var zoomDiff = step.z - CURRENT_ZOOM;
+    console.log(CURRENT_ZOOM + ' / ' + step.z + ' / ' + zoomDiff);
+    if (zoomDiff>0)
+      SmoothZoomIn(zoomDiff, function(){ $('#viewport').mapbox('center', {x: step.x, y:step.y}); });
+    else if(zoomDiff<0)
+      SmoothZoomOut(Math.abs(zoomDiff), function(){ $('#viewport').mapbox('center', {x: step.x, y:step.y}); });
+    else
+      $('#viewport').mapbox('center', {x: step.x, y:step.y});
+  }
    
   var which = 0;
   $(document).ready(function() { 
@@ -139,13 +181,23 @@
        var layers = $(mb).find(">div"), limit = layers.length - 1, current = $(mb).find(".current-map-layer");
        console.log(mb.xPos + ', ' + mb.yPos);
      });
+     
+     for(i in STEPS)
+     {
+       $('<input type="button" value="' + (parseInt(i)+1) + '" rel="' + i + '" />').appendTo('#button-holder').click(function(){
+         var index = $(this).attr('rel');
+         GoToStep(index);
+       });
+     }
   }); 
   </script>
    
-   <input type="button" id="zoom-in" value="Zoom In" />
-   <input type="button" id="zoom-out" value="Zoom Out" />
-   <input type="button" id="pan" value="Pan" />
-   <input type="button" id="get-location" value="Get Location" />
+   <div id="button-holder">
+     <input type="button" id="zoom-in" value="Zoom In" />
+     <input type="button" id="zoom-out" value="Zoom Out" />
+     <input type="button" id="pan" value="Pan" />
+     <input type="button" id="get-location" value="Get Location" />
+   </div>
    
 </div>
 
