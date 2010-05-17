@@ -6,7 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^animation\/?', include('animation.urls')),
-    (r'^admin/', include('admin.site.urls')),
+    (r'^admin/(.*)', admin.site.root),
     (r'^', include('mediasync.urls')),    
 )
 
