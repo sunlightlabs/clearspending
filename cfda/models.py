@@ -133,7 +133,6 @@ class Program(models.Model):
     load_date = models.DateTimeField("Load Date", auto_now=True)    
 
 
-
 class ProgramManager(models.Manager):
     
     FIELD_MAPPINGS = [

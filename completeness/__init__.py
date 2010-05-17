@@ -15,13 +15,29 @@ def success_rate(year):
     obj = pickle.load(f)
     f.close()
     
+    program_totals = {}
+    
     for program in obj:
+        program_sum = 0
+        program_total = 0
         if program!='__all__':
             for (test, result) in obj[program].items():
                 test_name = test.replace('metric_completeness.', '')
-                if test_name=='obligation_action_date_is_properly_formatted':
+                # if test_name=='obligation_action_date_is_properly_formatted':
+                if result.tests_completed_without_error>0:
                     rate = (result.sum / (result.tests_completed_without_error * 1.0))
-                    print "%7s %20s %f" % (program, test_name, rate)
+                else:
+                    rate = 0
+                print "%7s %20s %f" % (program, test_name, rate)
+                
+                program_sum += result.sum
+                program_total += result.tests_completed_without_error
+                
+        if program_total > 0:
+            program_totals[program] = program_sum / (program_total * 1.0)            
+    
+    for (p, r) in program_totals.items():
+        print "%7s %f" % (p, r)
     
 
 class Result(object):
@@ -33,6 +49,7 @@ class Result(object):
 
         self.tests_run = 0
         self.tests_completed_without_error = 0     
+        self.failed_tests = 0
         self.dollars_sum = 0
         self.dollars_of_passed_tests = 0   
         self.dollars_of_failed_tests = 0
@@ -58,6 +75,9 @@ class Result(object):
 
         if kwargs.has_key('dollars') and kwargs['dollars'] is not None:
             self.dollars_sum += abs(kwargs['dollars'])
+
+        if val is False:
+            self.failed_tests += 1
 
         if self.result_type is 'boolean':
             if val is True:
@@ -167,20 +187,16 @@ class MetricTester(object):
             if not self.results[cfda_number].has_key(metric_name):
                 self.results[cfda_number][metric_name] = Result(result_type=metric_func.metric_type)            
             
-            
-            self.results[cfda_number][metric_name].record_attempt()
 
             mf = metric_func(row)
-
-            self.results[cfda_number][metric_name].record_val(mf, dollars=dollars)
-            self.results[cfda_number]['__all__'].record_val(mf, dollars=dollars)
-            self.results['__all__'].record_val(mf, dollars=dollars)
-
-            self.results[cfda_number][metric_name].record_success()             
+                        
+            for t in (self.results[cfda_number][metric_name], self.results[cfda_number]['__all__'], self.results['__all__']):
+                t.record_attempt()
+                t.record_val(mf, dollars=dollars)
+                t.record_success()
                                
             row_all_clean = row_all_clean and mf
 
-            self.results['__all__'].record_success()
         
         # record by-row metric -- if it passed all tests, it's okay
         # this lets us only count problem rows once
