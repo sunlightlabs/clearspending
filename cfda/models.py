@@ -9,9 +9,14 @@ from datetime import datetime
 
 
 class Agency(models.Model):
-
+    def __unicode__(self):
+        return self.name
+    class Meta:
+        ordering = ['name']
+        
     code = models.IntegerField(primary_key=True, blank=False, null=False)
     name = models.TextField("Federal Agency", blank=True, default="")
+    description = models.TextField("Description", blank=True, default="")
 
 class AssistanceType(models.Model):
     def __unicode__(self):
