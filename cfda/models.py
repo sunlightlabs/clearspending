@@ -83,7 +83,15 @@ class ProgramObligation(models.Model):
     )
 
     type = models.IntegerField(max_length=1, choices=TYPE_CHOICES) #for simplicity's sake this has been collapsed in the actual processing, grants=1 everything else=2
-
+    GRADE_CHOICES = (
+        ('p', 'Pass'),
+        ('o', 'Overreporting Obligations'),
+        ('u', 'Underreporting Obligations'),
+        ('n', 'Not reporting Obligations'),
+        ('t', 'Late reporting'),
+        ('c', 'Incomplete reporting')
+    )
+    grade = models.TextField(choices=GRADE_CHOICES)
 
 class ProgramAccount(models.Model):
 
