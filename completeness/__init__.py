@@ -172,9 +172,7 @@ class MetricTester(object):
 
         
         row_all_clean = True
-        for (metric_name, metric_func) in self.metrics.items():            
-            
-            self.results['__all__'].record_attempt()            
+        for (metric_name, metric_func) in self.metrics.items():                      
 
             # set up necessary hashes and result objects
             cfda_number = row['cfda_program_num']
@@ -185,8 +183,7 @@ class MetricTester(object):
             if not self.results[cfda_number].has_key('__byrow__'):
                 self.results[cfda_number]['__byrow__'] = Result()
             if not self.results[cfda_number].has_key(metric_name):
-                self.results[cfda_number][metric_name] = Result(result_type=metric_func.metric_type)            
-            
+                self.results[cfda_number][metric_name] = Result(result_type=metric_func.metric_type)                        
 
             mf = metric_func(row)
                         
