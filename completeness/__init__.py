@@ -124,7 +124,8 @@ class MetricTester(object):
         self.results = {}
         self.results['__all__'] = Result()
         
-        self.misreported_dollars = {}        
+        self.misreported_dollars = {}      
+        self.total_dollars = {}  
         
         # bootstrap tests
         self.metrics = {}
@@ -138,13 +139,17 @@ class MetricTester(object):
                         if getattr(candidate, 'is_metric', False):
                             self.metrics["%s.%s" % (module_name, candidate_name)] = candidate
     
-    def record_misreported_dollars(self, cfda_program, dollars):
+    
+    def record_dollars(self, cfda_program, misreported_dollars, total_dollars):
         if not self.misreported_dollars.has_key(cfda_program):
             self.misreported_dollars[cfda_program] = 0
-        self.misreported_dollars[cfda_program] += abs(dollars)
+        self.misreported_dollars[cfda_program] += abs(misreported_dollars)
+        
+        if not self.total_dollars.has_key(cfda_program):
+            self.total_dollars[cfda_program] = 0
+        self.total_dollars[cfda_program] += abs(total_dollars)
         
         
-    
     def _row_to_dict(self, row):
         """ Turns the incoming row into a hash for ease of use """
         r = {}
@@ -197,8 +202,10 @@ class MetricTester(object):
         
         # record by-row metric -- if it passed all tests, it's okay
         # this lets us only count problem rows once
-        if not row_all_clean:
-            self.record_misreported_dollars(cfda_program=cfda_number, dollars=dollars)
+        if row_all_clean:
+            self.record_dollars(cfda_program=cfda_number, misreported_dollars=0, total_dollars=dollars)
+        else:
+            self.record_dollars(cfda_program=cfda_number, misreported_dollars=dollars, total_dollars=dollars)            
             
         
     def finish(self):
@@ -225,13 +232,14 @@ class MetricTester(object):
             pickle.dump(self.results, f)
             f.close()
             
-    def emit_dollars(self, filename=None):
-        if filename is None:
-            return pickle.dumps(self.misreported_dollars)
-        else:
-            f = open(filename, 'w')
-            pickle.dump(self.misreported_dollars, f)
-            f.close()
+    def emit_dollars(self, filename_misreported, filename_total):
+        f = open(filename_misreported, 'w')
+        pickle.dump(self.misreported_dollars, f)
+        f.close()
+        
+        f = open(filename_total, 'w')
+        pickle.dump(self.total_dollars, f)
+        f.close()
             
         
         
@@ -259,7 +267,7 @@ def main_csv():
         f.close()
 
         mtester.emit(filename='completeness/output/%d.pickle' % year)
-        mtester.emit_dollars(filename='completeness/output/%d-dollars.pickle' % year)
+        mtester.emit_dollars(filename_misreported='completeness/output/%d-dollars_misreported.pickle' % year, filename_total='completeness/output/%d-dollars_total.pickle' % year)
 
 def main():
     main_csv()
