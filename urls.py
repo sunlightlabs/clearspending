@@ -1,12 +1,13 @@
 from django.conf.urls.defaults import *
 import settings
 from django.contrib import admin
-
 admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^animation\/?', include('animation.urls')),
     (r'^admin/(.*)', admin.site.root),
+    (r'^agency/(?P<agency_id>\d+)/(?P<fiscal_year>\d{4})/(?P<unit>\w+)/', 'metrics.views.agencyDetail'),
+    (r'^program/(?P<program_id>\d+)/(?P<unit>\w+)/', 'metrics.views.programDetail'), 
     (r'^', include('mediasync.urls')),    
 )
 

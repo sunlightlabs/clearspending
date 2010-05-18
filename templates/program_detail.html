@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{%block container %}
+
+<h3>Consistency</h3>
+{{consistency|safe}}
+
+<h3>Timeliness</h3>
+{{timeliness|safe}}
+
+<h3>Completeness</h3>
+{{completeness|safe}}
+
+{% endblock %}
