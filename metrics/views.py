@@ -7,9 +7,7 @@ FISCAL_YEARS = [2009, 2008, 2007]
 def agencyDetail(request, agency_id, unit, fiscal_year):
     agency = Agency.objects.get(code=agency_id)
     programs = Program.objects.filter(agency=agency)
-    consistency = AgencyConsistency.objects.filter(agency=agency, fiscal_year=fiscal_year)
-    if len(consistency) == 2: consistency = consistency[0].combine(consistency[1])
-    else: consistency = consistency[0]
+    consistency = AgencyConsistency.objects.get(agency=agency, fiscal_year=fiscal_year, type=1) # hack to filter out loans
     timeliness = AgencyTimeliness.objects.filter(agency=agency, fiscal_year=fiscal_year)
     #completeness
 

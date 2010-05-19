@@ -30,18 +30,6 @@ class AgencyConsistency(Metric):
     over_reported_pct =  models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
     type = models.IntegerField(blank=False, null=False, choices=TYPE_CHOICES)
 
-    def combine(self, other_self):
-        combo = AgencyConsistency()
-        if self.agency == other_self.agency and self.fiscal_year == other_self.fiscal_year:
-            for key in self.__dict__.keys():
-                if key != 'type' and key !='agency_id' and key != 'id' and key !='fiscal_year':
-                    combo.__dict__[key] = self.__dict__[key] + other_self.__dict__[key]
-            
-            return combo
-        else:
-            raise Exception, "These objects are not the same, sans type"
-                    
-
 class AgencyTimeliness(Metric):
         
     late_dolars = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False) 
