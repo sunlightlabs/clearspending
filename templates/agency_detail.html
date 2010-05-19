@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block container %}
+<ul>
+    <li>Total Underreported: {{top_level_numbers.underreported}}</li>
+    <li>Total Overreported: {{top_level_numbers.overreported}}</li>
+    <li>Total Not reported: {{top_level_numbers.nonreported}}</li>
+    <li>Total Late: {{top_level_numbers.late}}</li>
+    <li>Total Incomplete: {{top_level_numbers.incomplete}}</li>
+</ul>
+
+<table class="programs">
+    <tr>
+        <th>Program Name</th>
+        <th>Overreported</th>
+        <th>Underreported</th>
+        <th>Not reported</th>
+        <th>Late</th>
+        <th>Incomplete</th>
+    </tr>
+    {% for row in table_data %}
+        <tr>
+        {% for value in row %}
+            <td>{{value}}</td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+
+
+{% endblock %}

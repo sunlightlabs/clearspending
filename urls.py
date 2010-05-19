@@ -1,12 +1,8 @@
 from django.conf.urls.defaults import *
-<<<<<<< HEAD:urls.py
 from django.views.generic.simple import direct_to_template
 from django.views.generic.list_detail import object_list
-=======
 import settings
 from django.contrib import admin
->>>>>>> 83f80c997ce128d233017eb603f3f3f3185ba611:urls.py
-
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -19,9 +15,11 @@ urlpatterns = patterns('',
     (r'^methodology/', 'direct_to_template', {'template': 'methodology,html'}),
     (r'^background/', 'direct_to_template', {'template': 'background.html'}),
     (r'^corrections/', 'object_list', {'template': 'corrections.html'}),
-    (r'^$', 'direct_to_template', {'template':'index.html'}),
     (r'^animation\/?', include('animation.urls')),
-    (r'^admin/', include('admin.site.urls')),
+    (r'^admin/(.*)', admin.site.root),
+    (r'^agency/(?P<agency_id>\d+)/(?P<fiscal_year>\d{4})/(?P<unit>\w+)/', 'metrics.views.agencyDetail'),
+    (r'^program/(?P<program_id>\d+)/(?P<unit>\w+)/', 'metrics.views.programDetail'), 
+    (r'^$', 'direct_to_template', {'template':'index.html'}),
     (r'^', include('mediasync.urls')),    
 )
 

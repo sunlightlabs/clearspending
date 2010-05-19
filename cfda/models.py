@@ -9,9 +9,14 @@ from datetime import datetime
 
 
 class Agency(models.Model):
-
+    def __unicode__(self):
+        return self.name
+    class Meta:
+        ordering = ['name']
+        
     code = models.IntegerField(primary_key=True, blank=False, null=False)
     name = models.TextField("Federal Agency", blank=True, default="")
+    description = models.TextField("Description", blank=True, default="")
 
 class AssistanceType(models.Model):
     def __unicode__(self):
@@ -78,7 +83,15 @@ class ProgramObligation(models.Model):
     )
 
     type = models.IntegerField(max_length=1, choices=TYPE_CHOICES) #for simplicity's sake this has been collapsed in the actual processing, grants=1 everything else=2
-
+    GRADE_CHOICES = (
+        ('p', 'Pass'),
+        ('o', 'Overreporting Obligations'),
+        ('u', 'Underreporting Obligations'),
+        ('n', 'Not reporting Obligations'),
+        ('t', 'Late reporting'),
+        ('c', 'Incomplete reporting')
+    )
+    grade = models.TextField(choices=GRADE_CHOICES)
 
 class ProgramAccount(models.Model):
 
@@ -131,7 +144,6 @@ class Program(models.Model):
 
     cfda_edition = models.IntegerField("CFDA Edition", blank=True, null=True)
     load_date = models.DateTimeField("Load Date", auto_now=True)    
-
 
 
 class ProgramManager(models.Manager):

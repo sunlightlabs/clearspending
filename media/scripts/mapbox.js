@@ -28,7 +28,8 @@
             callAfter: function(layer, xcoord, ycoord, viewport) {}, // this callback happens at end of drag after map is released "mouseup"
             beforeZoom: function(layer, xcoord, ycoord, viewport) {}, // callback before a zoom happens
             afterZoom: function(layer, xcoord, ycoord, viewport) {}, // callback after zoom has completed
-            mousewheel: false // requires mousewheel event plugin: http://plugins.jquery.com/project/mousewheel
+            mousewheel: false, // requires mousewheel event plugin: http://plugins.jquery.com/project/mousewheel
+            animationDuration: 500
         }
 
         if(typeof callback == "function") {
@@ -131,10 +132,17 @@
             this.xPos = 0 - left;
             this.yPos = 0 - top;
 
-            $(node).css({
-                left: left + "px",
-                top: top + "px"
-            });
+            // $(node).css({
+            //     left: left + "px",
+            //     top: top + "px"
+            // });
+            
+            $(node).animate({
+                left: left,
+                top: top
+            }, this.animationDuration);
+
+            
         }
 
         function _position(x, y, node) {
@@ -154,11 +162,18 @@
             this.xPos = 0 - x;
             this.yPos = 0 - y;
 
-            $(node).css({
-                left: x + "px",
-                top: y + "px"
-            });
+            // $(node).css({
+            //     left: x + "px",
+            //     top: y + "px"
+            // });
+            
+            $(node).animate({
+                left: x,
+                top: y,
+            }, this.animationDuration);            
+            
         }
+        
 
         function _makeCoords(s) {
             s = s.replace(/px/, "");
