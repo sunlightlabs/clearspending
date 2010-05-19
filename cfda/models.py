@@ -105,7 +105,6 @@ class Program(models.Model):
 
     program_number = models.CharField("Program number", max_length=7)
     program_title = models.CharField("Program title", max_length=255)
-    popular_name = models.CharField("Populat name", max_length=100)
     federal_agency = models.TextField("Federal agency", blank=True, default="")
     agency = models.ForeignKey('Agency', blank=True, null=True)
     authorization = models.TextField("Authorization",blank=True,default="")
@@ -239,7 +238,7 @@ class ProgramManager(models.Manager):
                 print "cfda program: %s, %s" % (program_number, e)
         
             for (i,s) in enumerate(self.FIELD_MAPPINGS):
-                if s is None:
+                if s is None or i==2:
                     continue
 
                 elif s == 'obligations':
