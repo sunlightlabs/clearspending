@@ -27,10 +27,11 @@ def integer(target):
 re_non_nummeric = re.compile(r'[^\d]')
 re_good_date = re.compile(r'\d{4}\-\d{2}\-\d{2}')
 
+
 @boolean
 def cfda_program_num_is_descriptive(row):
     """Record is tied to single CFDA Program Number"""
-    return row['cfda_program_num'].strip()!='MU.LTI' and row['cfda_program_num'].strip()!='00.000' and cfda_program_num_not_none(row) and cfda_program_num_not_multi(row) and len(row['cfda_program_num'].strip())>0
+    return row['cfda_program_num'].strip()!='MU.LTI' and row['cfda_program_num'].strip()!='00.000' and row['cfda_program_num'].strip()!='00.000' and row['cfda_program_num'].strip()!='MU.LTI' and len(row['cfda_program_num'].strip())>0
     
 @boolean
 def recipient_name_not_empty(row):
