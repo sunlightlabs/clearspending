@@ -28,17 +28,9 @@ re_non_nummeric = re.compile(r'[^\d]')
 re_good_date = re.compile(r'\d{4}\-\d{2}\-\d{2}')
 
 @boolean
-def cfda_program_num_not_multi(row):
-    return row['cfda_program_num'].strip()!='MU.LTI'
-
-@boolean
-def cfda_program_num_not_none(row):
-    return row['cfda_program_num'].strip()!='00.000'
-
-@boolean
 def cfda_program_num_is_descriptive(row):
     """Record is tied to single CFDA Program Number"""
-    return cfda_program_num_not_none(row) and cfda_program_num_not_multi(row) and len(row['cfda_program_num'].strip())>0
+    return row['cfda_program_num'].strip()!='MU.LTI' and row['cfda_program_num'].strip()!='00.000' and cfda_program_num_not_none(row) and cfda_program_num_not_multi(row) and len(row['cfda_program_num'].strip())>0
     
 @boolean
 def recipient_name_not_empty(row):
@@ -72,14 +64,9 @@ def recipient_state_code_not_empty(row):
     return len(row['recipient_state_code'].strip())>0
 
 @boolean
-def recipient_zip_code_not_empty(row):
-    """Recipient zip code is not empty"""
-    return len(row['recipient_zip'].strip())>0
-
-@boolean
-def recipient_zip_code_is_numeric(row):
-    """Recipient Zip Code is numeric"""
-    return re_non_nummeric.search(str(row['recipient_zip'])) is None
+def recipient_zip_code_is_properly_formatted(row):
+    """Recipient zip code is properly formatted"""
+    return len(row['recipient_zip'].strip())>0 and (re_non_nummeric.search(str(row['recipient_zip'])) is None)
 
 @boolean
 def recipient_type_is_not_empty(row):
@@ -111,16 +98,9 @@ def federal_funding_amount_is_not_empty(row):
     """Federal Funding Amount is not empty"""
     obligation_amount_is_not_empty = row['fed_funding_amount'] is not None and len(str(row['fed_funding_amount']).strip())>0
     loan_guarantee_amount_is_not_empty = row['face_loan_guran'] is not None and len(str(row['face_loan_guran']).strip())>0
-    return obligation_amount_is_not_empty or loan_guarantee_amount_is_not_empty
-
-@boolean
-def federal_funding_amount_is_numeric(row):
-    """Federal Funding Amount is numeric"""
-    return re_non_nummeric.search(str(row['fed_funding_amount'])) is None
-
-# @boolean
-# def obligation_action_date_is_not_empty(row):
-#     return len(str(row['obligation_action_date'])) > 0
+    obligation_amount_is_numeric = re_non_nummeric.search(str(row['fed_funding_amount'])) is None
+    loan_guarantee_amount_is_numeric = re_non_nummeric.search(str(row['face_loan_guran'])) is None
+    return (obligation_amount_is_not_empty and obligation_amount_is_numeric) or (loan_guarantee_amount_is_not_empty and loan_guarantee_amount_is_numeric)
 
 @boolean
 def obligation_action_date_is_properly_formatted(row):
@@ -151,27 +131,3 @@ def principal_place_state_not_empty(row):
 def principal_place_cc_not_empty(row):
     """Principal Place of Performance County Code is not empty"""
     return len(row['principal_place_cc'].strip())>0
-
-# @integer
-# def principal_place_state_length(row):
-#     return len(row['principal_place_state'].strip())
-# 
-# @integer
-# def principal_place_cc_length(row):
-#     return len(row['principal_place_cc'].strip())
-# 
-# @integer
-# def recipient_name_length(row):
-#     return len(row['recipient_name'].strip())
-#     
-# @integer
-# def federal_agency_code_length(row):
-#     return len(row['agency_code'])
-# 
-# @integer
-# def recipient_zip_code_length(row):
-#     return len(row['recipient_zip'].strip())
-#     
-# @integer
-# def recipient_state_code_length(row):
-#     return len(row['recipient_state_code'].strip())    
