@@ -4,7 +4,8 @@ from cfda.models import Program, Agency
 
 TYPE_CHOICES = (
     (1, 'Grants'),
-    (2, 'Loans and Loan Guarantees')
+    (2, 'Loans and Loan Guarantees'),
+    (3, 'Combo'),
 )
 class Metric(models.Model):
     
@@ -19,24 +20,27 @@ class AgencyConsistency(Metric):
 
     total_cfda_obligations = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
     total_usa_obligations =  models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
-    total_programs =  models.IntegerField(blank=False, null=False)
+    total_programs =  models.IntegerField(blank=True, null=True)
     non_reporting_programs = models.ManyToManyField(Program)
-    non_reported_dollars = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
-    non_reported_pct =  models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
-    under_reported_dollars =  models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
-    under_reported_pct =  models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
-    over_reported_dollars =  models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
-    over_reported_pct =  models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
-
-    avg_under_pct = models.DecimalField(max_digits=20, decimal_places=4, null=True)
-    avg_over_pct = models.DecimalField(max_digits=20, decimal_places=4, null=True)
-    var_under_pct = models.DecimalField(max_digits=20, decimal_places=4, null=True)
-    var_over_pct = models.DecimalField(max_digits=20, decimal_places=4, null=True) 
-    std_under_pct = models.DecimalField(max_digits=20, decimal_places=4, null=True)
-    std_over_pct = models.DecimalField(max_digits=20, decimal_places=4, null=True)
+    non_reported_dollars = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
+    non_reported_pct =  models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
+    under_reported_dollars =  models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
+    under_reported_pct =  models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
+    over_reported_dollars =  models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
+    over_reported_pct =  models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
     type = models.IntegerField(blank=False, null=False, choices=TYPE_CHOICES)
 
-
+    def combine(self, other_self):
+        combo = AgencyConsistency()
+        if self.agency == other_self.agency and self.fiscal_year == other_self.fiscal_year:
+            for key in self.__dict__.keys():
+                if key != 'type' and key !='agency_id' and key != 'id' and key !='fiscal_year':
+                    combo.__dict__[key] = self.__dict__[key] + other_self.__dict__[key]
+            
+            return combo
+        else:
+            raise Exception, "These objects are not the same, sans type"
+                    
 
 class AgencyTimeliness(Metric):
         

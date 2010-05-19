@@ -123,8 +123,8 @@ def main():
                         if p.usaspending_obligation is None and p.obligation is not None and p.obligation != 0:
                             bad += float(p.obligation)
                             p.grade = 'n'
-                            pcm.non_reported_dollars = p.delta
-                            pcm.non_reported_pct = p.weighted_delta
+                            pcm.non_reported_dollars = p.obligation
+                            pcm.non_reported_pct = 1
 
                         elif p.weighted_delta == 0:
                             good += float(p.obligation)
@@ -156,11 +156,12 @@ def score_agency(agency, fin_obligations, fiscal_year, writer, type):
     summary = obs.aggregate(Sum('obligation'), Sum('usaspending_obligation'))
     under_summary = under.aggregate(Sum('delta'))
     over_summary = over.aggregate(Sum('delta'))
-    weighted_delta_list = [float(v) for v in over.values_list('weighted_delta', flat=True)]
-    over_sd = np.std(weighted_delta_list)
-    under_sd = np.std(weighted_delta_list)
-    over_var = np.var(weighted_delta_list)
-    under_var = np.var(weighted_delta_list)
+    wd_over_list = [float(v) for v in over.values_list('weighted_delta', flat=True) if v]
+    wd_under_list = [float(v) for v in under.values_list('weighted_delta', flat=True) if v]
+    over_sd = np.std(wd_over_list)
+    under_sd = np.std(wd_under_list)
+    over_var = np.var(wd_over_list)
+    under_var = np.var(wd_under_list)
     nr_sum = unreported.aggregate(Sum('obligation'))['obligation__sum'] or 0
     or_sum = over.aggregate(Sum('obligation'))['obligation__sum'] or 0
     ur_sum = under.aggregate(Sum('obligation'))['obligation__sum'] or 0
