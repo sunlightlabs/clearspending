@@ -1,106 +1,98 @@
+
+{% load media %}
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html><head>
 
+{% css "screen.css" %}
+{% css "sf_frame.css" %}
+{% css "clearspending.css" %}
+</head>
 
-	<meta name="description" content="Sunlight Foundation uses cutting-edge
- technology and ideas to make government open, transparent and 
-accountable.">
-	<meta name="keywords" content="open government, opengov, sunlight 
-foundation, government, transparency, accountable, transparent, 
-congress, disclosure, lobbying, earmarks, campaign finance, 
-expenditures">
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<body>
 	
-	<link rel="alternate" type="application/rss+xml" title="The Sunlight 
-Foundation Blog" href="http://blog.sunlightfoundation.com/feed/">
-	<link rel="pingback" 
-href="http://blog.sunlightfoundation.com/wp/xmlrpc.php">
+<div class="container">
+        <div class="column span-7">
+            <a href="/"><h1 class="technique-three-sm">Sunlight Foundation</h1></a>         
+        </div>
+        <div class="column span-17 last">
+                    <div id="headerSearchbox">
 
-<link rel="stylesheet" href="sunlight_files/sf_header.css" 
-type="text/css" media="screen, projection">   
-	
-<link rel="stylesheet" href="sunlight_files/screen.css" type="text/css" 
-media="screen, projection">
-<link rel="stylesheet" href="sunlight_files/print.css" type="text/css" 
-media="print">   
-<!--[if IE]><link rel="stylesheet" href="http://assets.sunlightfoundation.com/css/new/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
-<link rel="stylesheet" href="sunlight_files/style.css" type="text/css" 
-media="screen, projection">
+                            <ul id="searchContainer">
+                                <form action="/search/" method="GET" name="search">
+                            <li class="searchContainer">
+                                <div>
+                                    <input type="text" id="searchField" name="q"/>
+                                    <img src="http://assets.sunlightfoundation.com/site/3.1/images/magnifier.png" alt="Search" onclick="document.['search'].submit(); return false" />
+                                </div>
+                            </li>
+                            </form>
+
+                            </ul>
+                    </div>
+        </div>
+</div>  
 
 
+    <div id="greenbar">
+        <div class="container">
+            <div class="column span-24">
+            <div id="mailing_list_box">
 
-<link rel="stylesheet" href="sunlight_files/lightbox.css" 
-type="text/css" media="screen">
+                <div id="mailinglist-form">
+                    <span class="list_prompt">You should join the transparency movement</span>
+                    <form action="/mailinglist/subscribe/" method="post" id="mailinglist-form">
+                    <label for="email" class="email">Email</label>
+                    <input type="text" size="10" name="email" id="email" class="email" />
+                    <label for="zipcode" class="zip">Zip</label>
+                    <input type="text" size="5" name="zipcode" class="zipcode" id="zipcode"/>
+
+                    <input type="submit" value="" class="join_button" /> 
+                    </form>
+                    <div class="join_social_bar">
+                        <ul id="social_list_horizontal">
+                            <li><a class="social_6" href="http://www.sunlightfoundation.com/feeds/latest/"></a></li>
+                            <li><a class="social_1" href="http://www.facebook.com/inbox/?ref=mb#/pages/Washington-DC/Sunlight-Foundation/6921874941"></a></li>          
+                            <li><a class="social_2" href="http://twitter.com/sunlightnetwork"></a></li>
+                            <li><a class="social_3" href="http://www.youtube.com/sunlightfoundation"></a></li>
+
+                        </ul>
 
 
+                    </div>
+                </div>          
+                    <div id="mailinglist-form-error"></div>
+                    <div id="mailinglist-form-thanks"></div>
+                </div>  
+            </div>
+        </div>
+    </div>
+    <!-- ends top container -->
+	 <div id="pageBackground">
+        <div id="mainContainer">
+            <div id="header">
+                <h2><a href="."><big>Clearspending</big><small>Making Sense of the Federal Checkbook</small></a></h2>
+                <div id="nav">
+                    <ul>
 
-<link rel="icon" href="http://blog.sunlightfoundation.com/favicon.ico" 
-type="image/x-icon">
-<link rel="shortcut icon" 
-href="http://blog.sunlightfoundation.com/favicon.ico" 
-type="image/x-icon">
+                        <li id="scorecard"><a href=".">Scorecard</a></li>
+                        <li id="background"><a href=".">Background</a></li>
+                        <li id="analysis"><a href=".">Analysis</a></li>
+                        <li id="methodology"><a href=".">Methodology</a></li>
+                        <li id="corrections"><a href=".">Corrections</a></li>
+                        <li id="resources"><a href=".">Resources</a></li>
 
-	<title>Making Government Transparent and Accountable - Sunlight 
-Foundation Blog</title>
+                        <li id="feedback"><a href=".">Feedback</a></li>
+                    </ul>
+                </div> <!-- end nav -->
+            </div> <!-- end header -->
+            <div id="pageMain">
 
-	<link rel="EditURI" type="application/rsd+xml" title="RSD" 
-href="http://blog.sunlightfoundation.com/xmlrpc.php?rsd">
-<link rel="wlwmanifest" type="application/wlwmanifest+xml" 
-href="http://blog.sunlightfoundation.com/wp-includes/wlwmanifest.xml"> 
-<link rel="index" title="Sunlight Foundation" 
-href="http://blog.sunlightfoundation.com/">
-<meta name="generator" content="WordPress 2.9.2">
-
-<meta
- property="og:title" content="John Ensign’s Troubles Get Worse"><meta 
-property="og:site_name" content="Sunlight Foundation"><meta 
-property="og:title" content="I’ve Got Corruption Fever and the Only 
-Prescription is More Transparency"><meta property="og:site_name" 
-content="Sunlight Foundation"><meta property="og:title" content="Birds 
-of a Feather: What’s In The “DISCLOSE” Bills"><meta 
-property="og:site_name" content="Sunlight Foundation"><meta 
-property="og:title" content="Design for America: good graphic design 
-shouldn’t take a decade"><meta property="og:site_name" content="Sunlight
- Foundation"><meta property="og:title" content="DISCLOSE Shines a Bright
- Light on Corporate Expenditures but Leaves Political Activities in the 
-Shadows"><meta property="og:site_name" content="Sunlight Foundation"><meta
- property="og:title" content="Transparency Caucus Kick-Off Event Today"><meta
- property="og:site_name" content="Sunlight Foundation"><meta 
-property="og:title" content="Revolving Door From Capitol Hill to Big 
-Banks"><meta property="og:site_name" content="Sunlight Foundation"><meta
- property="og:title" content="Online Users Look For Government 
-Information"><meta property="og:site_name" content="Sunlight Foundation"><meta
- property="og:title" content="Wyden, Grassley Introduce Bill to End 
-Secret Holds"><meta property="og:site_name" content="Sunlight 
-Foundation"><meta property="og:title" content="Ventilation shaft 
-collapses near Sunlight Foundation offices"><meta 
-property="og:site_name" content="Sunlight Foundation"></head><body>
-		<div class="container">
-		  
-			<div class="column span-7">
-				<a href="http://www.sunlightfoundation.com/"><h1 
-class="technique-three">Sunlight Foundation</h1></a>			
-			</div>
-			<div class="column span-17 last">
-
-				<div id="top_nav_box">
-					<ul id="top_nav">
-						<li><a href="http://sunlightfoundation.com/about/">About</a></li>
-						<li><a href="http://blog.sunlightfoundation.com/">Blog</a></li>	
-						<li><a href="http://sunlightfoundation.com/policy/">Policy</a></li>
-						<li><a href="http://sunlightfoundation.com/presscenter/">Press</a></li>
-						<li><a href="http://publicequalsonline.com/">Campaign</a></li>
-						<li><a href="http://reporting.sunlightfoundation.com/">Reporting</a></li>
-						<li><a href="http://sunlightlabs.com/">Labs</a></li>					
-					</ul>
-
-				</div>
-			</div>
-
-	 <!-- ends top container -->
-	 
-	 {% block container %}{% endblock %}
+                {% block container %}{% endblock %}
+            </div>
+        </div>
+    </div>
 	 
 
-   </div>
+</div>
 </body></html>
