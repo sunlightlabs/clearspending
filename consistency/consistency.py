@@ -192,12 +192,10 @@ def score_agency(agency, fin_obligations, fiscal_year, writer, type):
             ac.under_reported_pct = str(0)
             ac.over_reported_pct = str(0)
             ac.non_reported_pct = str(0)
-        ac.avg_under_pct = str(avg_under_pct)
-        ac.avg_over_pct = str(avg_over_pct)
-        ac.std_under_pct = str(under_sd)
-        ac.std_over_pct = str(over_sd)
-        ac.var_under_pct = str(under_var)
-        ac.var_over_pct = str(over_var)
+        ac.avg_under_reported = str(avg_under_pct)
+        ac.avg_over_overreported = str(avg_over_pct)
+        ac.std_under_reported = str(under_sd)
+        ac.std_over_reported = str(over_sd)
         
         ac.save() #save to be able to add to many to many
         for nr_ob in unreported:
