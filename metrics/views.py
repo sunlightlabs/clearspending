@@ -1,8 +1,58 @@
 from cfda.models import Program, ProgramObligation, Agency
 from metrics.models import *
 from django.shortcuts import render_to_response
+from django.db.models import Count
 
 FISCAL_YEARS = [2009, 2008, 2007]
+
+def index(request, fiscal_year=2009, unit='dollars'):
+    #get top level agency stats 
+    consistency = AgencyConsistency.objects.filter(fiscal_year=fiscal_year).order_by('agency__name')
+    timeliness = AgencyTimeliness.objects.filter(fiscal_year=fiscal_year).order_by('agency__name')
+#   completeness = AgencyCompleteness.objects.filter(fiscal_year=fiscal_year).order_by('agency__name')
+    agencies = Agency.objects.all().order_by('name')
+    table_data = []
+    for a in agencies:
+
+        number_programs = len(Program.objects.filter(agency=a))
+        display_name = a.name
+        if len(display_name) > 35: display_name = "%s..." % display_name[0:35]
+        
+        a_consistency = consistency.filter(agency=a)
+        if len(a_consistency) > 0:
+            a_consistency = a_consistency[0]
+        else: a_consistency = None
+        
+        a_timeliness = timeliness.filter(agency=a)
+        if a_timeliness:
+            a_timeliness = a_timeliness[0]
+        else: a_timeliness = None
+        #a_completeness = completeness.filter(agency=a)[0]
+
+        a_data = [a.code,
+                  number_programs, 
+                  a.name,
+                  display_name]
+
+        if a_consistency:
+            a_data.append(a_consistency.__dict__['over_reported_'+unit])
+            a_data.append(a_consistency.__dict__['under_reported_'+unit])
+            a_data.append(a_consistency.__dict__['non_reported_'+unit])
+        else:
+            a_data.append(None)
+            a_data.append(None)
+            a_data.append(None)
+
+        if a_timeliness:
+            a_data.append(a_timeliness.__dict__['late_'+unit])
+        else:
+            a_data.append(None)
+        #if a_completeness:
+            #a_data.append(a_completeness.__dict__['completeness_failed_'+unit])
+
+        table_data.append(a_data) 
+
+    return render_to_response('scorecard_index.html', {'table_data': table_data, 'fiscal_year': fiscal_year, 'unit':unit})
 
 def agencyDetail(request, agency_id, unit, fiscal_year):
     agency = Agency.objects.get(code=agency_id)

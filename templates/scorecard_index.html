@@ -1,0 +1,38 @@
+{% extends "scorecard_base.html" %}
+{% load media %}
+{% load humanize %}
+
+{% block header %}
+    {% js "jquery.tablesorter.min.js" %}
+    <h3>Agencies</h3>
+{% endblock %}
+
+{% block scorecard %}
+    <div id="agencytablecontainer">
+        <table id="agencytable">
+            <thead>
+                <tr id="titles">
+                    <th class="sort">Agency Name (# of Programs)</th>
+                    <th class="sort">Over Reporting</th>
+                    <th class="sort">Under Reporting</th>
+                    <th class="sort">Non-Reporting</th>
+                    <th class="sort">Timeliness</th>
+                    <th class="sort">Completeness</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for row in table_data %}
+                <tr class="{% cycle 'odd' 'even' %}">
+                    <td class="title"><a href="#" class="expand">arrow</a><a class="name" href="{% url agency_detail row.0 fiscal_year unit %}" alt="{{row.2}}">{{row.3}}</a><span title="number of programs in agency"> ({{row.1}}) </span></td>
+                    <td>{% if row.4%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.4|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %} {% else %}-{% endif %}</td>
+                    <td>{% if row.5%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.5|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}</td>
+                    <td>{% if row.6%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.6|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}</td>
+                    <td>{% if row.7%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.7}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}</td>
+                    <td>{% if row.8%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.8}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>        
+    </div>
+{% endblock %}
+

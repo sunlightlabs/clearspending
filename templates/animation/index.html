@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load media %}
 
-{% block container %}
+{% block content %}
 <span id="toptext">Click on the tabs below to explore Obligation-Level Reporting vs. Program-Level Reporting sequences.</span>
     <a href="." id="download" title="infographic pdf">PDF version of Infographic</a>
 
@@ -20,7 +20,7 @@ this spending. <b>FAADS-PLUS</b> tracks grants, loans, loan guarantees and insur
             <li id="step7"><a href="{% media_url %}/images/slides-7.jpg" title="step 7">Measuring Accuracy</a><p>In theory, we should be able to add up the grant information reported to FAADS and compare the total against the number that's reported to CFDA. 
 In practice, things don't always work that well.</p></li>
         </ul>
-        <a href="." id="view">View Our Scorecard</a>
+        <a href="{% url scorecard-index %}" id="view">View Our Scorecard</a>
 
     </div> <!-- end left -->
     <div id="stage">

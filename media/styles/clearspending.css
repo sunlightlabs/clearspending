@@ -111,6 +111,8 @@ h4 { color: #636466; font-size: 120%; font-weight: bold; vertical-align: top; li
 /*---------------------------tables*/
 
 table { font-size: 80%; width: 886px; }
+table td {text-align: right;}
+table td.title {text-align:left;}
 .agencydescription { padding: 10px 10px; }
 #agencytable th, .programtable th { color: #636466; font-weight: bold; padding: 0 0 10px 20px; vertical-align: top; }
 .ratingtable { border-bottom: 1px solid #DAD2BB; padding-bottom: 30px; }

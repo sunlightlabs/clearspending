@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+    {% block header %}
+    <h3>Agencies</h3>
+    {% endblock %}
+
+    <div id="filters">
+            <ul id="years">
+            <li><a href="?fiscal_year=2007" {% ifequal 2007 fiscal_year %}class="active"{% endifequal %}>2007</a></li>
+            <li><a href="?fiscal_year=2008" {% ifequal 2008 fiscal_year %}class="active"{% endifequal %}>2008</a></li>
+            <li><a href="?fiscal_year=2009" {% ifequal 2009 fiscal_year %}class="active"{% endifequal %}>2009</a></li>
+        </ul>
+        <form id="radios">
+            <ul>    
+                <li>
+                    <input type="radio" {% ifequal "dollars" unit %} checked="checked" {% endifequal %} name="fields" value="dollars" id="dollars_radio" /><label for="dollars_radio">Misreported Dollars</label>
+                </li>
+                <li>
+                    <input type="radio" {% ifequal "pct" unit %} checked="checked" {% endifequal %} name="fields" value="pct" id="pct_radio" /><label for="pct_radio">Percent of Misreported Fields</label>
+                </li>
+            </ul>
+        </form>
+    </div>
+
+    {% block scorecard %}
+    {% endblock %}
+
+{% endblock %}

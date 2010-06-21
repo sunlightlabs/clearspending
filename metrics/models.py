@@ -32,10 +32,10 @@ class AgencyConsistency(Metric):
 
 class AgencyTimeliness(Metric):
         
-    late_dolars = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False) 
+    late_dollars = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False) 
     late_rows = models.IntegerField(blank=False, null=False)
     
-    total_dolars = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False) 
+    total_dollars = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False) 
     total_rows = models.IntegerField(blank=False, null=False)
 
     avg_lag_rows = models.IntegerField(blank=False, null=False)
