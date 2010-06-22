@@ -20,15 +20,17 @@ class AgencyConsistency(Metric):
 
     total_cfda_obligations = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
     total_usa_obligations =  models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
-    total_programs =  models.IntegerField(blank=True, null=True)
-    non_reporting_programs = models.ManyToManyField(Program)
+    total_misreported  =  models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
+    total =  models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False)
+    type = models.IntegerField(blank=False, null=False, choices=TYPE_CHOICES)
+
     non_reported_dollars = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
     non_reported_pct =  models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
     under_reported_dollars =  models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
     under_reported_pct =  models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
     over_reported_dollars =  models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
     over_reported_pct =  models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
-    type = models.IntegerField(blank=False, null=False, choices=TYPE_CHOICES)
+        
 
 class AgencyTimeliness(Metric):
         

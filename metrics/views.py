@@ -2,10 +2,12 @@ from cfda.models import Program, ProgramObligation, Agency
 from metrics.models import *
 from django.shortcuts import render_to_response
 from django.db.models import Count
+from decimal import Decimal
 
 FISCAL_YEARS = [2009, 2008, 2007]
 
-def index(request, fiscal_year=2009, unit='dollars'):
+
+def index(request, unit='dollars', fiscal_year=2009):
     #get top level agency stats 
     consistency = AgencyConsistency.objects.filter(fiscal_year=fiscal_year).order_by('agency__name')
     timeliness = AgencyTimeliness.objects.filter(fiscal_year=fiscal_year).order_by('agency__name')
@@ -36,12 +38,22 @@ def index(request, fiscal_year=2009, unit='dollars'):
 
         if a_consistency:
             a_data.append(a_consistency.__dict__['over_reported_'+unit])
+            if a_consistency.over_reported_pct > Decimal('50') : a_data.append('bad')
+            elif a_consistency.over_reported_pct > Decimal('25') : a_data.append('warn')
+            else: a_data.append('good')
+            
             a_data.append(a_consistency.__dict__['under_reported_'+unit])
+            if a_consistency.under_reported_pct > Decimal('50') : a_data.append('bad')
+            elif a_consistency.under_reported_pct > Decimal('25') : a_data.append('warn')
+            else: a_data.append('good')
+            
             a_data.append(a_consistency.__dict__['non_reported_'+unit])
+            if a_consistency.non_reported_pct > Decimal('50') : a_data.append('bad')
+            elif a_consistency.non_reported_pct > Decimal('25') : a_data.append('warn')
+            else: a_data.append('good')
         else:
-            a_data.append(None)
-            a_data.append(None)
-            a_data.append(None)
+            for i in range(0, 6):
+                a_data.append(None)
 
         if a_timeliness:
             a_data.append(a_timeliness.__dict__['late_'+unit])
@@ -52,7 +64,7 @@ def index(request, fiscal_year=2009, unit='dollars'):
 
         table_data.append(a_data) 
 
-    return render_to_response('scorecard_index.html', {'table_data': table_data, 'fiscal_year': fiscal_year, 'unit':unit})
+    return render_to_response('scorecard_index.html', {'table_data': table_data, 'fiscal_year': "%s" % fiscal_year, 'unit':unit})
 
 def agencyDetail(request, agency_id, unit, fiscal_year):
     agency = Agency.objects.get(code=agency_id)
