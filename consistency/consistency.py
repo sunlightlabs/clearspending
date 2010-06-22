@@ -92,46 +92,17 @@ def main():
                 except ProgramConsistency.DoesNotExist:    
                     pcm = ProgramConsistency(fiscal_year=fy, program=prog, type=assistance_type, agency=prog.agency)
 
-                try:
-                    if p.weighted_delta:
-                        prog_wd = float(str(p.weighted_delta))
-                        if prog_wd < 0:
-                            pcm.under_reported_dollars = p.delta
-                            pcm.under_reported_pct = p.weighted_delta
-                            if prog_wd < (under_avg - under_std): 
-                                bad += float(p.obligation)
-                                p.grade = 'u'
-                            elif prog_wd < under_avg: 
-                                ok += float(p.obligation)
-                                p.grade = 'p'
-                            elif prog_wd > under_avg: 
-                                good += float(p.obligation)
-                                p.grade = 'p'
-                        elif prog_wd > 0:
-                            pcm.over_reported_dollars = p.delta
-                            pcm.over_reported_pct = p.weighted_delta
-                            if prog_wd > (over_avg + over_std): 
-                                bad += float(p.obligation)
-                                p.grade = 'o'
-                            elif prog_wd > over_avg: 
-                                ok += float(p.obligation)
-                                p.grade = 'p'
-                            elif prog_wd < over_avg: 
-                                good += float(p.obligation)
-                                p.grade = 'p'
-                    else:
-                        if p.usaspending_obligation is None and p.obligation is not None and p.obligation != 0:
-                            bad += float(p.obligation)
-                            p.grade = 'n'
-                            pcm.non_reported_dollars = p.obligation
-                            pcm.non_reported_pct = 1
+                    if p.delta < 0:
+                        if p.weighted_delta == -1:
+                            pcm.non_reported_dollars = Decimal(str(math.fabs(p.delta)))
+                            pcm.non_reported_pct = -100
+                        else:
+                            pcm.under_reported_dollars = Decimal(str(math.fabs(p.delta)))
+                            pcm.under_reported_pct = Decimal(str(math.fabs(p.weighted_delta * 100)))
 
-                        elif p.weighted_delta == 0:
-                            good += float(p.obligation)
-                            p.grade = 'p'
-                           
-                        else:  
-                            print "weighted delta is none: %s\t%s\t%s\t%s" % (p.program.program_number, p.program.program_title, p.obligation, p.usaspending_obligation)
+                    elif p.delta > 0:
+                        pcm.over_reported_dollars = p.delta
+                        pcm.over_reported_pct = p.weighted_delta * 100
 
                     p.save()
                     pcm.save() 
