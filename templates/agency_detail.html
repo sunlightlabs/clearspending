@@ -1,30 +1,52 @@
-{% extends "base.html" %}
+{% extends "scorecard_base.html" %}
+{% load humanize %}
+{% block header %}
+<h3>{{agency_name}}</h3>
+{% endblock %}
 
-{% block container %}
-<ul>
-    <li>Total Underreported: {{top_level_numbers.underreported}}</li>
-    <li>Total Overreported: {{top_level_numbers.overreported}}</li>
-    <li>Total Not reported: {{top_level_numbers.nonreported}}</li>
-    <li>Total Late: {{top_level_numbers.late}}</li>
-    <li>Total Incomplete: {{top_level_numbers.incomplete}}</li>
+{% block scorecard %}
+<ul id="bignumbers">
+    <li>${{top_level_numbers.underreported|floatformat|intcomma}}<span class="bignumberstext">Under Reported</span></li>
+    <li>${{top_level_numbers.overreported|floatformat|intcomma}}<span class="bignumberstext">Over Reported</span></li>
+    <li>${{top_level_numbers.nonreported|floatformat|intcomma}}<span class="bignumberstext">Not Reported</span></li>
+    <li>${{top_level_numbers.late}}<span class="bignumberstext">Late</span></li>
+    <li>${{top_level_numbers.incomplete}}<span class="bignumberstext">Incomplete</span></li>
 </ul>
-
-<table class="programs">
-    <tr>
-        <th>Program Name</th>
-        <th>Overreported</th>
-        <th>Underreported</th>
-        <th>Not reported</th>
-        <th>Late</th>
-        <th>Incomplete</th>
-    </tr>
+<div class="clear"></div>
+<div id="programtablecontainer">
+    <table class="programtable">
+    <thead>
+        <tr id="titles">
+            <th class="sort">Program #</th>
+            <th class="sort">Program Name</th>
+            <th class="sort">Overreported</th>
+            <th class="sort">Underreported</th>
+            <th class="sort">Not reported</th>
+            <th class="sort">Late</th>
+            <th class="sort">Incomplete</th>
+        </tr>   
+    </thead>
+    <tbody>
+    {% autoescape off %}
     {% for row in table_data %}
-        <tr>
-        {% for value in row %}
-            <td>{{value}}</td>
-        {% endfor %}
+        <tr class="{% cycle 'odd' 'even' %}">
+            <td>{{row.0}}</td>
+            <td class="title"><a href="#" class="expand">arrow</a><a class="name" href="{% url program_detail row.1 unit %}" alt="{{row.2}}">{{row.2}}</a></td>
+            <td class="{{row.4}}">
+                {% if row.3%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.3|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %} {% else %}-{% endif %}
+            </td>
+            <td class="{{row.6}}">
+                {% if row.5%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.5|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
+            </td>
+            <td class="{{row.8}}">
+                {% if row.7%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.7|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
+            </td>
+            <td>{% if row.9%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.9}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}</td>
+            <td>{% if row.10%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.10}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}</td>
+            
         </tr>
+        
     {% endfor %}
-
+    {% endautoescape%}
 
 {% endblock %}

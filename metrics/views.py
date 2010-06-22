@@ -3,8 +3,19 @@ from metrics.models import *
 from django.shortcuts import render_to_response
 from django.db.models import Count
 from decimal import Decimal
+import math
 
 FISCAL_YEARS = [2009, 2008, 2007]
+
+def get_css_color(pct, metric):
+    if metric == 'con':  #consistency
+        if pct > Decimal('50'): return 'bad'
+        elif pct > Decimal('25'): return 'warn'
+        else: return 'good'
+    elif metric == 'timeliness':
+        if pct < Decimal('.95'): return 'bad'
+        else: return 'good'
+    #completeness
 
 
 def index(request, unit='dollars', fiscal_year=2009):
@@ -37,20 +48,11 @@ def index(request, unit='dollars', fiscal_year=2009):
                   display_name]
 
         if a_consistency:
-            a_data.append(a_consistency.__dict__['over_reported_'+unit])
-            if a_consistency.over_reported_pct > Decimal('50') : a_data.append('bad')
-            elif a_consistency.over_reported_pct > Decimal('25') : a_data.append('warn')
-            else: a_data.append('good')
-            
-            a_data.append(a_consistency.__dict__['under_reported_'+unit])
-            if a_consistency.under_reported_pct > Decimal('50') : a_data.append('bad')
-            elif a_consistency.under_reported_pct > Decimal('25') : a_data.append('warn')
-            else: a_data.append('good')
-            
-            a_data.append(a_consistency.__dict__['non_reported_'+unit])
-            if a_consistency.non_reported_pct > Decimal('50') : a_data.append('bad')
-            elif a_consistency.non_reported_pct > Decimal('25') : a_data.append('warn')
-            else: a_data.append('good')
+            over = a_consistency.__dict__['over_reported_'+unit]
+            under = a_consistency.__dict__['under_reported_'+unit]
+            non = a_consistency.__dict__['non_reported_'+unit]
+            a_data.extend(over, get_css_color(over, 'con'), under, get_css_color(under, 'con'), non, get_css_color(non, 'con'))
+
         else:
             for i in range(0, 6):
                 a_data.append(None)
@@ -66,7 +68,7 @@ def index(request, unit='dollars', fiscal_year=2009):
 
     return render_to_response('scorecard_index.html', {'table_data': table_data, 'fiscal_year': "%s" % fiscal_year, 'unit':unit})
 
-def agencyDetail(request, agency_id, unit, fiscal_year):
+def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
     agency = Agency.objects.get(code=agency_id)
     programs = Program.objects.filter(agency=agency)
     consistency = AgencyConsistency.objects.get(agency=agency, fiscal_year=fiscal_year, type=1) # hack to filter out loans
@@ -82,12 +84,28 @@ def agencyDetail(request, agency_id, unit, fiscal_year):
     
     #build data structure to easily display in template 
     table_data = []
+    types = [None, "grants", "loans"]
     for p in programs:
         obligation = ProgramConsistency.objects.filter(fiscal_year=fiscal_year, program=p)
         timeliness = ProgramTimeliness.objects.filter(fiscal_year=fiscal_year, program=p)
         completeness = ProgramCompleteness.objects.filter(fiscal_year=fiscal_year, program=p)
         for ob in obligation:
-            row = ["%s (%s)" % (p.program_title, ob.type), ob.__dict__['over_reported_'+unit], ob.__dict__['under_reported_'+unit], ob.__dict__['non_reported_'+unit]]
+            over = ob.__dict__['over_reported_'+unit]
+            under = math.fabs(float(ob.__dict__['under_reported_'+unit] or 0))
+            non = math.fabs(float(ob.__dict__['non_reported_'+unit] or 0))
+            display_name = p.program_title
+            if len(display_name) > 35: display_name = "%s..." % display_name[0:32]
+            row = [ p.program_number,
+                    p.id,
+                    "%s <br />(%s)" % (display_name, types[ob.type]),
+                    over,
+                    get_css_color(over, 'con',),
+                    under,
+                    get_css_color(under, 'con'),
+                    non,
+                    get_css_color(non, 'con')
+                    ]
+
             if len(timeliness) > 0:
                row.append(timeliness[0].__dict__['late_'+unit])
             if len(completeness) > 0:
@@ -95,7 +113,7 @@ def agencyDetail(request, agency_id, unit, fiscal_year):
 
             table_data.append(row)
 
-    return render_to_response('agency_detail.html', {'top_level_numbers': top_level_numbers, 'table_data': table_data})
+    return render_to_response('agency_detail.html', {'top_level_numbers': top_level_numbers, 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'agency_name': agency.name})
 
 def programDetail(request, program_id, unit):
     consistency_block = programDetailConsistency(program_id, unit)

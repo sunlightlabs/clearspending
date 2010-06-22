@@ -22,7 +22,7 @@ urlpatterns = patterns('',
     url(r'^animation/$', direct_to_template, {'template': 'animation/index.html'}),
     url(r'^admin/(.*)', admin.site.root),
     url(r'^agency/(?P<agency_id>\d+)/(?P<fiscal_year>\d{4})/(?P<unit>\w+)/', 'metrics.views.agencyDetail', name="agency_detail"),
-    url(r'^program/(?P<program_id>\d+)/(?P<unit>\w+)/', 'metrics.views.programDetail'), 
+    url(r'^program/(?P<program_id>\d+)/(?P<unit>\w+)/', 'metrics.views.programDetail', name='program_detail'), 
     url(r'^$', direct_to_template, {'template':'index.html'}, name='clearspending-index'),
     url(r'^', include('mediasync.urls')),    
 )
