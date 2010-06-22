@@ -8,7 +8,7 @@ from django.db.models import Avg, Sum
 import csv
 import numpy as np
 import math
-
+from decimal import Decimal
 
 def main():
     
@@ -144,68 +144,49 @@ def main():
         #program_writer.writerow(('',fy, "good:", good, "ok: ", ok, "bad: ", bad))
 
 def score_agency(agency, fin_obligations, fiscal_year, writer, type):
+
+    #obligations from financial programs
+    obs = fin_obligations.filter(program__agency=agency,fiscal_year=fiscal_year, type=type)
+    total_misreported = Decimal('0')
+    total = Decimal('0')
+    for o in obs:
+        if o.delta:
+            total_misreported += Decimal(str(math.fabs(o.delta)))
+        if o.obligation:
+            total += o.obligation
+
+    ac_collection = AgencyConsistency.objects.filter(fiscal_year=fiscal_year, type=type, agency=agency)
+    if len(ac_collection) > 0:
+        ac = ac_collection[0]
+    else:
+        ac = AgencyConsistency(agency=agency, fiscal_year=fiscal_year, type=type)
+
+    ac.total = str(total)
+    ac.total_misreported = str(total_misreported )
+    ac.total_cfda_obligations = obs.aggregate(cfda_sum=Sum('obligation'))['cfda_sum']
+    if not ac.total_cfda_obligations:
+        ac.total_cfda_obligations = 0
+    ac.total_usa_obligations = obs.aggregate(usa_sum=Sum('usaspending_obligation'))['usa_sum']
+    if not ac.total_usa_obligations:
+        ac.total_usa_obligations = 0
+    ac.non_reported_dollars = Decimal(str(math.fabs(obs.filter(weighted_delta=-1).aggregate(nr_sum=Sum('obligation'))['nr_sum'] or 0)))
+    if ac.non_reported_dollars:
+        ac.non_reported_pct = (ac.non_reported_dollars / ac.total_cfda_obligations) * 100
+    else: 
+        ac.non_reported_pct = 0
     
-    obs = fin_obligations.filter(program__agency=agency,fiscal_year=fiscal_year)
-    under = obs.filter(delta__lt=0)
-    over = obs.filter(delta__gt=0)
-    exact = obs.filter(delta=0)
-    avg_under_pct = under.aggregate(Avg('weighted_delta'))['weighted_delta__avg'] or 0 
-    avg_over_pct = over.aggregate(Avg('weighted_delta'))['weighted_delta__avg'] or 0
-    unreported = obs.filter(usaspending_obligation=None, obligation__gt=0)
-
-    summary = obs.aggregate(Sum('obligation'), Sum('usaspending_obligation'))
-    under_summary = under.aggregate(Sum('delta'))
-    over_summary = over.aggregate(Sum('delta'))
-    wd_over_list = [float(v) for v in over.values_list('weighted_delta', flat=True) if v]
-    wd_under_list = [float(v) for v in under.values_list('weighted_delta', flat=True) if v]
-    over_sd = np.std(wd_over_list)
-    under_sd = np.std(wd_under_list)
-    over_var = np.var(wd_over_list)
-    under_var = np.var(wd_under_list)
-    nr_sum = unreported.aggregate(Sum('obligation'))['obligation__sum'] or 0
-    or_sum = over.aggregate(Sum('obligation'))['obligation__sum'] or 0
-    ur_sum = under.aggregate(Sum('obligation'))['obligation__sum'] or 0
-    try:
-        nr_pct = nr_sum / summary['obligation__sum']
-    except Exception, e:
-        nr_pct = 0
-
-    if obs:
-        ac_collection = AgencyConsistency.objects.filter(agency=agency, fiscal_year=fiscal_year, type=type)
-        if len(ac_collection) == 0:
-            ac = AgencyConsistency(fiscal_year=fiscal_year, agency=agency, type=type)
-        else:
-            ac = ac_collection[0]
-
-        ac.total_cfda_obligations = summary['obligation__sum'] or 0
-        ac.total_usa_obligations = summary['usaspending_obligation__sum'] or 0
-        ac.total_programs = str(len(obs))
-        ac.non_reported_dollars = str(nr_sum)
-        ac.under_reported_dollars = str(ur_sum)
-        ac.over_reported_dollars = str(or_sum) 
-        try:
-            ac.under_reported_pct = str(ur_sum / ac.total_cfda_obligations)
-            ac.over_reported_pct = str(or_sum / ac.total_cfda_obligations)
-            ac.non_reported_pct = str(nr_sum / ac.total_cfda_obligations)
-        except Exception:
-            #divide by 0 error
-            ac.under_reported_pct = str(0)
-            ac.over_reported_pct = str(0)
-            ac.non_reported_pct = str(0)
-        ac.avg_under_reported = str(avg_under_pct)
-        ac.avg_over_overreported = str(avg_over_pct)
-        ac.std_under_reported = str(under_sd)
-        ac.std_over_reported = str(over_sd)
+    ac.under_reported_dollars = Decimal(str(math.fabs(obs.filter(delta__lt=0, weighted_delta__gt=-1).aggregate(under_sum=Sum('delta'))['under_sum'] or 0)))
+    ac.over_reported_dollars =  obs.filter(delta__gt=0).aggregate(over_sum=Sum('delta'))['over_sum'] or 0
+    
+    if total:
+        ac.over_reported_pct = (ac.over_reported_dollars / total) * 100
+        ac.under_reported_pct = (ac.under_reported_dollars / total) * 100
         
-        ac.save() #save to be able to add to many to many
-        for nr_ob in unreported:
-            if nr_ob.program not in ac.non_reporting_programs.all():
-                ac.non_reporting_programs.add(nr_ob.program)
-        
-        ac.save()
-
-        writer.writerow((agency.name, fiscal_year, summary['obligation__sum'], summary['usaspending_obligation__sum'], avg_under_pct, under_sd, avg_over_pct, over_sd, len(unreported), nr_sum, nr_pct, len(obs)))
-
+    else:
+        ac.over_reported_pct = 0
+        ac.under_reported_pct = 0
+    ac.save() 
+   
 def calc_stats(float_array):
     stats = {}
     stats['avg'] = np.average(float_array)

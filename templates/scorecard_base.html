@@ -6,9 +6,9 @@
 
     <div id="filters">
             <ul id="years">
-            <li><a href="?fiscal_year=2007" {% ifequal 2007 fiscal_year %}class="active"{% endifequal %}>2007</a></li>
-            <li><a href="?fiscal_year=2008" {% ifequal 2008 fiscal_year %}class="active"{% endifequal %}>2008</a></li>
-            <li><a href="?fiscal_year=2009" {% ifequal 2009 fiscal_year %}class="active"{% endifequal %}>2009</a></li>
+            <li><a href="{% url scorecard-index-extra unit 2007 %}" {% ifequal "2007" fiscal_year %}class="active"{% endifequal %}>2007</a></li>
+            <li><a href="{% url scorecard-index-extra unit 2008 %}" {% ifequal "2008" fiscal_year %}class="active"{% endifequal %}>2008</a></li>
+            <li><a href="{% url scorecard-index-extra unit 2009 %}" {% ifequal "2009" fiscal_year %}class="active"{% endifequal %}>2009</a></li>
         </ul>
         <form id="radios">
             <ul>    
