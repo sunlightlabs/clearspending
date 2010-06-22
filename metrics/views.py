@@ -51,7 +51,7 @@ def index(request, unit='dollars', fiscal_year=2009):
             over = a_consistency.__dict__['over_reported_'+unit]
             under = a_consistency.__dict__['under_reported_'+unit]
             non = a_consistency.__dict__['non_reported_'+unit]
-            a_data.extend(over, get_css_color(over, 'con'), under, get_css_color(under, 'con'), non, get_css_color(non, 'con'))
+            a_data.extend((over, get_css_color(a_consistency.over_reported_pct, 'con'), under, get_css_color(a_consistency.under_reported_pct, 'con'), non, get_css_color(a_consistency.non_reported_pct, 'con')))
 
         else:
             for i in range(0, 6):
@@ -99,11 +99,11 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
                     p.id,
                     "%s <br />(%s)" % (display_name, types[ob.type]),
                     over,
-                    get_css_color(over, 'con',),
+                    get_css_color(ob.over_reported_pct, 'con',),
                     under,
-                    get_css_color(under, 'con'),
+                    get_css_color(ob.under_reported_pct, 'con'),
                     non,
-                    get_css_color(non, 'con')
+                    get_css_color(ob.non_reported_pct, 'con')
                     ]
 
             if len(timeliness) > 0:
