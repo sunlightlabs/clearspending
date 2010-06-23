@@ -305,6 +305,12 @@ class ProgramManager(models.Manager):
                                             else:
                                                 matching_ob.obligation = int(obligation)
                                                 edited.append(matching_ob)
+                                            
+                                            matching_ob.delta = (matching_ob.usaspending_obligation or 0) - (matching_ob.obligation or 0)
+                                            try:
+                                                matching_ob.weighted_delta = matching_ob.delta / matching_ob.obligation
+                                            except:
+                                                matching_ob.weighted_delta = 0
     
                                             matching_ob.save()
 
