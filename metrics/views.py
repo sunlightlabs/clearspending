@@ -2,6 +2,7 @@ from cfda.models import Program, ProgramObligation, Agency
 from metrics.models import *
 from django.shortcuts import render_to_response
 from django.db.models import Count
+from django.db.models.query import QuerySet
 from decimal import Decimal
 import math
 
@@ -17,12 +18,43 @@ def get_css_color(pct, metric):
         else: return 'good'
     #completeness
 
+def get_first(set):
+    if isinstance(set, QuerySet) and len(set) > 0:
+        return set[0]
+    else: return None
+
+def get_timeliness(timeliness, unit):
+    if timeliness:
+        return timeliness.__dict__['late_'+unit]
+    else:
+        return None
+
+def get_completeness(completeness, unit):
+    if completeness:
+        return completeness.__dict__['complete_'+unit]
+    else:
+        return None    
+
+def get_consistency(consistency, unit):
+    
+    if consistency:
+        over = consistency.__dict__['over_reported_'+unit]
+        under = consistency.__dict__['under_reported_'+unit]
+        non = consistency.__dict__['non_reported_'+unit]
+        return (over, get_css_color(consistency.over_reported_pct, 'con'), 
+                under, get_css_color(consistency.under_reported_pct, 'con'), 
+                non, get_css_color(consistency.non_reported_pct, 'con'))
+    else:
+        placeholders = []
+        for i in range(0, 6):
+            placeholders.append(None)
+        return placeholders
 
 def index(request, unit='dollars', fiscal_year=2009):
     #get top level agency stats 
     consistency = AgencyConsistency.objects.filter(fiscal_year=fiscal_year).order_by('agency__name')
     timeliness = AgencyTimeliness.objects.filter(fiscal_year=fiscal_year).order_by('agency__name')
-#   completeness = AgencyCompleteness.objects.filter(fiscal_year=fiscal_year).order_by('agency__name')
+    completeness = AgencyCompleteness.objects.filter(fiscal_year=fiscal_year).order_by('agency__name')
     agencies = Agency.objects.all().order_by('name')
     table_data = []
     for a in agencies:
@@ -30,90 +62,49 @@ def index(request, unit='dollars', fiscal_year=2009):
         number_programs = len(Program.objects.filter(agency=a))
         display_name = a.name
         if len(display_name) > 35: display_name = "%s..." % display_name[0:35]
-        
-        a_consistency = consistency.filter(agency=a)
-        if len(a_consistency) > 0:
-            a_consistency = a_consistency[0]
-        else: a_consistency = None
-        
-        a_timeliness = timeliness.filter(agency=a)
-        if a_timeliness:
-            a_timeliness = a_timeliness[0]
-        else: a_timeliness = None
-        #a_completeness = completeness.filter(agency=a)[0]
-
         a_data = [a.code,
                   number_programs, 
                   a.name,
                   display_name]
 
-        if a_consistency:
-            over = a_consistency.__dict__['over_reported_'+unit]
-            under = a_consistency.__dict__['under_reported_'+unit]
-            non = a_consistency.__dict__['non_reported_'+unit]
-            a_data.extend((over, get_css_color(a_consistency.over_reported_pct, 'con'), under, get_css_color(a_consistency.under_reported_pct, 'con'), non, get_css_color(a_consistency.non_reported_pct, 'con')))
-
-        else:
-            for i in range(0, 6):
-                a_data.append(None)
-
-        if a_timeliness:
-            a_data.append(a_timeliness.__dict__['late_'+unit])
-        else:
-            a_data.append(None)
-        #if a_completeness:
-            #a_data.append(a_completeness.__dict__['completeness_failed_'+unit])
+        a_data.extend(get_consistency(get_first(consistency.filter(agency=a)), unit))
+        a_data.append(get_timeliness(get_first(timeliness.filter(agency=a)), unit))
+        a_data.append(get_completeness(get_first(completeness.filter(agency=a)), unit))
 
         table_data.append(a_data) 
 
     return render_to_response('scorecard_index.html', {'table_data': table_data, 'fiscal_year': "%s" % fiscal_year, 'unit':unit})
 
 def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
-    agency = Agency.objects.get(code=agency_id)
-    programs = Program.objects.filter(agency=agency)
-    consistency = AgencyConsistency.objects.get(agency=agency, fiscal_year=fiscal_year, type=1) # hack to filter out loans
-    timeliness = AgencyTimeliness.objects.filter(agency=agency, fiscal_year=fiscal_year)
-    #completeness
-
-    top_level_numbers = {'underreported': consistency.__dict__['under_reported_' + unit],
-                         'overreported': consistency.__dict__['over_reported_' + unit],
-                         'nonreported': consistency.__dict__['non_reported_' + unit],
-                        }
-    if len(timeliness) > 0:
-        top_level_numbers['late'] = timeliness[0].__dict__['late' + unit]
     
-    #build data structure to easily display in template 
+    summary_numbers = []
+    summary_numbers.extend(get_consistency(get_first(AgencyConsistency.objects.filter(agency=agency_id)), 'dollars'))
+    summary_numbers.append(get_timeliness(get_first(AgencyTimeliness.objects.filter(agency=agency_id)), 'dollars'))
+    summary_numbers.append(get_completeness(get_first(AgencyCompleteness.objects.filter(agency=agency_id)), 'dollars'))
+    summary_numbers = filter( lambda x: not isinstance(x, basestring) , summary_numbers) #remove css colors
+
+    programs = Program.objects.filter(agency=agency_id)
+    agency = Agency.objects.get(code=agency_id)
     table_data = []
     types = [None, "grants", "loans"]
     for p in programs:
-        obligation = ProgramConsistency.objects.filter(fiscal_year=fiscal_year, program=p)
+        consistency = ProgramConsistency.objects.filter(fiscal_year=fiscal_year, program=p)
         timeliness = ProgramTimeliness.objects.filter(fiscal_year=fiscal_year, program=p)
         completeness = ProgramCompleteness.objects.filter(fiscal_year=fiscal_year, program=p)
-        for ob in obligation:
-            over = ob.__dict__['over_reported_'+unit]
-            under = math.fabs(float(ob.__dict__['under_reported_'+unit] or 0))
-            non = math.fabs(float(ob.__dict__['non_reported_'+unit] or 0))
+        for ob in consistency:
             display_name = p.program_title
             if len(display_name) > 35: display_name = "%s..." % display_name[0:32]
             row = [ p.program_number,
                     p.id,
                     "%s <br />(%s)" % (display_name, types[ob.type]),
-                    over,
-                    get_css_color(ob.over_reported_pct, 'con',),
-                    under,
-                    get_css_color(ob.under_reported_pct, 'con'),
-                    non,
-                    get_css_color(ob.non_reported_pct, 'con')
                     ]
-
-            if len(timeliness) > 0:
-               row.append(timeliness[0].__dict__['late_'+unit])
-            if len(completeness) > 0:
-               row.append(completeness[0].__dict__['completeness_'+unit])
+            row.extend(get_consistency(ob, unit))
+            row.append(get_timeliness(get_first(timeliness), unit))
+            row.append(get_completeness(get_first(completeness), unit))
 
             table_data.append(row)
 
-    return render_to_response('agency_detail.html', {'top_level_numbers': top_level_numbers, 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'agency_name': agency.name})
+    return render_to_response('agency_detail.html', {'summary_numbers': summary_numbers, 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'agency_name': agency.name})
 
 def programDetail(request, program_id, unit):
     consistency_block = programDetailConsistency(program_id, unit)
