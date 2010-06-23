@@ -291,9 +291,9 @@ def analyze():
             metric = ProgramTimeliness.objects.create(program=program, 
                                                    agency=program.agency, 
                                                    fiscal_year=fy,
-                                                   late_dolars=result.values[cfda].values[fy].get_data(aggregator=sum_dollars_45days_late),
+                                                   late_dollars=result.values[cfda].values[fy].get_data(aggregator=sum_dollars_45days_late),
                                                    late_rows=result.values[cfda].values[fy].get_data(aggregator=count_records_45days_late),
-                                                   total_dolars=result.values[cfda].values[fy].get_data(aggregator=sum_dollars),
+                                                   total_dollars=result.values[cfda].values[fy].get_data(aggregator=sum_dollars),
                                                    total_rows=result.values[cfda].values[fy].get_data(aggregator=len),
                                                    avg_lag_rows=result.values[cfda].values[fy].get_data(aggregator=avg_days_by_awards),
                                                    avg_lag_dollars=result.values[cfda].values[fy].get_data(aggregator=avg_days_by_dollars))
@@ -317,9 +317,9 @@ def analyze():
             
             metric = AgencyTimeliness.objects.create(agency=agency, 
                                                    fiscal_year=fy,
-                                                   late_dolars=result.values[agency_id].values[fy].get_data(aggregator=sum_dollars_45days_late),
+                                                   late_dollars=result.values[agency_id].values[fy].get_data(aggregator=sum_dollars_45days_late),
                                                    late_rows=result.values[agency_id].values[fy].get_data(aggregator=count_records_45days_late),
-                                                   total_dolars=result.values[agency_id].values[fy].get_data(aggregator=sum_dollars),
+                                                   total_dollars=result.values[agency_id].values[fy].get_data(aggregator=sum_dollars),
                                                    total_rows=result.values[agency_id].values[fy].get_data(aggregator=len),
                                                    avg_lag_rows=result.values[agency_id].values[fy].get_data(aggregator=avg_days_by_awards),
                                                    avg_lag_dollars=result.values[agency_id].values[fy].get_data(aggregator=avg_days_by_dollars))
