@@ -32,14 +32,14 @@ class AgencyConsistency(Metric):
 
 class AgencyTimeliness(Metric):
         
-    late_dollars = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False) 
+    late_dollars = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True) 
     late_rows = models.IntegerField(blank=False, null=False)
     
-    total_dollars = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False) 
-    total_rows = models.IntegerField(blank=False, null=False)
+    total_dollars = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True) 
+    total_rows = models.IntegerField(blank=True, null=True)
 
-    avg_lag_rows = models.IntegerField(blank=False, null=False)
-    avg_lag_dollars = models.IntegerField(blank=False, null=False)
+    avg_lag_rows = models.IntegerField(blank=True, null=True)
+    avg_lag_dollars = models.IntegerField(blank=True, null=True)
     
     
 
@@ -62,17 +62,17 @@ class ProgramConsistency(ProgramMetric):
 
 class ProgramTimeliness(ProgramMetric):
         
-    late_dollars = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False) 
-    late_rows = models.IntegerField(blank=False, null=False)
+    late_dollars = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True) 
+    late_rows = models.IntegerField(blank=True, null=True)
     
-    total_dollars = models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False) 
-    total_rows = models.IntegerField(blank=False, null=False)
+    total_dollars = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True) 
+    total_rows = models.IntegerField(blank=True, null=True)
     
-    late_pct =  models.DecimalField(max_digits=21, decimal_places=2, blank=False, null=False) 
+    late_pct =  models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True) 
 
 
-    avg_lag_rows = models.IntegerField(blank=False, null=False)
-    avg_lag_dollars = models.IntegerField(blank=False, null=False)
+    avg_lag_rows = models.IntegerField(blank=True, null=True)
+    avg_lag_dollars = models.IntegerField(blank=True, null=True)
 
 
 class ProgramCorrection(models.Model):
