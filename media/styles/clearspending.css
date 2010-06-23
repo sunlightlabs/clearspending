@@ -133,9 +133,9 @@ table td.title {text-align:left;}
 .agencydescription { color: #8E8E8E; font-size: 100%; line-height: 150%; padding-left: 10px; display: none; width: 280px; }
 .even, .odd { color: #636466; }
 .odd { background-color: #F6F4EE; }
-.bad { color: #B5121B; vertical-align: top; }
-.warn { color: #F58025; vertical-align: top; }
-.good { color: #439539; vertical-align: top; }
+.bad { color: #B5121B; }
+.warn { color: #F58025; }
+.good { color: #439539;}
 .neutral { vertical-align: top; }
 .arrow { width: 20px; }
 .reviewed { width: 250px; }

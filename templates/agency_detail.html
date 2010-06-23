@@ -15,7 +15,7 @@
     <table class="programtable">
     <thead>
         <tr id="titles">
-            <th class="sort">Program #</th>
+            <th class="sort" style="width:10%;">Program #</th>
             <th class="sort">Program Name</th>
             <th class="sort">Overreported</th>
             <th class="sort">Underreported</th>
@@ -39,8 +39,12 @@
             <td class="{{row.8}}">
                 {% if row.7%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.7|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
             </td>
-            <td>{% if row.9%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.9}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}</td>
-            <td>{% if row.10%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.10}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}</td>
+            <td class="{{row.10}}">
+                {% if row.9%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.9|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
+            </td>
+            <td class="{{row.12}}">
+                {% if row.11%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.11|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
+            </td>
             
         </tr>
         
