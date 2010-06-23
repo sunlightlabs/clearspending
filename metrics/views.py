@@ -13,11 +13,13 @@ def get_css_color(pct, metric):
         if pct > Decimal('50'): return 'bad'
         elif pct > Decimal('25'): return 'warn'
         else: return 'good'
-    elif metric == 'timeliness':
+    elif metric == 'time':
+        if pct < Decimal('.9'): return 'bad'
+        else: return 'good'
+    elif metric == 'com':
         if pct < Decimal('.95'): return 'bad'
         else: return 'good'
-    #completeness
-
+    
 def get_first(set):
     if isinstance(set, QuerySet) and len(set) > 0:
         return set[0]
@@ -25,15 +27,30 @@ def get_first(set):
 
 def get_timeliness(timeliness, unit):
     if timeliness:
-        return timeliness.__dict__['late_'+unit]
+        try:
+            pct = timeliness.late_dollars / timeliness.total_dollars
+        except Exception:
+            pct = 0
+        if unit == 'pct':
+            return (pct, get_css_color(pct, 'time'))
+        else:
+            return (timeliness.late_dollars, get_css_color(pct, 'time'))
     else:
-        return None
+        return (None,)
 
 def get_completeness(completeness, unit):
     if completeness:
+        try:
+            pct = completeness.completeness_failed_dollars / completeness.completeness_total_dollars
+        except Exception:
+            pct = 0
+        if unit == 'pct':
+            return (pct, get_css_color(pct, 'com'))
+        else:
+            return (completeness.completeness_failed_dollars, get_css_color(pct, 'com'))
         return completeness.__dict__['complete_'+unit]
     else:
-        return None    
+        return (None, )
 
 def get_consistency(consistency, unit):
     
@@ -61,15 +78,15 @@ def index(request, unit='dollars', fiscal_year=2009):
 
         number_programs = len(Program.objects.filter(agency=a))
         display_name = a.name
-        if len(display_name) > 35: display_name = "%s..." % display_name[0:35]
+      #  if len(display_name) > 35: display_name = "%s..." % display_name[0:35]
         a_data = [a.code,
                   number_programs, 
                   a.name,
                   display_name]
 
         a_data.extend(get_consistency(get_first(consistency.filter(agency=a)), unit))
-        a_data.append(get_timeliness(get_first(timeliness.filter(agency=a)), unit))
-        a_data.append(get_completeness(get_first(completeness.filter(agency=a)), unit))
+        a_data.extend(get_timeliness(get_first(timeliness.filter(agency=a)), unit))
+        a_data.extend(get_completeness(get_first(completeness.filter(agency=a)), unit))
 
         table_data.append(a_data) 
 
@@ -79,8 +96,8 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
     
     summary_numbers = []
     summary_numbers.extend(get_consistency(get_first(AgencyConsistency.objects.filter(agency=agency_id)), 'dollars'))
-    summary_numbers.append(get_timeliness(get_first(AgencyTimeliness.objects.filter(agency=agency_id)), 'dollars'))
-    summary_numbers.append(get_completeness(get_first(AgencyCompleteness.objects.filter(agency=agency_id)), 'dollars'))
+    summary_numbers.extend(get_timeliness(get_first(AgencyTimeliness.objects.filter(agency=agency_id)), 'dollars'))
+    summary_numbers.extend(get_completeness(get_first(AgencyCompleteness.objects.filter(agency=agency_id)), 'dollars'))
     summary_numbers = filter( lambda x: not isinstance(x, basestring) , summary_numbers) #remove css colors
 
     programs = Program.objects.filter(agency=agency_id)
@@ -93,14 +110,14 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
         completeness = ProgramCompleteness.objects.filter(fiscal_year=fiscal_year, program=p)
         for ob in consistency:
             display_name = p.program_title
-            if len(display_name) > 35: display_name = "%s..." % display_name[0:32]
+            #if len(display_name) > 35: display_name = "%s..." % display_name[0:32]
             row = [ p.program_number,
                     p.id,
-                    "%s <br />(%s)" % (display_name, types[ob.type]),
+                    "%s (%s)" % (display_name, types[ob.type]),
                     ]
             row.extend(get_consistency(ob, unit))
-            row.append(get_timeliness(get_first(timeliness), unit))
-            row.append(get_completeness(get_first(completeness), unit))
+            row.extend(get_timeliness(get_first(timeliness), unit))
+            row.extend(get_completeness(get_first(completeness), unit))
 
             table_data.append(row)
 
