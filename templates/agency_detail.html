@@ -1,7 +1,10 @@
 {% extends "scorecard_base.html" %}
 {% load humanize %}
+{% load media %}
+
 {% block header %}
-<h3>{{agency_name}}</h3>
+    <h3>{{agency_name}}</h3>
+    {% js "jquery.tablesorter.min.js" %}
 {% endblock %}
 
 {% block scorecard %}
@@ -12,7 +15,7 @@
 </ul>
 <div class="clear"></div>
 <div id="programtablecontainer">
-    <table class="programtable">
+    <table class="programtable" id="programtable">
     <thead>
         <tr id="titles">
             <th class="sort" style="width:10%;">Program #</th>
@@ -51,4 +54,22 @@
     {% endfor %}
     {% endautoescape%}
 
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            $("#programtable").tablesorter({
+                headers: {
+                            1: { sorter:'currency'},
+                            2: { sorter:'currency'},
+                            3: { sorter:'currency'},
+                            4: { sorter:'currency'},
+                            5: { sorter:'currency'},
+                        },
+            });
+            $("#programtable").bind("sortEnd", function() {
+                $("#programtable tr:even").removeClass().addClass("even")
+                $("#programtable tr:odd").removeClass().addClass("odd");
+            });
+        });
+
+    </script>
 {% endblock %}
