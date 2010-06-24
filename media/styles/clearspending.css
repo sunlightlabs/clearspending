@@ -114,7 +114,7 @@ table { font-size: 80%; width: 886px; }
 table td {text-align: right;}
 table td.title {text-align:left;}
 .agencydescription { padding: 10px 10px; }
-#agencytable th, .programtable th { color: #636466; font-weight: bold; padding: 0 0 10px 20px; vertical-align: top; }
+#agencytable th, .programtable th { color: #636466; font-weight: bold; padding: 0 0 10px 20px; vertical-align: top; cursor: pointer; }
 .ratingtable { border-bottom: 1px solid #DAD2BB; padding-bottom: 30px; }
 .ratingtable li { border-top: 1px solid #DAD2BB; margin-top: 30px; padding-top: 30px; }
 .ratingtable th { padding: 0 10px 10px 10px; font-size: 130%; color: #636466; font-weight: bold; }
