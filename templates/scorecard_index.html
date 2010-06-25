@@ -46,6 +46,7 @@
     </div>
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
+            
             $("#agencytable").tablesorter({
                 headers: {
                             1: { sorter:'currency'},
@@ -59,6 +60,12 @@
                 $("#agencytable tr:even").removeClass().addClass("even")
                 $("#agencytable tr:odd").removeClass().addClass("odd");
             });
+            $("#dollars_radio").change(function(){
+                $(document)[0].location = "{% url scorecard-index %}dollars/{{ fiscal_year }}/"
+            }); 
+            $("#pct_radio").change(function(){
+                $(document)[0].location = "{% url scorecard-index %}pct/{{ fiscal_year }}/";
+            }); 
         });
     </script>   
 {% endblock %}

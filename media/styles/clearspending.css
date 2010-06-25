@@ -137,7 +137,8 @@ table td.title {text-align:left;}
 .warn { color: #F58025; }
 .good { color: #439539;}
 .neutral { vertical-align: top; }
-.arrow { width: 20px; }
-.reviewed { width: 250px; }
-.yr2007, .yr2008, .yr2009 { width: 150px; }
+.reviewed { width: 250px; text-align:left; }
+.ratingtable.program-detail th{ width: 150px; text-align: center; }
+.ratingtable.program-detail th.reviewed { width: auto; text-align:left; }
+.ratingtable.program-detail th.arrow, .arrow { width: 20px ; }
 
