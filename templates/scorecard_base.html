@@ -5,12 +5,14 @@
     {% endblock %}
 
     <div id="filters">
+            {% if fiscal_year %}
             <ul id="years">
             <li><a href="{% url scorecard-index-extra unit 2007 %}" {% ifequal "2007" fiscal_year %}class="active"{% endifequal %}>2007</a></li>
             <li><a href="{% url scorecard-index-extra unit 2008 %}" {% ifequal "2008" fiscal_year %}class="active"{% endifequal %}>2008</a></li>
             <li><a href="{% url scorecard-index-extra unit 2009 %}" {% ifequal "2009" fiscal_year %}class="active"{% endifequal %}>2009</a></li>
         </ul>
-        <form id="radios">
+            {% endif %}
+        <form id="{% if not fiscal_year %}programradios{% else %}radios{% endif %}">
             <ul>    
                 <li>
                     <input type="radio" {% ifequal "dollars" unit %} checked="checked" {% endifequal %} name="fields" value="dollars" id="dollars_radio" /><label for="dollars_radio">Misreported Dollars</label>

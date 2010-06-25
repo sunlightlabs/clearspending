@@ -1,9 +1,19 @@
-{% extends "base.html" %}
+{% extends "scorecard_base.html" %}
+{% block header %}
+    <h3>Program Detail</h3>
+{% endblock %}
+{%block scorecard %}
+<div id="agency">
+    <div id="title">
+        <h4>{{agency_name}}-{{program_number}} {{title}}</h4>
+        <p id="programdescription">{{desc}}</p>
+    </div>
+    <div class="clear"></div>
+</div>
 
-{%block container %}
-
-<h3>Consistency</h3>
-{{consistency|safe}}
+<ul class="ratingtable program-detail">
+    {{consistency|safe}}
+</ul>
 
 <h3>Timeliness</h3>
 {{timeliness|safe}}
@@ -11,4 +21,15 @@
 <h3>Completeness</h3>
 {{completeness|safe}}
 
+<script type="text/javascript" charset="utf-8">
+        $(document).ready(function(){
+            $("#dollars_radio").change(function(){
+                $(document)[0].location = $(document)[0].location.href.replace('\/pct\/', '\/dollars\/');
+            }); 
+            $("#pct_radio").change(function(){
+                $(document)[0].location = $(document)[0].location.href.replace('/dollars/', '/pct/');
+            }); 
+
+        })
+</script>
 {% endblock %}

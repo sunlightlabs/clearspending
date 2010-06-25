@@ -56,6 +56,7 @@
 
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
+
             $("#programtable").tablesorter({
                 headers: {
                             1: { sorter:'currency'},
@@ -69,6 +70,12 @@
                 $("#programtable tr:even").removeClass().addClass("even")
                 $("#programtable tr:odd").removeClass().addClass("odd");
             });
+            $("#dollars_radio").change(function(){
+                $(document)[0].location = $(document)[0].location.href.replace('\/pct\/', '\/dollars\/');
+            }); 
+            $("#pct_radio").change(function(){
+                $(document)[0].location = $(document)[0].location.href.replace('/dollars/', '/pct/');
+            }); 
         });
 
     </script>

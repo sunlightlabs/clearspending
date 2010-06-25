@@ -4,9 +4,10 @@ from django.shortcuts import render_to_response
 from django.db.models import Count
 from django.db.models.query import QuerySet
 from decimal import Decimal
+from helpers.format import moneyfmt
 import math
 
-FISCAL_YEARS = [2009, 2008, 2007]
+FISCAL_YEARS = [2007, 2008, 2009]
 
 def get_css_color(pct, metric):
     if metric == 'con':  #consistency
@@ -32,7 +33,7 @@ def get_timeliness(timeliness, unit):
         except Exception:
             pct = 0
         if unit == 'pct':
-            return (pct, get_css_color(pct, 'time'))
+            return (pct*100, get_css_color(pct, 'time'))
         else:
             return (timeliness.late_dollars, get_css_color(pct, 'time'))
     else:
@@ -124,17 +125,39 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
     return render_to_response('agency_detail.html', {'summary_numbers': summary_numbers, 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'agency_name': agency.name})
 
 def programDetail(request, program_id, unit):
-    consistency_block = programDetailConsistency(program_id, unit)
+    program = Program.objects.get(id=program_id)
+    consistency_block = programDetailConsistency(program_id, unit)  
     #TO DO:  get html block for consistency and timeliness
-    return render_to_response('program_detail.html', {'consistency':consistency_block}) 
+    return render_to_response('program_detail.html', {'consistency':consistency_block, 'agency_name': program.agency.name, 'program_number': program.program_number, 'title': program.program_title, 'desc': program.objectives, 'unit': unit}) 
     
 
+def getTrends(qset, unit):
+    if unit == 'pct': unit = 'weighted_delta'
+    else: unit = 'delta'
+    over = []
+    under = []
+    non = []
+    trends = []
+    for q in qset:
+        if q.delta > 0:
+            over.append(q.__dict__[unit]); under.append(0); non.append(0)
+        elif q.weighted_delta == -1:
+            non.append(q.__dict__[unit]); under.append(0); over.append(0)
+        else:
+            under.append(q.__dict__[unit]); over.append(0); non.append(0)
 
-def getConsistencyDisplay(obligation, unit):
-    if unit == 'percent':
-        return '%s' % obligation.weighted_delta
-    else:
-        return '%s' % obligation.delta
+    for t in (over, under, non):
+        first = None
+        last = None
+        for yr in t:
+            if not first and yr: first = yr
+            if yr: last = yr
+        if last > first: trends.append('redarrow')
+        elif last < first: trends.append('greenarrow')
+        else: trends.append('arrow')
+
+    return ((over, under, non), trends)
+
 
 def programDetailConsistency(program_id, unit):
     #returns a chunk of HTML showing the detailed consistency stats for this program
@@ -146,50 +169,27 @@ def programDetailConsistency(program_id, unit):
         for ty in types:
             obligations = program_obligations.filter(type=ty)
             if obligations:
-                    html.append('<table class="consistency">')
-                    html.append('<tr><td>Metric</td>')
+                    html.append('<li><table><thead>')
+                    html.append('<tr><th class="arrow"></th><th class="reviewed">Consistency</th>')
                     for fy in FISCAL_YEARS: html.append('<th>' + str(fy) + '</th>')
-                    html.append('</tr><tr><td>Overreported</td>')
-                    for fy in FISCAL_YEARS:
-                        #use predefined FY so it all looks standard
-                        try:
-                            p = obligations.filter(fiscal_year=fy)[0]
-                        except Exception:
-                            html.append('<td>&mdash;</td>')
-                            continue
-                        html.append('<td>')
-                        if p.delta > 0:
-                            html.append(getConsistencyDisplay(p, unit))
-                        else:
-                            html.append('&mdash;')
-                        html.append('</td>')
+                    html.append('</tr></thead><tbody>')
 
-                    html.append('</tr><tr><td>Underreported</td>')
-                    for fy in FISCAL_YEARS:
-                        try:
-                            p = obligations.filter(fiscal_year=fy)[0]
-                        except Exception:
-                            html.append('<td>&mdash;</td>')
-                            continue
-                        html.append('<td>')
-                        if -1 < p.delta < 0:
-                            html.append(getConsistencyDisplay(p, unit))
-                        else:
-                            html.append('&mdash;')
-                    
-                    html.append('</tr><tr><td>Not reported</td>')
-                    for fy in FISCAL_YEARS:
-                        try:
-                            p = obligations.filter(fiscal_year=fy)[0]
-                        except Exception:
-                            html.append('<td>&mdash;</td>')
-                            continue
-                        html.append('<td>')
-                        if p.delta == -1:
-                            html.append(getConsistencyDisplay(p, unit))
-                        else:
-                            html.append('&mdash;')
+                            # bad trend
+                    values, trends = getTrends(obligations, unit)
+                    count = 0
+                    for metric in ['Over Reported', 'Under Reported', 'Not Reported']:
+                        html.append('<tr><td><span class="%s"></span></td>' % trends[count] )
+                        html.append('<td class="reviewed">'+metric+'</td>')
+                        for row in values[count]:
+                            if row:
+                                if unit == 'dollars': row = moneyfmt(row, places=0, curr='$', sep=',', dp='')
+                                else: row = str(row) + '%'
+                                html.append('<td>%s</td>' % row ) 
+                            else:
+                                html.append('<td>&mdash;</td>')
+                        html.append('</tr>')
+                        count += 1
 
-                    html.append('</tr></table>')
+                    html.append('</tbody></table></li>')
                 
     return ''.join(html)    
