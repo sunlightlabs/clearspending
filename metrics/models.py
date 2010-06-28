@@ -119,7 +119,7 @@ class ProgramCompletenessDetail(Metric):
     federal_funding_amount_is_not_empty = models.DecimalField("Federal Funding Amount is not empty ($ misreported)", max_digits=21, decimal_places=2, null=True)
     recipient_name_not_empty = models.DecimalField("Recipient Name is not empty ($ misreported)", max_digits=21, decimal_places=2, null=True)
     principal_place_code_not_empty = models.DecimalField("Principal Place of Performance Code is not empty ($ misreported)", max_digits=21, decimal_places=2, null=True)
-    recipient_zip_code_is_properly_formatted = models.DecimalField("Recipient Zip Code is properly formatted ($ misreported)", max_digits=21, decimal_places=2, null=True)
+    #recipient_zip_code_is_properly_formatted = models.DecimalField("Recipient Zip Code is properly formatted ($ misreported)", max_digits=21, decimal_places=2, null=True)
     recipient_state_code_not_empty = models.DecimalField("Recipient State Code is not empty ($ misreported)", max_digits=21, decimal_places=2, null=True)
     recipient_county_code_not_empty_or_too_long = models.DecimalField("Recipient County Code is not empty ($ misreported)", max_digits=21, decimal_places=2, null=True)
     recipient_county_name_not_empty = models.DecimalField("Recipient County Name is not empty ($ misreported)", max_digits=21, decimal_places=2, null=True)
