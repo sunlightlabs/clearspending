@@ -126,10 +126,20 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
 
 def programDetail(request, program_id, unit):
     program = Program.objects.get(id=program_id)
-    consistency_block = programDetailConsistency(program_id, unit)  
-    timeliness_block = programDetailTimeliness(program_id, unit)
-    #TO DO:  get html block for consistency and timeliness
-    return render_to_response('program_detail.html', {'consistency':consistency_block, 'timeliness': timeliness_block, 'agency_name': program.agency.name, 'program_number': program.program_number, 'title': program.program_title, 'desc': program.objectives, 'unit': unit}) 
+    consistency_block = programDetailConsistency(program_id, unit) 
+     
+    field_names = ['late_'+unit, 'avg_lag_rows']
+    proper_names = ['Late', 'Average Late Records']
+    coll = ProgramTimeliness.objects.filter(program=program_id).order_by('fiscal_year')
+    timeliness_block = programDetailGeneral(program_id, unit, field_names, proper_names, coll, 'Timeliness')
+
+    #update these lists with all the fields we want to show
+    com_field_names = ['recipient_type_is_not_empty', 'federal_agency_code_is_not_empty', 'cfda_program_num_is_descriptive', 'recipient_city_code_not_empty']
+    com_proper_names = ['Recipient type', 'Federal Agency', 'CFDA Program Number', 'Recipient Code']
+    com_coll = ProgramCompletenessDetail.objects.filter(program=program_id).order_by('fiscal_year')
+    completeness_block = programDetailGeneral(program_id, unit, com_field_names, com_proper_names, com_coll, 'Completeness')
+    
+    return render_to_response('program_detail.html', {'consistency':consistency_block, 'timeliness': timeliness_block, 'completeness': completeness_block, 'agency_name': program.agency.name, 'program_number': program.program_number, 'title': program.program_title, 'desc': program.objectives, 'unit': unit}) 
     
 def getRowClass(count):
     if count % 2 == 0 : row = "even"
@@ -211,13 +221,17 @@ def programDetailConsistency(program_id, unit):
                 
     return ''.join(html)    
 
-def programDetailTimeliness(program_id, unit):
-    field_names = ['late_'+unit, 'avg_lag_rows']
-    proper_names = ['Late', 'Average Late Records']
-    coll = ProgramTimeliness.objects.filter(program=program_id).order_by('fiscal_year')
+def programDetailGeneral(program_id, unit, field_names, proper_names, coll, metric):
+
     html = []
+    com_totals = {}
+    if metric == 'Completeness':
+        totals = ProgramCompleteness.objects.filter(program=program_id)
+        for t in totals:
+            com_totals[t.fiscal_year] = t.completeness_total_dollars
+
     if coll:
-        html.append('<li><table><thead><tr><th class="arrow"></th><th class="reviewed">Timeliness</th>')
+        html.append('<li><table><thead><tr><th class="arrow"></th><th class="reviewed">'+metric+'</th>')
         for fy in FISCAL_YEARS: html.append('<th>' + str(fy) + '</th>')
         html.append('</tr></thead><tbody>')
         count = 0
@@ -227,24 +241,34 @@ def programDetailTimeliness(program_id, unit):
             last = None
             temp_html.append('<td class="reviewed">%s</td>' % proper_names[count])
             year_count = 0
-            for item in coll:
-                if not first and item.__dict__[field_names[count]]:
-                    first = item.__dict__[field_names[count]]
-                elif item.__dict__[field_names[count]]:
-                    last = item.__dict__[field_names[count]]
-                if item.fiscal_year == FISCAL_YEARS[year_count]:
-                    if unit == 'pct':
-                        val = str((item.__dict__[field_names[count]] or 0) * 100) + '%'
+            for y in FISCAL_YEARS:
+                item = get_first(coll.filter(fiscal_year=y))
+                if item: 
+                    if not first and item.__dict__[f]:
+                        first = item.__dict__[f]
+                    elif item.__dict__[f]:
+                        last = item.__dict__[f]
+                    
+                    if item.__dict__[f]:
+                        if unit == 'pct':
+                            if metric == 'Completeness':
+                                val = str(((item.__dict__[f] / com_totals[y]) or 0) * 100) + '%'
+                            else:
+                                val = str((item.__dict__[f] or 0) * 100) + '%'
+                        else:
+                            val = '%s' % moneyfmt(Decimal(str(item.__dict__[f] or 0)), places=0, curr='$', sep=',', dp='')
+                        temp_html.append('<td>%s</td>' % val)
                     else:
-                        val = '%s' % moneyfmt(Decimal(str(item.__dict__[field_names[count]] or 0)), places=0, curr='$', sep=',', dp='')
-                    temp_html.append('<td>%s</td>' % val)
+                        temp_html.append('<td>&mdash;</td>')
                 else:
                     temp_html.append('<td>&mdash;</td>')
+
                 year_count += 1
             
             trend = 'arrow'
-            if last > first: trend = 'redarrow'
-            elif first > last: trend = 'greenarrow'
+            if first and last:
+                if last > first: trend = 'redarrow'
+                elif first > last: trend = 'greenarrow'
             html.append('<tr class="%s"><td><span class="%s"></span></td>%s</tr>' % (getRowClass(count), trend, ''.join(temp_html) ))
             count += 1 
 
