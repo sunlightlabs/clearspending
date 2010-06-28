@@ -127,11 +127,30 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
 def programDetail(request, program_id, unit):
     program = Program.objects.get(id=program_id)
     consistency_block = programDetailConsistency(program_id, unit)  
+    timeliness_block = programDetailTimeliness(program_id, unit)
     #TO DO:  get html block for consistency and timeliness
-    return render_to_response('program_detail.html', {'consistency':consistency_block, 'agency_name': program.agency.name, 'program_number': program.program_number, 'title': program.program_title, 'desc': program.objectives, 'unit': unit}) 
+    return render_to_response('program_detail.html', {'consistency':consistency_block, 'timeliness': timeliness_block, 'agency_name': program.agency.name, 'program_number': program.program_number, 'title': program.program_title, 'desc': program.objectives, 'unit': unit}) 
     
+def getRowClass(count):
+    if count % 2 == 0 : row = "even"
+    else: row = 'odd'
+    return row
 
-def getTrends(qset, unit):
+def getTrends(qset, field_name):
+    first = None
+    last = None
+    values = []
+    for q in qset: # should be ordered by fiscal year asc
+        if not first and q: first = q.__dict__[field_name]
+        elif q: last = q.__dict__[field_name]
+        values.append(q.__dict__[field_name])
+
+    if last > first: return (values, 'redarrow')
+    elif first > last: return (values, 'greenarrow')
+    else: return (values, 'arrow')
+        
+
+def getConsistencyTrends(qset, unit):
     if unit == 'pct': unit = 'weighted_delta'
     else: unit = 'delta'
     over = []
@@ -144,7 +163,7 @@ def getTrends(qset, unit):
         elif q.weighted_delta == -1:
             non.append(q.__dict__[unit]); under.append(0); over.append(0)
         else:
-            under.append(q.__dict__[unit]); over.append(0); non.append(0)
+            under.append(math.fabs(q.__dict__[unit])); over.append(0); non.append(0)
 
     for t in (over, under, non):
         first = None
@@ -158,31 +177,29 @@ def getTrends(qset, unit):
 
     return ((over, under, non), trends)
 
-
 def programDetailConsistency(program_id, unit):
     #returns a chunk of HTML showing the detailed consistency stats for this program
     types = [1, 2] # 1=grants, 2=loans,guarantees,insurance
+    type_names = {1: 'Grants', 2: 'Loans'}
     program = Program.objects.get(id=program_id)
-    program_obligations = ProgramObligation.objects.filter(program=program).order_by('fiscal_year')
+    program_obligations = ProgramObligation.objects.filter(program=program, fiscal_year__lte=max(FISCAL_YEARS)).order_by('fiscal_year')
     html = []
     if program_obligations:
         for ty in types:
             obligations = program_obligations.filter(type=ty)
             if obligations:
                     html.append('<li><table><thead>')
-                    html.append('<tr><th class="arrow"></th><th class="reviewed">Consistency</th>')
+                    html.append('<tr><th class="arrow"></th><th class="reviewed">Consistency (%s)</th>' % type_names[ty])
                     for fy in FISCAL_YEARS: html.append('<th>' + str(fy) + '</th>')
                     html.append('</tr></thead><tbody>')
-
-                            # bad trend
-                    values, trends = getTrends(obligations, unit)
+                    values, trends = getConsistencyTrends(obligations, unit)
                     count = 0
                     for metric in ['Over Reported', 'Under Reported', 'Not Reported']:
-                        html.append('<tr><td><span class="%s"></span></td>' % trends[count] )
+                        html.append('<tr class="%s"><td><span class="%s"></span></td>' % (getRowClass(count), trends[count] ))
                         html.append('<td class="reviewed">'+metric+'</td>')
                         for row in values[count]:
                             if row:
-                                if unit == 'dollars': row = moneyfmt(row, places=0, curr='$', sep=',', dp='')
+                                if unit == 'dollars': row = moneyfmt(Decimal(str(row)), places=0, curr='$', sep=',', dp='')
                                 else: row = str(row) + '%'
                                 html.append('<td>%s</td>' % row ) 
                             else:
@@ -193,3 +210,49 @@ def programDetailConsistency(program_id, unit):
                     html.append('</tbody></table></li>')
                 
     return ''.join(html)    
+
+def programDetailTimeliness(program_id, unit):
+    field_names = ['late_'+unit, 'avg_lag_rows']
+    proper_names = ['Late', 'Average Late Records']
+    coll = ProgramTimeliness.objects.filter(program=program_id).order_by('fiscal_year')
+    html = []
+    if coll:
+        html.append('<li><table><thead><tr><th class="arrow"></th><th class="reviewed">Timeliness</th>')
+        for fy in FISCAL_YEARS: html.append('<th>' + str(fy) + '</th>')
+        html.append('</tr></thead><tbody>')
+        count = 0
+        for f in field_names:
+            temp_html = []
+            first = None
+            last = None
+            temp_html.append('<td class="reviewed">%s</td>' % proper_names[count])
+            year_count = 0
+            for item in coll:
+                if not first and item.__dict__[field_names[count]]:
+                    first = item.__dict__[field_names[count]]
+                elif item.__dict__[field_names[count]]:
+                    last = item.__dict__[field_names[count]]
+                if item.fiscal_year == FISCAL_YEARS[year_count]:
+                    if unit == 'pct':
+                        val = str((item.__dict__[field_names[count]] or 0) * 100) + '%'
+                    else:
+                        val = '%s' % moneyfmt(Decimal(str(item.__dict__[field_names[count]] or 0)), places=0, curr='$', sep=',', dp='')
+                    temp_html.append('<td>%s</td>' % val)
+                else:
+                    temp_html.append('<td>&mdash;</td>')
+                year_count += 1
+            
+            trend = 'arrow'
+            if last > first: trend = 'redarrow'
+            elif first > last: trend = 'greenarrow'
+            html.append('<tr class="%s"><td><span class="%s"></span></td>%s</tr>' % (getRowClass(count), trend, ''.join(temp_html) ))
+            count += 1 
+
+        html.append('</tbody></table></li>')
+    
+    return ''.join(html)
+
+
+
+
+
