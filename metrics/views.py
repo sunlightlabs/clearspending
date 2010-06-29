@@ -1,7 +1,7 @@
 from cfda.models import Program, ProgramObligation, Agency
 from metrics.models import *
 from django.shortcuts import render_to_response
-from django.db.models import Count
+from django.db.models import Count, Sum
 from django.db.models.query import QuerySet
 from decimal import Decimal
 from helpers.format import moneyfmt
@@ -39,17 +39,16 @@ def get_timeliness(timeliness, unit):
     else:
         return (None,)
 
-def get_completeness(completeness, unit):
+def get_completeness(unit, **completeness):
     if completeness:
         try:
-            pct = completeness.completeness_failed_dollars / completeness.completeness_total_dollars
+            pct = completeness['failed_total']/ completeness['total']
         except Exception:
             pct = 0
         if unit == 'pct':
             return (pct, get_css_color(pct, 'com'))
         else:
-            return (completeness.completeness_failed_dollars, get_css_color(pct, 'com'))
-        return completeness.__dict__['complete_'+unit]
+            return (completeness['failed_total'], get_css_color(pct, 'com'))
     else:
         return (None, )
 
@@ -72,7 +71,6 @@ def index(request, unit='dollars', fiscal_year=2009):
     #get top level agency stats 
     consistency = AgencyConsistency.objects.filter(fiscal_year=fiscal_year).order_by('agency__name')
     timeliness = AgencyTimeliness.objects.filter(fiscal_year=fiscal_year).order_by('agency__name')
-    completeness = AgencyCompleteness.objects.filter(fiscal_year=fiscal_year).order_by('agency__name')
     agencies = Agency.objects.all().order_by('name')
     table_data = []
     for a in agencies:
@@ -85,9 +83,10 @@ def index(request, unit='dollars', fiscal_year=2009):
                   a.name,
                   display_name]
 
+        completeness_totals = ProgramCompleteness.objects.filter(agency=a).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
+        a_data.extend(get_completeness(unit, **completeness_totals))
         a_data.extend(get_consistency(get_first(consistency.filter(agency=a)), unit))
         a_data.extend(get_timeliness(get_first(timeliness.filter(agency=a)), unit))
-        a_data.extend(get_completeness(get_first(completeness.filter(agency=a)), unit))
 
         table_data.append(a_data) 
 
@@ -96,9 +95,10 @@ def index(request, unit='dollars', fiscal_year=2009):
 def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
     
     summary_numbers = []
-    summary_numbers.extend(get_consistency(get_first(AgencyConsistency.objects.filter(agency=agency_id)), 'dollars'))
-    summary_numbers.extend(get_timeliness(get_first(AgencyTimeliness.objects.filter(agency=agency_id)), 'dollars'))
-    summary_numbers.extend(get_completeness(get_first(AgencyCompleteness.objects.filter(agency=agency_id)), 'dollars'))
+    summary_numbers.extend(get_consistency(get_first(AgencyConsistency.objects.filter(agency=agency_id)), unit))
+    summary_numbers.extend(get_timeliness(get_first(AgencyTimeliness.objects.filter(agency=agency_id)), unit))
+    completeness_totals = ProgramCompleteness.objects.filter(agency=agency_id).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
+    summary_numbers.extend(get_completeness(unit, **completeness_totals)) 
     summary_numbers = filter( lambda x: not isinstance(x, basestring) , summary_numbers) #remove css colors
 
     programs = Program.objects.filter(agency=agency_id)
@@ -108,7 +108,7 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
     for p in programs:
         consistency = ProgramConsistency.objects.filter(fiscal_year=fiscal_year, program=p)
         timeliness = ProgramTimeliness.objects.filter(fiscal_year=fiscal_year, program=p)
-        completeness = ProgramCompleteness.objects.filter(fiscal_year=fiscal_year, program=p)
+        completeness_totals = ProgramCompleteness.objects.filter(program=p).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
         for ob in consistency:
             display_name = p.program_title
             #if len(display_name) > 35: display_name = "%s..." % display_name[0:32]
@@ -118,7 +118,7 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
                     ]
             row.extend(get_consistency(ob, unit))
             row.extend(get_timeliness(get_first(timeliness), unit))
-            row.extend(get_completeness(get_first(completeness), unit))
+            row.extend(get_completeness(unit, **completeness_totals))
 
             table_data.append(row)
 
@@ -134,8 +134,17 @@ def programDetail(request, program_id, unit):
     timeliness_block = programDetailGeneral(program_id, unit, field_names, proper_names, coll, 'Timeliness')
 
     #update these lists with all the fields we want to show
-    com_field_names = ['recipient_type_is_not_empty', 'federal_agency_code_is_not_empty', 'cfda_program_num_is_descriptive', 'recipient_city_code_not_empty']
-    com_proper_names = ['Recipient type', 'Federal Agency', 'CFDA Program Number', 'Recipient Code']
+    com_field_names = ['recipient_type_is_not_empty', 'federal_agency_code_is_not_empty', 'cfda_program_num_is_descriptive', 'federal_funding_amount_is_not_empty',
+                        'principal_place_code_not_empty', 'recipient_name_not_empty', 'recipient_state_code_not_empty', 'recipient_county_code_not_empty_or_too_long',
+                        'recipient_county_name_not_empty', 'recipient_city_code_not_empty', 'recipient_city_name_not_empty', 'principal_place_state_not_empty', 'record_type_is_not_empty', 
+                        'action_type_is_not_empty', 'recipient_cong_district_is_not_empty', 'obligation_action_date_is_properly_formatted', 
+                        'assistance_type_is_not_empty', 'federal_award_id_is_not_empty']
+    
+    com_proper_names = ['Recipient type', 'Federal Agency', 'CFDA Program Number', 'Funding Amount',
+                        'Principal Place of Grant Code',  'Recipient Name', 'Recipient State', 'Recipient County Code', 
+                        'Recipient County Name', 'Recipient City Code', 'Recipient City Name', 'Principal State of Grant', 'Record Type', 
+                        'Action Type', 'Recipient Congressional District', 'Obligation Action Date Formatted Correctly', 
+                        'Assistance Type', 'Federal Award ID' ]
     com_coll = ProgramCompletenessDetail.objects.filter(program=program_id).order_by('fiscal_year')
     completeness_block = programDetailGeneral(program_id, unit, com_field_names, com_proper_names, com_coll, 'Completeness')
     
@@ -171,7 +180,7 @@ def getConsistencyTrends(qset, unit):
         if q.delta > 0:
             over.append(q.__dict__[unit]); under.append(0); non.append(0)
         elif q.weighted_delta == -1:
-            non.append(q.__dict__[unit]); under.append(0); over.append(0)
+            non.append(math.fabs(q.__dict__[unit])); under.append(0); over.append(0)
         else:
             under.append(math.fabs(q.__dict__[unit])); over.append(0); non.append(0)
 
@@ -250,13 +259,15 @@ def programDetailGeneral(program_id, unit, field_names, proper_names, coll, metr
                         last = item.__dict__[f]
                     
                     if item.__dict__[f]:
-                        if unit == 'pct':
+                        if unit == 'pct' and f != 'avg_lag_rows':
                             if metric == 'Completeness':
-                                val = str(((item.__dict__[f] / com_totals[y]) or 0) * 100) + '%'
+                                val = '%.2f' % (((item.__dict__[f] / com_totals[y]) or 0) * 100)
                             else:
                                 val = str((item.__dict__[f] or 0) * 100) + '%'
-                        else:
+                        elif f != 'avg_lag_rows':
                             val = '%s' % moneyfmt(Decimal(str(item.__dict__[f] or 0)), places=0, curr='$', sep=',', dp='')
+                        else:
+                            val = item.__dict__[f]
                         temp_html.append('<td>%s</td>' % val)
                     else:
                         temp_html.append('<td>&mdash;</td>')
