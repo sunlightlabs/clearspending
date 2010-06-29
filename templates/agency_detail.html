@@ -32,7 +32,7 @@
     {% for row in table_data %}
         <tr class="{% cycle 'odd' 'even' %}">
             <td>{{row.0}}</td>
-            <td class="title"><a href="#" class="expand">arrow</a><a class="name" href="{% url program_detail row.1 unit %}" alt="{{row.2}}">{{row.2}}</a></td>
+            <td class="title"><a class="name" href="{% url program_detail row.1 unit %}" alt="{{row.2}}">{{row.2}}</a></td>
             <td class="{{row.4}}">
                 {% if row.3%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.3|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %} {% else %}-{% endif %}
             </td>
