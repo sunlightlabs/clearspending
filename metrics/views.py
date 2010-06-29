@@ -11,6 +11,7 @@ FISCAL_YEARS = [2007, 2008, 2009]
 
 def get_css_color(pct, metric):
     if metric == 'con':  #consistency
+        pct = Decimal(str(math.fabs(pct)))
         if pct > Decimal('50'): return 'bad'
         elif pct > Decimal('25'): return 'warn'
         else: return 'good'
@@ -18,7 +19,7 @@ def get_css_color(pct, metric):
         if pct < Decimal('.9'): return 'bad'
         else: return 'good'
     elif metric == 'com':
-        if pct < Decimal('.95'): return 'bad'
+        if pct < Decimal('95'): return 'bad'
         else: return 'good'
     
 def get_first(set):
@@ -42,7 +43,7 @@ def get_timeliness(timeliness, unit):
 def get_completeness(unit, **completeness):
     if completeness:
         try:
-            pct = completeness['failed_total']/ completeness['total']
+            pct = (completeness['failed_total']/ completeness['total']) * 100
         except Exception:
             pct = 0
         if unit == 'pct':
@@ -58,9 +59,9 @@ def get_consistency(consistency, unit):
         over = consistency.__dict__['over_reported_'+unit]
         under = consistency.__dict__['under_reported_'+unit]
         non = consistency.__dict__['non_reported_'+unit]
-        return (over, get_css_color(consistency.over_reported_pct, 'con'), 
-                under, get_css_color(consistency.under_reported_pct, 'con'), 
-                non, get_css_color(consistency.non_reported_pct, 'con'))
+        return (over, get_css_color(consistency.over_reported_pct or 0, 'con'), 
+                under, get_css_color(consistency.under_reported_pct or 0, 'con'), 
+                non, get_css_color(consistency.non_reported_pct or 0, 'con'))
     else:
         placeholders = []
         for i in range(0, 6):
@@ -83,10 +84,10 @@ def index(request, unit='dollars', fiscal_year=2009):
                   a.name,
                   display_name]
 
-        completeness_totals = ProgramCompleteness.objects.filter(agency=a).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
-        a_data.extend(get_completeness(unit, **completeness_totals))
         a_data.extend(get_consistency(get_first(consistency.filter(agency=a)), unit))
         a_data.extend(get_timeliness(get_first(timeliness.filter(agency=a)), unit))
+        completeness_totals = ProgramCompleteness.objects.filter(agency=a).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
+        a_data.extend(get_completeness(unit, **completeness_totals))
 
         table_data.append(a_data) 
 
@@ -95,10 +96,10 @@ def index(request, unit='dollars', fiscal_year=2009):
 def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
     
     summary_numbers = []
-    summary_numbers.extend(get_consistency(get_first(AgencyConsistency.objects.filter(agency=agency_id)), unit))
-    summary_numbers.extend(get_timeliness(get_first(AgencyTimeliness.objects.filter(agency=agency_id)), unit))
-    completeness_totals = ProgramCompleteness.objects.filter(agency=agency_id).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
-    summary_numbers.extend(get_completeness(unit, **completeness_totals)) 
+    summary_numbers.extend(get_consistency(get_first(AgencyConsistency.objects.filter(agency=agency_id, fiscal_year=fiscal_year)), 'dollars'))
+    summary_numbers.extend(get_timeliness(get_first(AgencyTimeliness.objects.filter(agency=agency_id, fiscal_year=fiscal_year)), 'dollars'))
+    completeness_totals = ProgramCompleteness.objects.filter(agency=agency_id, fiscal_year=fiscal_year).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
+    summary_numbers.extend(get_completeness('dollars', **completeness_totals)) 
     summary_numbers = filter( lambda x: not isinstance(x, basestring) , summary_numbers) #remove css colors
 
     programs = Program.objects.filter(agency=agency_id)
@@ -122,7 +123,7 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
 
             table_data.append(row)
 
-    return render_to_response('agency_detail.html', {'summary_numbers': summary_numbers, 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'agency_name': agency.name})
+    return render_to_response('agency_detail.html', {'summary_numbers': summary_numbers, 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'agency_name': agency.name, 'agency': agency_id})
 
 def programDetail(request, program_id, unit):
     program = Program.objects.get(id=program_id)
