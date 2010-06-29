@@ -23,7 +23,7 @@
             <tbody>
             {% for row in table_data %}
                 <tr class="{% cycle 'odd' 'even' %}">
-                    <td class="title"><a href="#" class="expand">arrow</a><a class="name" href="{% url agency_detail row.0 fiscal_year unit %}" alt="{{row.2}}">{{row.3}}</a><span title="number of programs in agency"> ({{row.1}}) </span></td>
+                    <td class="title"><a class="name" href="{% url agency_detail row.0 fiscal_year unit %}" alt="{{row.2}}">{{row.3}}<span title="number of programs in agency"> ({{row.1}}) </span></a></td>
                     <td class="{{row.5}}">
                         {% if row.4%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.4|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %} {% else %}-{% endif %}
                     </td>
