@@ -18,13 +18,13 @@
     <table class="programtable" id="programtable">
     <thead>
         <tr id="titles">
-            <th class="sort" style="width:10%;">Program #</th>
+            <th class="sort">Program Number</th>
             <th class="sort">Program Name</th>
             <th class="sort">Overreported</th>
             <th class="sort">Underreported</th>
             <th class="sort">Not reported</th>
             <th class="sort">Late</th>
-            <th class="sort">Incomplete</th>
+            <th class="sort last-cell">Incomplete</th>
         </tr>   
     </thead>
     <tbody>
@@ -45,7 +45,7 @@
             <td class="{{row.10}}">
                 {% if row.9%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.9|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
             </td>
-            <td class="{{row.12}}">
+            <td class="last-cell {{row.12}}">
                 {% if row.11%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.11|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
             </td>
             
