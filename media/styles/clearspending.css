@@ -17,10 +17,10 @@ a:active{outline: none; }
 
 #pageBackground { background: #F8F6EC url(../images/below_green_bg.png) top left repeat-x; border-bottom: 23px solid #7B614E; padding: 30px 0 50px; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
-#mainContainer { width: 886px; padding: 32px 32px; background: #FFF; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; margin: 0 auto; }
+#mainContainer { width: 950px; padding: 32px 32px; background: #FFF; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; margin: 0 auto; }
 h2 { width: 268px; height: 44px; margin-bottom: 17px; }
 h2 a { background: url(../images/clearspending-logo.jpg) top left no-repeat; width: 268px; height: 44px; display: block; text-indent: -9999em; }
-#nav { width: 886px; height: 20px; background: #85BE3D; padding-top: 10px; }
+#nav { width: 950px; height: 20px; background: #85BE3D; padding-top: 10px; }
 #nav ul { float: right; display: block; }
 #nav li {  float: left; display: block; padding: 0 10px; border-right: #FFF 1px solid; text-transform: uppercase; font-size: 70%; font-weight: bold; }
 #nav li a { color: #FFF; text-decoration: none; }
@@ -110,7 +110,7 @@ h4 { color: #636466; font-size: 120%; font-weight: bold; vertical-align: top; li
 
 /*---------------------------tables*/
 
-table { font-size: 80%; width: 886px; }
+table { font-size: 80%; width: 100%; }
 table td {text-align: right;}
 table td.title {text-align:left;}
 .agencydescription { padding: 10px 10px; }
@@ -120,11 +120,14 @@ table td.title {text-align:left;}
 .ratingtable th { padding: 0 10px 10px 10px; font-size: 130%; color: #636466; font-weight: bold; }
 #agencytablecontainer {margin-top: 30px; padding-bottom: 30px; border-bottom: 1px solid #DAD2BB; }
 #programtablecontainer { padding: 30px 0px ; border-top: 1px solid #DAD2BB; border-bottom: 1px solid #DAD2BB; }
+.last-cell { padding-right: 35px !important; }
+#agencytable tbody, #programtable tbody { height: 500px; overflow-y: auto; overflow-x:hidden;  }
 #expand { display: none; }
 .sort { background: url(../images/sortArrows.png) 10px 3px no-repeat;  }
 #titles, .programhead th { color: #636466; font-weight: bold; }
 #titles td, tbody td { padding: 10px; }
 .programtable td, #agencytable td { padding: 15px 10px; }
+.
 .programhead th { padding: 10px 10px 10px 10px; font-size: 130%; }
 .expand { background: url(../images/expandarrow.png) top left no-repeat; width: 6px; height: 7px; display: block; text-indent: -9999em; float: left; margin-right: 5px; margin-top: 6px; }
 .name { font-weight: bold; color: #636466; text-decoration: underline; display: block; float: left; margin-right: 5px; margin-top: 2px; }

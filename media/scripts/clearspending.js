@@ -6,7 +6,7 @@ $().ready(function() {
        $("#sidenav li a").removeClass("active");
        $(this).addClass("active");
        $("#sidenav li p").hide();
-       $(this).siblings("p").slideDown("fast").fadeIn("slow");;
+       $(this).siblings("p").slideDown("fast").fadeIn("slow");
        return false;
    });
 });

@@ -17,7 +17,7 @@
                     <th class="sort">Under Reporting</th>
                     <th class="sort">Non-Reporting</th>
                     <th class="sort">Late</th>
-                    <th class="sort">Incomplete</th>
+                    <th class="sort last-cell">Incomplete</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,7 +36,7 @@
                     <td class="{{row.11}}">
                         {% if row.10%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.10|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
                     </td>
-                    <td class="{{row.13}}">
+                    <td class="last-cell {{row.13}}">
                         {% if row.12%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.12|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
                     </td>
                 </tr>
