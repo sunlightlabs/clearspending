@@ -5,12 +5,22 @@
     {% endblock %}
 
     <div id="filters">
-            {% if fiscal_year %}
+            {% if agency %}
+
             <ul id="years">
-            <li><a href="{% url scorecard-index-extra unit 2007 %}" {% ifequal "2007" fiscal_year %}class="active"{% endifequal %}>2007</a></li>
-            <li><a href="{% url scorecard-index-extra unit 2008 %}" {% ifequal "2008" fiscal_year %}class="active"{% endifequal %}>2008</a></li>
-            <li><a href="{% url scorecard-index-extra unit 2009 %}" {% ifequal "2009" fiscal_year %}class="active"{% endifequal %}>2009</a></li>
-        </ul>
+            <li><a href="{% url agency_detail agency 2007 unit %}" {% ifequal "2007" fiscal_year %}class="active"{% endifequal %}>2007</a></li>
+            <li><a href="{% url agency_detail agency 2008 unit %}" {% ifequal "2008" fiscal_year %}class="active"{% endifequal %}>2008</a></li>
+            <li><a href="{% url agency_detail agency 2009 unit %}" {% ifequal "2009" fiscal_year %}class="active"{% endifequal %}>2009</a></li>
+            </ul>
+
+            {% else %}
+                {% if fiscal_year %}
+                    <ul id="years">
+                    <li><a href="{% url scorecard-index-extra unit 2007 %}" {% ifequal "2007" fiscal_year %}class="active"{% endifequal %}>2007</a></li>
+                    <li><a href="{% url scorecard-index-extra unit 2008 %}" {% ifequal "2008" fiscal_year %}class="active"{% endifequal %}>2008</a></li>
+                    <li><a href="{% url scorecard-index-extra unit 2009 %}" {% ifequal "2009" fiscal_year %}class="active"{% endifequal %}>2009</a></li>
+                </ul>
+                {% endif %}
             {% endif %}
         <form id="{% if not fiscal_year %}programradios{% else %}radios{% endif %}">
             <ul>    
