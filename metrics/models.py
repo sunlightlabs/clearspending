@@ -44,10 +44,6 @@ class AgencyTimeliness(Metric):
     avg_lag_dollars = models.IntegerField(blank=True, null=True)
     
     
-class AgencyCompleteness(Metric):
-
-    completeness_failed_dollars = models.DecimalField("Dollar total of rows failing one or more completeness tests", max_digits=21, decimal_places=2, null=True)
-    completeness_total_dollars = models.DecimalField("Dollar total of all rows", max_digits=21, decimal_places=2, null=True)
     
 class ProgramMetric(Metric):
     

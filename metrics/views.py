@@ -123,7 +123,7 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
 
             table_data.append(row)
 
-    return render_to_response('agency_detail.html', {'summary_numbers': summary_numbers, 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'agency_name': agency.name, 'agency': agency_id})
+    return render_to_response('agency_detail.html', {'summary_numbers': summary_numbers, 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'agency_name': agency.name, 'agency': agency_id, 'description': agency.description})
 
 def programDetail(request, program_id, unit):
     program = Program.objects.get(id=program_id)
