@@ -3,12 +3,13 @@
 
 from settings import *
 from cfda.models import *
-from metrics.models import AgencyConsistency, ProgramConsistency
+from metrics.models import AgencyConsistency, ProgramConsistency, AgencyTimeliness, ProgramTimeliness, ProgramCompleteness, ProgramCompletenessDetail
 from django.db.models import Avg, Sum
 import csv
 import numpy as np
 import math
 from decimal import Decimal
+from helpers.charts import Line
 
 def main():
     
@@ -165,6 +166,55 @@ def calc_stats(float_array):
     stats['var'] = np.var(float_array)
 
     return stats
+
+
+def generate_graphs():
+    
+    agencies = Agency.objects.all()
+    for a in agencies:
+        series = []
+        consistency_coll_grants = AgencyConsistency.objects.filter(agency=a, type=1, fiscal_year__in=FISCAL_YEARS).order_by('fiscal_year')
+        consistency_coll_loans = AgencyConsistency.objects.filter(agency=a, type=2, fiscal_year__in=FISCAL_YEARS).order_by('fiscal_year')
+        timeliness_coll = AgencyTimeliness.objects.filter(agency=a, fiscal_year__in=FISCAL_YEARS).order_by('fiscal_year')
+        completeness_coll = ProgramCompleteness.objects.filter(agency=a, fiscal_year__in=FISCAL_YEARS).order_by('fiscal_year')
+
+        grants_over = [(x.fiscal_year, float(x.over_reported_dollars or 0)) for x in consistency_coll_grants]
+        grants_under = [(x.fiscal_year, float(x.under_reported_dollars or 0)) for x in consistency_coll_grants]
+        grants_non = [(x.fiscal_year, float(x.non_reported_dollars or 0)) for x in consistency_coll_grants]
+        loans_over = [(x.fiscal_year, float(x.over_reported_dollars or 0)) for x in consistency_coll_loans]
+        loans_under = [(x.fiscal_year, float(x.under_reported_dollars or 0)) for x in consistency_coll_loans]
+        loans_non = [(x.fiscal_year, float(x.non_reported_dollars or 0)) for x in consistency_coll_loans]
+        timeliness = [(x.fiscal_year, float(x.late_dollars or 0)) for x in timeliness_coll]
+        
+        completeness = []
+        for fy in FISCAL_YEARS:
+            comp = float(completeness_coll.filter(fiscal_year=fy).aggregate(total_failed=Sum('completeness_failed_dollars'))['total_failed'] or 0)
+            completeness.append((fy, comp))
+
+        print a
+        overall_max = 0
+        for num in [grants_over, grants_under, grants_non, loans_over, loans_under, loans_non, timeliness, completeness]:
+            
+            this_max = max([point[1] for point in num] or (0,))
+            if num and this_max > 0:
+                series.append(num)
+                if this_max > overall_max:
+                    overall_max = this_max
+                print 'appended'
+                print num
+            else:
+                series.append('placeholder')
+                print 'placeholder'
+            
+# how to append series but still keep coloring order correct? Insert a string keyword as a blank, no series at all?
+# also, should make chart at all if all series are zero? how to handle?
+
+
+        if series and overall_max > 0:
+            line_chart = Line(765, 280, series, MEDIA_ROOT+'styles/linechart.css', label_intervals=1, x_padding=25)
+            line_chart.output("%sagency_chart_%s.svg" % (GRAPH_DIR, a.code)) 
+    
+
 
 if __name__ == '__main__':
     main()
