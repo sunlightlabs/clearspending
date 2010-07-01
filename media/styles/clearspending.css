@@ -17,6 +17,7 @@ a:active{outline: none; }
 
 #pageBackground { background: #F8F6EC url(../images/below_green_bg.png) top left repeat-x; border-bottom: 23px solid #7B614E; padding: 30px 0 50px; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
+#pageMain p { color: #8E8E8E; font-size: 80%; line-height: 150%; padding: 15px; }
 #mainContainer { width: 950px; padding: 32px 32px; background: #FFF; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; margin: 0 auto; }
 h2 { width: 268px; height: 44px; margin-bottom: 17px; }
 h2 a { background: url(../images/clearspending-logo.jpg) top left no-repeat; width: 268px; height: 44px; display: block; text-indent: -9999em; }
@@ -101,7 +102,6 @@ h4 { color: #636466; font-size: 120%; font-weight: bold; vertical-align: top; li
 #programdescription { color: #8E8E8E; font-size: 80%; line-height: 150%; }
 #graph { float: left; margin-left: 20px; }
 #description { margin-bottom: 10px; }
-#description p { color: #8E8E8E; font-size: 80%; line-height: 150%; padding-top: 20px; float: right; width: 335px; }
 #description ul.legend {margin-top: 50px; color: #8E8E8E; font-size: 80%; width: 17%; float:left; display:block;}
 #description ul.legend li span {width:10px; height: 10px; display: block; float:left; margin-right: 5px; margin-top: 4px;}
 #bignumbers { margin: 0 auto; }
@@ -115,6 +115,7 @@ h4 { color: #636466; font-size: 120%; font-weight: bold; vertical-align: top; li
 table { font-size: 80%; width: 100%; }
 table td {text-align: right;}
 table td.title {text-align:left;}
+table.generic-table { margin-top:25px; }
 .agencydescription { padding: 10px 10px; }
 #agencytable th, .programtable th { color: #636466; font-weight: bold; padding: 0 0 10px 20px; vertical-align: top; cursor: pointer; }
 .ratingtable { border-bottom: 1px solid #DAD2BB; padding-bottom: 30px; }
@@ -133,7 +134,8 @@ table td.title {text-align:left;}
 .
 .programhead th { padding: 10px 10px 10px 10px; font-size: 130%; }
 .expand { background: url(../images/expandarrow.png) top left no-repeat; width: 6px; height: 7px; display: block; text-indent: -9999em; float: left; margin-right: 5px; margin-top: 6px; }
-.name { font-weight: bold; color: #636466; text-decoration: underline; display: block; float: left; margin-right: 5px; margin-top: 2px; }
+.name { text-align: left; font-weight: bold; color: #636466; text-decoration: underline; display: block; float: left; margin-right: 5px; margin-top: 2px; }
+.td-name { text-align: left; color: #636466; }
 .expanded { background: url(../images/expandarrow.png) left -7px no-repeat; width: 6px; height: 7px; display: block; text-indent: -9999em; float: left; margin-right: 5px; margin-top: 6px; }
 #last td { padding-bottom: 20px; }
 .agencydescription { color: #8E8E8E; font-size: 100%; line-height: 150%; padding-left: 10px; display: none; width: 280px; }
