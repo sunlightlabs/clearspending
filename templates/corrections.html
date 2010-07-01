@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load media %}
+{% block content %} 
+{% js "jquery.tablesorter.min.js" %}
+<h3>Corrections to Program Obligations</h3>
+<p>Clearspending uses CFDA program obligations for its consistency check with USASpending data. However, this datais not perfect. It's a good jumping off point for measuring spending numbers federal agencies report in two different places for the same program. However, there are certain corrections we have made to CFDA data since our primary goal was to measure the quality of data in USASpending. These corrections are listed here and are based on our own previous research or federal agency input. If you work with a federal agency or a specific program and would like to update your obligations, please <a href="{% url contact-us %}">contact us.</a></p>
+{{queryset}}
+<table id="agencytable" class="generic-table">
+    <thead>
+    <tr>
+        <th class="sort">Program</th>
+        <th class="sort">Agency </th>
+        <th class="sort">Fiscal Year</th>
+        <th class="sort">Original Obligation</th>
+        <th class="sort">Updated Obligation</th>
+        <th>Notes</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for corr in object_list %}
+        <tr class="{% cycle 'odd' 'even' %}">
+        <td class="td-name">{{ corr.program.program_title }}</td>
+        <td class="td-name">{{ corr.program.agency.name}}</td>
+        <td>{{ corr.program_obligation.fiscal_year}}</td>
+        <td>${{ corr.old_obligation|floatformat|intcomma}}</td>
+        <td>${{ corr.corrected_obligation|floatformat|intcomma}}</td>
+        <td class="td-name last-cell">{{ corr.note}}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+
+            $("#agencytable").tablesorter({
+                headers: {
+                            4: { sorter:'currency'},
+                            5: { sorter:'currency'}
+                        }
+            });
+            $("#agencytable").bind("sortEnd", function() {
+                $("#agencytable tr:even").removeClass().addClass("even")
+                $("#agencytable tr:odd").removeClass().addClass("odd");
+            });
+        });
+    </script>
+{% endblock %}
