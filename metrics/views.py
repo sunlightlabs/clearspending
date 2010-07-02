@@ -4,10 +4,20 @@ from django.shortcuts import render_to_response
 from django.db.models import Count, Sum
 from django.db.models.query import QuerySet
 from decimal import Decimal
+from django.core.mail import send_mail
 from helpers.format import moneyfmt
 import math
 
 FISCAL_YEARS = [2007, 2008, 2009]
+
+def contact(request):
+    #submission of contact form
+    name = request.POST.get('name', '')
+    email = request.POST.get('email', '')
+    msg = request.POST.get('message', '')
+    send_mail('Clearspending Feedback from '+name, msg, email, ['klee@sunlightfoundation.com'], fail_silently=True)
+    return render_to_response('contact_thankyou.html')
+
 
 def get_css_color(pct, metric):
     if metric == 'con':  #consistency
