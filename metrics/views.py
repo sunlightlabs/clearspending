@@ -48,7 +48,7 @@ def get_timeliness(timeliness, unit):
         else:
             return (timeliness.late_dollars, get_css_color(pct, 'time'))
     else:
-        return (None,)
+        return (None,'')
 
 def get_completeness(unit, **completeness):
     if completeness:
@@ -61,14 +61,14 @@ def get_completeness(unit, **completeness):
         else:
             return (completeness['failed_total'], get_css_color(pct, 'com'))
     else:
-        return (None, )
+        return (None, '')
 
 def get_consistency(consistency, unit):
     
     if consistency:
-        over = consistency.__dict__['over_reported_'+unit]
-        under = consistency.__dict__['under_reported_'+unit]
-        non = consistency.__dict__['non_reported_'+unit]
+        over = math.fabs(consistency.__dict__['over_reported_'+unit] or 0)
+        under = math.fabs(consistency.__dict__['under_reported_'+unit] or 0)
+        non = math.fabs(consistency.__dict__['non_reported_'+unit] or 0)
         return (over, get_css_color(consistency.over_reported_pct or 0, 'con'), 
                 under, get_css_color(consistency.under_reported_pct or 0, 'con'), 
                 non, get_css_color(consistency.non_reported_pct or 0, 'con'))
