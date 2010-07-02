@@ -117,12 +117,14 @@ table td {text-align: right;}
 table td.title {text-align:left;}
 table.generic-table { margin-top:25px; }
 .agencydescription { padding: 10px 10px; }
-#agencytable th, .programtable th { color: #636466; font-weight: bold; padding: 0 0 10px 20px; vertical-align: top; cursor: pointer; }
+#agencytable th, .programtable th { color: #636466; font-weight: bold; padding: 0 0 10px 25px; vertical-align: top; cursor: pointer; }
 .ratingtable { border-bottom: 1px solid #DAD2BB; padding-bottom: 30px; }
 .ratingtable li { border-top: 1px solid #DAD2BB; margin-top: 30px; padding-top: 30px; }
 .ratingtable th { padding: 0 10px 10px 10px; font-size: 130%; color: #636466; font-weight: bold; }
 #agencytablecontainer {margin-top: 30px; padding-bottom: 30px; border-bottom: 1px solid #DAD2BB; }
 #programtablecontainer { padding: 30px 0px ; border-top: 1px solid #DAD2BB; border-bottom: 1px solid #DAD2BB; }
+.prog-num {width: 50px; }
+.metric-cell { width: 105px; }
 .last-cell { padding-right: 35px !important; }
 #agencytable tbody, #programtable tbody { height: 500px; overflow-y: auto; overflow-x:hidden;  }
 #agencytable tbody tr, #programtable tbody tr {height: auto;}
@@ -146,9 +148,13 @@ table.generic-table { margin-top:25px; }
 .good { color: #439539;}
 .neutral { vertical-align: top; }
 .reviewed { width: 250px; text-align:left; }
-.ratingtable.program-detail th{ width: 150px; text-align: center; }
+.ratingtable.program-detail th{ width: 150px; text-align: right; }
 .ratingtable.program-detail th.reviewed { width: auto; text-align:left; }
 .ratingtable.program-detail th.arrow, .arrow { width: 20px ; }
+
+<!-- some IE hacks -->
+#agencytable tr, #programtable tr, #agencytable tr td, #programtable tr td {height: auto;}
+
 
 #contact-form { width: 900px; margin: 0px auto; color: #8E8E8E; font-size: 90%;}
 #contact-form fieldset.inputs {width: 80%; float:left; }
