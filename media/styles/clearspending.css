@@ -17,7 +17,7 @@ a:active{outline: none; }
 
 #pageBackground { background: #F8F6EC url(../images/below_green_bg.png) top left repeat-x; border-bottom: 23px solid #7B614E; padding: 30px 0 50px; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
-#pageMain p { color: #8E8E8E; font-size: 80%; line-height: 150%; padding: 15px; }
+#pageMain p { color: #8E8E8E; font-size: 90%; line-height: 150%; padding: 15px; }
 #mainContainer { width: 950px; padding: 32px 32px; background: #FFF; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; margin: 0 auto; }
 h2 { width: 268px; height: 44px; margin-bottom: 17px; }
 h2 a { background: url(../images/clearspending-logo.jpg) top left no-repeat; width: 268px; height: 44px; display: block; text-indent: -9999em; }
@@ -150,9 +150,14 @@ table.generic-table { margin-top:25px; }
 .ratingtable.program-detail th.reviewed { width: auto; text-align:left; }
 .ratingtable.program-detail th.arrow, .arrow { width: 20px ; }
 
-#contact-form { width: 700px; margin: 0px auto;}
-#contact-form fieldset.inputs {width: 50%; float:left; }
+#contact-form { width: 900px; margin: 0px auto; color: #8E8E8E; font-size: 90%;}
+#contact-form fieldset.inputs {width: 80%; float:left; }
 #contact-form fieldset.labels {width: 20%; float:left; }
-#contact-form fieldset input {display:block; margin: 0px 0px 10px; width:100%;}
-#contact-form fieldset label {display:block; margin: 0px 0px 8px;}
+#contact-form fieldset input {display:block; margin: 0px 0px 10px; width:60%; float:left; }
+#contact-form fieldset textarea { float: left; width: 60%; }
+#contact-form fieldset label {display:block; margin: 0px 0px 9px; font-weight: bold;}
+#contact-form fieldset label.error {display:block; margin: 0px 0px 0px 8px; padding:0; background-color: white; border: none; font-weight: bold; float:left; font-size: 80%; }
+#contact-form input.error { padding: 0; margin: 0px 0px 10px; float:left; border-color: #FBC2C4; border-width:2px; }
+#contact-form textarea.error {padding: 0; background-color: white;}
+#contact-form input.submit { width: 60px; margin: 10px auto; display: block; clear:both; } 
  
