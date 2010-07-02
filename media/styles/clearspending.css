@@ -166,5 +166,7 @@ table.generic-table { margin-top:25px; }
 #contact-form fieldset label.error {display:block; margin: 0px 0px 0px 8px; padding:0; background-color: white; border: none; font-weight: bold; float:left; font-size: 80%; }
 #contact-form input.error { padding: 0; margin: 0px 0px 10px; float:left; border-color: #FBC2C4; border-width:2px; }
 #contact-form textarea.error {padding: 0; background-color: white;}
-#contact-form input.submit { width: 60px; margin: 10px auto; display: block; clear:both; } 
+#contact-form input.submit { width: 60px; margin: 10px auto; display: block; clear:both; background: transparent url(../images/submit_button.png) no-repeat scroll left top; border: medium none; height:26px; width: 70px; vertical-align:top; margin-top:4px; }
+
+#contact-form .submit:hover { border: none; background: url(../images/submit_button.png) no-repeat; background-position: 0 -36px; width: 70px; height: 26px; margin-top:4px;} 
  
