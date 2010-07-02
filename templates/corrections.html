@@ -4,7 +4,7 @@
 {% block content %} 
 {% js "jquery.tablesorter.min.js" %}
 <h3>Corrections to Program Obligations</h3>
-<p>Clearspending uses CFDA program obligations for its consistency check with USASpending data. However, this datais not perfect. It's a good jumping off point for measuring spending numbers federal agencies report in two different places for the same program. However, there are certain corrections we have made to CFDA data since our primary goal was to measure the quality of data in USASpending. These corrections are listed here and are based on our own previous research or federal agency input. If you work with a federal agency or a specific program and would like to update your obligations, please <a href="{% url contact-us %}">contact us.</a></p>
+<p>Clearspending uses CFDA program obligations for its consistency check with USASpending data. However, this data is not perfect. It's a good jumping off point for measuring spending numbers federal agencies report in two different places for the same program. However, there are certain corrections we have made to CFDA data since our primary goal was to measure the quality of data in USASpending. These corrections are listed here and are based on our own previous research or federal agency input. If you work with a federal agency or a specific program and would like to update your obligations, please <a href="{% url contact-us %}">contact us.</a></p>
 {{queryset}}
 <table id="agencytable" class="generic-table">
     <thead>
