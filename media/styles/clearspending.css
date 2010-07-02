@@ -150,3 +150,9 @@ table.generic-table { margin-top:25px; }
 .ratingtable.program-detail th.reviewed { width: auto; text-align:left; }
 .ratingtable.program-detail th.arrow, .arrow { width: 20px ; }
 
+#contact-form { width: 700px; margin: 0px auto;}
+#contact-form fieldset.inputs {width: 50%; float:left; }
+#contact-form fieldset.labels {width: 20%; float:left; }
+#contact-form fieldset input {display:block; margin: 0px 0px 10px; width:100%;}
+#contact-form fieldset label {display:block; margin: 0px 0px 8px;}
+ 

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Contact Us</h3>
+<p>
+Have a question or comment? Want to update your program's obligation in our data? Please send us a message using the form below.
+</p>
+<p>
+<form id="contact-form" action="{% url contact-post %}">
+<fieldset class="labels">
+<label for="name">Your name:</label>
+<label for="organization">Your organization:</label>
+<label for="email">Your email:</label>
+<label for="message">Message:</label>
+</fieldset>
+<fieldset class="inputs">
+<input name="name" type="text" />
+<input name="organization" type="text" />
+<input name="email" type="text" />
+<textarea name="message" rows="30" cols="20"/></textarea>
+</fieldset>
+</form>
+</p>
+<div class="clear"></div>
+
+
+{% endblock %}
