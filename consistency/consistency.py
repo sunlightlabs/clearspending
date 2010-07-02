@@ -211,7 +211,7 @@ def generate_graphs():
 
 
         if series and overall_max > 0:
-            line_chart = Line(765, 280, series, MEDIA_ROOT+'styles/linechart.css', label_intervals=1, x_padding=25)
+            line_chart = Line(725, 280, series, MEDIA_ROOT+'styles/linechart.css', label_intervals=1, x_padding=45, padding=0)
             line_chart.output("%sagency_chart_%s.svg" % (GRAPH_DIR, a.code)) 
     
 
