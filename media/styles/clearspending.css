@@ -159,7 +159,7 @@ table.generic-table { margin-top:25px; }
 
 #contact-form { width: 900px; margin: 0px auto; color: #8E8E8E; font-size: 90%;}
 #contact-form fieldset.inputs {width: 80%; float:left; }
-#contact-form fieldset.labels {width: 20%; float:left; }
+#contact-form fieldset.labels {width: 13%; float:left; }
 #contact-form fieldset input {display:block; margin: 0px 0px 10px; width:60%; float:left; }
 #contact-form fieldset textarea { float: left; width: 60%; }
 #contact-form fieldset label {display:block; margin: 0px 0px 9px; font-weight: bold;}

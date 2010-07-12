@@ -187,13 +187,20 @@ def getConsistencyTrends(qset, unit):
     under = []
     non = []
     trends = []
+    count = 0
     for q in qset:
+        while q.fiscal_year != FISCAL_YEARS[count]:
+            over.append(0); under.append(0); non.append(0)
+            count += 1
+
         if q.delta > 0:
             over.append(q.__dict__[unit]); under.append(0); non.append(0)
         elif q.weighted_delta == -1:
             non.append(math.fabs(q.__dict__[unit])); under.append(0); over.append(0)
         else:
             under.append(math.fabs(q.__dict__[unit])); over.append(0); non.append(0)
+
+        count += 1
 
     for t in (over, under, non):
         first = None
