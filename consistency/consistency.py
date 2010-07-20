@@ -12,8 +12,8 @@ from decimal import Decimal
 from helpers.charts import Line
 
 def main():
-    assistance_hash = {'1': "Grants", '2': "Loans"} 
-    assistance_type = 1 #default to grants and direct assistance
+    assistance_hash = {'1': "grants", '2': "loans"} 
+    assistance_type = '1' #default to grants and direct assistance
     if len(sys.argv) > 1:
         assistance_type = sys.argv[1]
     
@@ -21,10 +21,10 @@ def main():
     underreporting = 0
     overreporting = 0
     
-    agency_writer = csv.writer(open('csv/agency_stats_%s.csv' % assistance_hash[assistance_type], 'w'))
-    program_writer = csv.writer(open('csv/program_stats_%s.csv' % assistance_hash[assistance_type], 'w'))
+    agency_writer = csv.writer(open('media/docs/agency_%s.csv' % assistance_hash[assistance_type], 'w'))
+    program_writer = csv.writer(open('media/docs/program_%s.csv' % assistance_hash[assistance_type], 'w'))
 
-    agency_writer.writerow(('Agency Name', 'Fiscal Year', 'CFDA Obligations', 'USASpending Obligations', 'Avg underreporting %', 'underreporting % std', 'Avg overreporting %', 'overreporting % std', 'Non-reporting Programs', 'Non-reporting obligations', '% of obligations NOT reported', 'Total programs'))
+    agency_writer.writerow(('Agency Name', 'Fiscal Year', 'CFDA Obligations', 'USASpending Obligations', 'non reported obligations', 'under reported obligations', 'under reported percent', 'over reporting obligations', '% of obligations over reported', 'Total programs'))
     program_writer.writerow(('Program Number', 'Program Name', 'Fiscal Year', 'Agency', 'CFDA Obligations', 'USASpending Obligations', 'Delta', 'Percent under/over reported'))
 
     fin_programs = Program.objects.filter(types_of_assistance__financial=True ).distinct()
@@ -159,6 +159,7 @@ def score_agency(agency, fin_obligations, fiscal_year, writer, type):
         ac.over_reported_pct = 0
         ac.under_reported_pct = 0
     ac.save() 
+    writer.writerow((agency.name, fiscal_year, ac.total_cfda_obligations, ac.total_usa_obligations, ac.non_reported_dollars, ac.under_reported_dollars, ac.under_reported_pct, ac.over_reported_dollars, ac.over_reported_pct, len(obs))) 
    
 def calc_stats(float_array):
     stats = {}

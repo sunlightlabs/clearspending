@@ -1,1 +1,148 @@
-Agency Name,Fiscal Year,CFDA Obligations,USASpending Obligations,Avg underreporting %,underreporting % std,Avg overreporting %,overreporting % std,Non-reporting Programs,Non-reporting obligations,% of obligations NOT reported,Total programs
+Agency Name,Fiscal Year,CFDA Obligations,USASpending Obligations,non reported obligations,under reported obligations,under reported percent,over reporting obligations,% of obligations over reported,Total programs
+Appalachian Regional Commission,2007,0,0,0.0,0.0,0,0,0,0
+Architectural and Transportation Barriers Compliance Board,2007,0,0,0.0,0.0,0,0,0,0
+Commission on Civil Rights,2007,0,0,0.0,0.0,0,0,0,0
+Commodity Futures Trading Commission,2007,0,0,0.0,0.0,0,0,0,0
+Corporation for National and Community Service,2007,0,0,0.0,0.0,0,0,0,0
+"Denali Commission, Delta Regional Authority, Japan US Friendship Commission, US Election Assistance Commission, Broadcasting Board of Governors",2007,0,0,0.0,0.0,0,0,0,0
+Department of Agriculture,2007,90370512734.00,14280994603.00,16057147300.0,60236394823.0,66.65492205438967981146300265,204023992.00,0.2257638977887975119917725618,26
+Department of Commerce,2007,59000000.00,43053500.00,0.0,15946500.0,27.02796610169491525423728814,0,0E+2,1
+Department of Defense,2007,0,0,0.0,0.0,0,0,0,0
+Department of Education,2007,0,0,0.0,0.0,0,0,0,0
+Department of Energy,2007,0,0,0.0,0.0,0,0,0,0
+Department of Health and Human Services,2007,89165098.00,0,89165098.0,0.0,0E+1,0,0E+2,7
+Department of Homeland Security,2007,128084050.00,0,128084050.0,0.0,0E+1,0,0E+2,1
+Department of Housing and Urban Development,2007,95534573295.00,0,95534573295.0,0.0,0E+1,0,0E+2,17
+Department of Justice,2007,0,0,0.0,0.0,0,0,0,0
+Department of Labor,2007,0,0,0.0,0.0,0,0,0,0
+Department of the Interior,2007,85485456.00,0,85485456.0,0.0,0E+1,0,0E+2,1
+Department of the Treasury,2007,0,0,0.0,0.0,0,0,0,0
+Department of Transportation,2007,969635000.00,766000000.00,187635000.0,16000000.0,1.650105452051545169058460142,0,0E+2,4
+Department of Veterans Affairs,2007,24199371116.00,0,24199371116.0,0.0,0E+1,0,0E+2,6
+Environmental Protection Agency,2007,0,0,0.0,0.0,0,0,0,0
+Equal Employment Opportunity Commission,2007,0,0,0.0,0.0,0,0,0,0
+Export Import Bank of the United States,2007,0,0,0.0,0.0,0,0,0,0
+Federal Communications Commission,2007,0,0,0.0,0.0,0,0,0,0
+Federal Maritime Commission,2007,0,0,0.0,0.0,0,0,0,0
+Federal Mediation and Concillation Service,2007,0,0,0.0,0.0,0,0,0,0
+Federal Trade Commission,2007,0,0,0.0,0.0,0,0,0,0
+General Services Administration,2007,0,0,0.0,0.0,0,0,0,0
+Government Printing Office,2007,0,0,0.0,0.0,0,0,0,0
+Library of Congress,2007,0,0,0.0,0.0,0,0,0,0
+National Aeronautics and Space Administration,2007,0,0,0.0,0.0,0,0,0,0
+National Archives and Records Administration,2007,0,0,0.0,0.0,0,0,0,0
+National Credit Union Administration,2007,275300000.00,5684203.00,268000000.0,1615797.0,0.5869222666182346531057028696,0,0E+2,2
+National Endowment for the Arts,2007,0,0,0.0,0.0,0,0,0,1
+National Gallery of Art,2007,0,0,0.0,0.0,0,0,0,0
+National Labor Relations Board,2007,0,0,0.0,0.0,0,0,0,0
+National Science Foundation,2007,0,0,0.0,0.0,0,0,0,0
+Nuclear Regulatory Commission,2007,0,0,0.0,0.0,0,0,0,0
+Office of Personnel Management,2007,0,0,0.0,0.0,0,0,0,0
+Overseas Private Investment Corporation,2007,3150000000.00,0,3150000000.0,0.0,0E+1,0,0E+2,2
+Pension Benefit Guaranty Corporation,2007,4890000000.00,0,4890000000.0,0.0,0E+1,0,0E+2,1
+Railroad Retirement Board,2007,0,0,0.0,0.0,0,0,0,0
+Securities and Exchange Commission,2007,0,0,0.0,0.0,0,0,0,0
+Small Business Administraton,2007,23408798000.00,24337864241.00,563243000.0,1920805200.0,8.205484109008929035997491200,3413114441.00,14.58047713940715794121509357,7
+Social Security Administration,2007,0,0,0.0,0.0,0,0,0,0
+U.S. Department of State,2007,500000.00,0,500000.0,0.0,0E+1,0,0E+2,1
+United States Agency for International Development,2007,0,0,0.0,0.0,0,0,0,0
+United States Institute of Peace,2007,0,0,0.0,0.0,0,0,0,0
+Various Scholarship and Fellowship Foundations,2007,0,0,0.0,0.0,0,0,0,0
+Appalachian Regional Commission,2008,0,0,0.0,0.0,0,0,0,0
+Architectural and Transportation Barriers Compliance Board,2008,0,0,0.0,0.0,0,0,0,0
+Commission on Civil Rights,2008,0,0,0.0,0.0,0,0,0,0
+Commodity Futures Trading Commission,2008,0,0,0.0,0.0,0,0,0,0
+Corporation for National and Community Service,2008,0,0,0.0,0.0,0,0,0,0
+"Denali Commission, Delta Regional Authority, Japan US Friendship Commission, US Election Assistance Commission, Broadcasting Board of Governors",2008,0,0,0.0,0.0,0,0,0,0
+Department of Agriculture,2008,39160702552.00,14575167229.00,18242745700.0,6872626587.0,17.54980411261545132250874537,529836964.00,1.352981252817029389437395097,22
+Department of Commerce,2008,37857682.00,31721799.00,0.0,6135883.0,16.20776200719315038886955625,0,0E+2,1
+Department of Defense,2008,0,0,0.0,0.0,0,0,0,0
+Department of Education,2008,106272000000.00,942574727287.00,73097000000.0,0.0,0E+1,909399727287.00,855.7284395579268292682926829,2
+Department of Energy,2008,0,0,0.0,0.0,0,0,0,1
+Department of Health and Human Services,2008,454327940721.00,0,454327940721.0,0.0,0E+1,0,0E+2,9
+Department of Homeland Security,2008,133615961.00,0,133615961.0,0.0,0E+1,0,0E+2,3
+Department of Housing and Urban Development,2008,184718427728.00,0,184718427728.0,0.0,0E+1,0,0E+2,33
+Department of Justice,2008,0,0,0.0,0.0,0,0,0,0
+Department of Labor,2008,0,0,0.0,0.0,0,0,0,1
+Department of the Interior,2008,84172203.00,0,84172203.0,0.0,0E+1,0,0E+2,1
+Department of the Treasury,2008,0,0,0.0,0.0,0,0,0,0
+Department of Transportation,2008,2399562000.00,2199768625.00,8562000.0,191231375.0,7.969428379012503115151848546,0,0E+2,4
+Department of Veterans Affairs,2008,34779262896.00,0,34779262896.0,0.0,0E+1,0,0E+2,6
+Environmental Protection Agency,2008,0,0,0.0,0.0,0,0,0,0
+Equal Employment Opportunity Commission,2008,0,0,0.0,0.0,0,0,0,0
+Export Import Bank of the United States,2008,14398900000.00,12399132948.00,0.0,1999767052.0,13.88833210870274812659300363,0,0E+2,1
+Federal Communications Commission,2008,0,0,0.0,0.0,0,0,0,0
+Federal Maritime Commission,2008,0,0,0.0,0.0,0,0,0,0
+Federal Mediation and Concillation Service,2008,0,0,0.0,0.0,0,0,0,0
+Federal Trade Commission,2008,0,0,0.0,0.0,0,0,0,0
+General Services Administration,2008,0,0,0.0,0.0,0,0,0,0
+Government Printing Office,2008,0,0,0.0,0.0,0,0,0,0
+Library of Congress,2008,0,0,0.0,0.0,0,0,0,0
+National Aeronautics and Space Administration,2008,0,0,0.0,0.0,0,0,0,0
+National Archives and Records Administration,2008,0,0,0.0,0.0,0,0,0,0
+National Credit Union Administration,2008,276500000.00,2089651.00,274000000.0,410349.0,0.1484083182640144665461121157,0,0E+2,2
+National Endowment for the Arts,2008,0,0,0.0,0.0,0,0,0,1
+National Gallery of Art,2008,0,0,0.0,0.0,0,0,0,0
+National Labor Relations Board,2008,0,0,0.0,0.0,0,0,0,0
+National Science Foundation,2008,0,0,0.0,0.0,0,0,0,0
+Nuclear Regulatory Commission,2008,0,0,0.0,0.0,0,0,0,0
+Office of Personnel Management,2008,0,0,0.0,0.0,0,0,0,0
+Overseas Private Investment Corporation,2008,1374000000.00,0,1374000000.0,0.0,0E+1,0,0E+2,1
+Pension Benefit Guaranty Corporation,2008,4606000000.00,0,4606000000.0,0.0,0E+1,0,0E+2,1
+Railroad Retirement Board,2008,0,0,0.0,0.0,0,0,0,0
+Securities and Exchange Commission,2008,0,0,0.0,0.0,0,0,0,0
+Small Business Administraton,2008,30418092000.00,15193075686.00,1011847000.0,14238556880.0,46.80950034604405825322640223,25387566.00,0.08346205935599116473183130618,7
+Social Security Administration,2008,0,0,0.0,0.0,0,0,0,0
+U.S. Department of State,2008,0,0,0.0,0.0,0,0,0,0
+United States Agency for International Development,2008,0,0,0.0,0.0,0,0,0,0
+United States Institute of Peace,2008,0,0,0.0,0.0,0,0,0,0
+Various Scholarship and Fellowship Foundations,2008,0,0,0.0,0.0,0,0,0,0
+Appalachian Regional Commission,2009,0,0,0.0,0.0,0,0,0,0
+Architectural and Transportation Barriers Compliance Board,2009,0,0,0.0,0.0,0,0,0,0
+Commission on Civil Rights,2009,0,0,0.0,0.0,0,0,0,0
+Commodity Futures Trading Commission,2009,0,0,0.0,0.0,0,0,0,0
+Corporation for National and Community Service,2009,0,0,0.0,0.0,0,0,0,0
+"Denali Commission, Delta Regional Authority, Japan US Friendship Commission, US Election Assistance Commission, Broadcasting Board of Governors",2009,0,0,0.0,0.0,0,0,0,0
+Department of Agriculture,2009,35542342296.00,29955537128.00,0.0,12785038343.0,35.97128809498537614331460379,7198233175.00,20.25255711920286774337918272,21
+Department of Commerce,2009,67000000.00,55695467.00,0.0,11304533.0,16.87243731343283582089552239,0,0E+2,1
+Department of Defense,2009,0,0,0.0,0.0,0,0,0,0
+Department of Education,2009,118020000000.00,5211789108874.00,76845000000.0,0.0,0E+1,5170614108874.00,4381.133798401965768513811218,2
+Department of Energy,2009,0,0,0.0,0.0,0,0,0,1
+Department of Health and Human Services,2009,497048692429.00,0,497048692429.0,0.0,0E+1,0,0E+2,7
+Department of Homeland Security,2009,174000000.00,0,174000000.0,0.0,0E+1,0,0E+2,3
+Department of Housing and Urban Development,2009,320443504000.00,0,320443504000.0,0.0,0E+1,0,0E+2,32
+Department of Justice,2009,0,0,0.0,0.0,0,0,0,0
+Department of Labor,2009,5925000.00,0,5925000.0,0.0,0E+1,0,0E+2,1
+Department of the Interior,2009,84172203.00,0,84172203.0,0.0,0E+1,0,0E+2,1
+Department of the Treasury,2009,0,0,0.0,0.0,0,0,0,0
+Department of Transportation,2009,603531000.00,0,603531000.0,0.0,0E+1,0,0E+2,3
+Department of Veterans Affairs,2009,35834994540.00,0,35834994540.0,0.0,0E+1,0,0E+2,6
+Environmental Protection Agency,2009,0,0,0.0,0.0,0,0,0,0
+Equal Employment Opportunity Commission,2009,0,0,0.0,0.0,0,0,0,0
+Export Import Bank of the United States,2009,17500000000.00,14350394752.00,0.0,3149605248.0,17.99774427428571428571428571,0,0E+2,1
+Federal Communications Commission,2009,0,0,0.0,0.0,0,0,0,0
+Federal Maritime Commission,2009,0,0,0.0,0.0,0,0,0,0
+Federal Mediation and Concillation Service,2009,0,0,0.0,0.0,0,0,0,0
+Federal Trade Commission,2009,0,0,0.0,0.0,0,0,0,0
+General Services Administration,2009,0,0,0.0,0.0,0,0,0,0
+Government Printing Office,2009,0,0,0.0,0.0,0,0,0,0
+Library of Congress,2009,0,0,0.0,0.0,0,0,0,0
+National Aeronautics and Space Administration,2009,0,0,0.0,0.0,0,0,0,0
+National Archives and Records Administration,2009,0,0,0.0,0.0,0,0,0,0
+National Credit Union Administration,2009,0,0,0.0,0.0,0,0,0,0
+National Endowment for the Arts,2009,0,0,0.0,0.0,0,0,0,1
+National Gallery of Art,2009,0,0,0.0,0.0,0,0,0,0
+National Labor Relations Board,2009,0,0,0.0,0.0,0,0,0,0
+National Science Foundation,2009,0,0,0.0,0.0,0,0,0,0
+Nuclear Regulatory Commission,2009,0,0,0.0,0.0,0,0,0,0
+Office of Personnel Management,2009,0,0,0.0,0.0,0,0,0,0
+Overseas Private Investment Corporation,2009,2000000000.00,0,2000000000.0,0.0,0E+1,0,0E+2,1
+Pension Benefit Guaranty Corporation,2009,0,0,0.0,0.0,0,0,0,0
+Railroad Retirement Board,2009,0,0,0.0,0.0,0,0,0,0
+Securities and Exchange Commission,2009,0,0,0.0,0.0,0,0,0,0
+Small Business Administraton,2009,29699504000.00,9763664191.00,1272983000.0,18690176783.0,62.93093912612143286972065257,27319974.00,0.09198798067469409590139956546,10
+Social Security Administration,2009,0,0,0.0,0.0,0,0,0,0
+U.S. Department of State,2009,0,0,0.0,0.0,0,0,0,0
+United States Agency for International Development,2009,0,0,0.0,0.0,0,0,0,0
+United States Institute of Peace,2009,0,0,0.0,0.0,0,0,0,0
+Various Scholarship and Fellowship Foundations,2009,0,0,0.0,0.0,0,0,0,0
