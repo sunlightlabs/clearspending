@@ -12,7 +12,7 @@ from decimal import Decimal
 from helpers.charts import Line
 
 def main():
-    
+    assistance_hash = {'1': "Grants", '2': "Loans"} 
     assistance_type = 1 #default to grants and direct assistance
     if len(sys.argv) > 1:
         assistance_type = sys.argv[1]
@@ -21,8 +21,8 @@ def main():
     underreporting = 0
     overreporting = 0
     
-    agency_writer = csv.writer(open('csv/agency_stats_%s.csv' % assistance_type, 'w'))
-    program_writer = csv.writer(open('csv/program_stats_%s.csv' % assistance_type, 'w'))
+    agency_writer = csv.writer(open('csv/agency_stats_%s.csv' % assistance_hash[assistance_type], 'w'))
+    program_writer = csv.writer(open('csv/program_stats_%s.csv' % assistance_hash[assistance_type], 'w'))
 
     agency_writer.writerow(('Agency Name', 'Fiscal Year', 'CFDA Obligations', 'USASpending Obligations', 'Avg underreporting %', 'underreporting % std', 'Avg overreporting %', 'overreporting % std', 'Non-reporting Programs', 'Non-reporting obligations', '% of obligations NOT reported', 'Total programs'))
     program_writer.writerow(('Program Number', 'Program Name', 'Fiscal Year', 'Agency', 'CFDA Obligations', 'USASpending Obligations', 'Delta', 'Percent under/over reported'))
@@ -93,19 +93,20 @@ def main():
                 except ProgramConsistency.DoesNotExist:    
                     pcm = ProgramConsistency(fiscal_year=fy, program=prog, type=assistance_type, agency=prog.agency)
 
+                try:
                     if p.delta < 0:
                         if p.weighted_delta == -1:
-                            pcm.non_reported_dollars = Decimal(str(math.fabs(p.delta)))
+                            pcm.non_reported_dollars = Decimal(str(math.fabs(p.obligation or 0)))
                             pcm.non_reported_pct = -100
                         else:
-                            pcm.under_reported_dollars = Decimal(str(math.fabs(p.delta)))
-                            pcm.under_reported_pct = Decimal(str(math.fabs(p.weighted_delta * 100)))
+                            pcm.under_reported_dollars = Decimal(str(math.fabs(p.delta or 0)))
+                            pcm.under_reported_pct = Decimal(str(math.fabs((p.weighted_delta or 0) * 100)))
 
                     elif p.delta > 0:
                         pcm.over_reported_dollars = p.delta
-                        pcm.over_reported_pct = p.weighted_delta * 100
+                        pcm.over_reported_pct = (p.weighted_delta or 0) * 100
 
-                    p.save()
+                    #p.save()
                     pcm.save() 
                     program_writer.writerow((p.program.program_number, p.program.program_title.replace(u'\u2013', "").replace(u'\xa0', ''), fy, p.program.agency.name, p.obligation, p.usaspending_obligation, p.delta, p.weighted_delta)) 
                 except UnicodeEncodeError, e:
@@ -211,7 +212,7 @@ def generate_graphs():
 
 
         if series and overall_max > 0:
-            line_chart = Line(725, 280, series, MEDIA_ROOT+'styles/linechart.css', label_intervals=1, x_padding=45, padding=0)
+            line_chart = Line(725, 280, series, MEDIA_ROOT+'styles/linechart.css', label_intervals=1, x_padding=55, padding=0)
             line_chart.output("%sagency_chart_%s.svg" % (GRAPH_DIR, a.code)) 
     
 
