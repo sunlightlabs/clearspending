@@ -17,7 +17,10 @@ a:active{outline: none; }
 
 #pageBackground { background: #F8F6EC url(../images/below_green_bg.png) top left repeat-x; border-bottom: 23px solid #7B614E; padding: 30px 0 50px; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
-#pageMain p { color: #8E8E8E; font-size: 90%; line-height: 150%; padding: 15px; }
+#pageMain p, ul, ol  { color: #717171; font-size: 90%; line-height: 150%;}
+#pageMain p{ padding: 15px; }
+#pageMain ul, #pageMain ol { margin-left: 30px; }
+#pageMain ol {list-style-type: decimal; margin-left: 60px; }
 #mainContainer { width: 950px; padding: 32px 32px; background: #FFF; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; margin: 0 auto; }
 h2 { width: 268px; height: 44px; margin-bottom: 17px; }
 h2 a { background: url(../images/clearspending-logo.jpg) top left no-repeat; width: 268px; height: 44px; display: block; text-indent: -9999em; }
@@ -98,7 +101,7 @@ h3 { color: #636466; font-size: 150%; font-weight: bold; padding: 0 15px 20px; }
 #agencylogo { margin-right: 15px; float: left; }
 #department { color: #636466; font-size: 120%; font-weight: bold; }
 #title { float: left; width: 762px; }
-h4 { color: #636466; font-size: 120%; font-weight: bold; vertical-align: top; line-height: 130%; margin-bottom: 5px; }
+h4 { color: #636466; font-size: 120%; font-weight: bold; vertical-align: top; line-height: 130%; margin-bottom: 0px; padding: 0 15px; }
 #programdescription { color: #8E8E8E; font-size: 80%; line-height: 150%; }
 #graph { float: left; }
 #description { margin-bottom: 10px; }
@@ -169,4 +172,5 @@ table.generic-table { margin-top:25px; }
 #contact-form input.submit { width: 60px; margin: 10px auto; display: block; clear:both; background: transparent url(../images/submit_button.png) no-repeat scroll left top; border: medium none; height:26px; width: 70px; vertical-align:top; margin-top:4px; }
 
 #contact-form .submit:hover { border: none; background: url(../images/submit_button.png) no-repeat; background-position: 0 -36px; width: 70px; height: 26px; margin-top:4px;} 
-ul.resources { font-size: 90%; margin-left: 30px; list-style-type: disc; } 
+ul.resources { font-size: 90%; margin-left: 30px; list-style-type: disc; }
+ul.resources a { color: #636466; }
