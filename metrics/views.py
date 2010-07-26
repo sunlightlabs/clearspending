@@ -96,7 +96,7 @@ def index(request, unit='dollars', fiscal_year=2009):
 
         a_data.extend(get_consistency(get_first(consistency.filter(agency=a)), unit))
         a_data.extend(get_timeliness(get_first(timeliness.filter(agency=a)), unit))
-        completeness_totals = ProgramCompleteness.objects.filter(agency=a).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
+        completeness_totals = ProgramCompleteness.objects.filter(program__agency=a, fiscal_year=fiscal_year).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
         a_data.extend(get_completeness(unit, **completeness_totals))
 
         table_data.append(a_data) 
@@ -108,7 +108,7 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
     summary_numbers = []
     summary_numbers.extend(get_consistency(get_first(AgencyConsistency.objects.filter(agency=agency_id, fiscal_year=fiscal_year)), 'dollars'))
     summary_numbers.extend(get_timeliness(get_first(AgencyTimeliness.objects.filter(agency=agency_id, fiscal_year=fiscal_year)), 'dollars'))
-    completeness_totals = ProgramCompleteness.objects.filter(agency=agency_id, fiscal_year=fiscal_year).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
+    completeness_totals = ProgramCompleteness.objects.filter(program__agency=agency_id, fiscal_year=fiscal_year).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
     summary_numbers.extend(get_completeness('dollars', **completeness_totals)) 
     summary_numbers = filter( lambda x: not isinstance(x, basestring) , summary_numbers) #remove css colors
 
@@ -120,18 +120,31 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
         consistency = ProgramConsistency.objects.filter(fiscal_year=fiscal_year, program=p)
         timeliness = ProgramTimeliness.objects.filter(fiscal_year=fiscal_year, program=p)
         completeness_totals = ProgramCompleteness.objects.filter(program=p, fiscal_year=fiscal_year).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
-        for ob in consistency:
-            display_name = p.program_title
-            #if len(display_name) > 35: display_name = "%s..." % display_name[0:32]
-            row = [ p.program_number,
-                    p.id,
-                    "%s (%s)" % (display_name, types[ob.type]),
-                    ]
-            row.extend(get_consistency(ob, unit))
-            row.extend(get_timeliness(get_first(timeliness), unit))
-            row.extend(get_completeness(unit, **completeness_totals))
+        display_name = p.program_title
+        if len(consistency) > 0:
+            ob_type = "(%s)" % types[get_first(consistency).type]
+        else: ob_type = ""
 
-            table_data.append(row)
+        #if len(display_name) > 35: display_name = "%s..." % display_name[0:32]
+        row = [ p.program_number,
+                p.id,
+                "%s %s" % (display_name, ob_type),
+                ]
+        row.extend(get_consistency(get_first(consistency), unit))
+        row.extend(get_timeliness(get_first(timeliness), unit))
+        row.extend(get_completeness(unit, **completeness_totals))
+        table_data.append(row)
+
+        if len(consistency) > 1:
+            for ob in consistency[1:]:
+                row = [ p.program_number,
+                        p.id,
+                        "%s (%s)" % (display_name, types[ob.type]),
+                        ]
+                row.extend(get_consistency(ob, unit))
+                row.extend(get_timeliness(get_first(timeliness), unit))
+                row.extend(get_completeness(unit, **completeness_totals))
+                table_data.append(row)
 
     return render_to_response('agency_detail.html', {'summary_numbers': summary_numbers, 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'agency_name': agency.name, 'agency': agency_id, 'description': agency.description})
 
@@ -200,6 +213,10 @@ def getConsistencyTrends(qset, unit):
         else:
             under.append(math.fabs(q.__dict__[unit])); over.append(0); non.append(0)
 
+        count += 1
+    #if q.fiscal_year < 2009:
+    while count < 3:
+        over.append(0); under.append(0); non.append(0)
         count += 1
 
     for t in (over, under, non):
