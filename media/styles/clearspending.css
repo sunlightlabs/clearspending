@@ -104,10 +104,13 @@ h3 { color: #636466; font-size: 150%; font-weight: bold; padding: 0 15px 20px; }
 h4 { color: #636466; font-size: 120%; font-weight: bold; vertical-align: top; line-height: 130%; margin-bottom: 0px; padding: 0 15px; }
 #programdescription { color: #8E8E8E; font-size: 80%; line-height: 150%; }
 #graph { float: left; }
-#description { margin-bottom: 10px; }
-#description ul.legend {margin-top: 50px; color: #8E8E8E; font-size: 80%; width: 22%; float:left; display:block;}
+#description { margin-bottom: 30px; }
+#description ul.legend {margin-top: 50px; color: #8E8E8E; font-size: 80%; width: 22%; float:left; display:block; margin-left: 0px;}
 #description ul.legend li { width: 100%; text-align:left; }
-#description ul.legend li span {width:10px; height: 10px; display: block; float:left; margin-right: 5px; margin-top: 4px;}
+#description ul.legend li span, ul#bottom-legend li span {width:10px; height: 10px; display: block; float:left; margin-right: 5px; margin-top: 4px;}
+ul#bottom-legend li {float:left;  margin: 5px 20px;}
+ul#bottom-legend li span {margin-top: 7px; }
+ul#bottom-legend{ margin:15px 0px; padding: 15px 0px; display: block; }
 #bignumbers { margin: 0 auto; }
 #bignumbers li{ font-family: "chunk-1","chunk-2", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #7ABDD4; font-size: 120%; float: left; display: block; text-align: center; margin: 0 20px 38px; width: 135px;  }
 .bignumberstext { display: block; margin-top: 12px; font-size: 80%; }
@@ -115,8 +118,9 @@ h4 { color: #636466; font-size: 120%; font-weight: bold; vertical-align: top; li
 .redarrow { background: url(../images/redarrow.png) top left no-repeat; display: block; width: 17px; height: 19px; text-indent: -9999em; }
 
 /*---------------------------tables*/
+table { font-size: 90%; }
 
-table { font-size: 80%; width: 100%; }
+table#programtable, table#agencytable { width: 100%; font-size: 80%; }
 table td {text-align: right;}
 table td.title {text-align:left;}
 table.generic-table { margin-top:25px; }
