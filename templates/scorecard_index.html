@@ -1,7 +1,7 @@
 {% extends "scorecard_base.html" %}
 {% load media %}
 {% load humanize %}
-
+{% load smarterif %}
 {% block header %}
     {% js "jquery.tablesorter.min.js" %}
     <h3>Agencies</h3>
@@ -22,6 +22,9 @@
             </thead>
             <tbody>
             {% for row in table_data %}
+                {% if not row.4 and not row.6 and not row.8 and not row.10 and not row.12 %}
+                    
+                {% else %}
                 <tr class="{% cycle 'odd' 'even' %}">
                     <td class="title"><a class="name" href="{% url agency_detail row.0 fiscal_year unit %}" alt="{{row.2}}">{{row.3}}<span title="number of programs in agency"> ({{row.1}}) </span></a></td>
                     <td class="{{row.5}}">
@@ -40,6 +43,7 @@
                         {% if row.12%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.12|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
                     </td>
                 </tr>
+                {% endif %}
             {% endfor %}
             </tbody>
         </table>        
