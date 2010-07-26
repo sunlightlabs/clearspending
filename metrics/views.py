@@ -119,7 +119,7 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
     for p in programs:
         consistency = ProgramConsistency.objects.filter(fiscal_year=fiscal_year, program=p)
         timeliness = ProgramTimeliness.objects.filter(fiscal_year=fiscal_year, program=p)
-        completeness_totals = ProgramCompleteness.objects.filter(program=p).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
+        completeness_totals = ProgramCompleteness.objects.filter(program=p, fiscal_year=fiscal_year).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
         for ob in consistency:
             display_name = p.program_title
             #if len(display_name) > 35: display_name = "%s..." % display_name[0:32]
