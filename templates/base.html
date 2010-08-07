@@ -35,11 +35,10 @@
 </div>  
 
 
-    <div id="greenbar">
-        <div class="container">
-            <div class="column span-24">
+<div id="greenbar">
+    <div class="container">
+        <div class="column span-24">
             <div id="mailing_list_box">
-
                 <div id="mailinglist-form">
                     <span class="list_prompt">You should join the transparency movement</span>
                     <form action="/mailinglist/subscribe/" method="post" id="mailinglist-form">
@@ -62,38 +61,35 @@
 
                     </div>
                 </div>          
-                    <div id="mailinglist-form-error"></div>
-                    <div id="mailinglist-form-thanks"></div>
-                </div>  
-            </div>
+                <div id="mailinglist-form-error"></div>
+                <div id="mailinglist-form-thanks"></div>
+            </div>  
         </div>
     </div>
+</div>
     <!-- ends top container -->
-	 <div id="pageBackground">
-        <div id="mainContainer">
-            <div id="header">
-                <h2><a href="{% url clearspending-index %}"><big>Clearspending</big><small>Making Sense of the Federal Checkbook</small></a></h2>
-                <div id="nav">
-                    <ul>
+<div id="pageBackground">
+    <div id="mainContainer">
+        <div id="header">
+            <h2><a href="{% url clearspending-index %}"><big>Clearspending</big><small>Making Sense of the Federal Checkbook</small></a></h2>
+            <div id="nav">
+                <ul>
 
-                        <li id="scorecard"><a href="{% url scorecard-index %}">Scorecard</a></li>
-                        <li id="background"><a href="{% url background %}">Background</a></li>
-                        <li id="analysis"><a href="{% url analysis %}">Analysis</a></li>
-                        <li id="methodology"><a href="{% url methodology %}">Methodology</a></li>
-                        <li id="corrections"><a href="{% url corrections %}">Corrections</a></li>
-                        <li id="resources"><a href="{% url resources %}">Resources</a></li>
+                    <li id="scorecard"><a href="{% url scorecard-index %}">Scorecard</a></li>
+                    <li id="background"><a href="{% url background %}">Background</a></li>
+                    <li id="analysis"><a href="{% url analysis %}">Analysis</a></li>
+                    <li id="methodology"><a href="{% url methodology %}">Methodology</a></li>
+                    <li id="corrections"><a href="{% url corrections %}">Corrections</a></li>
+                    <li id="resources"><a href="{% url resources %}">Resources</a></li>
 
-                        <li id="feedback"><a href="{% url feedback %}">Feedback</a></li>
-                    </ul>
-                </div> <!-- end nav -->
-            </div> <!-- end header -->
-            <div id="pageMain">
-                {% block content %}
-                {% endblock content %}
-            </div>
+                    <li id="feedback"><a href="{% url feedback %}">Feedback</a></li>
+                </ul>
+            </div> <!-- end nav -->
+        </div> <!-- end header -->
+        <div id="pageMain">
+            {% block content %}
+            {% endblock content %}
         </div>
     </div>
-	 
-
 </div>
 </body></html>

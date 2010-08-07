@@ -21,7 +21,7 @@ urlpatterns = patterns('',
     url(r'^feedback/$', direct_to_template, {'template':'contact.html'}, name='feedback'),
     url(r'^feedback/submitted/$', 'metrics.views.contact', name="contact-post"),
     url(r'^corrections/', object_list, {'template_name': 'corrections.html', 'queryset': ProgramCorrection.objects.all().order_by('program')}, name='corrections'),
-    url(r'^animation/$', direct_to_template, {'template': 'animation/index.html'}),
+    url(r'^animation/$', direct_to_template, {'template': 'animation/index.html'}, name="animation"),
     url(r'^admin/(.*)', admin.site.root),
     url(r'^agency/(?P<agency_id>\d+)/(?P<fiscal_year>\d{4})/(?P<unit>\w+)/', 'metrics.views.agencyDetail', name="agency_detail"),
     url(r'^program/(?P<program_id>\d+)/(?P<unit>\w+)/', 'metrics.views.programDetail', name='program_detail'), 
@@ -29,12 +29,10 @@ urlpatterns = patterns('',
 )
 
 
-#if settings.DEBUG:
-#    from django.views.static import serve
-#    _media_url = settings.MEDIA_URL
-#    if _media_url.startswith('/'):
-#        _media_url = _media_url[1:]    
-#    urlpatterns += patterns('', (r'^%s(?P<path>.*)$' % _media_url, serve, { 'document_root': settings.MEDIA_ROOT }))
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_MEDIA_DIR})
+        )
    
 
 
