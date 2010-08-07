@@ -14,17 +14,16 @@ a:active{outline: none; }
 .clear{ clear: both;}
 
 /*-----------------all pages*/
-
-#pageBackground { background: #F8F6EC url(../images/below_green_bg.png) top left repeat-x; border-bottom: 23px solid #7B614E; padding: 30px 0 50px; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+#pageBackground { width: 100%; background: #F8F6EC url(../images/below_green_bg.png) top left repeat-x; border-bottom: 23px solid #7B614E; padding: 30px 0 50px; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
 #pageMain p, ul, ol  { color: #717171; font-size: 90%; line-height: 150%;}
 #pageMain p{ padding: 15px; }
 #pageMain ul, #pageMain ol { margin-left: 30px; }
 #pageMain ol {list-style-type: decimal; margin-left: 60px; }
-#mainContainer { width: 950px; padding: 32px 32px; background: #FFF; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; margin: 0 auto; }
+#mainContainer { width: 1024px; padding: 32px 32px; background: #FFF; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; margin: 0 auto; }
 h2 { width: 268px; height: 44px; margin-bottom: 17px; }
 h2 a { background: url(../images/clearspending-logo.jpg) top left no-repeat; width: 268px; height: 44px; display: block; text-indent: -9999em; }
-#nav { width: 950px; height: 20px; background: #85BE3D; padding-top: 10px; }
+#nav { width: 1024px; height: 20px; background: #85BE3D; padding-top: 10px; }
 #nav ul { float: right; display: block; }
 #nav li {  float: left; display: block; padding: 0 10px; border-right: #FFF 1px solid; text-transform: uppercase; font-size: 70%; font-weight: bold; }
 #nav li a { color: #FFF; text-decoration: none; }
@@ -178,3 +177,28 @@ table.generic-table { margin-top:25px; }
 #contact-form .submit:hover { border: none; background: url(../images/submit_button.png) no-repeat; background-position: 0 -36px; width: 70px; height: 26px; margin-top:4px;} 
 ul.resources { font-size: 90%; margin-left: 30px; list-style-type: disc; }
 ul.resources a { color: #636466; }
+
+/* homepage styles */
+
+div.index-header { color: #636466; font-weight: bold; width: 75%; margin: 20px auto 50px; }
+div.index-header span { padding-left:80px; font-size: 110%; }
+div.index-header span.total-obligations { padding-left: 0px; color: #80C2D6; font-size: 450%; font-weight: bolder; font-family: Bookman Old Style, Serifa BT, URW Bookman L, itc bookman, times, serif; }
+
+#intro { padding-bottom: 25px; border-bottom: 2px solid #DAD3B2; }
+#intro h1 { font-size: 150%; font-weight: bold; color: #585D61; }
+#intro p { margin-left: 0px; padding-left: 0px; line-height: 24px; }
+#intro p span { font-weight: bold; }
+#intro h4 { padding-left: 0px; margin-left: 0px;}
+#intro h4 a {text-decoration: none; color: #77C52B; font-size: 95%; }
+
+#subsections { margin-top: 25px; }
+#subsections h3 { line-height: 110%; padding-bottom: 10px; }
+#subsections .col-1  { width: 40%; float: left; padding-right: 20px; }
+#subsections .col-2 { float:left; width: 58%;}
+#subsections .icon { float: left; width: 60px; margin-right: 10px; }
+#subsections p { padding-left: 70px; padding-top: 0; padding-bottom:40px; margin-bottom: 40px;  border-bottom: 1px solid #DAD3B2; }
+#subsections strong {font-weight: bold; }
+#subsections ul { margin: 0px; padding-left: 25%; }
+#subsections ul li { margin-bottom: 10px; }
+#subsections p.no-border { border: none; margin-bottom: 10px; padding-bottom: 0; }
+#subsections a { color: #77C52B; font-weight: bold; }

@@ -1,3 +1,44 @@
 {% extends "base.html" %}
+{% block content %}
+<div class="index-header">
+    <span class="total-obligations">$1,800,000,000,000</span>
+    <span>Total number of misreported obligations for the most recent fiscal year</span>
+</div>
+<div class="index-body">
+    <div id="intro">
+        <h1>How Reliable is USASpending.gov?</h1>
+        <p>We've taken data from other federal reporting systems and compared it with the data found in USASpending.gov across three categories: <span>Consistency</span>, <span>Completeness</span> and <span>Timeliness</span>. How close are the reported dollar ammounts to the yearly estimates? How many of the required fields are filled out in each record? And how long did it take the agency to report the money once it was allocated to a project?
+        
+        <h4><a href="{% url scorecard-index %}">CHECK OUT OUR SCORECARD TO SEE THE RESULTS ACROSS ALL AGENCIES AND PROGRAMS</a></h4>
+    </div>
+    <div id="subsections">
+        <div class="col-1">
+            <span class="icon"><img src="/clearspending/media/images/graph_icon.png" /></span>
+            <h3>How does the federal govenment report its spending?</h3>
+            <p>The flow of federal spending reporting can get complicated. We've tried to simplify it for you with a <a href="{% url animation %}">step-by-step visualization</a>.
+            </p> 
+            <span class="icon"><img src="/clearspending/media/images/ruler_icon.png" /></span>
+            <h3>Our Metrics</h3>
+            <p class="no-border">How did we conduct our analysis and what assumptions did we make? What limitations exist with the comparison data we're using? We measured the data across three categories:
+            </p>
+                <ul>
+                    <li><strong>Consistency</strong>: A comparison of CFDA obligations and USASpending.gov obligations.</li>
+                    <li><strong>Completeness</strong>: A measure of how many required fields are compelted. </li>
+                    <li><strong>Timeliness</strong>: A measure of how quickly obligations were reported.</li>
+                </ul>
+               <p class="no-border">See our <a href="{% url methodology %}">methodology</a> for more information.</p>
+        </div>
+        <div class="col-2">
+            <span class="icon"><img src="/clearspending/media/images/clipboard_icon.png" /></span>
+            <h3>Why is federal spending reporting important?</h3>
+            <p class="no-border">For an introduction on what federal reporting is and why it's important, watch our video.</p>
+                <object width="480" height="270" style="padding-left:70px;"><param name="movie" value="http://www.youtube.com/v/GSCZHBNrIGg&amp;hl=en_US&amp;fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/GSCZHBNrIGg&amp;hl=en_US&amp;fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="270"></embed></object>
+            
+    
+        </div>    
+    </div>
+</div>
+<div class="clear"></div>
 
+{% endblock %}
 
