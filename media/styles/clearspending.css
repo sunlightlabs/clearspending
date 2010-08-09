@@ -181,7 +181,7 @@ ul.resources a { color: #636466; }
 /* homepage styles */
 
 div.index-header { color: #636466; font-weight: bold; width: 63%; margin: 20px auto 50px; }
-div.index-header span { display:block; width: 65%; margin: 0 auto; font-size: 110%; }
+div.index-header span { display:block; width: 67%; margin: 0 auto; font-size: 110%; }
 div.index-header span.total-obligations { padding-left: 0px; width: auto; color: #80C2D6; font-size: 450%; font-weight: bolder; }
 
 #intro { padding-bottom: 25px; border-bottom: 2px solid #DAD3B2; }
