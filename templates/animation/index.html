@@ -27,5 +27,24 @@ In practice, things don't always work that well.</p></li>
         <img src="{% media_url %}/images/slides-0.jpg"/>
     </div> <!-- end right -->
     <div class="clear"></div>
-{% js "clearspending.js" %}
+{% js "jquery-ui-1.8.4.custom.min.js" %}
+<script type="text/javascript" charset="utf-8">
+    
+    $().ready(function() {
+        $("#sidenav").accordion({
+                                header: 'a',                       
+                                autoHeight: false
+                               });
+        $("ul#sidenav li").click(function(e){
+            if ($(e.target).is('a')) {
+                var elem = $(e.target).parent();
+            }
+            else { var elem = $(e.target); }
+            $("div#stage img").attr("src", "{% media_url %}/images/slides-" + $("ul#sidenav li").index(elem) + ".jpg" );
+            return false;
+        });
+    });
+
+
+</script>
 {% endblock %}
