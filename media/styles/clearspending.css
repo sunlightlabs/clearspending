@@ -71,7 +71,7 @@ h2 a { background: url(../images/clearspending-logo.jpg) top left no-repeat; wid
 #step7 a:hover { background: url(../images/tabs-7.png) left -37px no-repeat; }
 #step7 a.active { background: url(../images/tabs-7.png) left -73px no-repeat; }
 
-#sidenav p { display: block; font-family: Georgia, Times, "Times New Roman", serif; font-size: 90%; color: #8E8E8E; padding: 10px 0 20px 10px; line-height: 140%; }
+#sidenav p { display: none; font-family: Georgia, Times, "Times New Roman", serif; font-size: 90%; color: #8E8E8E; padding: 10px 0 20px 10px; line-height: 140%; }
 ul#sidenav { margin-left: 0px; }
 #view{ background: url(../images/btn-scorecard.jpg) top left no-repeat; width: 187px; height: 12px; display: block; text-indent: -9999em; margin-top: 32px; }
 #view:hover { background: url(../images/btn-scorecard.jpg) left -12px no-repeat; }
