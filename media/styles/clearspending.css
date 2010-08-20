@@ -33,7 +33,7 @@ h2 a { background: url(../images/clearspending-logo.jpg) top left no-repeat; wid
 
 /*-------------------index page*/
 
-#toptext { font-family: Georgia, Times, "Times New Roman", serif; font-style: italic; font-size: 80%; color: #8E8E8E;  }
+#toptext { font-family: Georgia, Times, "Times New Roman", serif; font-style: italic; font-size: 100%; color: #8E8E8E;  }
 #download { background: url(../images/btn-infographic.jpg) top left no-repeat; width:174px; height: 13px; display: block; float: right; text-indent: -9999em;}
 #download:hover{ background: url(../images/btn-infographic.jpg) left -13px no-repeat; }
 
@@ -71,8 +71,8 @@ h2 a { background: url(../images/clearspending-logo.jpg) top left no-repeat; wid
 #step7 a:hover { background: url(../images/tabs-7.png) left -37px no-repeat; }
 #step7 a.active { background: url(../images/tabs-7.png) left -73px no-repeat; }
 
-#sidenav p { display: block; font-family: Georgia, Times, "Times New Roman", serif; font-size: 80%; color: #8E8E8E; padding: 10px 0 20px 10px; line-height: 140%; }
-
+#sidenav p { display: block; font-family: Georgia, Times, "Times New Roman", serif; font-size: 90%; color: #8E8E8E; padding: 10px 0 20px 10px; line-height: 140%; }
+ul#sidenav { margin-left: 0px; }
 #view{ background: url(../images/btn-scorecard.jpg) top left no-repeat; width: 187px; height: 12px; display: block; text-indent: -9999em; margin-top: 32px; }
 #view:hover { background: url(../images/btn-scorecard.jpg) left -12px no-repeat; }
 
@@ -181,7 +181,7 @@ ul.resources a { color: #636466; }
 /* homepage styles */
 
 div.index-header { color: #636466; font-weight: bold; width: 63%; margin: 20px auto 50px; }
-div.index-header span { display:block; width: 68%; margin: 0 auto; font-size: 110%; }
+div.index-header span { display:block; width: 40%; margin: 0 auto; font-size: 110%; }
 div.index-header span.total-obligations { padding-left: 0px; width: auto; color: #80C2D6; font-size: 450%; font-weight: bolder; }
 
 #intro { padding-bottom: 25px; border-bottom: 2px solid #DAD3B2; }
