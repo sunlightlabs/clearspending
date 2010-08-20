@@ -4,10 +4,26 @@
 {% load smarterif %}
 {% block header %}
     {% js "jquery.tablesorter.min.js" %}
+    {% js "jquery-ui-1.8.4.custom.min.js" %}
     <h3>Agencies</h3>
 {% endblock %}
 
 {% block scorecard %}
+    <div id="scorecard-intro" title="How to Use the Clearspending Scorecard">
+        <span>Choose your fiscal year:</span>  <img src="{% media_url %}/images/chooseyear.png" />
+        <span class="clear"></span>
+        <span>Choose display unit:</span> <img src="{% media_url %}/images/chooseunit.png" />
+        <span>Sort by the metric values:</span>
+
+        <ul>    
+            <li><strong>Over Reporting: </strong>The amount that a program is <em>over</em> reporting by in USASpending.gov </li>
+            <li><strong>Under Reporting:</strong> The amount that a program is <em>under</em> reporting by in USASpending.gov </li>
+            <li><strong>Non-Reporting:</strong> The total CFDA obligations for programs that do not report to USASpending.gov </li>
+            <li><strong>Late:</strong> The total dollar amount or percentage that was reported late</li>
+            <li><strong>Incomplete:</strong> The total dollar amount or percentage that was reported incompletely</li>
+        </ul>
+    </div>
+
     <div id="agencytablecontainer">
         <table id="agencytable">
             <thead>
@@ -69,7 +85,8 @@
             }); 
             $("#pct_radio").change(function(){
                 $(document)[0].location = "{% url scorecard-index %}pct/{{ fiscal_year }}/";
-            }); 
+            });
+            $("#scorecard-intro").dialog({height: 550, width: 800, resizable: true, draggable: true, buttons: {"OK": function(){ $(this).dialog("close");}, "Don't show this again": function() { /*set a cookie */  $(this).dialog("close");}}});
         });
     </script>   
 {% endblock %}
