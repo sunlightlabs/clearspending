@@ -254,7 +254,7 @@ def programDetailConsistency(program_id, unit):
                         for row in values[count]:
                             if row:
                                 if unit == 'dollars': row = moneyfmt(Decimal(str(row)), places=0, curr='$', sep=',', dp='')
-                                else: row = str(row) + '%'
+                                else: row = "%d" % (row * 100) + '%'
                                 html.append('<td>%s</td>' % row ) 
                             else:
                                 html.append('<td>&mdash;</td>')
