@@ -5,6 +5,7 @@
 {% block header %}
     {% js "jquery.tablesorter.min.js" %}
     {% js "jquery-ui-1.8.4.custom.min.js" %}
+    {% js "jquery.cookie.js" %}
     <h3>Agencies</h3>
 {% endblock %}
 
@@ -86,7 +87,19 @@
             $("#pct_radio").change(function(){
                 $(document)[0].location = "{% url scorecard-index %}pct/{{ fiscal_year }}/";
             });
-            $("#scorecard-intro").dialog({height: 550, width: 800, resizable: true, draggable: true, buttons: {"OK": function(){ $(this).dialog("close");}, "Don't show this again": function() { /*set a cookie */  $(this).dialog("close");}}});
+            if ($.cookie('clearspending_scorecard') != "true"){
+                $("#scorecard-intro").dialog({
+                                                height: 550, 
+                                                width: 800, 
+                                                resizable: 'true', 
+                                                draggable: 'true', 
+                                                buttons: {
+                                                            "OK": function(){ $(this).dialog("close");}, 
+                                                            "Don't show this again": function() { $.cookie('clearspending_scorecard', true, {expires: 10000});  $(this).dialog("close");}
+                                                }
+                                            });
+            }
+
         });
     </script>   
 {% endblock %}
