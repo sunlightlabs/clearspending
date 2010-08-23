@@ -211,7 +211,7 @@ span.float-right table th, span.float-left table th { color: #636466; font-weigh
 span.float-right table td, span.float-left table td { border: 1px solid #636466; padding: 7px; }
 
 /* popup for scorecard intro */
-
+#scorecard-intro {display: none; }
 #scorecard-intro { color: #636466; }
 #scorecard-intro strong {font-weight: bold; }
 #scorecard-intro p { margin-bottom: 15px; clear:both; }
