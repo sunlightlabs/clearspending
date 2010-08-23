@@ -130,13 +130,26 @@ table.generic-table { margin-top:25px; }
 .ratingtable { border-bottom: 1px solid #DAD2BB; padding-bottom: 30px; }
 .ratingtable li { border-top: 1px solid #DAD2BB; margin-top: 30px; padding-top: 30px; }
 .ratingtable th { padding: 0 10px 10px 10px; font-size: 130%; color: #636466; font-weight: bold; }
-#agencytablecontainer {margin-top: 30px; padding-bottom: 30px; border-bottom: 1px solid #DAD2BB; }
-#programtablecontainer { padding: 30px 0px ; border-top: 1px solid #DAD2BB; border-bottom: 1px solid #DAD2BB; }
+
+/* cross browser table scroll styling */
+div#agencytablecontainer {margin-top: 30px; padding-bottom: 30px; border-bottom: 1px solid #DAD2BB; clear:both; height: 500px; width: 100%; overflow:auto; }
+div#programtablecontainer { padding: 30px 0px ; border-top: 1px solid #DAD2BB; border-bottom: 1px solid #DAD2BB; clear:both; height: 500px; width:100%; overflow:auto;}
+html>body div#agencytablecontainer, html>body div#programtablecontainer { overflow: hidden; }
+table#agencytable thead tr, table#programtable thead tr { position: relative; background-color:white; }
+html>body table#agencytable thead tr, html>body table#programtable thead tr { display: block; }
+
+html>body table#agencytable tbody, html>body table#programtable tbody {display: block; height: 500px; overflow:auto; width: 100%; }
+html>body table#agencytable thead th, html>body table#programtable thead th { width: 8%;}
+html>body table#agencytable thead th:first-child { width: 28%;}
+html>body table#programtable thead th:first-child + th {width: 20%; }
+html>body table#programtable thead th:first-child {width: 4%; }
+
+/*#agencytable tbody, #programtable tbody { height: 500px; overflow-y: auto; overflow-x:hidden;  }
+#agencytable tbody tr, #programtable tbody tr {height: auto;}*/
+
 .prog-num {width: 50px; }
 .metric-cell { width: 105px; }
 .last-cell { padding-right: 35px !important; }
-#agencytable tbody, #programtable tbody { height: 500px; overflow-y: auto; overflow-x:hidden;  }
-#agencytable tbody tr, #programtable tbody tr {height: auto;}
 #expand { display: none; }
 .sort { background: url(../images/sortArrows.png) 10px 3px no-repeat;  }
 #titles, .programhead th { color: #636466; font-weight: bold; }
