@@ -106,6 +106,7 @@ def index(request, unit='dollars', fiscal_year=2009):
 def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
     
     summary_numbers = []
+    summary_numbers.append(AgencyConsistency.objects.filter(agency=agency_id, fiscal_year=fiscal_year).aggregate(total=Sum('total_cfda_obligations'))['total'])
     summary_numbers.extend(get_consistency(get_first(AgencyConsistency.objects.filter(agency=agency_id, fiscal_year=fiscal_year)), 'dollars'))
     summary_numbers.extend(get_timeliness(get_first(AgencyTimeliness.objects.filter(agency=agency_id, fiscal_year=fiscal_year)), 'dollars'))
     completeness_totals = ProgramCompleteness.objects.filter(program__agency=agency_id, fiscal_year=fiscal_year).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
@@ -150,8 +151,11 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
 
 def programDetail(request, program_id, unit):
     program = Program.objects.get(id=program_id)
+    
+    program_total_number = ProgramObligation.objects.filter(program=program).aggregate(total=Sum('obligation'))['total']
+    program_total = moneyfmt(Decimal(str(program_total_number)), places=0, curr='$', sep=',', dp='')
+
     consistency_block = programDetailConsistency(program_id, unit) 
-     
     field_names = ['late_'+unit, 'avg_lag_rows']
     proper_names = ['Late', 'Average Late Records']
     coll = ProgramTimeliness.objects.filter(program=program_id).order_by('fiscal_year')
@@ -172,7 +176,7 @@ def programDetail(request, program_id, unit):
     com_coll = ProgramCompletenessDetail.objects.filter(program=program_id).order_by('fiscal_year')
     completeness_block = programDetailGeneral(program_id, unit, com_field_names, com_proper_names, com_coll, 'Completeness')
     
-    return render_to_response('program_detail.html', {'consistency':consistency_block, 'timeliness': timeliness_block, 'completeness': completeness_block, 'agency_name': program.agency.name, 'program_number': program.program_number, 'title': program.program_title, 'desc': program.objectives, 'unit': unit}) 
+    return render_to_response('program_detail.html', {'consistency':consistency_block, 'timeliness': timeliness_block, 'completeness': completeness_block, 'agency_name': program.agency.name, 'program_number': program.program_number, 'title': program.program_title, 'desc': program.objectives, 'unit': unit, 'program_total': program_total}) 
     
 def getRowClass(count):
     if count % 2 == 0 : row = "even"
@@ -296,7 +300,8 @@ def programDetailGeneral(program_id, unit, field_names, proper_names, coll, metr
                     if item.__dict__[f]:
                         if unit == 'pct' and f != 'avg_lag_rows':
                             if metric == 'Completeness':
-                                val = '%.2f' % (((item.__dict__[f] / com_totals[y]) or 0) * 100)
+                                val = '%d' % (((item.__dict__[f] / com_totals[y]) or 0) * 100)
+                                val += '%'
                             else:
                                 val = str((item.__dict__[f] or 0) * 100) + '%'
                         elif f != 'avg_lag_rows':

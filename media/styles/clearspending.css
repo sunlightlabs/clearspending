@@ -111,7 +111,9 @@ ul#bottom-legend li {float:left;  margin: 5px 20px;}
 ul#bottom-legend li span {margin-top: 7px; }
 ul#bottom-legend{ margin:15px 0px; padding: 15px 0px; display: block; }
 #bignumbers { margin: 0 auto; }
-#bignumbers li{ font-family: "chunk-1","chunk-2", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #7ABDD4; font-size: 120%; float: left; display: block; text-align: center; margin: 0 20px 38px; width: 135px;  }
+#bignumbers li, span.program-total-value{ font-family: "chunk-1","chunk-2", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #7ABDD4; font-size: 120%; float: left; display: block; text-align: center; margin: 0 20px 38px; width: 120px;  }
+span.program-total-value { float:right; width:200px;margin: 0; }
+span.program-total-value strong { font-weight: bold; }
 .bignumberstext { display: block; margin-top: 12px; font-size: 80%; }
 .greenarrow { background: url(../images/greenarrow.png) top left no-repeat; display: block; width: 17px; height: 19px; text-indent: -9999em;  }
 .redarrow { background: url(../images/redarrow.png) top left no-repeat; display: block; width: 17px; height: 19px; text-indent: -9999em; }
