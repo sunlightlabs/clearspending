@@ -237,3 +237,6 @@ div#scorecard-intro ul li {margin: 5px; padding-top: 3px;}
 div#scorecard-intro ul li strong { color: #85BE3D; }
 div#scorecard-intro span.clear { margin: 0; float:none; }
 div#scorecard-intro em { font-style:italic; }
+
+.media-sub-header { padding-top: 20px; margin-bottom: 20px; color: #636466; padding-left: 15px; }
+
