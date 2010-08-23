@@ -211,14 +211,14 @@ span.float-right table th, span.float-left table th { color: #636466; font-weigh
 span.float-right table td, span.float-left table td { border: 1px solid #636466; padding: 7px; }
 
 /* popup for scorecard intro */
-#scorecard-intro {display: none; }
-#scorecard-intro { color: #636466; }
-#scorecard-intro strong {font-weight: bold; }
-#scorecard-intro p { margin-bottom: 15px; clear:both; }
-#scorecard-intro span { width: 250px; float: left; display: block; font-weight: bold; margin-top: 25px;}
-#scorecard-intro img { float: left; }
-#scorecard-intro ul { clear: both; margin: 0px 10px; padding-left: 35px; padding-top: 3px;}
-#scorecard-intro ul li {margin: 5px; padding-top: 3px;}
-#scorecard-intro ul li strong { color: #85BE3D; }
-#scorecard-intro span.clear { margin: 0; }
-#scorecard-intro em { font-style:italic; }
+div#scorecard-intro {display: none; }
+div#scorecard-intro { color: #636466; }
+div#scorecard-intro strong {font-weight: bold; }
+div#scorecard-intro p { margin-bottom: 15px; clear:both; }
+div#scorecard-intro span { width: 250px; float: left; display: block; font-weight: bold; margin-top: 25px;}
+div#scorecard-intro img { float: left; }
+div#scorecard-intro ul { clear: both; margin: 0px 10px; padding-left: 35px; padding-top: 3px;}
+div#scorecard-intro ul li {margin: 5px; padding-top: 3px;}
+div#scorecard-intro ul li strong { color: #85BE3D; }
+div#scorecard-intro span.clear { margin: 0; float:none; }
+div#scorecard-intro em { font-style:italic; }
