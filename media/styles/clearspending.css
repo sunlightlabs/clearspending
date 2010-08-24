@@ -92,7 +92,7 @@ h3 { color: #636466; font-size: 150%; font-weight: bold; padding: 0 15px 20px; }
 #program-search { width: 350px; padding-left: 40px; }
 #program-search input, #program-search label { font-size: 80%; color: #636466;}
 #program-search input.search-text { width: 210px; }
-/*#program-search input.submit { background: url("../images/submit_button.png") no-repeat scroll left top transparent; width:70px; height: 26px;  vertical-align: top;  }*/
+#program-search input.submit { background: url("http://assets.sunlightfoundation.com/site/3.1/images/magnifier.png") no-repeat scroll left top transparent; vertical-align: middle; border:none; height: 16px; width: 16px;  }*/
 #programradios { padding-top: 5px; }
 #radios input, #programradios input { margin-right: 7px; }
 #radios, #programradios { color: #636466; font-size: 90%; }
