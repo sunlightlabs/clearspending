@@ -57,7 +57,10 @@
     <script type="text/javascript" charset="UTF-8">
         $(document).ready(function () {
             $("#program-search").submit(function() {
-                document.location = '/clearspending/search/'+ $(this).find('input[name="search-text"]').val() + '/{{unit}}/{{fiscal_year}}/';
+                var search_text = $(this).find('input[name="search-text"]').val()
+                if (search_text) {
+                    document.location = '/clearspending/search/'+ search_text + '/{{unit}}/{{fiscal_year}}/';
+                }
                 return false;
             });
         });

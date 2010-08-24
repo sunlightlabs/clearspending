@@ -8,7 +8,7 @@ from django.core.mail import send_mail
 from helpers.format import moneyfmt
 import math
 from urllib import unquote
-from haystack.query import SearchQuerySet
+from haystack.query import SearchQuerySet, RelatedSearchQuerySet
 
 FISCAL_YEARS = [2007, 2008, 2009]
 
@@ -23,10 +23,11 @@ def contact(request):
 def search_results(request, search_string, unit='pct', fiscal_year=2009):
 
     search = unquote(search_string)
-    programs = Program.objects.filter(id__in=[ x.pk for x in SearchQuerySet().models(Program).filter(content=search_string)])
+    programs = Program.objects.filter(id__in=[ x.pk for x in SearchQuerySet().filter(content=search_string)])
+    result_count = programs.count()
     table_data = generic_program_table(programs, fiscal_year, unit)
     
-    return render_to_response('generic_program_list.html', { 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'search_string': search })
+    return render_to_response('generic_program_list.html', { 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'search_string': search, 'result_count': result_count })
     
  
 
