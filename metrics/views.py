@@ -7,6 +7,8 @@ from decimal import Decimal
 from django.core.mail import send_mail
 from helpers.format import moneyfmt
 import math
+from urllib import unquote
+from haystack.query import SearchQuerySet
 
 FISCAL_YEARS = [2007, 2008, 2009]
 
@@ -18,6 +20,15 @@ def contact(request):
     send_mail('Clearspending Feedback from '+name, msg, email, ['klee@sunlightfoundation.com'], fail_silently=True)
     return render_to_response('contact_thankyou.html')
 
+def search_results(request, search_string, unit='pct', fiscal_year=2009):
+
+    search = unquote(search_string)
+    programs = Program.objects.filter(id__in=[ x.pk for x in SearchQuerySet().models(Program).filter(content=search_string)])
+    table_data = generic_program_table(programs, fiscal_year, unit)
+    
+    return render_to_response('generic_program_list.html', { 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'search_string': search })
+    
+ 
 
 def get_css_color(pct, metric):
     if metric == 'con':  #consistency
@@ -78,6 +89,42 @@ def get_consistency(consistency, unit):
             placeholders.append(None)
         return placeholders
 
+def generic_program_table(programs, fiscal_year, unit):
+    #builds a scorecard table for a generic list of programs
+    table_data = []
+    types = [None, "grants", "loans"]
+    for p in programs:
+        consistency = ProgramConsistency.objects.filter(fiscal_year=fiscal_year, program=p)
+        timeliness = ProgramTimeliness.objects.filter(fiscal_year=fiscal_year, program=p)
+        completeness_totals = ProgramCompleteness.objects.filter(program=p, fiscal_year=fiscal_year).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
+        display_name = p.program_title
+        if len(consistency) > 0:
+            ob_type = "(%s)" % types[get_first(consistency).type]
+        else: ob_type = ""
+
+        #if len(display_name) > 35: display_name = "%s..." % display_name[0:32]
+        row = [ p.program_number,
+                p.id,
+                "%s %s" % (display_name, ob_type),
+                ]
+        row.extend(get_consistency(get_first(consistency), unit))
+        row.extend(get_timeliness(get_first(timeliness), unit))
+        row.extend(get_completeness(unit, **completeness_totals))
+        table_data.append(row)
+
+        if len(consistency) > 1:
+            for ob in consistency[1:]:
+                row = [ p.program_number,
+                        p.id,
+                        "%s (%s)" % (display_name, types[ob.type]),
+                        ]
+                row.extend(get_consistency(ob, unit))
+                row.extend(get_timeliness(get_first(timeliness), unit))
+                row.extend(get_completeness(unit, **completeness_totals))
+                table_data.append(row)
+
+    return table_data
+
 def index(request, unit='dollars', fiscal_year=2009):
     #get top level agency stats 
     consistency = AgencyConsistency.objects.filter(fiscal_year=fiscal_year).order_by('agency__name')
@@ -115,39 +162,10 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
 
     programs = Program.objects.filter(agency=agency_id)
     agency = Agency.objects.get(code=agency_id)
-    table_data = []
-    types = [None, "grants", "loans"]
-    for p in programs:
-        consistency = ProgramConsistency.objects.filter(fiscal_year=fiscal_year, program=p)
-        timeliness = ProgramTimeliness.objects.filter(fiscal_year=fiscal_year, program=p)
-        completeness_totals = ProgramCompleteness.objects.filter(program=p, fiscal_year=fiscal_year).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
-        display_name = p.program_title
-        if len(consistency) > 0:
-            ob_type = "(%s)" % types[get_first(consistency).type]
-        else: ob_type = ""
-
-        #if len(display_name) > 35: display_name = "%s..." % display_name[0:32]
-        row = [ p.program_number,
-                p.id,
-                "%s %s" % (display_name, ob_type),
-                ]
-        row.extend(get_consistency(get_first(consistency), unit))
-        row.extend(get_timeliness(get_first(timeliness), unit))
-        row.extend(get_completeness(unit, **completeness_totals))
-        table_data.append(row)
-
-        if len(consistency) > 1:
-            for ob in consistency[1:]:
-                row = [ p.program_number,
-                        p.id,
-                        "%s (%s)" % (display_name, types[ob.type]),
-                        ]
-                row.extend(get_consistency(ob, unit))
-                row.extend(get_timeliness(get_first(timeliness), unit))
-                row.extend(get_completeness(unit, **completeness_totals))
-                table_data.append(row)
+    table_data = generic_program_table(programs, fiscal_year, unit)
 
     return render_to_response('agency_detail.html', {'summary_numbers': summary_numbers, 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'agency_name': agency.name, 'agency': agency_id, 'description': agency.description})
+
 
 def programDetail(request, program_id, unit):
     program = Program.objects.get(id=program_id)
@@ -160,6 +178,10 @@ def programDetail(request, program_id, unit):
     proper_names = ['Late', 'Average Late Records']
     coll = ProgramTimeliness.objects.filter(program=program_id).order_by('fiscal_year')
     timeliness_block = programDetailGeneral(program_id, unit, field_names, proper_names, coll, 'Timeliness')
+
+    if len(program.objectives) < 1300:
+        description = program.objectives
+    else: description = program.objectives[:1300] + '... <a href="http://cfda.gov">read more at CFDA.gov</a>.'
 
     #update these lists with all the fields we want to show
     com_field_names = ['recipient_type_is_not_empty', 'federal_agency_code_is_not_empty', 'cfda_program_num_is_descriptive', 'federal_funding_amount_is_not_empty',
@@ -176,7 +198,7 @@ def programDetail(request, program_id, unit):
     com_coll = ProgramCompletenessDetail.objects.filter(program=program_id).order_by('fiscal_year')
     completeness_block = programDetailGeneral(program_id, unit, com_field_names, com_proper_names, com_coll, 'Completeness')
     
-    return render_to_response('program_detail.html', {'consistency':consistency_block, 'timeliness': timeliness_block, 'completeness': completeness_block, 'agency_name': program.agency.name, 'program_number': program.program_number, 'title': program.program_title, 'desc': program.objectives, 'unit': unit, 'program_total': program_total}) 
+    return render_to_response('program_detail.html', {'consistency':consistency_block, 'timeliness': timeliness_block, 'completeness': completeness_block, 'agency_name': program.agency.name, 'program_number': program.program_number, 'title': program.program_title, 'desc': description, 'unit': unit, 'program_total': program_total}) 
     
 def getRowClass(count):
     if count % 2 == 0 : row = "even"

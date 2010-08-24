@@ -1,0 +1,81 @@
+{% extends "scorecard_base.html" %}
+{% load humanize %}
+{% load media %}
+
+{% block header %}
+    <h3>Search Results for <em>{{search_string}}</em></h3>
+    {% js "jquery.tablesorter.min.js" %}
+{% endblock %}
+{% block year1 %} {% url search-request search_string unit 2007 %} {% endblock %}
+{% block year2 %} {% url search-request search_string unit 2008 %} {% endblock %}
+{% block year3 %} {% url search-request search_string unit 2009 %} {% endblock %}
+{% block scorecard %}
+
+<div id="programtablecontainer">
+    <table class="programtable" id="programtable">
+    <thead>
+        <tr id="titles">
+            <th class="sort">Program Number</th>
+            <th class="sort">Program Name</th>
+            <th class="sort">Overreported</th>
+            <th class="sort">Underreported</th>
+            <th class="sort">Not reported</th>
+            <th class="sort">Late</th>
+            <th class="sort last-cell">Incomplete</th>
+        </tr>   
+    </thead>
+    <tbody>
+    {% autoescape off %}
+    {% for row in table_data %}
+        <tr class="{% cycle 'odd' 'even' %}">
+            <td class="prog-num">{{row.0}}</td>
+            <td class="title"><a class="name" href="{% url program_detail row.1 unit %}" alt="{{row.2}}">{{row.2}}</a></td>
+            <td class="metric-cell {{row.4}}">
+                {% if row.3%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.3|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %} {% else %}-{% endif %}
+            </td>
+            <td class="metric-cell {{row.6}}">
+                {% if row.5%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.5|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
+            </td>
+            <td class="metric-cell {{row.8}}">
+                {% if row.7%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.7|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
+            </td>
+            <td class="metric-cell {{row.10}}">
+                {% if row.9%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.9|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
+            </td>
+            <td class="last-cell metric-cell {{row.12}}">
+                {% if row.11%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.11|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
+            </td>
+            
+        </tr>
+        
+    {% endfor %}
+    {% endautoescape%}
+    </tbody>
+    </table>
+</div>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+
+            $("#programtable").tablesorter({
+                headers: {
+                            2: { sorter:'currency'},
+                            3: { sorter:'currency'},
+                            4: { sorter:'currency'},
+                            5: { sorter:'currency'},
+                            6: { sorter:'currency'}
+                        }
+            });
+            $("#programtable").bind("sortEnd", function() {
+                $("#programtable tr:even").removeClass().addClass("even")
+                $("#programtable tr:odd").removeClass().addClass("odd");
+            });
+            $("#dollars_radio").change(function(){
+                $(document)[0].location = $(document)[0].location.href.replace('\/pct\/', '\/dollars\/');
+            }); 
+            $("#pct_radio").change(function(){
+                $(document)[0].location = $(document)[0].location.href.replace('/dollars/', '/pct/');
+            }); 
+        });
+
+    </script>
+{% endblock %}

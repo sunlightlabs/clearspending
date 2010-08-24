@@ -25,7 +25,8 @@ urlpatterns = patterns('',
     url(r'^animation/$', direct_to_template, {'template': 'animation/index.html'}, name="animation"),
     url(r'^admin/(.*)', admin.site.root),
     url(r'^agency/(?P<agency_id>\d+)/(?P<fiscal_year>\d{4})/(?P<unit>\w+)/', 'metrics.views.agencyDetail', name="agency_detail"),
-    url(r'^program/(?P<program_id>\d+)/(?P<unit>\w+)/', 'metrics.views.programDetail', name='program_detail'), 
+    url(r'^program/(?P<program_id>\d+)/(?P<unit>\w+)/', 'metrics.views.programDetail', name='program_detail'),
+    url(r'^search/(?P<search_string>[\w\+%\d\s]+)/(?P<unit>\w+)/(?P<fiscal_year>\d{4})/', 'metrics.views.search_results', name='search-request'),
     url(r'^$', direct_to_template, {'template':'index.html'}, name='clearspending-index'),
 )
 
