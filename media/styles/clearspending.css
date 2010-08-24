@@ -88,7 +88,11 @@ h3 { color: #636466; font-size: 150%; font-weight: bold; padding: 0 15px 20px; }
 #years li a:hover { color: #FFF; background-color: #85BE3D; }
 #years li a.active { color: #FFF; background-color: #85BE3D; font-weight: bold; }
 
-#radios { margin-top: 5px; margin-left: 40px; padding-left: 15px; border-left: 1px solid #636466; width: 300px; float: left; }
+#radios, #program-search { margin-top: 5px; margin-left: 40px; padding-left: 15px; border-left: 1px solid #636466; width: 300px; float: left; }
+#program-search { width: 350px; padding-left: 40px; }
+#program-search input, #program-search label { font-size: 80%; color: #636466;}
+#program-search input.search-text { width: 210px; }
+/*#program-search input.submit { background: url("../images/submit_button.png") no-repeat scroll left top transparent; width:70px; height: 26px;  vertical-align: top;  }*/
 #programradios { padding-top: 5px; }
 #radios input, #programradios input { margin-right: 7px; }
 #radios, #programradios { color: #636466; font-size: 90%; }

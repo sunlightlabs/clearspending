@@ -16,9 +16,9 @@
             {% else %}
                 {% if fiscal_year %}
                     <ul id="years">
-                    <li><a href="{% url scorecard-index-extra unit 2007 %}" {% ifequal "2007" fiscal_year %}class="active"{% endifequal %}>2007</a></li>
-                    <li><a href="{% url scorecard-index-extra unit 2008 %}" {% ifequal "2008" fiscal_year %}class="active"{% endifequal %}>2008</a></li>
-                    <li><a href="{% url scorecard-index-extra unit 2009 %}" {% ifequal "2009" fiscal_year %}class="active"{% endifequal %}>2009</a></li>
+                    <li><a href="{% block year1 %} {% url scorecard-index-extra unit 2007 %} {% endblock %}" {% ifequal "2007" fiscal_year %}class="active"{% endifequal %}>2007</a></li>
+                    <li><a href="{% block year2 %}{% url scorecard-index-extra unit 2008 %} {% endblock %}" {% ifequal "2008" fiscal_year %}class="active"{% endifequal %}>2008</a></li>
+                    <li><a href="{% block year3 %}{% url scorecard-index-extra unit 2009 %} {% endblock %}" {% ifequal "2009" fiscal_year %}class="active"{% endifequal %}>2009</a></li>
                 </ul>
                 {% endif %}
             {% endif %}
@@ -31,6 +31,11 @@
                     <input type="radio" {% ifequal "pct" unit %} checked="checked" {% endifequal %} name="fields" value="pct" id="pct_radio" /><label for="pct_radio">Percentage of Total Funding Misreported</label>
                 </li>
             </ul>
+        </form>
+        <form id="program-search">
+            <label for="search-text">Search Programs: </label>
+            <input class="search-text" type="text" name="search-text" />    
+            <input type="submit" value="go" class="submit" />
         </form>
     </div>
 
@@ -49,5 +54,13 @@
                 <span style="background-color:#B5121B;"></span> &gt; 50%
             </li>
         </ul>
+    <script type="text/javascript" charset="UTF-8">
+        $(document).ready(function () {
+            $("#program-search").submit(function() {
+                document.location = '/clearspending/search/'+ $(this).find('input[name="search-text"]').val() + '/{{unit}}/{{fiscal_year}}/';
+                return false;
+            });
+        });
+    </script>
 
 {% endblock %}
