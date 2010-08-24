@@ -133,7 +133,7 @@ def index(request, unit='dollars', fiscal_year=2009):
     table_data = []
     for a in agencies:
 
-        number_programs = len(Program.objects.filter(agency=a))
+        number_programs = Program.objects.filter(agency=a).count()
         display_name = a.name
       #  if len(display_name) > 35: display_name = "%s..." % display_name[0:35]
         a_data = [a.code,
