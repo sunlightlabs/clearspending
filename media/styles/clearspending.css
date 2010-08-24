@@ -14,6 +14,7 @@ a:active{outline: none; }
 .clear{ clear: both;}
 
 /*-----------------all pages*/
+cite {color: #717171; font-size: 90%; font-style: italic; }
 #pageBackground { width: 100%; background: #F8F6EC url(../images/below_green_bg.png) top left repeat-x; border-bottom: 23px solid #7B614E; padding: 30px 0 50px; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
 #pageMain p, ul, ol  { color: #717171; font-size: 90%; line-height: 150%;}
@@ -146,7 +147,7 @@ html>body table#programtable thead th:first-child {width: 4%; }
 
 /*#agencytable tbody, #programtable tbody { height: 500px; overflow-y: auto; overflow-x:hidden;  }
 #agencytable tbody tr, #programtable tbody tr {height: auto;}*/
-
+h3 em { font-style: italic; }
 .prog-num {width: 50px; }
 .metric-cell { width: 105px; }
 .last-cell { padding-right: 35px !important; }
