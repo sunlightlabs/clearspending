@@ -7,16 +7,17 @@ from cfda.models import Program
 class ProgramIndex(indexes.SearchIndex):
     
     type = 'cfda'
-    text = indexes.CharField(document=True)
+    program_number = indexes.CharField(model_attr='program_number') 
+    program_title = indexes.CharField(document=True, model_attr='program_title')
     
    
-    def prepare_text(self, object):
+#    def prepare_text(self, object):
         
 #       text = getattr(object, 'objectives')
 #limit to just program title. Objectives produces a lot of noise
-        text = getattr(object, 'program_title')
+#        text = getattr(object, 'program_title')
 
-        return text
+ #       return text
          
     def get_queryset(self):
         "Used when the entire index for model is updated."
