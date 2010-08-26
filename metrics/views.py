@@ -8,7 +8,8 @@ from django.core.mail import send_mail
 from helpers.format import moneyfmt
 import math
 from urllib import unquote
-from haystack.query import SearchQuerySet, RelatedSearchQuerySet
+from haystack.query import SearchQuerySet
+from haystack.models import SearchResult
 
 FISCAL_YEARS = [2007, 2008, 2009]
 
@@ -23,7 +24,7 @@ def contact(request):
 def search_results(request, search_string, unit='pct', fiscal_year=2009):
 
     search = unquote(search_string)
-    programs = Program.objects.filter(id__in=[ x.pk for x in SearchQuerySet().filter(content=search_string)])
+    programs = SearchQuerySet().filter(content=search_string)
     result_count = programs.count()
     table_data = generic_program_table(programs, fiscal_year, unit)
     
@@ -95,17 +96,24 @@ def generic_program_table(programs, fiscal_year, unit):
     table_data = []
     types = [None, "grants", "loans"]
     for p in programs:
+        display_name = p.program_title
+        program_number = p.program_number
+         
+        if p.__class__ == SearchResult:
+            p = p.pk
+            p_id = p
+        else: 
+            p_id = p.id
         consistency = ProgramConsistency.objects.filter(fiscal_year=fiscal_year, program=p)
         timeliness = ProgramTimeliness.objects.filter(fiscal_year=fiscal_year, program=p)
         completeness_totals = ProgramCompleteness.objects.filter(program=p, fiscal_year=fiscal_year).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
-        display_name = p.program_title
         if len(consistency) > 0:
             ob_type = "(%s)" % types[get_first(consistency).type]
         else: ob_type = ""
 
         #if len(display_name) > 35: display_name = "%s..." % display_name[0:32]
-        row = [ p.program_number,
-                p.id,
+        row = [ program_number,
+                p_id,
                 "%s %s" % (display_name, ob_type),
                 ]
         row.extend(get_consistency(get_first(consistency), unit))
@@ -115,8 +123,8 @@ def generic_program_table(programs, fiscal_year, unit):
 
         if len(consistency) > 1:
             for ob in consistency[1:]:
-                row = [ p.program_number,
-                        p.id,
+                row = [ program_number,
+                        p_id,
                         "%s (%s)" % (display_name, types[ob.type]),
                         ]
                 row.extend(get_consistency(ob, unit))
