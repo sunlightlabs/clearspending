@@ -1,29 +1,34 @@
 {% extends "scorecard_base.html" %}
 {% block header %}
-    <h3>Program Detail</h3>
+<div id="pageMain">
+    <div id="fullColumn">
+        <h3>Program Detail</h3>
 {% endblock %}
 {%block scorecard %}
-<div id="agency">
-    <div id="title">
-        <h4>{{agency_name}}-{{program_number}} {{title}}</h4>
-        <p id="programdescription">{{desc|safe}}</p>
+
+        <div id="agency">
+            <div id="title">
+                <h4>{{agency_name}}-{{program_number}} {{title}}</h4>
+                <p id="programdescription">{{desc|safe}}</p>
+            </div>
+            {% block search %}{% endblock %}
+            <span class="program-total-value">
+                <strong>Total Program Obligations:</strong><br />
+                <span style="font-size:small;">(all fiscal years)</span><br />
+                {{program_total }}*
+            </span>
+            <div class="clear"></div>
+        </div>
+
+        <ul class="ratingtable program-detail">
+            {{consistency|safe}}
+            {{timeliness|safe}}
+            {{completeness|safe}}
+        </ul>
+
+        <cite>*Total program obligations reported in the Catalog of Federal Domestic Assistance </cite>
     </div>
-    {% block search %}{% endblock %}
-    <span class="program-total-value">
-        <strong>Total Program Obligations:</strong><br />
-        <span style="font-size:small;">(all fiscal years)</span><br />
-        {{program_total }}*
-    </span>
-    <div class="clear"></div>
 </div>
-
-<ul class="ratingtable program-detail">
-    {{consistency|safe}}
-    {{timeliness|safe}}
-    {{completeness|safe}}
-</ul>
-
-<cite>*Total program obligations reported in the Catalog of Federal Domestic Assistance </cite>
 <script type="text/javascript" charset="utf-8">
         $(document).ready(function(){
             $("#dollars_radio").change(function(){

@@ -70,28 +70,25 @@
 </div>
     <!-- ends top container -->
 <div id="pageBackground">
-    <div id="mainContainer">
-        <div id="header">
-            <h2><a href="{% url clearspending-index %}"><big>Clearspending</big><small>Making Sense of the Federal Checkbook</small></a></h2>
-            <div id="nav">
-                <ul>
+    <div id="header">
+        <h2><a href="{% url clearspending-index %}"><big>Clearspending</big><small>Making Sense of the Federal Checkbook</small></a></h2>
+    </div>
+    <div id="mainContainer"> 
+        <div id="nav">
+            <ul>
+                <li id="scorecard"><a href="{% url scorecard-index %}">Scorecard</a></li>
+                <li id="background"><a href="{% url background %}">Background</a></li>
+                <li id="analysis"><a href="{% url analysis %}">Results</a></li>
+                <li id="methodology"><a href="{% url methodology %}">Methodology</a></li>
+                <li id="media"><a href="{% url media-index %}">Media</a></li>
+                <li id="corrections"><a href="{% url corrections %}">Corrections</a></li>
+                <li id="resources"><a href="{% url resources %}">Resources</a></li>
+                <li id="feedback"><a href="{% url feedback %}">Feedback</a></li>
+            </ul>
+        </div>
 
-                    <li id="scorecard"><a href="{% url scorecard-index %}">Scorecard</a></li>
-                    <li id="background"><a href="{% url background %}">Background</a></li>
-                    <li id="analysis"><a href="{% url analysis %}">Results</a></li>
-                    <li id="methodology"><a href="{% url methodology %}">Methodology</a></li>
-                    <li id="media"><a href="{% url media-index %}">Media</a></li>
-                    <li id="corrections"><a href="{% url corrections %}">Corrections</a></li>
-                    <li id="resources"><a href="{% url resources %}">Resources</a></li>
-
-                    <li id="feedback"><a href="{% url feedback %}">Feedback</a></li>
-                </ul>
-            </div> <!-- end nav -->
-        </div> <!-- end header -->
-        <div id="pageMain">
             {% block content %}
             {% endblock content %}
-        </div>
     </div>
 </div>
 </body></html>

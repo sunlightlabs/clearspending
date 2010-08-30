@@ -1,23 +1,26 @@
 {% extends "base.html" %}
 {% load media %}
 {% block content %}
-<h3>Resources</h3>
-<p>Listed below are some resources that may be helpful.</p>
-<ul class="resources">
-<li><a href="http://usaspending.gov">USASpending.gov</a></li>
-<li><a href="http://thomas.loc.gov/cgi-bin/query/z?c109:S.2590.ENR:">The Federal Funding Accountability and Transparency Act of 2006</a></li>
-<li><a href="http://www.gao.gov/products/GAO-10-365">GAO report - Electronic Government: Implementation of the Federal Funding and Accountability Transparency Act of 2006"</a></li>
-<li><a href="http://www.cfda.gov">Catalog of Federal Domestic Assistance</a></li>
-<li><a href="https://www.fpds.gov/fpdsng_cms/">Federal Procurement Data System - Next Generation</a></li>
-</ul>
-
-<p>Downloadable Data:</p>
-<ul class="resources">
-<li><a href="{% media_url%}/docs/agency_grants.csv">Consistency metrics by agency by fiscal year (grants)</a></li>
-<li><a href="{% media_url %}/docs/agency_loans.csv">Consistency metrics by agency by fiscal year (loans)</a></li>
-<li><a href="{% media_url%}/docs/program_grants.csv">Consistency metrics by program by fiscal year (grants)</a></li>
-<li><a href="{% media_url %}/docs/program_loans.csv">Consistency metrics by program by fiscal year (loans)</a></li>
-</ul>
+<div id="pageMain">
+    <div id="ltColumn">
+        <h3>Resources</h3>
+        <p>Listed below are some resources that may be helpful.</p>
+        <ul class="resources">
+            <li><a href="http://usaspending.gov">USASpending.gov</a></li>
+            <li><a href="http://thomas.loc.gov/cgi-bin/query/z?c109:S.2590.ENR:">The Federal Funding Accountability and Transparency Act of 2006</a></li>
+            <li><a href="http://www.gao.gov/products/GAO-10-365">GAO report - Electronic Government: Implementation of the Federal Funding and Accountability Transparency Act of 2006"</a></li>
+            <li><a href="http://www.cfda.gov">Catalog of Federal Domestic Assistance</a></li>
+            <li><a href="https://www.fpds.gov/fpdsng_cms/">Federal Procurement Data System - Next Generation</a></li>
+        </ul>
+        <h4>Downloadable Data:</h4>
+        <ul class="resources">
+            <li><a href="{% media_url%}/docs/agency_grants.csv">Consistency metrics by agency by fiscal year (grants)</a></li>
+            <li><a href="{% media_url %}/docs/agency_loans.csv">Consistency metrics by agency by fiscal year (loans)</a></li>
+            <li><a href="{% media_url%}/docs/program_grants.csv">Consistency metrics by program by fiscal year (grants)</a></li>
+            <li><a href="{% media_url %}/docs/program_loans.csv">Consistency metrics by program by fiscal year (loans)</a></li>
+        </ul>
+    </div>
+</div>
 
 
 {% endblock %}
