@@ -45,6 +45,9 @@
             <div class="clear"></div>
             {% endblock %}
         </div>
+    {% block scorecard %}
+        
+        {% block agency-key %}
         <div id="agencyKey">
             <span id="keyTitle">Percentage of obligations misreported:</span>
             <ul class="tip" id="bottom-legend">
@@ -60,7 +63,8 @@
             </ul>
             <div class="clear"></div>
         </div>
-    {% block scorecard %}
+        {% endblock %}
+
     {% endblock %}
     </div>
 </div>

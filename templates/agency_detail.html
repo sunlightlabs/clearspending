@@ -31,6 +31,11 @@
             {% endfor %}
         </ul>
         <div class="clear"></div>
+
+        {% block agency-key %}
+            {{ block.super }}
+        {% endblock %}
+
         <div id="programtablecontainer">
             <table class="programtable" id="programtable">
             <thead>
