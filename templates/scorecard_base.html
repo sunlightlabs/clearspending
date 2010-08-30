@@ -1,61 +1,69 @@
 {% extends "base.html" %}
 {% block content %}
-    {% block header %}
-    <h3>Agencies</h3>
-    {% endblock %}
-
-    <div id="filters">
-            {% if agency %}
-
-            <ul id="years">
-            <li><a href="{% url agency_detail agency 2007 unit %}" {% ifequal "2007" fiscal_year %}class="active"{% endifequal %}>2007</a></li>
-            <li><a href="{% url agency_detail agency 2008 unit %}" {% ifequal "2008" fiscal_year %}class="active"{% endifequal %}>2008</a></li>
-            <li><a href="{% url agency_detail agency 2009 unit %}" {% ifequal "2009" fiscal_year %}class="active"{% endifequal %}>2009</a></li>
-            </ul>
-
-            {% else %}
-                {% if fiscal_year %}
-                    <ul id="years">
-                    <li><a href="{% block year1 %} {% url scorecard-index-extra unit 2007 %} {% endblock %}" {% ifequal "2007" fiscal_year %}class="active"{% endifequal %}>2007</a></li>
-                    <li><a href="{% block year2 %}{% url scorecard-index-extra unit 2008 %} {% endblock %}" {% ifequal "2008" fiscal_year %}class="active"{% endifequal %}>2008</a></li>
-                    <li><a href="{% block year3 %}{% url scorecard-index-extra unit 2009 %} {% endblock %}" {% ifequal "2009" fiscal_year %}class="active"{% endifequal %}>2009</a></li>
-                </ul>
-                {% endif %}
-            {% endif %}
-        <form id="{% if not fiscal_year %}programradios{% else %}radios{% endif %}">
-            <ul>    
-                <li>
-                    <input type="radio" {% ifequal "dollars" unit %} checked="checked" {% endifequal %} name="fields" value="dollars" id="dollars_radio" /><label for="dollars_radio">Misreported Dollars</label>
-                </li>
-                <li>
-                    <input type="radio" {% ifequal "pct" unit %} checked="checked" {% endifequal %} name="fields" value="pct" id="pct_radio" /><label for="pct_radio">Percentage of Total Funding Misreported</label>
-                </li>
-            </ul>
-        </form>
-        {% block search %}
-        <form id="program-search">
-            <label for="search-text">Search Programs: </label>
-            <input class="search-text" type="text" name="search-text" />    
-            <input type="submit" value="" class="submit" />
-        </form>
+{% block header %}
+<div id="pageMain">
+    <div id="fullColumn">    
+        <h3>Agencies</h3>
         {% endblock %}
-    </div>
 
+        <div id="filters">
+            <h4>Revise results below</h4>
+            {% if agency %}
+            
+            <ul id="years">
+                <li><a href="{% url agency_detail agency 2007 unit %}" {% ifequal "2007" fiscal_year %}class="active"{% endifequal %}>2007</a></li>
+                <li><a href="{% url agency_detail agency 2008 unit %}" {% ifequal "2008" fiscal_year %}class="active"{% endifequal %}>2008</a></li>
+                <li><a href="{% url agency_detail agency 2009 unit %}" {% ifequal "2009" fiscal_year %}class="active"{% endifequal %}>2009</a></li>
+            </ul>
+            {% else %}
+            {% if fiscal_year %}
+            <ul id="years">
+                <li><a href="{% block year1 %} {% url scorecard-index-extra unit 2007 %} {% endblock %}" {% ifequal "2007" fiscal_year %}class="active"{% endifequal %}>2007</a></li>
+                <li><a href="{% block year2 %}{% url scorecard-index-extra unit 2008 %} {% endblock %}" {% ifequal "2008" fiscal_year %}class="active"{% endifequal %}>2008</a></li>
+                <li><a href="{% block year3 %}{% url scorecard-index-extra unit 2009 %} {% endblock %}" {% ifequal "2009" fiscal_year %}class="active"{% endifequal %}>2009</a></li>
+            </ul>
+            {% endif %}
+            {% endif %}
+            <form id="{% if not fiscal_year %}programradios{% else %}radios{% endif %}">
+                <ul>    
+                    <li>
+                        <input class="radio" type="radio" {% ifequal "dollars" unit %} checked="checked" {% endifequal %} name="fields" value="dollars" id="dollars_radio" />
+                        <label for="dollars_radio">Misreported Dollars</label>
+                    </li>
+                    <li>
+                        <input class="radio" type="radio" {% ifequal "pct" unit %} checked="checked" {% endifequal %} name="fields" value="pct" id="pct_radio" />
+                        <label for="pct_radio">Percentage of Total Funding Misreported</label>
+                    </li>
+                </ul>
+            </form>
+            {% block search %}
+            <form id="program-search">
+                <label for="search-text">Search Programs</label>
+                <input class="search-text" type="text" name="search-text" />
+                <input type="submit" value="" class="submit" />
+            </form>
+            <div class="clear"></div>
+            {% endblock %}
+        </div>
+        <div id="agencyKey">
+            <span id="keyTitle">Percentage of obligations misreported:</span>
+            <ul class="tip" id="bottom-legend">
+                <li>
+                    <span class="good">Green Box</span> &lt; 25%
+                </li>
+                <li>
+                    <span class="warn">Orange Box</span> &gt; 25%
+                </li>
+                <li>
+                    <span class="bad">Red Box</span> &gt; 50%
+                </li>
+            </ul>
+            <div class="clear"></div>
+        </div>
     {% block scorecard %}
     {% endblock %}
-
-        <ul id="bottom-legend">
-            <li style="margin-left:0px;">Percentage of obligations misreported:</li>
-            <li>
-                <span style="background-color:#439539;"></span> &lt; 25%
-            </li>
-            <li>
-                <span style="background-color:#F58025;"></span> &gt; 25%
-            </li>
-            <li>
-                <span style="background-color:#B5121B;"></span> &gt; 50%
-            </li>
-        </ul>
+    </div>
+</div>
     <script type="text/javascript" charset="UTF-8">
         $(document).ready(function () {
             $("#program-search").submit(function() {

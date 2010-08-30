@@ -2,31 +2,34 @@
 {% load media %}
 
 {% block content %}
-<span id="toptext">Click on the tabs below to explore Obligation-Level Reporting vs. Program-Level Reporting sequences.</span>
-    <a href="{% media_url %}/docs/clearspending_reporting.pdf" id="download" title="infographic pdf">PDF version of Infographic</a>
+<div id="pageMain">
+    <div id="ltColumn">
+        <span class="tip">Click on the tabs below to explore Obligation-Level Reporting vs. Program-Level Reporting sequences.</span>
+        <a href="{% media_url %}/docs/clearspending_reporting.pdf" id="download" title="infographic pdf">PDF version of Infographic</a>
 
-    <div id="steps">
-        <ul id="sidenav">
-            <li id="step0"><a class="active" href="{% media_url %}/images/slides-0.jpg" title="step 0">Making Sense of the Federal Checkbook</a></li>
-            <li id="step1"><a href="{% media_url %}/images/slides-1.jpg" title="step 1">Agencies Receive Budget Authority</a><p>For our purposes, the process begins when an agency is given <b>budget authority</b> — the power to spend some money.</p></li>
-            <li id="step2"><a href="{% media_url %}/images/slides-2.jpg" title="step 2">Agencies Are Divided Into Programs</a><p>The agency's budget is organized into <b>programs</b>, which spend money in order to achieve some particular goal.</p></li>
+        <div id="steps">
+            <ul id="sidenav">
+                <li id="step0"><a class="active" href="{% media_url %}/images/slides-0.jpg" title="step 0">Making Sense of the Federal Checkbook</a></li>
+                <li id="step1"><a href="{% media_url %}/images/slides-1.jpg" title="step 1">Agencies Receive Budget Authority</a><p>For our purposes, the process begins when an agency is given <b>budget authority</b> — the power to spend some money.</p></li>
+                <li id="step2"><a href="{% media_url %}/images/slides-2.jpg" title="step 2">Agencies Are Divided Into Programs</a><p>The agency's budget is organized into <b>programs</b>, which spend money in order to achieve some particular goal.</p></li>
 
-            <li id="step3"><a href="{% media_url %}/images/slides-3.jpg" title="step 3">Programs Spend Money Through Obligations</a><p>That spending takes the form of awards to specific recipients. These awards can take different forms, like grants, or contracts, or loans. The umbrella term for all of these is <b>obligations</b>. An obligation means that although the government may not yet have actually cut a check, the money is committed and can't be spent on something else.</p></li>
-            <li id="step4"><a href="{% media_url %}/images/slides-4.jpg" title="step 4">Obligations Become Dispursements</a><p>Eventually, these obligations are sent to Treasury, which sends actual payments to the recipients. At this point the obligations become <b>disbursements</b>. Unfortunately, details about this process aren't available to the public in a useful form.</p></li>
-            <li id="step5"><a href="{% media_url %}/images/slides-5.jpg" title="step 5">Obligation-Level Reporting</a><p>Fortunately, there are other systems for tracking 
-this spending. <b>FAADS-PLUS</b> tracks grants, loans, loan guarantees and insurance. <b>FPDS-NG</b> tracks contracts. Both are run by the <b>Office of Management and Budget</b>. Together, they provide the data that appears on USASpending.gov.  Agencies report their obligations to these systems on a continuous basis.</p></li>
+                <li id="step3"><a href="{% media_url %}/images/slides-3.jpg" title="step 3">Programs Spend Money Through Obligations</a><p>That spending takes the form of awards to specific recipients. These awards can take different forms, like grants, or contracts, or loans. The umbrella term for all of these is <b>obligations</b>. An obligation means that although the government may not yet have actually cut a check, the money is committed and can't be spent on something else.</p></li>
+                <li id="step4"><a href="{% media_url %}/images/slides-4.jpg" title="step 4">Obligations Become Dispursements</a><p>Eventually, these obligations are sent to Treasury, which sends actual payments to the recipients. At this point the obligations become <b>disbursements</b>. Unfortunately, details about this process aren't available to the public in a useful form.</p></li>
+                <li id="step5"><a href="{% media_url %}/images/slides-5.jpg" title="step 5">Obligation-Level Reporting</a><p>Fortunately, there are other systems for tracking 
+    this spending. <b>FAADS-PLUS</b> tracks grants, loans, loan guarantees and insurance. <b>FPDS-NG</b> tracks contracts. Both are run by the <b>Office of Management and Budget</b>. Together, they provide the data that appears on USASpending.gov.  Agencies report their obligations to these systems on a continuous basis.</p></li>
 
-            <li id="step6"><a href="{% media_url %}/images/slides-6.jpg" title="step 6">Program-Level Reporting</a><p>Agencies also report information on the program level. Once a year they submit information about grant programs to the <b>Catalog of Federal Domestic Assistance</b>, which is maintained by the <b>General Services Administration</b>. The CFDA includes information about each program's purpose, who is eligible to participate in the program, and an estimate of the program's total obligations.</p></li>
-            <li id="step7"><a href="{% media_url %}/images/slides-7.jpg" title="step 7">Measuring Accuracy</a><p>In theory, we should be able to add up the grant information reported to FAADS and compare the total against the number that's reported to CFDA. 
-In practice, things don't always work that well.</p></li>
-        </ul>
-        <a href="{% url scorecard-index %}" id="view">View Our Scorecard</a>
-
-    </div> <!-- end left -->
-    <div id="stage">
-        <img src="{% media_url %}/images/slides-0.jpg"/>
-    </div> <!-- end right -->
-    <div class="clear"></div>
+                <li id="step6"><a href="{% media_url %}/images/slides-6.jpg" title="step 6">Program-Level Reporting</a><p>Agencies also report information on the program level. Once a year they submit information about grant programs to the <b>Catalog of Federal Domestic Assistance</b>, which is maintained by the <b>General Services Administration</b>. The CFDA includes information about each program's purpose, who is eligible to participate in the program, and an estimate of the program's total obligations.</p></li>
+                <li id="step7"><a href="{% media_url %}/images/slides-7.jpg" title="step 7">Measuring Accuracy</a><p>In theory, we should be able to add up the grant information reported to FAADS and compare the total against the number that's reported to CFDA. 
+    In practice, things don't always work that well.</p></li>
+            </ul>
+            <a href="{% url scorecard-index %}" id="view">View Our Scorecard</a>
+        </div>
+        <div id="stage">
+            <img src="{% media_url %}/images/slides-0.jpg"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
 {% js "jquery-ui-1.8.4.custom.min.js" %}
 <script type="text/javascript" charset="utf-8">
     

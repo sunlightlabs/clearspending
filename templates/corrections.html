@@ -3,32 +3,37 @@
 {% load media %}
 {% block content %} 
 {% js "jquery.tablesorter.min.js" %}
-<h3>Corrections to Program Obligations</h3>
-<p>Clearspending uses CFDA program obligations for its consistency check with USASpending data. The CFDA represents the best available comparison point for USASpending, but its data is not perfect. Since our primary goal was to measure the quality of data in USASpending, we have made corrections to CFDA data where appropriate. These corrections are listed here and are based on a combination of our own research and input from federal agencies. If you work with a federal agency or a specific program and would like to update your reported obligations, please <a href="{% url feedback %}">contact us</a>.</p>
-<table id="agencytable" class="generic-table">
-    <thead>
-    <tr>
-        <th class="sort">Program</th>
-        <th class="sort">Agency </th>
-        <th class="sort">Fiscal Year</th>
-        <th class="sort">Original Obligation</th>
-        <th class="sort">Updated Obligation</th>
-        <th>Notes</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for corr in object_list %}
-        <tr class="{% cycle 'odd' 'even' %}">
-        <td class="td-name">{{ corr.program.program_title }}</td>
-        <td class="td-name">{{ corr.program.agency.name}}</td>
-        <td>{{ corr.program_obligation.fiscal_year}}</td>
-        <td>${{ corr.old_obligation|floatformat|intcomma}}</td>
-        <td>${{ corr.corrected_obligation|floatformat|intcomma}}</td>
-        <td class="td-name last-cell">{{ corr.note}}</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+
+<div id="pageMain">
+    <div id="fullWidthColumn">
+        <h3>Corrections to Program Obligations</h3>
+        <p>Clearspending uses CFDA program obligations for its consistency check with USASpending data. The CFDA represents the best available comparison point for USASpending, but its data is not perfect. Since our primary goal was to measure the quality of data in USASpending, we have made corrections to CFDA data where appropriate. These corrections are listed here and are based on a combination of our own research and input from federal agencies. If you work with a federal agency or a specific program and would like to update your reported obligations, please <a href="{% url feedback %}">contact us</a>.</p>
+        <table id="agencytable" class="generic-table">
+            <thead>
+            <tr>
+                <th class="sort">Program</th>
+                <th class="sort">Agency </th>
+                <th class="sort">Fiscal Year</th>
+                <th class="sort">Original Obligation</th>
+                <th class="sort">Updated Obligation</th>
+                <th>Notes</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for corr in object_list %}
+                <tr class="{% cycle 'odd' 'even' %}">
+                <td class="td-name">{{ corr.program.program_title }}</td>
+                <td class="td-name">{{ corr.program.agency.name}}</td>
+                <td>{{ corr.program_obligation.fiscal_year}}</td>
+                <td>${{ corr.old_obligation|floatformat|intcomma}}</td>
+                <td>${{ corr.corrected_obligation|floatformat|intcomma}}</td>
+                <td class="td-name last-cell">{{ corr.note}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function() {
