@@ -9,7 +9,7 @@ import csv
 import numpy as np
 import math
 from decimal import Decimal
-from helpers.charty import Line
+from helpers.charts import Line
 
 def main():
     assistance_hash = {'1': "grants", '2': "loans"} 
@@ -213,7 +213,7 @@ def generate_graphs():
 
 
         if series and overall_max > 0:
-            line_chart = Line(725, 280, series, MEDIA_ROOT+'styles/linechart.css', label_intervals=1, x_padding=55, padding=20, units=True)
+            line_chart = Line(725, 280, series, MEDIA_ROOT+'/styles/linechart.css', label_intervals=1, x_padding=55, padding=20, units=True, use_zero_minimum=True)
             line_chart.output("%sagency_chart_%s.svg" % (GRAPH_DIR, a.code)) 
     
 
