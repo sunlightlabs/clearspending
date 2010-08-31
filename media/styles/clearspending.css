@@ -12,34 +12,30 @@ a:visited { outline: none; color: #68a31d; font-weight: bold; text-decoration: n
 a:hover { outline: none; color: #636466; font-weight: bold; text-decoration: none;}
 a:active { outline: none; color: #68a31d; font-weight: bold; text-decoration: none;}
 
-.clear { clear: both;}
-
 body {
 	color: #9a9592;
 	font-size: 80%;
   	line-height: 20px;
-  	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
-p { margin-bottom: 1em;}
-strong, b { font-weight: bold;}
-em, i { font-style: italic; }
+
+p#shortedText { width: 580px;}
 
 #pageBackground { width: 100%; background: #F8F6EC url(../images/below_green_bg.png) top left repeat-x; border-bottom: 23px solid #7B614E; padding: 30px 0 50px; }
 
 h2 { width: 268px; height: 44px; margin-bottom: 25px; }
 h2 a { background: url(../images/clearspending-logo.png) top left no-repeat; width: 311px; height: 52px; display: block; text-indent: -9999em; }
 
-#mainContainer { width: 940px;  background: #FFF; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; margin: 0 auto; border: 1px solid #ddd7d7; }
+#contentWrapper #mainContainer { width: 940px;  background: #FFF; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; margin: 0 auto; border: 1px solid #ddd7d7; padding: 0;}
 #pageMain { margin: 35px 25px 50px; }
 
 #header { width: 940px; margin: 0 auto;}
 
 #ltColumn { width: 570px;}
 
-#nav { width: 940px; height: 27px; background: #85BE3D url(../images/bg_nav.jpg) bottom left repeat-x; padding-top: 8px;-moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px;}
-#nav li {  float: left; display: block; padding: 0 20px; text-transform: uppercase; }
-#nav li a { color: #F8F6EC; text-decoration: none; font-weight: normal;}
-#nav li a:hover { color: #fff; background: url(../images/nav_arrow.png) center 15px no-repeat; padding-bottom: 10px; font-weight: bold; }
+#nav { width: 940px; height: 35px; background: #85BE3D url(../images/bg_nav.jpg) bottom left repeat-x; -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px;}
+#nav li {  float: left;  text-transform: uppercase; }
+#nav li a { color: #F8F6EC; text-decoration: none; font-weight: normal; padding: 8px 20px 8px; display: block;}
+#nav li a:hover, div.scorecard #nav li#scorecard a, div.backgound #nav li#background a { color: #fff; background: url(../images/nav_arrow.png) center 27px no-repeat; font-weight: bold; padding: 9px 20px 7px;}
 
 #featureBox { background: url(../images/bg_featureBox.jpg) bottom left no-repeat; padding-top: 35px; margin-bottom: 65px;}
 #featureNumber { color: #80C2D6; margin-left: 50px; font-size: 400%; font-weight: bold; display: block; line-height: 50px;}
@@ -54,8 +50,8 @@ a#scorecardBtn { display: block; width: 322px; height: 45px; background: url(../
 h3 { color: #43413f; font-size: 180%; margin-bottom: 20px; text-transform: uppercase; line-height: 28px;}
 #homeltColumn h3, #homertColumn h3  { text-transform: capitalize;}
 
-h4 { color: #636466; font-size: 110%; font-weight: bold; line-height: 130%; margin-bottom: 15px; margin-top:25px;}
-h5 { margin-bottom: 10px;}
+h4 { color: #636466; font-size: 130%; font-weight: bold; line-height: 130%; margin-bottom: 15px; margin-top:25px;}
+h5 { margin-bottom: 10px; font-weight: bold; color: #636466;}
 
 #homeltColumn { width: 345px; margin-right: 25px; float: left;}
 #homertColumn { float: left; width: 495px; margin-left: 25px;}
@@ -64,36 +60,26 @@ h5 { margin-bottom: 10px;}
 #metrics { background: url(../images/header_metrics.jpg) top center no-repeat; padding-top: 55px;}
 #important { background: url(../images/header_video.jpg) top center no-repeat; padding-top: 55px;}
 
-#pageMain ul { list-style-type: disc; margin-left: 25px;}
-#pageMain ul li { margin-bottom: 15px; }
-#pageMain ol { list-style-type: decimal; margin-left: 25px; }
-#pageMain ol li { margin-bottom: 15px; }
-
-
-#pageMain .normalForm { margin-top: 30px; }
-#pageMain .normalForm ul { list-style-type: none; margin-left: 0;}
-#pageMain .normalForm li { margin-bottom: 10px;}
-#pageMain .normalForm label { width: 120px; display: block; float: left; color: #615e5c; }
-#pageMain .normalForm input { width: 390px; }
-#pageMain .normalForm input, .normalForm textarea, #program-search input { padding: 5px; -moz-border-radius: 3px; -webkit-border-radius: 3px; border: 1px solid #edeae2; background-color: #f8f6f0; color: #9a9592;}
+#pageMain ul li { margin-bottom: 15px; list-style-type: disc; margin-left: 25px;}
+#pageMain ol li { margin-bottom: 15px; list-style-type: decimal; margin-left: 25px; }
 
 #contact-form fieldset label.error {display:block; margin: 0px 0px 0px 8px; padding:0; background-color: white; border: none; font-weight: bold; float:left; font-size: 80%; }
 #contact-form input.error { padding: 0; margin: 0px 0px 10px; float:left; border-color: #FBC2C4; border-width:2px; }
 #contact-form textarea.error {padding: 0; background-color: white;}
 
-.graphicRight { float: right; margin-left: 25px;}
-.graphicLeft { float: left; margin-right: 25px;}
+.graphicRight { float: right; margin-left: 25px; margin-bottom: 15px;}
+.graphicLeft { float: left; margin-right: 25px; margin-bottom: 15px;}
 .graphic table td{ border: 1px solid #e8e6e1; padding: 7px; text-align: left;}
 .graphic table tr th { font-weight: bold; padding: 0 0 5px 5px;}
 
-/*cite {color: #717171; font-size: 90%; font-style: italic; }*/
+cite {color: #717171; font-size: 90%; font-style: italic; }
 
 
 /*--------------------------filters*/
 
 #filters { background-color: #ECE8DC; padding: 15px; border: 1px solid #d6d2c4;}
-#filters ul, #pageMain #bottom-legend, #pageMain  ul.legend  { list-style-type: none;}
-#pageMain #filters ul, #pageMain #bottom-legend  { margin-left: 0;}
+#filters ul li, #pageMain #bottom-legend li, #pageMain  ul.legend li { list-style-type: none;}
+#pageMain #filters ul li, #pageMain #bottom-legend li  { margin-left: 0;}
 #pageMain #filters li { margin-bottom: 0;}
 #filters h4 { margin-top: 0;}
 #years li { float: left; font-size: 120%; margin-top: 10px; }
@@ -103,9 +89,9 @@ h5 { margin-bottom: 10px;}
 #pageMain input.radio { position: static; margin-right: 5px;}
 
 #radios, #program-search { margin-left: 25px; padding-left: 25px; border-left: 1px solid #D6D2C4; float: left; }
-#program-search input.submit { background: url("http://assets.sunlightfoundation.com/site/3.1/images/magnifier.png") left top no-repeat; border: none; height: 16px; width: 16px; cursor: pointer; display: block; margin-top: 12px; margin-left: 10px;}
-#program-search input { border: 1px solid #c8c4b7; float: left;}
-#program-search label { margin-right: 5px; float: left; margin-top: 12px;}
+#contentWrapper #program-search input.submit { background: url("http://assets.sunlightfoundation.com/site/3.1/images/magnifier.png") left top no-repeat; border: none; height: 16px; width: 16px; cursor: pointer; display: block; margin-top: 7px; margin-left: 10px;}
+#contentWrapper #program-search input { border: 1px solid #c8c4b7; float: left;}
+#program-search label { margin-right: 10px; float: left; margin-top: 7px;}
 
 ul#bottom-legend li { float:left;  margin: 0 15px;}
 ul#bottom-legend li span { text-indent: -9999em; width: 10px; height: 10px; display: block; margin-top: 6px; float: left; margin-right: 5px;}
@@ -113,34 +99,55 @@ span.bad { background-color: #EB4724; }
 span.warn { background-color: #EC9322; }
 span.good { background-color: #83A93F;}
 span#keyTitle, ul#bottom-legend { float: left;}
-span#keyTitle { padding-top:2px; font-weight: bold;}
+span#keyTitle { padding-top:2px; font-weight: bold; margin-right: 10px;}
 #agencyKey { margin-top: 15px;}
 
 .tip { font-family: Georgia, Times, "Times New Roman", serif; font-style: oblique; font-size: 95%;}
 
-/*#programradios { padding-top: 5px; }
-h3 span.result-count {font-size: 80%;font-weight:normal;}
-#radios input, #programradios input { margin-right: 7px; }
-#radios, #programradios { color: #636466; font-size: 90%; }
-#misfieldsradio { margin-top: 5px; }
-#misfields { margin-top: 5px; }*/
+#graph { float: left; }
+#description { margin-bottom: 30px; }
+#description ul.legend { font-size: 90%; float:left; margin-top: 10px; }
+#pageMain #description ul.legend li { margin-bottom: 10px; margin-left: 0;}
+#description ul.legend li span { width:10px; height: 10px; display: block; float:left; margin-right: 5px; margin-top: 4px;}
+
+#agency_data { margin: 40px 0; padding-bottom: 40px; border-bottom: 1px solid #e8e6e1;}
+
+#pageMain #bignumbers li, .program-total-value { color: #7ABDD4; font-size: 120%; float: left; display: block; text-align: center; margin: 0 20px; width: 108px; font-weight: bold; }
+#bignumbers li span { font-weight: normal;}
+.bignumberstext { display: block; font-size: 80%; }
+
+#agency { margin: 30px 0; }
+#agency h4 { margin-top: 0;}
+#agencylogo { margin-right: 15px; float: left; }
+#department { color: #636466; font-size: 120%; font-weight: bold; }
+#title { float: left; width: 670px; }
+
+.program-total-value { float: right; width: 200px; margin: 30px 0 0; }
+.program-total-value span { font-size: 95%; font-weight: normal; margin-bottom: 10px; display: block;}
+.greenarrow { background: url(../images/greenarrow.png) top left no-repeat; display: block; width: 17px; height: 19px; text-indent: -9999em;  }
+.redarrow { background: url(../images/redarrow.png) top left no-repeat; display: block; width: 17px; height: 19px; text-indent: -9999em; }
+
+.ratingtable.program-detail th.arrow, .arrow { width: 20px; }
 
 
 /*---------------------------tables*/
-table { font-size: 90%; }
+table { font-size: 90%; width: 100%; }
 #pageMain table a { text-decoration: underline; font-weight: normal; color: #636466; }
 #pageMain table a:hover { color: #68A31D;}
-table#programtable, table#agencytable { width: 100%; }
 table.generic-table { margin-top: 25px; }
 .agencydescription { padding: 10px 10px; }
-#agencytable th, .programtable th { color: #636466; font-weight: bold; padding-bottom: 15px; cursor: pointer; font-size: 100%; text-transform: uppercase; line-height: 15px; padding-right: 10px;}
-.ratingtable { border-bottom: 1px solid #DAD2BB; padding-bottom: 30px; }
-.ratingtable li { border-top: 1px solid #DAD2BB; margin-top: 30px; padding-top: 30px; }
+th { color: #636466; font-weight: bold; padding-bottom: 15px; font-size: 100%; text-transform: uppercase; line-height: 15px; padding-right: 10px;}
+.ratingtable { padding-bottom: 30px; }
+#pageMain .ratingtable li { border-top: 1px solid #E8E6E1; margin-top: 30px; padding-top: 30px; list-style-type: none; margin-left: 0; margin-bottom: 0;}
 .ratingtable th { padding: 0 10px 10px 10px; font-size: 130%; color: #636466; font-weight: bold; }
 
-.programtable td, #agencytable td { padding: 15px 0 15px 15px; padding-right: 10px;}
-
+td { padding: 15px 0 15px 15px; padding-right: 10px;}
 .sort { background: url(../images/sortArrows.png) left 10px no-repeat;  padding-left: 15px;}
+
+.last-cell { padding-right: 20px;}
+
+.even, .odd { color: #636466; }
+.odd { background-color: #F6F4EE; }
 
 .bad { color: #EB4724; }
 .warn { color: #EC9322; }
@@ -158,7 +165,8 @@ button { text-indent: -9999em; display: block; height: 45px; cursor: pointer; bo
 #download:hover{ background: url(../images/btn-infographic.jpg) left -13px no-repeat; }
 
 #steps { width: 228px; padding-top: 40px; float: left; position: relative; }
-#step0, #step1, #step2, #step3, #step4, #step5, #step6, #step7 { width: 188px; padding: 5px 0; border-bottom: #DAD2BB 1px solid; }
+#pageMain #sidenav li { width: 188px; padding: 5px 0; border-bottom: #DAD2BB 1px solid; margin: 0;}
+#pageMain #sidenav li a, #pageMain #sidenav li p { border: none;}
 #step0 a{ background: url(../images/tabs-0.jpg) top left no-repeat; width: 228px; height: 36px; display: block; text-indent: -9999em; }
 #step0 a:hover { background: url(../images/tabs-0.jpg) left -36px no-repeat; }
 #step0 a.active { background: url(../images/tabs-0.jpg) left -72px no-repeat; }
@@ -191,7 +199,7 @@ button { text-indent: -9999em; display: block; height: 45px; cursor: pointer; bo
 #step7 a:hover { background: url(../images/tabs-7.png) left -37px no-repeat; }
 #step7 a.active { background: url(../images/tabs-7.png) left -73px no-repeat; }
 
-#sidenav p { display: none; font-family: Georgia, Times, "Times New Roman", serif; font-size: 90%; color: #8E8E8E; padding: 10px 0 20px 10px; line-height: 140%; }
+#sidenav p { display: none; font-size: 85%; color: #8E8E8E; padding: 10px 0 20px 10px; line-height: 140%; }
 ul#sidenav { margin-left: 0px; }
 #view{ background: url(../images/btn-scorecard.jpg) top left no-repeat; width: 187px; height: 12px; display: block; text-indent: -9999em; margin-top: 32px; }
 #view:hover { background: url(../images/btn-scorecard.jpg) left -12px no-repeat; }
@@ -199,49 +207,10 @@ ul#sidenav { margin-left: 0px; }
 #stage { float: left; margin-left: -14px; margin-top: 22px; }
 
 
-/*-------------------------agency, agency+program, program pages*/
-
-#agency { margin: 25px 20px; }
-#agencylogo { margin-right: 15px; float: left; }
-#department { color: #636466; font-size: 120%; font-weight: bold; }
-#title { float: left; width: 762px; }
-
-#programdescription { color: #8E8E8E; font-size: 80%; line-height: 150%; }
-#graph { float: left; }
-#description { margin-bottom: 30px; }
-#description ul.legend {margin-top: 50px; color: #8E8E8E; font-size: 90%; float:left; display:block; margin-left: 0px;}
-#description ul.legend li { width: 100%; text-align:left; }
-#description ul.legend li span {width:10px; height: 10px; display: block; float:left; margin-right: 5px; margin-top: 4px;}
-
-#bignumbers { margin: 0 auto; }
-#bignumbers li, span.program-total-value{ font-family: "chunk-1","chunk-2", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #7ABDD4; font-size: 120%; float: left; display: block; text-align: center; margin: 0 20px 38px; width: 120px;  }
-span.program-total-value { float:right; width:200px;margin: 0; }
-span.program-total-value strong { font-weight: bold; }
-.bignumberstext { display: block; margin-top: 12px; font-size: 80%; }
-.greenarrow { background: url(../images/greenarrow.png) top left no-repeat; display: block; width: 17px; height: 19px; text-indent: -9999em;  }
-.redarrow { background: url(../images/redarrow.png) top left no-repeat; display: block; width: 17px; height: 19px; text-indent: -9999em; }
-
 
 /* cross browser table scroll styling */
-div#agencytablecontainer {margin: 50px 0; border-bottom: 1px solid #DAD2BB; clear:both; height: 500px; width: 100%; overflow:auto; }
-div#programtablecontainer { padding: 30px 0px ; border-top: 1px solid #DAD2BB; border-bottom: 1px solid #DAD2BB; clear:both; height: 500px; width:100%; overflow:auto;}
-html>body div#agencytablecontainer, html>body div#programtablecontainer { overflow: hidden; }
-table#agencytable thead tr, table#programtable thead tr { position: relative; background-color:white; }
-html>body table#agencytable thead tr, html>body table#programtable thead tr { display: block; }
-
-html>body table#agencytable tbody, html>body table#programtable tbody {display: block; height: 500px; overflow:auto; width: 100%; }
-html>body table#agencytable thead th, html>body table#programtable thead th { width: 8%;}
-html>body table#agencytable thead th:first-child { width: 28%;}
-html>body table#programtable thead th:first-child + th {width: 20%; }
-html>body table#programtable thead th:first-child {width: 4%; }
-
-/*#agencytable tbody, #programtable tbody { height: 500px; overflow-y: auto; overflow-x:hidden;  }
-#agencytable tbody tr, #programtable tbody tr {height: auto;}*/
-
-.prog-num {width: 50px; }
-.metric-cell { width: 105px; }
-.last-cell { padding-right: 35px !important; }
-#expand { display: none; }
+div#agencytablecontainer tbody, div#programtablecontainer tbody { clear: both; height: 500px; width: 100%; overflow-x: hidden; overflow-y: scroll; }
+div#agencytablecontainer, div#programtablecontainer { margin: 40px 0;}
 
 
 
@@ -251,45 +220,17 @@ html>body table#programtable thead th:first-child {width: 4%; }
 .expanded { background: url(../images/expandarrow.png) left -7px no-repeat; width: 6px; height: 7px; display: block; text-indent: -9999em; float: left; margin-right: 5px; margin-top: 6px; }
 #last td { padding-bottom: 20px; }
 .agencydescription { color: #8E8E8E; font-size: 100%; line-height: 150%; padding-left: 10px; display: none; width: 280px; }
-.even, .odd { color: #636466; }
-.odd { background-color: #F6F4EE; }
+
 
 .neutral { vertical-align: top; }
 .reviewed { width: 250px; text-align:left; }
-.ratingtable.program-detail th{ width: 150px; text-align: right; }
-.ratingtable.program-detail th.reviewed { width: auto; text-align:left; }
-.ratingtable.program-detail th.arrow, .arrow { width: 20px ; }
+
+
 
 <!-- some IE hacks -->
 #agencytable tr, #programtable tr, #agencytable tr td, #programtable tr td {height: auto;}
 
 
-
-
-/* homepage styles */
-
-div.index-header { color: #636466; font-weight: bold; width: 63%; margin: 20px auto 50px; }
-div.index-header span { display:block; width: 50%; margin: 0 auto; font-size: 110%; }
-div.index-header span.total-obligations { padding-left: 0px; width: auto; color: #80C2D6; font-size: 450%; font-weight: bolder; }
-
-#intro { padding-bottom: 25px; border-bottom: 2px solid #DAD3B2; }
-#intro h1 { font-size: 150%; font-weight: bold; color: #585D61; }
-#intro p { margin-left: 0px; padding-left: 0px; line-height: 24px; }
-#intro p span { font-weight: bold; }
-#intro h4 { padding-left: 0px; margin-left: 0px;}
-#intro h4 a {text-decoration: none; color: #77C52B; font-size: 95%; }
-
-#subsections { margin-top: 25px; }
-#subsections h3 { line-height: 110%; padding-bottom: 10px; }
-#subsections .col-1  { width: 40%; float: left; padding-right: 20px; }
-#subsections .col-2 { float:left; width: 58%;}
-#subsections .icon { float: left; width: 60px; margin-right: 10px; }
-#subsections p { padding-left: 70px; padding-top: 0; padding-bottom:40px; margin-bottom: 40px;  border-bottom: 1px solid #DAD3B2; }
-#subsections strong {font-weight: bold; }
-#subsections ul { margin: 0px; padding-left: 25%; }
-#subsections ul li { margin-bottom: 10px; }
-#subsections p.no-border { border: none; margin-bottom: 10px; padding-bottom: 0; }
-#subsections a { color: #77C52B; font-weight: bold; }
 
 /* table styles */
 span.float-right { display: inline; float:right; margin: 15px; font-weight: bold; }

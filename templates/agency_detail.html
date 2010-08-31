@@ -10,28 +10,28 @@
 {% endblock %}
 
         {% block scorecard %}
-
-        <div id="description">
-            <img id="graph" alt="agency trends" src="{% media_url %}/images/charts/agency_chart_{{agency}}.png" />
-            <ul class="legend">
-                <li><span style="background-color: #e9dd53;"></span> Over Reported (grants)</li>
-                <li><span style="background-color: #EE9F2E;"></span> Under Reported (grants)</li>
-                <li><span style="background-color: #DF5D26;"></span> Non Reported (grants)</li>
-                <li><span style="background-color: #991C1F;"></span> Over Reported (loans)</li>
-                <li><span style="background-color: #79BBD3;"></span> Under Reported (loans)</li>
-                <li><span style="background-color: #438B9E;"></span> Non Reported (loans)</li>
-                <li><span style="background-color: #636566;"></span> Late</li>
-                <li><span style="background-color: #2B2826;"></span> Incomplete</li>
+        <div id="agency_data">
+            <div id="description">
+                <img id="graph" alt="agency trends" src="{% media_url %}/images/charts/agency_chart_{{agency}}.png" />
+                <ul class="legend">
+                    <li><span style="background-color: #e9dd53;"></span> Over Reported (grants)</li>
+                    <li><span style="background-color: #EE9F2E;"></span> Under Reported (grants)</li>
+                    <li><span style="background-color: #DF5D26;"></span> Non Reported (grants)</li>
+                    <li><span style="background-color: #991C1F;"></span> Over Reported (loans)</li>
+                    <li><span style="background-color: #79BBD3;"></span> Under Reported (loans)</li>
+                    <li><span style="background-color: #438B9E;"></span> Non Reported (loans)</li>
+                    <li><span style="background-color: #636566;"></span> Late</li>
+                    <li><span style="background-color: #2B2826;"></span> Incomplete</li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <ul id="bignumbers">
+                {% for num in summary_numbers %}
+                    <li>${{num|floatformat|intcomma}}<span class="bignumberstext">{% cycle 'Total' 'Under Reported' 'Over Reported' 'Not Reported' 'Late' 'Incomplete' %}</span></li>
+                {% endfor %}
             </ul>
             <div class="clear"></div>
         </div>
-        <ul id="bignumbers">
-            {% for num in summary_numbers %}
-                <li>${{num|floatformat|intcomma}}<span class="bignumberstext">{% cycle 'Total' 'Under Reported' 'Over Reported' 'Not Reported' 'Late' 'Incomplete' %}</span></li>
-            {% endfor %}
-        </ul>
-        <div class="clear"></div>
-
         {% block agency-key %}
             {{ block.super }}
         {% endblock %}
