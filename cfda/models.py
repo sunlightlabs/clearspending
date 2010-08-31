@@ -4,7 +4,7 @@ import csv
 import re
 import sys
 from django.utils.encoding import smart_unicode
-import faads_scorecard.helpers.unicode as un
+import helpers.unicode as un
 from datetime import datetime
 
 
