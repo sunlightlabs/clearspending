@@ -166,7 +166,7 @@ button { text-indent: -9999em; display: block; height: 45px; cursor: pointer; bo
 #download:hover{ color: #636466; }
 
 #steps { width: 228px; padding-top: 40px; float: left; position: relative; }
-#pageMain #sidenav li { width: 228px; height: 36px; margin: 0; display: block;}
+#pageMain #sidenav li { width: 228px; margin: 0; display: block;}
 #pageMain #sidenav li a, #pageMain #sidenav li p { border: none;}
 #pageMain #sidenav li a { width: 218px; height: 36px; }
 
