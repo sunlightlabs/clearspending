@@ -168,21 +168,26 @@ button { text-indent: -9999em; display: block; height: 45px; cursor: pointer; bo
 #steps { width: 228px; padding-top: 40px; float: left; position: relative; }
 #pageMain #sidenav li { width: 228px; height: 36px; margin: 0; display: block;}
 #pageMain #sidenav li a, #pageMain #sidenav li p { border: none;}
-#pageMain #sidenav li a { width: 218px; height: 26px; padding: 10px 10px 0 0;}
+#pageMain #sidenav li a { width: 218px; height: 36px; }
 
-.number { font-family: Georgia, "Times New Roman", Times, sans-serif; font-weight: bold; font-size: 200%; display: block; float: left; margin-right: 10px; line-height: 25px; margin-left: 20px;}
+.number { font-family: Georgia, "Times New Roman", Times, sans-serif; font-weight: bold; font-size: 200%; display: block; float: left; margin-right: 10px; line-height: 25px; }
 .animationTitle { text-transform: uppercase; font-size: 80%; display: block; float: left; width: 160px; line-height: 13px; margin-top: 4px;}
 
 .yellow:hover { background: url(../images/animation_arrowsYellow.png) left -36px no-repeat;}
-.yellow:active { background: url(../images/animation_arrowsYellow.png) left top no-repeat;}
+.yellow a.active { background: url(../images/animation_arrowsYellow.png) left top no-repeat; }
+.yellow a.active, .blue a.active  { color: #fff;}
 
 .blue:hover { background: url(../images/animation_arrowsBlue.png) left -36px no-repeat;}
-.blue:active { background: url(../images/animation_arrowsBlue.png) left top no-repeat;}
+.blue a.active { background: url(../images/animation_arrowsBlue.png) left top no-repeat;}
 
+.pullDown { background: url(../images/expandarrow.png) top left no-repeat; text-indent: -9999em; float: left; margin: 13px 10px 0; display: block; width: 6px; height: 8px;}
+.blue a.active .pullDown, .yellow a.active .pullDown { background: url(../images/expandarrow.png) left -8px no-repeat; }
+
+#firstNumber { margin-left: 21px;}
 
 #sidenav p { display: none; font-size: 85%; color: #8E8E8E; padding: 10px 0 20px 10px; line-height: 140%; }
 ul#sidenav { margin-left: 0px; }
-#view{ display: block; margin-top: 35px; color: #68A31D; font-weight: bold; text-transform: uppercase;}
+#view { display: block; margin-top: 35px; color: #68A31D; font-weight: bold; text-transform: uppercase;}
 #view:hover { color: #636466; }
 
 #stage { float: left; margin-left: -14px; margin-top: 22px; }
@@ -192,7 +197,7 @@ div#agencytablecontainer tbody, div#programtablecontainer tbody { clear: both; h
 div#agencytablecontainer, div#programtablecontainer { margin: 40px 0;}
 
 
-.expand { background: url(../images/expandarrow.png) top left no-repeat; width: 6px; height: 7px; display: block; text-indent: -9999em; float: left; margin-right: 5px; margin-top: 6px; }
+.expand {  width: 6px; height: 7px; display: block;  margin-right: 5px; margin-top: 6px; }
 .name { text-align: left; font-weight: bold; color: #636466; text-decoration: underline; display: block; float: left; margin-right: 5px; margin-top: 2px; }
 .td-name { text-align: left; color: #636466; }
 .expanded { background: url(../images/expandarrow.png) left -7px no-repeat; width: 6px; height: 7px; display: block; text-indent: -9999em; float: left; margin-right: 5px; margin-top: 6px; }
