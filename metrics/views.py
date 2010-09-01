@@ -184,7 +184,7 @@ def programDetail(request, program_id, unit):
 
     consistency_block = programDetailConsistency(program, unit) 
     field_names = ['late_'+unit, 'avg_lag_rows']
-    proper_names = ['Late', 'Average Late Records']
+    proper_names = ['Late Records (over 45 days after obligation)', 'Average Reporting Lag (days since obligation)']
     coll = ProgramTimeliness.objects.filter(program=program_id).order_by('fiscal_year')
     timeliness_block = programDetailGeneral(program_id, unit, field_names, proper_names, coll, 'Timeliness')
 
