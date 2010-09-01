@@ -180,7 +180,7 @@ def programDetail(request, program_id, unit):
     program = Program.objects.get(id=program_id)
     
     program_total_number = ProgramObligation.objects.filter(program=program).aggregate(total=Sum('obligation'))['total']
-    program_total = moneyfmt(Decimal(str(program_total_number)), places=0, curr='$', sep=',', dp='')
+    program_total = moneyfmt(Decimal(str(program_total_number).replace('None', '0')), places=0, curr='$', sep=',', dp='')
 
     consistency_block = programDetailConsistency(program, unit) 
     field_names = ['late_'+unit, 'avg_lag_rows']
@@ -311,7 +311,10 @@ def programDetailGeneral(program_id, unit, field_names, proper_names, coll, metr
     if coll:
         html.append('<li><table><thead><tr><th class="arrow"></th><th class="reviewed">'+metric+'</th>')
         for fy in FISCAL_YEARS: html.append('<th>' + str(fy) + '</th>')
-        html.append('</tr></thead><tbody>')
+        html.append('</tr><tr><td colspan="4">')
+        if metric == "Completeness" : html.append('percent or dollar amount of obligations that failed each field')
+        else: html.append('percent or dollar amount of obligations that were late' )
+        html.append('</td></tr></thead><tbody>')
         count = 0
         for f in field_names:
             temp_html = []
