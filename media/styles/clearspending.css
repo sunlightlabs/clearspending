@@ -143,7 +143,7 @@ th { color: #636466; font-weight: bold; padding-bottom: 15px; font-size: 100%; t
 .ratingtable th { padding: 0 10px 10px 10px; font-size: 130%; color: #636466; font-weight: bold; }
 
 td { padding: 15px 0 15px 15px; padding-right: 10px;}
-.sort { background: url(../images/sortArrows.png) left 10px no-repeat;  padding-left: 15px;}
+.sort { background: url(../images/sortArrows.png) left 10px no-repeat;  padding-left: 15px; cursor:pointer; }
 
 .last-cell { padding-right: 20px;}
 
