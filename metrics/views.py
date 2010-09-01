@@ -180,7 +180,7 @@ def programDetail(request, program_id, unit):
     program = Program.objects.get(id=program_id)
     
     program_total_number = ProgramObligation.objects.filter(program=program).aggregate(total=Sum('obligation'))['total']
-    program_total = moneyfmt(Decimal(str(program_total_number)), places=0, curr='$', sep=',', dp='')
+    program_total = moneyfmt(Decimal(str(program_total_number).replace('None', '0')), places=0, curr='$', sep=',', dp='')
 
     consistency_block = programDetailConsistency(program, unit) 
     field_names = ['late_'+unit, 'avg_lag_rows']
