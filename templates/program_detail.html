@@ -1,4 +1,5 @@
 {% extends "scorecard_base.html" %}
+{% block bodyclass %}scorecard{% endblock %}
 {% block header %}
 <div id="pageMain">
     <div id="fullColumn">
@@ -12,11 +13,11 @@
                 <p id="programdescription">{{desc|safe}}</p>
             </div>
             {% block search %}{% endblock %}
-            <span class="program-total-value">
-                <strong>Total Program Obligations:</strong><br />
-                <span style="font-size:small;">(all fiscal years)</span><br />
+            <div class="program-total-value">
+                <strong>Total Program Obligations:</strong>
+                <span>(all fiscal years)</span>
                 {{program_total }}*
-            </span>
+            </div>
             <div class="clear"></div>
         </div>
 

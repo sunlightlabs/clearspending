@@ -1,79 +1,128 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head>
+<html>
+<head>
+    {% load media %}
+    {% css "clearspending.css" %}
+    {% css "jquery-ui.css" %}
+    {% js "jquery-1.4.2.min.js" %}
+    
+    	<meta charset="utf-8" />
+    	<!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    	<style>
+    		article, aside, details, figcaption, figure, footer, header,
+    		hgroup, menu, nav, section { display: block; }
+    	</style>
+    	<style>
+    	
+    		.clear:after { display: block; visibility: hidden; clear: both; height: 0; content: "."; }
 
-{% load media %}
-{% css "screen.css" %}
-{% css "sf_frame.css" %}
-{% css "clearspending.css" %}
-{% css "jquery-ui.css" %}
-{% js "jquery-1.4.2.min.js" %}
+    		body {
+    			background-color: #F8F6EC;
+    			background-image: url(http://assets.sunlightfoundation.com/site/3.1/images/bg_blog.jpg);
+    			background-position: 50% 0%;
+    			background-repeat: repeat-x;
+    			font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    			margin: 0;
+    		}
+    		
+    		p { margin-bottom: 1em;}
+            strong, b { font-weight: bold;}
+            em, i { font-style: italic; }
 
+    		.container, header { margin: 0 auto; width: 940px; padding: 0 10px;}
+    		#navWrapper { background: url("http://assets.sunlightfoundation.com/site/3.1/images/green_bar_bg.png") top left repeat-x; height: 36px; }
+    		#contentWrapper { background: #F8F6EC url(http://assets.sunlightfoundation.com/site/3.1/images/below_green_bg.png) repeat-x; padding-top: 25px; padding-bottom: 80px;}
+    		#mainContainer { border:1px solid #DDD7D7; -moz-border-radius: 6px; -webkit-border-radius: 6px; background-color: #fff; padding: 25px 25px 50px; width: 890px;}
+
+    		ul { list-style: none; margin: 0; padding: 0; }
+    		ul li { list-style: none; margin: 0; padding: 0; }
+
+    		header.main h1 {
+    			background: url(http://assets.sunlightfoundation.com/site/3.1/images/sf_logo_sm.png) top left no-repeat;
+    			text-indent: -9999px;
+    			width: 120px;
+    			height: 60px;
+    			margin: 10px 0 7px;
+    		}
+
+    		.list_prompt {
+                color:#548330;
+                float:left;
+                font-size:16px;
+                font-weight:bold;
+                margin-right:40px;
+                padding-top:12px;
+                text-shadow:0 1px 0 #E2ECD7;
+            }
+
+            form#mailinglist-form { float: right; }
+            form#mailinglist-form label { color: #548330; font-size: 90%; width: auto; margin-right: 10px; padding-top: 4px; float: left; display: block;}
+            form#mailinglist-form input { border: 1px solid #669933; width: 80px; padding: 3px; font-size: 70%; background-color: #F8F6EC;}
+            form#mailinglist-form li { float: left; margin: 7px 10px; clear: none;}
+
+            input { -moz-border-radius: 3px; -webkit-border-radius: 3px;}
+            
+            #contentWrapper .normalForm { margin-top: 30px; }
+            #contentWrapper .normalForm li { margin-bottom: 10px; list-style-type: none; margin-left: 0;}
+            #contentWrapper .normalForm label { width: 120px; display: block; float: left; color: #615e5c; }
+            #contentWrapper .normalForm input, #contentWrapper .normalForm textarea { width: 390px; }
+            #contentWrapper .normalForm textarea { height: 150px;}
+            #contentWrapper .normalForm input, .normalForm textarea, #program-search input { padding: 5px; -moz-border-radius: 3px; -webkit-border-radius: 3px; border: 1px solid #edeae2; background-color: #f8f6f0; color: #9a9592;}
+
+            #socialMedia { float: right;}
+            #socialMedia li { float: left; width: 16px; height: 16px; margin: 12px 0 0 5px;}
+            #socialMedia li a { width: 16px; height: 16px; display: block; text-indent: -9999em;}
+            .social_6 { background: url(http://assets.sunlightfoundation.com/site/3.1/images/social_sprites.png) left -69px no-repeat; } 
+    		.social_1 { background: url(http://assets.sunlightfoundation.com/site/3.1/images/social_sprites.png) left -52px no-repeat; }
+    		.social_2 { background: url(http://assets.sunlightfoundation.com/site/3.1/images/social_sprites.png) left top no-repeat; }
+    		.social_3 { background: url(http://assets.sunlightfoundation.com/site/3.1/images/social_sprites.png) left -86px no-repeat; }
+
+    		form#mailinglist-form .join_button { background: url(http://assets.sunlightfoundation.com/site/3.1/images/join_button.png) top left no-repeat; width: 70px; height: 26px; border: none; text-indent: -9999em; display: block; background-color: none; margin-top: -1px;}
+    		form#mailinglist-form .join_button:hover { background: url(http://assets.sunlightfoundation.com/site/3.1/images/join_button.png) left -35px no-repeat;}
+    </style>
+    <title>Sunlight Foundation</title>
 </head>
 
-<body>
-	
-<div class="container">
-        <div class="column span-7">
-            <a href="/"><h1 class="technique-three-sm">Sunlight Foundation</h1></a>         
-        </div>
-        <div class="column span-17 last">
-                    <div id="headerSearchbox">
+<body class="{% block bodyclass %}home{% endblock %}">
+	<header class="main">
+		<h1>Sunlight Foundation</h1>
+	</header>
+	<div id="navWrapper">
+	    <div class="container">
+	        <span class="list_prompt">You should join the transparency movement</span>
+	        <div id="socialMedia">
+    	        <ul>
+    	            <li><a href="http://www.sunlightfoundation.com/feeds/latest/" class="social_6">RSS</a></li>  
+    	            <li><a href="http://www.facebook.com/inbox/?ref=mb#/pages/Washington-DC/Sunlight-Foundation/6921874941" class="social_1">Facebook</a></li>  
+    	            <li><a href="http://twitter.com/sunlightnetwork" class="social_2">Twitter</a></li>
+    	            <li><a href="http://www.youtube.com/sunlightfoundation" class="social_3">YouTube</a></li>
+    	        </ul>     
+	         </div>
+	        <form id="mailinglist-form" method="post" action="/mailinglist/subscribe/">
+	            <ul>
+	                <li>
+	                    <label for="email">Email</label>
+	                    <input type="text" id="email" name="email">
+	                </li>    
+	                <li>
+	                    <label for="zipcode">Zip</label>
+	                    <input type="text" id="zipcode" name="zipcode">
+	                </li>
+	                <li>
+	                    <input type="submit" class="join_button">
+	                </li>    
+	            </ul>  
+	        </form>  
 
-                            <ul id="searchContainer">
-                                <form action="/search/" method="GET" name="search">
-                            <li class="searchContainer">
-                                <div>
-                                    <input type="text" id="searchField" name="q"/>
-                                    <img src="http://assets.sunlightfoundation.com/site/3.1/images/magnifier.png" alt="Search" onclick="document['search'].submit(); return false" />
-                                </div>
-                            </li>
-                            </form>
-
-                            </ul>
-                    </div>
-        </div>
-</div>  
-
-
-<div id="greenbar">
-    <div class="container">
-        <div class="column span-24">
-            <div id="mailing_list_box">
-                <div id="mailinglist-form">
-                    <span class="list_prompt">You should join the transparency movement</span>
-                    <form action="/mailinglist/subscribe/" method="post" id="mailinglist-form">
-                    <label for="email" class="email">Email</label>
-                    <input type="text" size="10" name="email" id="email" class="email" />
-                    <label for="zipcode" class="zip">Zip</label>
-                    <input type="text" size="5" name="zipcode" class="zipcode" id="zipcode"/>
-
-                    <input type="submit" value="" class="join_button" /> 
-                    </form>
-                    <div class="join_social_bar">
-                        <ul id="social_list_horizontal">
-                            <li><a class="social_6" href="http://www.sunlightfoundation.com/feeds/latest/"></a></li>
-                            <li><a class="social_1" href="http://www.facebook.com/inbox/?ref=mb#/pages/Washington-DC/Sunlight-Foundation/6921874941"></a></li>          
-                            <li><a class="social_2" href="http://twitter.com/sunlightnetwork"></a></li>
-                            <li><a class="social_3" href="http://www.youtube.com/sunlightfoundation"></a></li>
-
-                        </ul>
-
-
-                    </div>
-                </div>          
-                <div id="mailinglist-form-error"></div>
-                <div id="mailinglist-form-thanks"></div>
-            </div>  
-        </div>
-    </div>
-</div>
+	    </div>    
+	</div>
     <!-- ends top container -->
-<div id="pageBackground">
+<div id="contentWrapper">
     <div id="header">
         <h2><a href="{% url clearspending-index %}"><big>Clearspending</big><small>Making Sense of the Federal Checkbook</small></a></h2>
     </div>
-    <div id="mainContainer"> 
+    <div id="mainContainer">
         <div id="nav">
             <ul>
                 <li id="scorecard"><a href="{% url scorecard-index %}">Scorecard</a></li>

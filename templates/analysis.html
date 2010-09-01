@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% block bodyclass %}analysis{% endblock %}
 {% block content %}
 <div id="pageMain">
     <div id="ltColumn">
@@ -41,6 +41,23 @@
         <p>In addition to incomplete and poorly formatted fields, there is another class of error that we have no way of programmatically measuring. Many of the descriptive fields, such as those that describe the purpose of the grant, appear to be a random mix of letters and numbers. Because we have no way of quantifying these descriptive errors, the above percentages represent the lower bound of completion errors in USASpending.gov. It is possible that the actual error rate is substantially higher.</p>
         <p>Because USASpending.gov is based on datasets that are widely accepted as flawed or incomplete, the data on the site can only be as good as FAADS or FPDS – the underlying reporting systems. USASpending.gov must fix the way the agencies report program spending to these systems. One path to improvement would be to institute meaningful oversight. According to a GAO report, the Office of Management and Budget (OMB) has no process for tracking down programs that do not report at all. The data in Clearspending makes it possible for anyone to find both nonreporting programs and those programs with an excellent reporting record. Highlighting programs and agencies on both ends of the spectrum is the first step to identifying best practices and pitfalls of federal spending reporting.</p>
     </div>
+    <div id="rtColumn">
+        <div id="reporting">
+            <h3>How does the federal govenment report its spending?</h3>
+            <p>The flow of federal spending reporting can get complicated. We've tried to simplify it for you with a <a href="{% url animation %}">step-by-step visualization</a>.</p> 
+        </div>
+        <div id="metrics">
+            <h3>Our Metrics</h3>
+            <p class="no-border">How did we conduct our analysis and what assumptions did we make? What limitations exist with the comparison data we're using? We measured the data across three categories:</p>
+            <ul>
+                <li><strong>Consistency</strong>: A comparison of CFDA obligations and USASpending.gov obligations.</li>
+                <li><strong>Completeness</strong>: A measure of how many required fields are compelted. </li>
+                <li><strong>Timeliness</strong>: A measure of how quickly obligations were reported.</li>
+            </ul>
+           <p class="no-border">See our <a href="{% url methodology %}">methodology</a> for more information.</p>
+        </div>
+    </div> 
+    <div class="clear"></div>   
 </div>
 
 {% endblock %}
