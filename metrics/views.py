@@ -311,7 +311,10 @@ def programDetailGeneral(program_id, unit, field_names, proper_names, coll, metr
     if coll:
         html.append('<li><table><thead><tr><th class="arrow"></th><th class="reviewed">'+metric+'</th>')
         for fy in FISCAL_YEARS: html.append('<th>' + str(fy) + '</th>')
-        html.append('</tr></thead><tbody>')
+        html.append('</tr><tr><td colspan="4">')
+        if metric == "Completeness" : html.append('percent or dollar amount of obligations that failed each field')
+        else: html.append('percent or dollar amount of obligations that were late' )
+        html.append('</td></tr></thead><tbody>')
         count = 0
         for f in field_names:
             temp_html = []
