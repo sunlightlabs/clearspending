@@ -100,10 +100,7 @@
                                 autoHeight: false
                                });
         $("ol#sidenav li").click(function(e){
-            if ($(e.target).is('a') || $(e.target).is('span')) {
-                var elem = $(e.target).parents('li');
-            }
-            else { var elem = $(e.target); }
+            var elem = $(this);
             $("div#stage img").attr("src", "{% media_url %}/images/slides-" + $("ol#sidenav li").index(elem) + ".jpg" );
             $("ol#sidenav a").removeClass("active");
             $(elem).find('a').addClass("active");
