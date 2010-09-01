@@ -25,17 +25,18 @@ p#shortedText { width: 580px;}
 h2 { width: 268px; height: 44px; margin-bottom: 25px; }
 h2 a { background: url(../images/clearspending-logo.png) top left no-repeat; width: 311px; height: 52px; display: block; text-indent: -9999em; }
 
-#contentWrapper #mainContainer { width: 940px;  background: #FFF; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; margin: 0 auto; border: 1px solid #ddd7d7; padding: 0;}
+#contentWrapper #mainContainer { width: 940px; background: #FFF; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; margin: 0 auto; border: 1px solid #ddd7d7; padding: 0;}
 #pageMain { margin: 35px 25px 50px; }
 
 #header { width: 940px; margin: 0 auto;}
 
-#ltColumn { width: 570px;}
+#ltColumn { width: 565px; margin-right: 30px; float: left;}
+#rtColumn { width: 265px; margin-left: 30px; float: left;}
 
 #nav { width: 940px; height: 35px; background: #85BE3D url(../images/bg_nav.jpg) bottom left repeat-x; -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px;}
 #nav li {  float: left;  text-transform: uppercase; }
 #nav li a { color: #F8F6EC; text-decoration: none; font-weight: normal; padding: 8px 20px 8px; display: block;}
-#nav li a:hover, div.scorecard #nav li#scorecard a, div.backgound #nav li#background a { color: #fff; background: url(../images/nav_arrow.png) center 27px no-repeat; font-weight: bold; padding: 9px 20px 7px;}
+#nav li a:hover, body.scorecard #nav li#scorecard a, body.background #nav li#background a, body.analysis #nav li#analysis a, body.methodology #nav li#methodology a, body.media #nav li#media a, body.corrections #nav li#corrections a, body.resources #nav li#resources a, body.feedback #nav li#feedback a  { color: #fff; background: url(../images/nav_arrow.png) center 27px no-repeat; font-weight: bold; padding: 9px 20px 7px;}
 
 #featureBox { background: url(../images/bg_featureBox.jpg) bottom left no-repeat; padding-top: 35px; margin-bottom: 65px;}
 #featureNumber { color: #80C2D6; margin-left: 50px; font-size: 400%; font-weight: bold; display: block; line-height: 50px;}
@@ -161,57 +162,34 @@ button { text-indent: -9999em; display: block; height: 45px; cursor: pointer; bo
 
 /*-------------------index page*/
 
-#download { background: url(../images/btn-infographic.jpg) top left no-repeat; width:174px; height: 13px; display: block; float: right; text-indent: -9999em;}
-#download:hover{ background: url(../images/btn-infographic.jpg) left -13px no-repeat; }
+#download { background: url(../images/pdf-icon.jpg) left 1px no-repeat; padding-left: 20px; font-size: 90%; display: block; float: right; text-transform: uppercase; color: #68A31D;}
+#download:hover{ color: #636466; }
 
 #steps { width: 228px; padding-top: 40px; float: left; position: relative; }
-#pageMain #sidenav li { width: 188px; padding: 5px 0; border-bottom: #DAD2BB 1px solid; margin: 0;}
+#pageMain #sidenav li { width: 228px; height: 36px; margin: 0; display: block;}
 #pageMain #sidenav li a, #pageMain #sidenav li p { border: none;}
-#step0 a{ background: url(../images/tabs-0.jpg) top left no-repeat; width: 228px; height: 36px; display: block; text-indent: -9999em; }
-#step0 a:hover { background: url(../images/tabs-0.jpg) left -36px no-repeat; }
-#step0 a.active { background: url(../images/tabs-0.jpg) left -72px no-repeat; }
+#pageMain #sidenav li a { width: 218px; height: 26px; padding: 10px 10px 0 0;}
 
-#step1 a{ background: url(../images/tabs-1.jpg) top left no-repeat; width: 228px; height: 36px; display: block; text-indent: -9999em; }
-#step1 a:hover { background: url(../images/tabs-1.jpg) left -36px no-repeat; }
-#step1 a.active { background: url(../images/tabs-1.jpg) left -72px no-repeat; }
+.number { font-family: Georgia, "Times New Roman", Times, sans-serif; font-weight: bold; font-size: 200%; display: block; float: left; margin-right: 10px; line-height: 25px; margin-left: 20px;}
+.animationTitle { text-transform: uppercase; font-size: 80%; display: block; float: left; width: 160px; line-height: 13px; margin-top: 4px;}
 
-#step2 a{ background: url(../images/tabs-2.jpg) top left no-repeat; width: 228px; height: 36px; display: block; text-indent: -9999em; }
-#step2 a:hover { background: url(../images/tabs-2.jpg) left -36px no-repeat; }
-#step2 a.active { background: url(../images/tabs-2.jpg) left -72px no-repeat; }
+.yellow:hover { background: url(../images/animation_arrowsYellow.png) left -36px no-repeat;}
+.yellow:active { background: url(../images/animation_arrowsYellow.png) left top no-repeat;}
 
-#step3 a{ background: url(../images/tabs-3.jpg) top left no-repeat; width: 228px; height: 36px; display: block; text-indent: -9999em; }
-#step3 a:hover { background: url(../images/tabs-3.jpg) left -36px no-repeat; }
-#step3 a.active { background: url(../images/tabs-3.jpg) left -72px no-repeat; }
+.blue:hover { background: url(../images/animation_arrowsBlue.png) left -36px no-repeat;}
+.blue:active { background: url(../images/animation_arrowsBlue.png) left top no-repeat;}
 
-#step4 a{ background: url(../images/tabs-4.jpg) top left no-repeat; width: 228px; height: 36px; display: block; text-indent: -9999em; }
-#step4 a:hover { background: url(../images/tabs-4.jpg) left -36px no-repeat; }
-#step4 a.active { background: url(../images/tabs-4.jpg) left -72px no-repeat; }
-
-#step5 a{ background: url(../images/tabs-5.jpg) top left no-repeat; width: 228px; height: 36px; display: block; text-indent: -9999em; }
-#step5 a:hover { background: url(../images/tabs-5.jpg) left -36px no-repeat; }
-#step5 a.active { background: url(../images/tabs-5.jpg) left -72px no-repeat; }
-
-#step6 a{ background: url(../images/tabs-6.png) top left no-repeat; width: 228px; height: 36px; display: block; text-indent: -9999em; }
-#step6 a:hover { background: url(../images/tabs-6.png) left -36px no-repeat; }
-#step6 a.active { background: url(../images/tabs-6.png) left -72px no-repeat; }
-
-#step7 a{ background: url(../images/tabs-7.png) top left no-repeat; width: 228px; height: 36px; display: block; text-indent: -9999em; }
-#step7 a:hover { background: url(../images/tabs-7.png) left -37px no-repeat; }
-#step7 a.active { background: url(../images/tabs-7.png) left -73px no-repeat; }
 
 #sidenav p { display: none; font-size: 85%; color: #8E8E8E; padding: 10px 0 20px 10px; line-height: 140%; }
 ul#sidenav { margin-left: 0px; }
-#view{ background: url(../images/btn-scorecard.jpg) top left no-repeat; width: 187px; height: 12px; display: block; text-indent: -9999em; margin-top: 32px; }
-#view:hover { background: url(../images/btn-scorecard.jpg) left -12px no-repeat; }
+#view{ display: block; margin-top: 35px; color: #68A31D; font-weight: bold; text-transform: uppercase;}
+#view:hover { color: #636466; }
 
 #stage { float: left; margin-left: -14px; margin-top: 22px; }
-
-
 
 /* cross browser table scroll styling */
 div#agencytablecontainer tbody, div#programtablecontainer tbody { clear: both; height: 500px; width: 100%; overflow-x: hidden; overflow-y: scroll; }
 div#agencytablecontainer, div#programtablecontainer { margin: 40px 0;}
-
 
 
 .expand { background: url(../images/expandarrow.png) top left no-repeat; width: 6px; height: 7px; display: block; text-indent: -9999em; float: left; margin-right: 5px; margin-top: 6px; }
@@ -220,7 +198,6 @@ div#agencytablecontainer, div#programtablecontainer { margin: 40px 0;}
 .expanded { background: url(../images/expandarrow.png) left -7px no-repeat; width: 6px; height: 7px; display: block; text-indent: -9999em; float: left; margin-right: 5px; margin-top: 6px; }
 #last td { padding-bottom: 20px; }
 .agencydescription { color: #8E8E8E; font-size: 100%; line-height: 150%; padding-left: 10px; display: none; width: 280px; }
-
 
 .neutral { vertical-align: top; }
 .reviewed { width: 250px; text-align:left; }

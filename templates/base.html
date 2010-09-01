@@ -84,7 +84,7 @@
     <title>Sunlight Foundation</title>
 </head>
 
-<body>
+<body class="{% block bodyclass %}home{% endblock %}">
 	<header class="main">
 		<h1>Sunlight Foundation</h1>
 	</header>
@@ -118,7 +118,7 @@
 	    </div>    
 	</div>
     <!-- ends top container -->
-<div id="contentWrapper" class="{% block pageclass %}home{% endblock %}">
+<div id="contentWrapper">
     <div id="header">
         <h2><a href="{% url clearspending-index %}"><big>Clearspending</big><small>Making Sense of the Federal Checkbook</small></a></h2>
     </div>
