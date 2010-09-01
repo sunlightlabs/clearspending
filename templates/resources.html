@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% block bodyclass %}resources{% endblock %}
 {% load media %}
 {% block content %}
 <div id="pageMain">
@@ -20,6 +21,23 @@
             <li><a href="{% media_url %}/docs/program_loans.csv">Consistency metrics by program by fiscal year (loans)</a></li>
         </ul>
     </div>
+    <div id="rtColumn">
+        <div id="reporting">
+            <h3>How does the federal govenment report its spending?</h3>
+            <p>The flow of federal spending reporting can get complicated. We've tried to simplify it for you with a <a href="{% url animation %}">step-by-step visualization</a>.</p> 
+        </div>
+        <div id="metrics">
+            <h3>Our Metrics</h3>
+            <p class="no-border">How did we conduct our analysis and what assumptions did we make? What limitations exist with the comparison data we're using? We measured the data across three categories:</p>
+            <ul>
+                <li><strong>Consistency</strong>: A comparison of CFDA obligations and USASpending.gov obligations.</li>
+                <li><strong>Completeness</strong>: A measure of how many required fields are compelted. </li>
+                <li><strong>Timeliness</strong>: A measure of how quickly obligations were reported.</li>
+            </ul>
+           <p class="no-border">See our <a href="{% url methodology %}">methodology</a> for more information.</p>
+        </div>
+    </div> 
+    <div class="clear"></div>
 </div>
 
 
