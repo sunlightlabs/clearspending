@@ -166,9 +166,9 @@ button { text-indent: -9999em; display: block; height: 45px; cursor: pointer; bo
 #download:hover{ color: #636466; }
 
 #steps { width: 228px; padding-top: 40px; float: left; position: relative; }
-#pageMain #sidenav li { width: 228px; height: 36px; margin: 0; display: block;}
+#pageMain #sidenav li { width: 228px; margin: 0; display: block;}
 #pageMain #sidenav li a, #pageMain #sidenav li p { border: none;}
-#pageMain #sidenav li a { width: 218px; height: 26px; padding: 10px 10px 0 0;}
+#pageMain #sidenav li a { width: 218px; height: 36px; display:block;  padding: 10px 10px 0 0;}
 
 .number { font-family: Georgia, "Times New Roman", Times, sans-serif; font-weight: bold; font-size: 200%; display: block; float: left; margin-right: 10px; line-height: 25px; margin-left: 20px;}
 .animationTitle { text-transform: uppercase; font-size: 80%; display: block; float: left; width: 160px; line-height: 13px; margin-top: 4px;}
