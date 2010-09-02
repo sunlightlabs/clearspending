@@ -37,6 +37,9 @@
             {{ block.super }}
         {% endblock %}
 
+            {% if caveat %}
+                <span class="caveat">{{caveat}}</span>
+            {% endif %}
         <div id="programtablecontainer">
             <table class="programtable" id="programtable">
             <thead>

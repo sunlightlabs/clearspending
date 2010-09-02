@@ -17,6 +17,7 @@ class Agency(models.Model):
     code = models.IntegerField(primary_key=True, blank=False, null=False)
     name = models.TextField("Federal Agency", blank=True, default="")
     description = models.TextField("Description", blank=True, default="")
+    caveat = models.TextField("Caveats associated with the spending in this agency", blank=True, null=True)
 
 class AssistanceType(models.Model):
     def __unicode__(self):
@@ -143,7 +144,7 @@ class Program(models.Model):
 
     cfda_edition = models.IntegerField("CFDA Edition", blank=True, null=True)
     load_date = models.DateTimeField("Load Date", auto_now=True)    
-
+    caveat = models.TextField("Caveats about the spending of this program", blank=True, null=True)
 
 class ProgramManager(models.Manager):
     
