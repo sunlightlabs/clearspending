@@ -13,16 +13,18 @@
 {% block year2 %} {% url search-request search_string unit 2008 %} {% endblock %}
 {% block year3 %} {% url search-request search_string unit 2009 %} {% endblock %}
 {% block scorecard %}
-
+    {% block agency-key %} 
+    {{ block.super }}
+    {% endblock %}
         <div id="programtablecontainer">
             <table class="programtable" id="programtable">
             <thead>
                 <tr id="titles">
                     <th class="sort">Program Number</th>
                     <th class="sort">Program Name</th>
-                    <th class="sort">Overreported</th>
-                    <th class="sort">Underreported</th>
-                    <th class="sort">Not reported</th>
+                    <th class="sort">Over Reporting</th>
+                    <th class="sort">Under Reporting</th>
+                    <th class="sort">Non-Reporting</th>
                     <th class="sort">Late</th>
                     <th class="sort last-cell">Incomplete</th>
                 </tr>   

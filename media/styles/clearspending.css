@@ -34,9 +34,9 @@ h2 a { background: url(../images/clearspending-logo.png) top left no-repeat; wid
 #rtColumn { width: 265px; margin-left: 30px; float: left;}
 
 #nav { width: 940px; height: 35px; background: #85BE3D url(../images/bg_nav.jpg) bottom left repeat-x; -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px;}
-#nav li {  float: left;  text-transform: uppercase; }
-#nav li a { color: #F8F6EC; text-decoration: none; font-weight: normal; padding: 8px 20px 8px; display: block;}
-#nav li a:hover, body.scorecard #nav li#scorecard a, body.background #nav li#background a, body.analysis #nav li#analysis a, body.methodology #nav li#methodology a, body.media #nav li#media a, body.corrections #nav li#corrections a, body.resources #nav li#resources a, body.feedback #nav li#feedback a  { color: #fff; background: url(../images/nav_arrow.png) center 27px no-repeat; font-weight: bold; padding: 9px 20px 7px;}
+#nav li {  float: left;  text-transform: uppercase; width: 115px;}
+#nav li a { color: #F8F6EC; text-decoration: none; font-weight: normal; padding: 8px 0; display: block; text-align: center; width: 115px;}
+#nav li a:hover, body.scorecard #nav li#scorecard a, body.background #nav li#background a, body.analysis #nav li#analysis a, body.methodology #nav li#methodology a, body.media #nav li#media a, body.corrections #nav li#corrections a, body.resources #nav li#resources a, body.feedback #nav li#feedback a  { color: #fff; background: url(../images/nav_arrow.png) center 27px no-repeat; font-weight: bold; padding: 9px 0 7px;}
 
 #featureBox { background: url(../images/bg_featureBox.jpg) bottom left no-repeat; padding-top: 35px; margin-bottom: 65px;}
 #featureNumber { color: #80C2D6; margin-left: 50px; font-size: 400%; font-weight: bold; display: block; line-height: 50px;}
@@ -143,7 +143,7 @@ th { color: #636466; font-weight: bold; padding-bottom: 15px; font-size: 100%; t
 .ratingtable th { padding: 0 10px 10px 10px; font-size: 130%; color: #636466; font-weight: bold; }
 
 td { padding: 15px 0 15px 15px; padding-right: 10px;}
-.sort { background: url(../images/sortArrows.png) left 10px no-repeat;  padding-left: 15px;}
+.sort { background: url(../images/sortArrows.png) left 10px no-repeat;  padding-left: 15px; cursor:pointer; }
 
 .last-cell { padding-right: 20px;}
 
@@ -168,21 +168,26 @@ button { text-indent: -9999em; display: block; height: 45px; cursor: pointer; bo
 #steps { width: 228px; padding-top: 40px; float: left; position: relative; }
 #pageMain #sidenav li { width: 228px; margin: 0; display: block;}
 #pageMain #sidenav li a, #pageMain #sidenav li p { border: none;}
-#pageMain #sidenav li a { width: 218px; height: 36px; display:block;  padding: 10px 10px 0 0;}
+#pageMain #sidenav li a { width: 228px; height: 36px; display: block;}
 
-.number { font-family: Georgia, "Times New Roman", Times, sans-serif; font-weight: bold; font-size: 200%; display: block; float: left; margin-right: 10px; line-height: 25px; margin-left: 20px;}
-.animationTitle { text-transform: uppercase; font-size: 80%; display: block; float: left; width: 160px; line-height: 13px; margin-top: 4px;}
+.number { font-family: Georgia, "Times New Roman", Times, sans-serif; font-weight: bold; font-size: 200%; display: block; float: left; margin-right: 10px; line-height: 25px; }
+.animationTitle { text-transform: uppercase; font-size: 80%; display: block; float: left; width: 160px; line-height: 13px; margin-top: 6px;}
 
 .yellow:hover { background: url(../images/animation_arrowsYellow.png) left -36px no-repeat;}
-.yellow:active { background: url(../images/animation_arrowsYellow.png) left top no-repeat;}
+.yellow a.active { background: url(../images/animation_arrowsYellow.png) left top no-repeat; }
+.yellow a.active, .blue a.active  { color: #fff;}
 
 .blue:hover { background: url(../images/animation_arrowsBlue.png) left -36px no-repeat;}
-.blue:active { background: url(../images/animation_arrowsBlue.png) left top no-repeat;}
+.blue a.active { background: url(../images/animation_arrowsBlue.png) left top no-repeat;}
 
+.pullDown { background: url(../images/expandarrow.png) top left no-repeat; text-indent: -9999em; float: left; margin: 13px 10px 0; display: block; width: 6px; height: 8px;}
+.blue a.active .pullDown, .yellow a.active .pullDown { background: url(../images/expandarrow.png) left -8px no-repeat; }
 
-#sidenav p { display: none; font-size: 85%; color: #8E8E8E; padding: 10px 0 20px 10px; line-height: 140%; }
+#firstNumber { margin-left: 21px;}
+
+#sidenav p { display: none; font-size: 90%; color: #8E8E8E; padding: 10px 0 20px 25px; line-height: 18px; width: 175px;}
 ul#sidenav { margin-left: 0px; }
-#view{ display: block; margin-top: 35px; color: #68A31D; font-weight: bold; text-transform: uppercase;}
+#view { display: block; margin-top: 35px; color: #68A31D; font-weight: bold; text-transform: uppercase; background: url(../images/btn_scorecardSm.png) top left no-repeat; text-indent: -9999em; width: 186px; height: 33px;}
 #view:hover { color: #636466; }
 
 #stage { float: left; margin-left: -14px; margin-top: 22px; }
@@ -191,22 +196,11 @@ ul#sidenav { margin-left: 0px; }
 div#agencytablecontainer tbody, div#programtablecontainer tbody { clear: both; height: 500px; width: 100%; overflow-x: hidden; overflow-y: scroll; }
 div#agencytablecontainer, div#programtablecontainer { margin: 40px 0;}
 
-
-.expand { background: url(../images/expandarrow.png) top left no-repeat; width: 6px; height: 7px; display: block; text-indent: -9999em; float: left; margin-right: 5px; margin-top: 6px; }
-.name { text-align: left; font-weight: bold; color: #636466; text-decoration: underline; display: block; float: left; margin-right: 5px; margin-top: 2px; }
-.td-name { text-align: left; color: #636466; }
-.expanded { background: url(../images/expandarrow.png) left -7px no-repeat; width: 6px; height: 7px; display: block; text-indent: -9999em; float: left; margin-right: 5px; margin-top: 6px; }
-#last td { padding-bottom: 20px; }
 .agencydescription { color: #8E8E8E; font-size: 100%; line-height: 150%; padding-left: 10px; display: none; width: 280px; }
-
-.neutral { vertical-align: top; }
-.reviewed { width: 250px; text-align:left; }
-
 
 
 <!-- some IE hacks -->
 #agencytable tr, #programtable tr, #agencytable tr td, #programtable tr td {height: auto;}
-
 
 
 /* table styles */
@@ -217,15 +211,13 @@ span.float-right table th, span.float-left table th { color: #636466; font-weigh
 span.float-right table td, span.float-left table td { border: 1px solid #636466; padding: 7px; }
 
 /* popup for scorecard intro */
+.ui-dialog { background-color: #fff; -moz-border-radius: 6px; -webkit-border-radius: 6px; border: 1px solid; padding: 20px; }
 div#scorecard-intro {display: none; }
 div#scorecard-intro { color: #636466; }
-div#scorecard-intro strong {font-weight: bold; }
 div#scorecard-intro p { margin-bottom: 15px; clear:both; }
 div#scorecard-intro span { width: 250px; float: left; display: block; font-weight: bold; margin-top: 25px;}
 div#scorecard-intro img { float: left; }
 div#scorecard-intro ul { clear: both; margin: 0px 10px; padding-left: 35px; padding-top: 3px;}
 div#scorecard-intro ul li {margin: 5px; padding-top: 3px;}
-div#scorecard-intro ul li strong { color: #85BE3D; }
 div#scorecard-intro span.clear { margin: 0; float:none; }
-div#scorecard-intro em { font-style:italic; }
 
