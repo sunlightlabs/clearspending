@@ -164,7 +164,8 @@ td { padding: 15px 0 15px 15px; padding-right: 10px;}
 /*buttons*/
 button { text-indent: -9999em; display: block; height: 45px; cursor: pointer; border: none;}
 .submit { width: 124px; background: url(../images/btn_submit.jpg) top left no-repeat; margin-left: 120px; margin-top: 30px;}
-
+.okBtn { width: 50px; height: 33px; background: url(../images/btn_ok.jpg) top left no-repeat; margin-right: 25px; margin-top: 25px;}
+.noShowBtn { width: 159px; height: 33px; background: url(../images/btn_dontShow.jpg) top left no-repeat; margin-top: 25px;}
 
 /*-------------------index page*/
 
@@ -218,13 +219,14 @@ span.float-right table th, span.float-left table th { color: #636466; font-weigh
 span.float-right table td, span.float-left table td { border: 1px solid #636466; padding: 7px; }
 
 /* popup for scorecard intro */
-.ui-dialog { background-color: #fff; -moz-border-radius: 6px; -webkit-border-radius: 6px; border: 1px solid; padding: 20px; }
 div#scorecard-intro {display: none; }
-div#scorecard-intro { color: #636466; }
+div#scorecard-intro { color: #636466; background-color: #fff; -moz-border-radius: 6px; -webkit-border-radius: 6px; border: 1px solid; padding: 25px; position: absolute; margin-left: 130px; width: 605px;}
+.buttonWrapper { float: left;}
 div#scorecard-intro p { margin-bottom: 15px; clear:both; }
 div#scorecard-intro span { width: 250px; float: left; display: block; font-weight: bold; margin-top: 25px;}
 div#scorecard-intro img { float: left; }
-div#scorecard-intro ul { clear: both; margin: 0px 10px; padding-left: 35px; padding-top: 3px;}
-div#scorecard-intro ul li {margin: 5px; padding-top: 3px;}
+div#scorecard-intro ul { clear: both; padding-top: 3px;}
+#interiorList { margin-left: 25px;}
+div#scorecard-intro ul li { margin: 5px; padding-top: 3px; list-style-type: none; margin-left: 0;}
 div#scorecard-intro span.clear { margin: 0; float:none; }
 
