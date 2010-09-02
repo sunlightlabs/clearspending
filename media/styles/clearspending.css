@@ -168,10 +168,10 @@ button { text-indent: -9999em; display: block; height: 45px; cursor: pointer; bo
 #steps { width: 228px; padding-top: 40px; float: left; position: relative; }
 #pageMain #sidenav li { width: 228px; margin: 0; display: block;}
 #pageMain #sidenav li a, #pageMain #sidenav li p { border: none;}
-#pageMain #sidenav li a { width: 218px; height: 36px; display: block;}
+#pageMain #sidenav li a { width: 228px; height: 36px; display: block;}
 
 .number { font-family: Georgia, "Times New Roman", Times, sans-serif; font-weight: bold; font-size: 200%; display: block; float: left; margin-right: 10px; line-height: 25px; }
-.animationTitle { text-transform: uppercase; font-size: 80%; display: block; float: left; width: 160px; line-height: 13px; margin-top: 4px;}
+.animationTitle { text-transform: uppercase; font-size: 80%; display: block; float: left; width: 160px; line-height: 13px; margin-top: 6px;}
 
 .yellow:hover { background: url(../images/animation_arrowsYellow.png) left -36px no-repeat;}
 .yellow a.active { background: url(../images/animation_arrowsYellow.png) left top no-repeat; }
@@ -185,7 +185,7 @@ button { text-indent: -9999em; display: block; height: 45px; cursor: pointer; bo
 
 #firstNumber { margin-left: 21px;}
 
-#sidenav p { display: none; font-size: 85%; color: #8E8E8E; padding: 10px 0 20px 25px; line-height: 140%; width: 175px;}
+#sidenav p { display: none; font-size: 90%; color: #8E8E8E; padding: 10px 0 20px 25px; line-height: 18px; width: 175px;}
 ul#sidenav { margin-left: 0px; }
 #view { display: block; margin-top: 35px; color: #68A31D; font-weight: bold; text-transform: uppercase;}
 #view:hover { color: #636466; }
@@ -196,22 +196,11 @@ ul#sidenav { margin-left: 0px; }
 div#agencytablecontainer tbody, div#programtablecontainer tbody { clear: both; height: 500px; width: 100%; overflow-x: hidden; overflow-y: scroll; }
 div#agencytablecontainer, div#programtablecontainer { margin: 40px 0;}
 
-
-.expand {  width: 6px; height: 7px; display: block;  margin-right: 5px; margin-top: 6px; }
-.name { text-align: left; font-weight: bold; color: #636466; text-decoration: underline; display: block; float: left; margin-right: 5px; margin-top: 2px; }
-.td-name { text-align: left; color: #636466; }
-.expanded { background: url(../images/expandarrow.png) left -7px no-repeat; width: 6px; height: 7px; display: block; text-indent: -9999em; float: left; margin-right: 5px; margin-top: 6px; }
-#last td { padding-bottom: 20px; }
 .agencydescription { color: #8E8E8E; font-size: 100%; line-height: 150%; padding-left: 10px; display: none; width: 280px; }
-
-.neutral { vertical-align: top; }
-.reviewed { width: 250px; text-align:left; }
-
 
 
 <!-- some IE hacks -->
 #agencytable tr, #programtable tr, #agencytable tr td, #programtable tr td {height: auto;}
-
 
 
 /* table styles */
