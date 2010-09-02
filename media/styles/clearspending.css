@@ -148,6 +148,8 @@ th { color: #636466; font-weight: bold; padding-bottom: 15px; font-size: 100%; t
 
 td { padding: 15px 0 15px 15px; padding-right: 10px;}
 .sort { background: url(../images/sortArrows.png) left 10px no-repeat;  padding-left: 15px; cursor:pointer; }
+.headerSortDown { background: url(../images/sortArrows_down.png) left 10px no-repeat;}
+.headerSortUp { background: url(../images/sortArrows_up.png) left 10px no-repeat;}
 
 .last-cell { padding-right: 20px;}
 
@@ -197,7 +199,7 @@ ul#sidenav { margin-left: 0px; }
 #stage { float: left; margin-left: -14px; margin-top: 22px; }
 
 /* cross browser table scroll styling */
-div#agencytablecontainer tbody, div#programtablecontainer tbody { clear: both; height: 500px; width: 100%; overflow-x: hidden; overflow-y: scroll; }
+div#agencytablecontainer tbody, div#programtablecontainer tbody { height: 500px; width: 100%; overflow-x: hidden; overflow-y: scroll; }
 div#agencytablecontainer, div#programtablecontainer { margin: 40px 0;}
 
 .agencydescription { color: #8E8E8E; font-size: 100%; line-height: 150%; padding-left: 10px; display: none; width: 280px; }

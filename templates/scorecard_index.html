@@ -13,19 +13,38 @@
 {% endblock %}
 
 {% block scorecard %}
-    <div id="scorecard-intro" title="How to Use the Clearspending Scorecard">
-        <span>Choose your fiscal year:</span>  <img src="{% media_url %}/images/chooseyear.png" />
-        <span class="clear"></span>
-        <span>Choose display unit:</span> <img src="{% media_url %}/images/chooseunit.png" />
-        <span>Sort by the metric values:</span>
-
-        <ul>    
-            <li><strong>Over Reporting: </strong>The amount reported in USASpending.gov that is not reported in the CFDA</li>
-            <li><strong>Under Reporting:</strong>The amount reported in the CFDA that is not reported in USASpending.gov</li>
-            <li><strong>Non-Reporting:</strong>The total value of all programs that are completely missing from USASpending.gov</li>
-            <li><strong>Late:</strong> The total oblgiations that were reported late</li>
-            <li><strong>Incomplete:</strong> The total obligations that were reported incompletely</li>
-        </ul>
+    <div id="scorecard-intro">
+        <h3>How to Use the Clearspending Scorecard</h3>
+        <ul>
+            <li>
+                <span>Choose your fiscal year:</span>
+                <img src="{% media_url %}/images/chooseyear.png" />
+            </li>
+            <li>
+                <span>Choose display unit:</span>
+                <img src="{% media_url %}/images/chooseunit.png" />
+            </li>     
+            <li>
+                <span>Sort by the metric values:</span>
+                <ul>    
+                    <li><strong>Over Reporting: </strong>The amount reported in USASpending.gov that is not reported in the CFDA</li>
+                    <li><strong>Under Reporting:</strong>The amount reported in the CFDA that is not reported in USASpending.gov</li>
+                    <li><strong>Non-Reporting:</strong>The total value of all programs that are completely missing from USASpending.gov</li>
+                    <li><strong>Late:</strong> The total oblgiations that were reported late</li>
+                    <li><strong>Incomplete:</strong> The total obligations that were reported incompletely</li>
+                </ul>
+            </li>
+            <li>
+                <button class="okBtn" type="submit">
+				    <span>Ok</span>
+				</button>
+            </li>
+            <li>
+                <button class="okBtn" type="submit">
+				    <span>Don't show this again</span>
+				</button>
+            </li>        
+        </ul>    
     </div>
 
     {% block agency-key %}
