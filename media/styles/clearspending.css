@@ -123,7 +123,7 @@ span#keyTitle { padding-top:2px; font-weight: bold; margin-right: 10px;}
 #department { color: #636466; font-size: 120%; font-weight: bold; }
 #title { float: left; width: 670px; }
 
-#program-total-value { float: right; width: 200px; margin: 15px 0 0; }
+#program-total-value { float: right; width: 210px; margin: 15px 0 0; }
 #program-total-value span { font-size: 95%; font-weight: normal; margin-bottom: 10px; display: block;}
 #program-total-value ul li { list-style-type: none; margin-left: 0px;  font-weight:normal; }
 #program-total-value ul { list-style-type: none; }
