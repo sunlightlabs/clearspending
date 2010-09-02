@@ -10,8 +10,8 @@ import math
 from urllib import unquote
 from haystack.query import SearchQuerySet
 from haystack.models import SearchResult
+from settings import FISCAL_YEARS
 
-FISCAL_YEARS = [2007, 2008, 2009]
 
 def contact(request):
     #submission of contact form
@@ -179,8 +179,18 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
 def programDetail(request, program_id, unit):
     program = Program.objects.get(id=program_id)
     
-    program_total_number = ProgramObligation.objects.filter(program=program).aggregate(total=Sum('obligation'))['total']
-    program_total = moneyfmt(Decimal(str(program_total_number).replace('None', '0')), places=0, curr='$', sep=',', dp='')
+    program_total_obs = ProgramObligation.objects.filter(program=program, fiscal_year__in=FISCAL_YEARS).order_by('fiscal_year')
+    total_obs = []
+    curr_year = None
+    for p in program_total_obs:
+        if curr_year != p.fiscal_year:
+            curr_year = p.fiscal_year
+            total_obs.append((p.fiscal_year, p.obligation))
+        else:
+            for curr_total in total_obs:
+                curr_total[1] += p.obligation
+
+#    program_total = moneyfmt(Decimal(str(program_total_number).replace('None', '0')), places=0, curr='$', sep=',', dp='')
 
     consistency_block = programDetailConsistency(program, unit) 
     field_names = ['total_dollars', 'late_'+unit, 'avg_lag_rows']
@@ -207,7 +217,7 @@ def programDetail(request, program_id, unit):
     com_coll = ProgramCompletenessDetail.objects.filter(program=program_id).order_by('fiscal_year')
     completeness_block = programDetailGeneral(program_id, unit, com_field_names, com_proper_names, com_coll, 'Completeness')
     
-    return render_to_response('program_detail.html', {'consistency':consistency_block, 'timeliness': timeliness_block, 'completeness': completeness_block, 'agency_name': program.agency.name, 'program_number': program.program_number, 'title': program.program_title, 'desc': description, 'unit': unit, 'program_total': program_total}) 
+    return render_to_response('program_detail.html', {'consistency':consistency_block, 'timeliness': timeliness_block, 'completeness': completeness_block, 'agency_name': program.agency.name, 'program_number': program.program_number, 'title': program.program_title, 'desc': description, 'unit': unit, 'program_totals': total_obs}) 
     
 def getRowClass(count):
     if count % 2 == 0 : row = "even"
