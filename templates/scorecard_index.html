@@ -26,6 +26,8 @@
             <li><strong>Late:</strong> The total oblgiations that were reported late</li>
             <li><strong>Incomplete:</strong> The total obligations that were reported incompletely</li>
         </ul>
+        <input type="button" value="close" class="close" />
+        <input type="button" value="don't show this again" class="do-not-show"/>
     </div>
 
     {% block agency-key %}
@@ -97,18 +99,20 @@
                 $(document)[0].location = "{% url scorecard-index %}pct/{{ fiscal_year }}/";
             });
             if ($.cookie('clearspending_scorecard') != "true"){
-                $("#scorecard-intro").dialog({
-                                                height: 550, 
-                                                width: 800, 
-                                                resizable: 'true', 
-                                                draggable: 'true', 
-                                                buttons: {
-                                                            "OK": function(){ $(this).dialog("close");}, 
-                                                            "Don't show this again": function() { $.cookie('clearspending_scorecard', true, {expires: 10000});  $(this).dialog("close");}
-                                                }
-                                            });
+                $("#scorecard-intro").css( 'display', 'block')
+                $("#scorecard-intro .close").click(function(){
+                    $("#scorecard-intro").css('display', 'none')
+                })
+                $("#scorecard-intro .do-not-show").click(function(){
+                    $("#scorecard-intro").css('display', 'none')
+                    $.cookie('clearspending_scorecard', true, {expires: 10000}); 
+                })
             }
 
+                                                //buttons: {
+                                                  //          "OK": function(){ $(this).dialog("close");}, 
+                                                    //        "Don't show this again": function() { $.cookie('clearspending_scorecard', true, {expires: 10000});  $(this).dialog("close");}
+                                                //}
         });
     </script>   
 {% endblock %}
