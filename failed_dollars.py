@@ -37,11 +37,6 @@ def add_to_agency(agency_totals, agency_name, fy, obligation):
 TYPE = 1
 if len(sys.argv) > 1:
     TYPE = sys.argv[1]
-over_std = [85.610, 23.2192, 9565.752]
-under_std = [0.40094, 0.4099, .4046]
-
-under_avg = [0.65786, .56732, .5955]
-over_avg = [11.3492, 3.65377, 522.86656]
 
 fins = Program.objects.filter(types_of_assistance__financial=True).distinct().order_by('agency')
 count = 0
@@ -64,7 +59,7 @@ for fy in [2007, 2008, 2009]:
             time = ProgramTimeliness.objects.filter(program=program, fiscal_year=fy)
             if len(time) > 0:
                 time = time[0]
-                if time.total_dollars and (time.late_dollars / time.total_dollars  > .9):
+                if time.total_dollars and (time.late_dollars / time.total_dollars  > .5):
                     total += ob.obligation
                     agency_totals = add_to_agency(agency_totals, program.agency.name, fy, ob.obligation)
                     continue
@@ -72,7 +67,7 @@ for fy in [2007, 2008, 2009]:
             comp = ProgramCompleteness.objects.filter(program=program, fiscal_year=fy)
             if len(comp) > 0:
                 comp = comp[0]
-                if comp.completeness_total_dollars and (comp.completeness_failed_dollars / comp.completeness_total_dollars > .95):
+                if comp.completeness_total_dollars and (comp.completeness_failed_dollars / comp.completeness_total_dollars > .5):
                     total += ob.obligation
                     agency_totals = add_to_agency(agency_totals, program.agency.name, fy, ob.obligation)
                     continue
