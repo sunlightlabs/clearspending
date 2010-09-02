@@ -10,59 +10,74 @@
 
         <div id="steps">
             <ol id="sidenav">
-                <li class="yellow">
+                <li id="first" class="yellow">
                     <a class="active" href="{% media_url %}/images/slides-0.jpg" title="step 0">
                         <span id="firstNumber" class="number">0</span>
                         <span class="animationTitle">Making Sense of the Federal Checkbook</span>
+                        <div class="clear"></div>
                     </a>
                 </li>
                 <li class="yellow">
                     <a href="{% media_url %}/images/slides-1.jpg" title="step 1">
+                        <span class="pullDown">Expand</span>
                         <span class="number">1</span>
                         <span class="animationTitle">Agencies Receive Budget Authority</span>
+                        <div class="clear"></div>
                     </a>
                     <p>For our purposes, the process begins when an agency is given <b>budget authority</b> — the power to spend some money.</p>
                 </li>
                 <li class="yellow">
                     <a href="{% media_url %}/images/slides-2.jpg" title="step 2">
+                        <span class="pullDown">Expand</span>
                         <span class="number">2</span>
                         <span class="animationTitle">Agencies Are Divided Into Programs</span>
+                        <div class="clear"></div>
                     </a>
                     <p>The agency's budget is organized into <b>programs</b>, which spend money in order to achieve some particular goal.</p>
                 </li>
                 <li class="yellow">
                     <a href="{% media_url %}/images/slides-3.jpg" title="step 3">
+                        <span class="pullDown">Expand</span>
                         <span class="number">3</span>
                         <span class="animationTitle">Programs Spend Money Through Obligations</span>
+                        <div class="clear"></div>
                     </a>
                     <p>That spending takes the form of awards to specific recipients. These awards can take different forms, like grants, or contracts, or loans. The umbrella term for all of these is <b>obligations</b>. An obligation means that although the government may not yet have actually cut a check, the money is committed and can't be spent on something else.</p>
                 </li>
                 <li class="yellow">
                     <a href="{% media_url %}/images/slides-4.jpg" title="step 4">
+                        <span class="pullDown">Expand</span>
                         <span class="number">4</span>
                         <span class="animationTitle">Obligations Become Dispursements</span>
+                        <div class="clear"></div>
                     </a>
                     <p>Eventually, these obligations are sent to Treasury, which sends actual payments to the recipients. At this point the obligations become <b>disbursements</b>. Unfortunately, details about this process aren't available to the public in a useful form.</p>
                 </li>
                 <li class="yellow">
                     <a href="{% media_url %}/images/slides-5.jpg" title="step 5">
+                        <span class="pullDown">Expand</span>
                         <span class="number">5</span>
                         <span class="animationTitle">Obligation-Level Reporting</span>
+                        <div class="clear"></div>
                     </a>
                     <p>Fortunately, there are other systems for tracking 
     this spending. <b>FAADS-PLUS</b> tracks grants, loans, loan guarantees and insurance. <b>FPDS-NG</b> tracks contracts. Both are run by the <b>Office of Management and Budget</b>. Together, they provide the data that appears on USASpending.gov.  Agencies report their obligations to these systems on a continuous basis.</p>
                 </li>
                 <li class="blue">
                     <a href="{% media_url %}/images/slides-6.jpg" title="step 6">
+                        <span class="pullDown">Expand</span>
                         <span class="number">6</span>
                         <span class="animationTitle">Program-Level Reporting</span>
+                        <div class="clear"></div>
                     </a>
                     <p>Agencies also report information on the program level. Once a year they submit information about grant programs to the <b>Catalog of Federal Domestic Assistance</b>, which is maintained by the <b>General Services Administration</b>. The CFDA includes information about each program's purpose, who is eligible to participate in the program, and an estimate of the program's total obligations.</p>
                 </li>
                 <li class="blue">
                     <a href="{% media_url %}/images/slides-7.jpg" title="step 7">
+                        <span class="pullDown">Expand</span>
                         <span class="number">7</span>
                         <span class="animationTitle">Measuring Accuracy</span>
+                        <div class="clear"></div>
                     </a>
                     <p>In theory, we should be able to add up the grant information reported to FAADS and compare the total against the number that's reported to CFDA. 
     In practice, things don't always work that well.</p>
@@ -85,12 +100,10 @@
                                 autoHeight: false
                                });
         $("ol#sidenav li").click(function(e){
-            console.log(e.target);
-            if ($(e.target).is('a') || $(e.target).is('span')) {
-                var elem = $(e.target).parents('li');
-            }
-            else { var elem = $(e.target); }
+            var elem = $(this);
             $("div#stage img").attr("src", "{% media_url %}/images/slides-" + $("ol#sidenav li").index(elem) + ".jpg" );
+            $("ol#sidenav a").removeClass("active");
+            $(elem).find('a').addClass("active");
             return false;
         });
     });
