@@ -1,0 +1,6 @@
+h2 a { background: url(../images/clearspending-logo_8.png) top left no-repeat; }
+a#scorecardBtn  { background: url(../images/btn_scorecard_8.png) top left no-repeat;}
+
+#nav li a:hover, body.scorecard #nav li#scorecard a, body.background #nav li#background a, body.analysis #nav li#analysis a, body.methodology #nav li#methodology a, body.media #nav li#media a, body.corrections #nav li#corrections a, body.resources #nav li#resources a, body.feedback #nav li#feedback a  { background: url(../images/nav_arrow_8.png) center 27px no-repeat; }
+
+div#agencytablecontainer tbody, div#programtablecontainer tbody { position: relative; height: 500px; overflow: auto;}

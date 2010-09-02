@@ -18,6 +18,8 @@ body {
   	line-height: 20px;
 }
 
+.clear { clear: both;}
+
 p#shortedText { width: 580px;}
 
 #pageBackground { width: 100%; background: #F8F6EC url(../images/below_green_bg.png) top left repeat-x; border-bottom: 23px solid #7B614E; padding: 30px 0 50px; }
