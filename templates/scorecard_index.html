@@ -35,12 +35,12 @@
                 </ul>
             </li>
             <li>
-                <button class="okBtn" type="submit">
+                <button class="okBtn close" type="submit">
 				    <span>Ok</span>
 				</button>
             </li>
             <li>
-                <button class="okBtn" type="submit">
+                <button class="okBtn do-not-show" type="submit">
 				    <span>Don't show this again</span>
 				</button>
             </li>        
@@ -116,18 +116,20 @@
                 $(document)[0].location = "{% url scorecard-index %}pct/{{ fiscal_year }}/";
             });
             if ($.cookie('clearspending_scorecard') != "true"){
-                $("#scorecard-intro").dialog({
-                                                height: 550, 
-                                                width: 800, 
-                                                resizable: 'true', 
-                                                draggable: 'true', 
-                                                buttons: {
-                                                            "OK": function(){ $(this).dialog("close");}, 
-                                                            "Don't show this again": function() { $.cookie('clearspending_scorecard', true, {expires: 10000});  $(this).dialog("close");}
-                                                }
-                                            });
+                $("#scorecard-intro").css( 'display', 'block')
+                $("#scorecard-intro .close").click(function(){
+                    $("#scorecard-intro").css('display', 'none')
+                })
+                $("#scorecard-intro .do-not-show").click(function(){
+                    $("#scorecard-intro").css('display', 'none')
+                    $.cookie('clearspending_scorecard', true, {expires: 10000}); 
+                })
             }
 
+                                                //buttons: {
+                                                  //          "OK": function(){ $(this).dialog("close");}, 
+                                                    //        "Don't show this again": function() { $.cookie('clearspending_scorecard', true, {expires: 10000});  $(this).dialog("close");}
+                                                //}
         });
     </script>   
 {% endblock %}
