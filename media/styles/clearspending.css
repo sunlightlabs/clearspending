@@ -113,7 +113,7 @@ span#keyTitle { padding-top:2px; font-weight: bold; margin-right: 10px;}
 
 #agency_data { margin: 40px 0; padding-bottom: 40px; border-bottom: 1px solid #e8e6e1;}
 
-#pageMain #bignumbers li, .program-total-value { color: #7ABDD4; font-size: 120%; float: left; display: block; text-align: center; margin: 0 20px; width: 108px; font-weight: bold; }
+#pageMain #bignumbers li, #program-total-value { color: #7ABDD4; font-size: 120%; float: left; display: block; text-align: center; margin: 0 20px; width: 108px; font-weight: bold; }
 #bignumbers li span { font-weight: normal;}
 .bignumberstext { display: block; font-size: 80%; }
 
@@ -123,8 +123,10 @@ span#keyTitle { padding-top:2px; font-weight: bold; margin-right: 10px;}
 #department { color: #636466; font-size: 120%; font-weight: bold; }
 #title { float: left; width: 670px; }
 
-.program-total-value { float: right; width: 200px; margin: 30px 0 0; }
-.program-total-value span { font-size: 95%; font-weight: normal; margin-bottom: 10px; display: block;}
+#program-total-value { float: right; width: 200px; margin: 15px 0 0; }
+#program-total-value span { font-size: 95%; font-weight: normal; margin-bottom: 10px; display: block;}
+#program-total-value ul li { list-style-type: none; margin-left: 0px;  font-weight:normal; }
+#program-total-value ul { list-style-type: none; }
 .greenarrow { background: url(../images/greenarrow.png) top left no-repeat; display: block; width: 17px; height: 19px; text-indent: -9999em;  }
 .redarrow { background: url(../images/redarrow.png) top left no-repeat; display: block; width: 17px; height: 19px; text-indent: -9999em; }
 
