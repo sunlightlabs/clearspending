@@ -175,7 +175,7 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
     agency = Agency.objects.get(code=agency_id)
     table_data = generic_program_table(programs, fiscal_year, unit)
 
-    return render_to_response('agency_detail.html', {'summary_numbers': summary_numbers, 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'agency_name': agency.name, 'agency': agency_id, 'description': agency.description})
+    return render_to_response('agency_detail.html', {'summary_numbers': summary_numbers, 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'agency_name': agency.name, 'agency': agency_id, 'description': agency.description, 'caveat': agency.caveat})
 
 
 def programDetail(request, program_id, unit):
@@ -219,7 +219,7 @@ def programDetail(request, program_id, unit):
     com_coll = ProgramCompletenessDetail.objects.filter(program=program_id).order_by('fiscal_year')
     completeness_block = programDetailGeneral(program_id, unit, com_field_names, com_proper_names, com_coll, 'Completeness')
     
-    return render_to_response('program_detail.html', {'consistency':consistency_block, 'timeliness': timeliness_block, 'completeness': completeness_block, 'agency_name': program.agency.name, 'program_number': program.program_number, 'title': program.program_title, 'desc': description, 'unit': unit, 'program_totals': total_obs}) 
+    return render_to_response('program_detail.html', {'consistency':consistency_block, 'timeliness': timeliness_block, 'completeness': completeness_block, 'agency_name': program.agency.name, 'program_number': program.program_number, 'title': program.program_title, 'desc': description, 'unit': unit, 'program_totals': total_obs, 'caveat': program.caveat}) 
     
 def getRowClass(count):
     if count % 2 == 0 : row = "even"
@@ -347,8 +347,10 @@ def programDetailGeneral(program_id, unit, field_names, proper_names, coll, metr
                             if metric == 'Completeness':
                                 val = '%d' % (((item.__dict__[f] / com_totals[y]) or 0) * 100)
                                 val += '%'
-                            else:
+                            elif f != 'total_dollars':
                                 val = str((item.__dict__[f] or 0) * 100) + '%'
+                            else:
+                                val = "%s" % moneyfmt((item.__dict__[f] or 0), places=0, curr='$', sep=',', dp='')
                         elif f != 'avg_lag_rows':
                             val = '%s' % moneyfmt(Decimal(str(item.__dict__[f] or 0)), places=0, curr='$', sep=',', dp='')
                         else:

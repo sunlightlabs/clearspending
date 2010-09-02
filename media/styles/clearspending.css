@@ -200,6 +200,7 @@ div#agencytablecontainer, div#programtablecontainer { margin: 40px 0;}
 
 .agencydescription { color: #8E8E8E; font-size: 100%; line-height: 150%; padding-left: 10px; display: none; width: 280px; }
 
+.caveat { -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #C30B0B; color: #636466; display:block; font-style:italic; margin-top: 20px; padding: 10px 30px; }
 
 <!-- some IE hacks -->
 #agencytable tr, #programtable tr, #agencytable tr td, #programtable tr td {height: auto;}
