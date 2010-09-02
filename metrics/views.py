@@ -39,10 +39,12 @@ def get_css_color(pct, metric):
         elif pct > Decimal('25'): return 'warn'
         else: return 'good'
     elif metric == 'time':
-        if pct > Decimal('.1'): return 'bad'
+        if pct > Decimal('.50'): return 'bad'
+        elif pct > Decimal('.25'): return 'warn'
         else: return 'good'
     elif metric == 'com':
-        if pct > Decimal('5'): return 'bad'
+        if pct > Decimal('50'): return 'bad'
+        elif pct > Decimal('25'): return 'warn'
         else: return 'good'
     
 def get_first(set):
