@@ -187,7 +187,7 @@ def programDetail(request, program_id, unit):
     for p in program_total_obs:
         if curr_year != p.fiscal_year:
             curr_year = p.fiscal_year
-            total_obs.append((p.fiscal_year, p.obligation))
+            total_obs.append([p.fiscal_year, p.obligation])
         else:
             for curr_total in total_obs:
                 curr_total[1] += p.obligation
@@ -222,8 +222,8 @@ def programDetail(request, program_id, unit):
     return render_to_response('program_detail.html', {'consistency':consistency_block, 'timeliness': timeliness_block, 'completeness': completeness_block, 'agency_name': program.agency.name, 'program_number': program.program_number, 'title': program.program_title, 'desc': description, 'unit': unit, 'program_totals': total_obs, 'caveat': program.caveat}) 
     
 def getRowClass(count):
-    if count % 2 == 0 : row = "even"
-    else: row = 'odd'
+    if count % 2 == 0 : row = "odd"
+    else: row = 'even'
     return row
 
 def getTrends(qset, field_name):
@@ -295,7 +295,7 @@ def programDetailConsistency(program, unit):
                     values, trends = getConsistencyTrends(obligations, unit)
                     count = 0
                     for metric in ['Over Reported', 'Under Reported', 'Not Reported']:
-                        html.append('<tr class="%s"><td><span class="%s"></span></td>' % (getRowClass(count), trends[count] ))
+                        html.append('<tr class="%s"><td title="trend over time" ><span class="%s"></span></td>' % (getRowClass(count), trends[count] ))
                         html.append('<td class="reviewed">'+metric+'</td>')
                         for row in values[count]:
                             if row:
@@ -367,7 +367,7 @@ def programDetailGeneral(program_id, unit, field_names, proper_names, coll, metr
             if first and last:
                 if last > first: trend = 'redarrow'
                 elif first > last: trend = 'greenarrow'
-            html.append('<tr class="%s"><td><span class="%s"></span></td>%s</tr>' % (getRowClass(count), trend, ''.join(temp_html) ))
+            html.append('<tr class="%s"><td title="trend over time"><span class="%s"></span></td>%s</tr>' % (getRowClass(count), trend, ''.join(temp_html) ))
             count += 1 
 
         html.append('</tbody></table></li>')
