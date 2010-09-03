@@ -44,34 +44,34 @@
             <table class="programtable" id="programtable">
             <thead>
                 <tr id="titles">
-                    <th class="sort">Program Number</th>
-                    <th class="sort">Program Name</th>
-                    <th class="sort">Overreported</th>
-                    <th class="sort">Underreported</th>
-                    <th class="sort">Not reported</th>
-                    <th class="sort">Late</th>
-                    <th class="sort last-cell">Incomplete</th>
+                    <th class="sort sm">Program Number</th>
+                    <th class="sort lg">Program Name</th>
+                    <th class="sort med">Overreported</th>
+                    <th class="sort med">Underreported</th>
+                    <th class="sort med">Not reported</th>
+                    <th class="sort med">Late</th>
+                    <th class="sort last-cell med">Incomplete</th>
                 </tr>   
             </thead>
             <tbody>
             {% autoescape off %}
             {% for row in table_data %}
                 <tr class="{% cycle 'odd' 'even' %}">
-                    <td class="prog-num">{{row.0}}</td>
-                    <td class="title"><a class="name" href="{% url program_detail row.1 unit %}" alt="{{row.2}}">{{row.2}}</a></td>
-                    <td class="metric-cell {{row.4}}">
+                    <td class="prog-num sm">{{row.0}}</td>
+                    <td class="title lg"><a class="name" href="{% url program_detail row.1 unit %}" alt="{{row.2}}">{{row.2}}</a></td>
+                    <td class="metric-cell {{row.4}} med">
                         {% if row.3%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.3|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %} {% else %}-{% endif %}
                     </td>
-                    <td class="metric-cell {{row.6}}">
+                    <td class="metric-cell {{row.6}} med">
                         {% if row.5%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.5|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
                     </td>
-                    <td class="metric-cell {{row.8}}">
+                    <td class="metric-cell {{row.8}} med">
                         {% if row.7%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.7|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
                     </td>
-                    <td class="metric-cell {{row.10}}">
+                    <td class="metric-cell {{row.10}} med">
                         {% if row.9%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.9|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
                     </td>
-                    <td class="last-cell metric-cell {{row.12}}">
+                    <td class="last-cell metric-cell {{row.12}} med">
                         {% if row.11%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.11|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
                     </td>
             
