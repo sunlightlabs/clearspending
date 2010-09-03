@@ -237,3 +237,5 @@ div#scorecard-intro ul { clear: both; padding-top: 3px;}
 div#scorecard-intro ul li { margin: 5px; padding-top: 3px; list-style-type: none; margin-left: 0;}
 div#scorecard-intro span.clear { margin: 0; float:none; }
 
+ol#cite { font-size: x-small; font-style: italic; }
+ol#cite li { margin-bottom: 2px;  }
