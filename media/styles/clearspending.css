@@ -203,8 +203,18 @@ ul#sidenav { margin-left: 0px; }
 
 
 /* cross browser table scroll styling */
-div#agencytablecontainer tbody, div#programtablecontainer tbody { height: 500px; width: 100%; overflow-x: hidden; overflow-y: scroll; display:block;}
-div#agencytablecontainer tr, div#programtablecontainer tr { display:block; }
+div#agencytablecontainer, div#programtablecontainer { height: 500px; width: 890px; clear:both; overflow-y:auto; overflow-x:hidden; }
+html>body div#agencytablecontainer, html>body div#programtablecontainer { overflow: hidden; width:100%; }
+
+div#agencytablecontainer table, div#programtablecontainer table { float:left; width: 100%; }
+div#agencytablecontainer thead tr, div#programtablecontainer thead tr { position:relative; }
+div#agencytablecontainer thead , div#programtablecontainer thead  { z-index: 0; }
+
+html>body div#agencytablecontainer thead tr, html>body div#programtablecontainer thead tr { display:block; }
+
+div#agencytablecontainer tbody, div#programtablecontainer tbody { height: 500px; width: 100%; overflow-x: hidden; overflow-y: auto; display:block;}
+div#agencytablecontainer tr, div#programtablecontainer tr {  }
+
 
 div#programtablecontainer .med, div#agencytablecontainer .med { width: 105px;}
 div#programtablecontainer .lg, div#agencytablecontainer .lg { width: 150px;}
