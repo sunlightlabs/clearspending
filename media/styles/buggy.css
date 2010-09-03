@@ -4,3 +4,8 @@ a#scorecardBtn  { background: url(../images/btn_scorecard_8.png) top left no-rep
 #nav li a:hover, body.scorecard #nav li#scorecard a, body.background #nav li#background a, body.analysis #nav li#analysis a, body.methodology #nav li#methodology a, body.media #nav li#media a, body.corrections #nav li#corrections a, body.resources #nav li#resources a, body.feedback #nav li#feedback a  { background: url(../images/nav_arrow_8.png) center 27px no-repeat; }
 
 div#agencytablecontainer tbody, div#programtablecontainer tbody { position: relative; height: 500px; overflow: auto;}
+form#mailinglist-form .join_button { background: url(../images/join_button_8.png) top left no-repeat; font-size: 1px;}
+
+#fullColumn div#agencytablecontainer tbody, #fullColumn div#programtablecontainer tbody { height: 500px; overflow-y: auto; overflow-x:hidden; }
+#fullColumn #agencytable tbody tr, #fullColumn #programtable tbody tr { height: auto; }
+table#agencytable thead tr, table#programtable thead tr { position: relative; background-color:white; }

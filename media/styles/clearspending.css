@@ -145,6 +145,8 @@ th { color: #636466; font-weight: bold; padding-bottom: 15px; font-size: 100%; t
 .ratingtable { padding-bottom: 30px; }
 #pageMain .ratingtable li { border-top: 1px solid #E8E6E1; margin-top: 30px; padding-top: 30px; list-style-type: none; margin-left: 0; margin-bottom: 0;}
 .ratingtable th { padding: 0 10px 10px 10px; font-size: 130%; color: #636466; font-weight: bold; }
+.ratingtable td { width: 150px; }
+.ratingtable .reviewed { width: 350px;}
 
 td { padding: 15px 0 15px 15px; padding-right: 10px;}
 .sort { background: url(../images/sortArrows.png) left 10px no-repeat;  padding-left: 15px; cursor:pointer; }
@@ -199,16 +201,21 @@ ul#sidenav { margin-left: 0px; }
 
 #stage { float: left; margin-left: -14px; margin-top: 22px; }
 
+
 /* cross browser table scroll styling */
-div#agencytablecontainer tbody, div#programtablecontainer tbody { height: 500px; width: 100%; overflow-x: hidden; overflow-y: scroll; }
+div#agencytablecontainer tbody, div#programtablecontainer tbody { height: 500px; width: 100%; overflow-x: hidden; overflow-y: scroll; display:block;}
+div#agencytablecontainer tr, div#programtablecontainer tr { display:block; }
+
+div#programtablecontainer .med, div#agencytablecontainer .med { width: 105px;}
+div#programtablecontainer .lg, div#agencytablecontainer .lg { width: 150px;}
+div#programtablecontainer .sm, div#agencytablecontainer .sm { width: 70px;}
+
 div#agencytablecontainer, div#programtablecontainer { margin: 40px 0;}
+#agencytable tr, #programtable tr, #agencytable tr td, #programtable tr td {height: auto;}
 
 .agencydescription { color: #8E8E8E; font-size: 100%; line-height: 150%; padding-left: 10px; display: none; width: 280px; }
 
 .caveat { -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #C30B0B; color: #636466; display:block; font-style:italic; margin-top: 20px; padding: 10px 30px; }
-
-<!-- some IE hacks -->
-#agencytable tr, #programtable tr, #agencytable tr td, #programtable tr td {height: auto;}
 
 
 /* table styles */
@@ -220,7 +227,7 @@ span.float-right table td, span.float-left table td { border: 1px solid #636466;
 
 /* popup for scorecard intro */
 div#scorecard-intro {display: none; }
-div#scorecard-intro { color: #636466; background-color: #fff; -moz-border-radius: 6px; -webkit-border-radius: 6px; border: 1px solid; padding: 25px; position: absolute; margin-left: 130px; width: 605px;}
+div#scorecard-intro { color: #636466; background-color: #fff; -moz-border-radius: 6px; -webkit-border-radius: 6px; border: 1px solid; padding: 25px; position: absolute; margin-left: 130px; width: 605px; z-index: 2;}
 .buttonWrapper { float: left;}
 div#scorecard-intro p { margin-bottom: 15px; clear:both; }
 div#scorecard-intro span { width: 250px; float: left; display: block; font-weight: bold; margin-top: 25px;}
