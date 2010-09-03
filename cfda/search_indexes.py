@@ -18,7 +18,10 @@ class ProgramIndex(indexes.SearchIndex):
 #        text = getattr(object, 'program_title')
 
  #       return text
-         
+
+    def prepare_program_title(self, object):
+        return str(object.program_title.replace('_', ' ').encode('ascii', 'ignore'))
+                 
     def get_queryset(self):
         "Used when the entire index for model is updated."
         
