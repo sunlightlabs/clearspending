@@ -164,8 +164,8 @@ def index(request, unit='dollars', fiscal_year=2009):
 def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
     
     summary_numbers = []
-    summary_numbers.append(AgencyConsistency.objects.filter(agency=agency_id, fiscal_year=fiscal_year).aggregate(total=Sum('total_cfda_obligations'))['total'])
-    summary_numbers.extend(get_consistency(get_first(AgencyConsistency.objects.filter(agency=agency_id, fiscal_year=fiscal_year)), 'dollars'))
+    summary_numbers.append(AgencyConsistency.objects.filter(agency=agency_id, type=1, fiscal_year=fiscal_year).aggregate(total=Sum('total_cfda_obligations'))['total'])
+    summary_numbers.extend(get_consistency(get_first(AgencyConsistency.objects.filter(agency=agency_id, type=1, fiscal_year=fiscal_year)), 'dollars'))
     summary_numbers.extend(get_timeliness(get_first(AgencyTimeliness.objects.filter(agency=agency_id, fiscal_year=fiscal_year)), 'dollars'))
     completeness_totals = ProgramCompleteness.objects.filter(program__agency=agency_id, fiscal_year=fiscal_year).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
     summary_numbers.extend(get_completeness('dollars', **completeness_totals)) 
@@ -180,7 +180,6 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
 
 def programDetail(request, program_id, unit):
     program = Program.objects.get(id=program_id)
-    
     program_total_obs = ProgramObligation.objects.filter(program=program, fiscal_year__in=FISCAL_YEARS).order_by('fiscal_year')
     total_obs = []
     curr_year = None
@@ -190,7 +189,8 @@ def programDetail(request, program_id, unit):
             total_obs.append([p.fiscal_year, p.obligation])
         else:
             for curr_total in total_obs:
-                curr_total[1] += p.obligation
+                if curr_total[0] == curr_year:
+                    curr_total[1] += p.obligation
 
 #    program_total = moneyfmt(Decimal(str(program_total_number).replace('None', '0')), places=0, curr='$', sep=',', dp='')
 
