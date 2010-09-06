@@ -8,7 +8,7 @@
         <h3>Contact Us</h3>
         <p>Have a question or comment? Want to update your program's obligation in our data? Please send us a message using the form below.</p>
 
-        <form class="normalForm" id="contact-form" action="{% url contact-post %}">
+        <form class="normalForm" method="POST" id="contact-form" action="{% url contact-post %}">
             <ul>
                 <li>
                     <label for="name">Name</label>
