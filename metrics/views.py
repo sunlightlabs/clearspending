@@ -61,9 +61,9 @@ def get_timeliness(timeliness, unit):
         if unit == 'pct':
             return (pct*100, get_css_color(pct, 'time'))
         else:
-            return (timeliness.late_dollars, get_css_color(pct, 'time'))
+            return (timeliness.late_dollars or 0, get_css_color(pct, 'time'))
     else:
-        return (None,'')
+        return (0,'')
 
 def get_completeness(unit, **completeness):
     if completeness:
@@ -74,7 +74,7 @@ def get_completeness(unit, **completeness):
         if unit == 'pct':
             return (pct, get_css_color(pct, 'com'))
         else:
-            return (completeness['failed_total'], get_css_color(pct, 'com'))
+            return (completeness['failed_total'] or 0, get_css_color(pct, 'com'))
     else:
         return (None, '')
 
@@ -166,7 +166,7 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
     summary_numbers = []
     summary_numbers.append(AgencyConsistency.objects.filter(agency=agency_id, type=1, fiscal_year=fiscal_year).aggregate(total=Sum('total_cfda_obligations'))['total'])
     summary_numbers.extend(get_consistency(get_first(AgencyConsistency.objects.filter(agency=agency_id, type=1, fiscal_year=fiscal_year)), 'dollars'))
-    summary_numbers.extend(get_timeliness(get_first(AgencyTimeliness.objects.filter(agency=agency_id, fiscal_year=fiscal_year)), 'dollars'))
+    summary_numbers.extend(get_timeliness(get_first(AgencyTimeliness.objects.filter(agency=agency_id, fiscal_year=fiscal_year)), 'dollars') or 0)
     completeness_totals = ProgramCompleteness.objects.filter(program__agency=agency_id, fiscal_year=fiscal_year).aggregate(failed_total=Sum('completeness_failed_dollars'), total=Sum('completeness_total_dollars'))
     summary_numbers.extend(get_completeness('dollars', **completeness_totals)) 
     summary_numbers = filter( lambda x: not isinstance(x, basestring) , summary_numbers) #remove css colors
