@@ -194,7 +194,7 @@ button { text-indent: -9999em; display: block; height: 45px; cursor: pointer; bo
 
 #firstNumber { margin-left: 21px;}
 
-#sidenav p { display: none; font-size: 90%; color: #8E8E8E; padding: 10px 0 20px 25px; line-height: 18px; width: 175px;}
+.scorecard #sidenav p { display: none; font-size: 90%; color: #8E8E8E; padding: 10px 0 20px 25px; line-height: 18px; width: 175px;}
 ul#sidenav { margin-left: 0px; }
 #view { display: block; margin-top: 35px; color: #68A31D; font-weight: bold; text-transform: uppercase; background: url(../images/btn_scorecardSm.png) top left no-repeat; text-indent: -9999em; width: 186px; height: 33px;}
 #view:hover { color: #636466; }
