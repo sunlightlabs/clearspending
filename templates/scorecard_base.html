@@ -6,7 +6,9 @@
     <div id="fullColumn">    
         <h3>Agencies</h3>
         {% endblock %}
-
+        <!--[if gte IE 7]>
+            <style>html>body div#programtablecontainer, html>body div#agencytablecontainer { overflow-y:scroll; }</style>
+        <![endif]-->
         <div id="filters">
             <h4>Revise results below</h4>
             {% if agency %}
