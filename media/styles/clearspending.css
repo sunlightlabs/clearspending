@@ -250,3 +250,4 @@ div#scorecard-intro span.clear { margin: 0; float:none; }
 
 ol#cite { font-size: x-small; font-style: italic; }
 ol#cite li { margin-bottom: 2px;  }
+.footnote { padding: 10px; margin: 10px; display: block; font-style:italic; }
