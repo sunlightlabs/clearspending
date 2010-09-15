@@ -53,7 +53,7 @@ for fy in [2007, 2008, 2009]:
             cons = ProgramConsistency.objects.filter(program=program, fiscal_year=fy)
             if len(cons) > 0:
                 cons_single = cons[0]
-                if cons_single.non_reported_dollars > 0 or cons_single.under_reported_pct > 50 or cons_single.over_reported_pct > 150:
+                if cons_single.non_reported_dollars > 0 or cons_single.under_reported_pct > 50 or cons_single.over_reported_pct > 50:
                     #print "%s, %s -- non: %s, under: %s, over: %s" % (program.program_number, program.program_title, cons_single.non_reported_dollars, cons_single.under_reported_pct, cons_single.over_reported_pct)
                     #if cons_single.non_reported_dollars > 0: print "non reported"
                     #if cons_single.under_reported_pct > .50: print "under reported"
@@ -68,6 +68,7 @@ for fy in [2007, 2008, 2009]:
             if len(time) > 0:
                 time = time[0]
                 if time.total_dollars and (float(time.late_dollars / time.total_dollars)  > .5):
+                    #print "%s, %s -- total: %s failed: %s  ratio:%f" % (program.program_number, program.program_title, time.total_dollars, time.late_dollars, time.late_dollars/time.total_dollars)
                     total += ob.obligation
                     agency_totals = add_to_agency(agency_totals, program.agency.name, fy, ob.obligation)
                     writer.writerow((program.program_number, "%s" % program.program_title.encode('ascii', 'ignore'), 'timeliness', ob.obligation))
