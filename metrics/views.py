@@ -84,7 +84,10 @@ def get_consistency(consistency, unit):
         over = math.fabs(consistency.__dict__['over_reported_'+unit] or 0)
         under = math.fabs(consistency.__dict__['under_reported_'+unit] or 0)
         non = math.fabs(consistency.__dict__['non_reported_'+unit] or 0)
-        return (over, get_css_color(consistency.over_reported_pct or 0, 'con'), 
+        if consistency.over_reported_pct:
+            over_pct = consistency.over_reported_pct - 100
+        else: over_pct = 0
+        return (over, get_css_color(over_pct, 'con'), 
                 under, get_css_color(consistency.under_reported_pct or 0, 'con'), 
                 non, get_css_color(consistency.non_reported_pct or 0, 'con'))
     else:
