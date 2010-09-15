@@ -33,11 +33,8 @@ def search_results(request, search_string, unit='pct', fiscal_year=2009):
  
 
 def get_css_color(pct, metric):
-    if metric.find('con') > -1:  #consistency
+    if metric == 'con':  #consistency
         pct = Decimal(str(math.fabs(pct)))
-        if metric.find('over') > -1 and pct > Decimal('100'):
-            pct = pct - Decimal('100')
-
         if pct > Decimal('50'): return 'bad'
         elif pct > Decimal('25'): return 'warn'
         else: return 'good'
@@ -87,7 +84,7 @@ def get_consistency(consistency, unit):
         over = math.fabs(consistency.__dict__['over_reported_'+unit] or 0)
         under = math.fabs(consistency.__dict__['under_reported_'+unit] or 0)
         non = math.fabs(consistency.__dict__['non_reported_'+unit] or 0)
-        return (over, get_css_color(consistency.over_reported_pct or 0, 'con|over'), 
+        return (over, get_css_color(consistency.over_reported_pct or 0, 'con'), 
                 under, get_css_color(consistency.under_reported_pct or 0, 'con'), 
                 non, get_css_color(consistency.non_reported_pct or 0, 'con'))
     else:
