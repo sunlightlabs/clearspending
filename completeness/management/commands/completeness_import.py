@@ -38,8 +38,11 @@ def main():
                 print "   no entry found for program with CFDA number %s" % program_number
                 continue
             
-            # save detailed program-level test information    
-            PCD = ProgramCompletenessDetail()
+            # save detailed program-level test information 
+            try:
+                PCD = ProgramCompletenessDetail.objects.get(program=program, fiscal_year=y)
+            except ProgramCompletenessDetail.DoesNotExist:
+                PCD = ProgramCompletenessDetail()
             PCD.fiscal_year = y
             PCD.program = program
             PCD.agency = PCD.program.agency
@@ -53,12 +56,20 @@ def main():
                     continue
                 
                 metric_model_name = metric_name.split('.')[-1]
-                setattr(PCD, metric_model_name, Decimal(str(data_pct[program_number][metric_name].dollars_of_failed_tests)))                
+                if hasattr(PCD, metric_model_name) and getattr(PCD, metric_model_name):
+                    to_add = getattr(PCD, metric_model_name) +  Decimal(str(data_pct[program_number][metric_name].dollars_of_failed_tests))
+                else:
+                    to_add = Decimal(str(data_pct[program_number][metric_name].dollars_of_failed_tests))
+
+                setattr(PCD, metric_model_name, to_add)                
 
             PCD.save()
             
             # save program-level summary
-            PC = ProgramCompleteness()
+            try:
+                PC = ProgramCompleteness.objects.get(program=program, fiscal_year=y)
+            except ProgramCompleteness.DoesNotExist:
+                PC = ProgramCompleteness()
             PC.fiscal_year = y
             PC.program = program
             PC.agency = PC.program.agency
