@@ -1,11 +1,3 @@
-It's pretty straightforward: tests go into the metrics/ folder (except for this file, I've tried to avoid use of the word "test" since it's pretty well spoken for).  
+The code used to generate the results on http://sunlightfoundation.com/clearspending
 
-Just create test functions that:
-
-  - have either the @boolean, @real or @integer decorator
-  - are prepared to accept a dict containing the fields for a FAADS row
-  - and return the appropriate value
-  
-CSVs are passed to scorecard.py on STDIN.  The script emits a pickled version of the result object, which supplies some basic statistics, binned by CFDA program and test, as well as frequency count data for integer fields.
-
-Still TBD: a reduce/merge script for those pickled files.  But that should be trivial -- the hardest part will be summing the means and standard deviations, and that's not particularly difficult.
+Please email klee@sunlightfoundation for questions about use.
