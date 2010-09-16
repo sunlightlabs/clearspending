@@ -4,3 +4,4 @@ fips/*
 misc/*
 local_settings.py
 *.svg
+settings.py

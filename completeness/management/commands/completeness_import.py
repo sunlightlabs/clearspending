@@ -43,6 +43,7 @@ def main():
                 PCD = ProgramCompletenessDetail.objects.get(program=program, fiscal_year=y)
             except ProgramCompletenessDetail.DoesNotExist:
                 PCD = ProgramCompletenessDetail()
+            
             PCD.fiscal_year = y
             PCD.program = program
             PCD.agency = PCD.program.agency
@@ -70,6 +71,7 @@ def main():
                 PC = ProgramCompleteness.objects.get(program=program, fiscal_year=y)
             except ProgramCompleteness.DoesNotExist:
                 PC = ProgramCompleteness()
+            
             PC.fiscal_year = y
             PC.program = program
             PC.agency = PC.program.agency
