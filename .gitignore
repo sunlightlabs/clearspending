@@ -3,3 +3,4 @@ timeliness_data/
 fips/*
 misc/*
 local_settings.py
+*.svg
