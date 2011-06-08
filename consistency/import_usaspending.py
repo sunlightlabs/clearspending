@@ -4,7 +4,7 @@
 from settings import *
 from cfda.models import *
 from metrics.models import ProgramCorrection
-import MySQLdb
+import pg
 import csv
 from datetime import datetime
 import numpy as np
@@ -76,58 +76,55 @@ if __name__ == '__main__':
 
 
     MIN_FY = 2006  # We only want fiscal years over 2006
-    conn = MySQLdb.connect(host=MYSQL_HOST, user=MYSQL_USER, passwd=MYSQL_PASSWORD, db=MYSQL_DATABASE, port=MYSQL_PORT)
-    cursor = conn.cursor()
+#    conn = MySQLdb.connect(host=MYSQL_HOST, user=MYSQL_USER, passwd=MYSQL_PASSWORD, db=MYSQL_DATABASE, port=MYSQL_PORT)
+    conn = pg.connect(host=PG_HOST, user=PG_USER, passwd=PG_PASSWORD, dbname=PG_DATABASE, port=PG_PORT)
     bogus_cfda = open('csv/bogus_cfda_program_numbers', 'w')
     bogus_cfda_writer = csv.writer(bogus_cfda)
 
     programs = Program.objects.all().order_by('program_number')
     program_data = {}
 
-    usa_query = "SELECT cfda_program_num, fiscal_year, SUM(fed_funding_amount), SUM(face_loan_guran) FROM %s WHERE fiscal_year > %s GROUP BY cfda_program_num, fiscal_year ORDER BY cfda_program_num" % (MYSQL_TABLE_NAME, MIN_FY)
+    usa_query = "SELECT cfda_program_num, fiscal_year, SUM(fed_funding_amount) as fed_funding_amount, SUM(face_loan_guran) as face_loan_guran FROM %s WHERE fiscal_year > %s GROUP BY cfda_program_num, fiscal_year ORDER BY cfda_program_num" % (PG_TABLE_NAME, MIN_FY)
     print usa_query
     print "fetching summary query with rollup of programs, fiscal years and total obligations"
-    cursor.execute(usa_query)
-
-    rows = cursor.fetchall()
+    rows = conn.query(usa_query).dictresult()
     
     for row in rows:
+        print row
         try:    
-            program = Program.objects.get(program_number=row[0])
+            if row['cfda_program_num']:
+                program = Program.objects.get(program_number=row['cfda_program_num'])
 
-            cfda_obligations = ProgramObligation.objects.filter(program=program, fiscal_year=row[1])
-            
-            for cfda_ob in cfda_obligations:
-                if cfda_ob.type == 1:
-                    #its direct spending/grants
-                    obligation = row[2]
-                else:
-                    obligation = row[3]
-            
-                cfda_ob.usaspending_obligation = obligation
+                cfda_obligations = ProgramObligation.objects.filter(program=program, fiscal_year=row['fiscal_year'])
+                
+                for cfda_ob in cfda_obligations:
+                    if cfda_ob.type == 1:
+                        #its direct spending/grants
+                        obligation = row['fed_funding_amount']
+                    else:
+                        obligation = row['face_loan_guran']
+                
+                    cfda_ob.usaspending_obligation = obligation
+                    cfda_ob.delta = (cfda_ob.usaspending_obligation - cfda_ob.obligation)
+                    try:
+                        cfda_ob.weighted_delta = (cfda_ob.delta / cfda_ob.obligation)
+                    except Exception as e:
+                        if cfda_ob.obligation == 0:
+                            if not cfda_ob.usaspending_obligation:
+                                cfda_ob.weighted_delta = 0
+                            else:
+                                cfda_ob.weighted_delta = None
+                    cfda_ob.save()
 
-                cfda_ob.delta = (cfda_ob.usaspending_obligation - cfda_ob.obligation)
-                try:
-                    cfda_ob.weighted_delta = (cfda_ob.delta / cfda_ob.obligation)
-                except Exception:
-                    if cfda_ob.obligation == 0:
-                        if not cfda_ob.usaspending_obligation:
-                            cfda_ob.weighted_delta = 0
-                        else:
-                            cfda_ob.weighted_delta = None
-
-                cfda_ob.save()
-
-                #print "MATCH: %s - %s - %s - %s diff %s" % (row[0], row[1], cfda_ob.obligation, cfda_ob.usaspending_obligation, cfda_ob.delta)
-
+                    #print "MATCH: %s - %s - %s - %s diff %s" % (row[0], row[1], cfda_ob.obligation, cfda_ob.usaspending_obligation, cfda_ob.delta)
+            else:
+                bogus_cfda_writer.writerow([row['cfda_program_num']])
         except Program.DoesNotExist, e:
-            bogus_cfda_writer.writerow([row[0]])
+            bogus_cfda_writer.writerow([row['cfda_program_num']])
 
         except ProgramObligation.DoesNotExist, e:
             pass
 
-    cursor.close()
-    conn.close()
     
     fix_cfda()
 
