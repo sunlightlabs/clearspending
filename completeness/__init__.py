@@ -4,7 +4,6 @@ import sys, csv, os, imp, pickle
 from settings import *
 from completeness.statlib import stats
 from decimal import Decimal
-import MySQLdb
 import doctest
 
 BOOKMARK = 'completeness/bookmark.pickle'

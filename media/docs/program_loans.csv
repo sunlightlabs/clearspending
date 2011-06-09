@@ -1,17 +1,14 @@
 Program Number,Program Name,Fiscal Year,Agency,CFDA Obligations,USASpending Obligations,Delta,Percent under/over reported
-93.264,Nurse Faculty Loan Program (NFLP),2007,Department of Health and Human Services,4592465.00,,-4592465.00,-1.00
 10.417,Very Low-Income Housing Repair Loans and Grants,2007,Department of Agriculture,36800000.00,,-36800000.00,-1.00
 10.444,Direct Housing_Natural Disaster Loans and Grants,2007,Department of Agriculture,61300.00,,-61300.00,-1.00
-10.760,Water and Waste Disposal Systems for Rural Communities,2007,Department of Agriculture,990000000.00,1129611007.00,139611007.00,0.14
-10.766,Community Facilities Loans and Grants,2007,Department of Agriculture,527000000.00,557701042.00,30701042.00,0.06
-10.770,Water and Waste Disposal Loans and Grants (Section 306C),2007,Department of Agriculture,0.00,0.00,0.00,0.00
-10.854,Rural Economic Development Loans and Grants,2007,Department of Agriculture,36130000.00,25427000.00,-10703000.00,-0.30
+10.760,Water and Waste Disposal Systems for Rural Communities,2007,Department of Agriculture,990000000.00,1062676361.00,72676361.00,0.07
+10.766,Community Facilities Loans and Grants,2007,Department of Agriculture,527000000.00,559658517.00,32658517.00,0.06
+10.770,Water and Waste Disposal Loans and Grants (Section 306C),2007,Department of Agriculture,0.00,,0.00,0.00
+10.854,Rural Economic Development Loans and Grants,2007,Department of Agriculture,26167000.00,25427000.00,-740000.00,-0.03
 10.855,Distance Learning and Telemedicine Loans and Grants,2007,Department of Agriculture,127914000.00,31910352.00,-96003648.00,-0.75
-10.858,Denali Commmission Grants and Loans,2007,Department of Agriculture,15000000.00,,-15000000.00,-1.00
-59.051,New Markets Venture Capital Program,2007,Small Business Administraton,210000.00,,-210000.00,-1.00
 93.220,Clinical Research Loan Repayment Program for Individuals from Disadvantaged Backgrounds,2007,Department of Health and Human Services,300070.00,,-300070.00,-1.00
 93.232,Loan Repayment Program for General Research,2007,Department of Health and Human Services,4090289.00,,-4090289.00,-1.00
-93.936,National Institutes of Health Acquired Immunodeficiency Syndrome Research Loan Repayment Program,2007,Department of Health and Human Services,193531.00,0.00,-193531.00,-1.00
+93.936,National Institutes of Health Acquired Immunodeficiency Syndrome Research Loan Repayment Program,2007,Department of Health and Human Services,193531.00,,-193531.00,-1.00
 93.280,National Institutes of Health Loan Repayment Program for Clinical Researchers,2007,Department of Health and Human Services,42202000.00,,-42202000.00,-1.00
 93.285,National Institutes of Health Pediatric Research Loan Repayment Program,2007,Department of Health and Human Services,17328000.00,,-17328000.00,-1.00
 10.051,Commodity Loans and Loan Deficiency Payments,2007,Department of Agriculture,9493383881.00,7031159022.00,-2462224859.00,-0.26
@@ -26,7 +23,7 @@ Program Number,Program Name,Fiscal Year,Agency,CFDA Obligations,USASpending Obli
 10.445,Direct Housing_Natural Disaster,2007,Department of Agriculture,0.00,,0.00,0.00
 10.449,Boll Weevil Eradication Loan Program,2007,Department of Agriculture,59400000.00,,-59400000.00,-1.00
 10.767,Intermediary Relending Program,2007,Department of Agriculture,33869875.00,33869875.00,0.00,0.00
-10.775,Renewable Energy Systems and Energy Efficiency Improvements Program,2007,Department of Agriculture,76399865.00,65162868.00,-11236997.00,-0.15
+10.775,Renewable Energy Systems and Energy Efficiency Improvements Program,2007,Department of Agriculture,76399865.00,65225210.00,-11174655.00,-0.15
 10.850,Rural Electrification Loans and Loan Guarantees,2007,Department of Agriculture,6142001000.00,3889764304.00,-2252236696.00,-0.37
 10.851,Rural Telephone Loans and Loan Guarantees,2007,Department of Agriculture,54940753000.00,376735920.00,-54564017080.00,-0.99
 10.886,Rural Broadband Access Loans and Loan Guarantees,2007,Department of Agriculture,923186000.00,250959000.00,-672227000.00,-0.73
@@ -44,71 +41,52 @@ Program Number,Program Name,Fiscal Year,Agency,CFDA Obligations,USASpending Obli
 93.342,"Health Professions Student Loans, Including Primary Care Loans/Loans for Disadvantaged Students",2007,Department of Health and Human Services,22928940.00,,-22928940.00,-1.00
 93.364,Nursing Student Loans,2007,Department of Health and Human Services,2122268.00,,-2122268.00,-1.00
 10.437,Interest Assistance Program,2007,Department of Agriculture,272250000.00,,-272250000.00,-1.00
-10.438,Section 538 Rural Rental Housing Guaranteed Loans,2007,Department of Agriculture,197997000.00,90081174.00,-107915826.00,-0.55
-10.768,Business and Industry Loans,2007,Department of Agriculture,830435486.00,761211870.00,-69223616.00,-0.08
+10.438,Section 538 Rural Rental Housing Guaranteed Loans,2007,Department of Agriculture,197997000.00,95823167.00,-102173833.00,-0.52
+10.768,Business and Industry Loans,2007,Department of Agriculture,830435486.00,764817370.00,-65618116.00,-0.08
 14.108,Rehabilitation Mortgage Insurance,2007,Department of Housing and Urban Development,441844837.00,,-441844837.00,-1.00
 14.110,Manufactured Home Loan Insurance_Financing Purchase of Manufactured Homes as Principal Residences of Borrowers,2007,Department of Housing and Urban Development,53235426.00,,-53235426.00,-1.00
-14.117,Mortgage Insurance_Homes,2007,Department of Housing and Urban Development,56518703000.00,,-56518703000.00,-1.00
-14.128,Mortgage Insurance_Hospitals,2007,Department of Housing and Urban Development,846348500.00,,-846348500.00,-1.00
-14.129,"Mortgage Insurance_Nursing Homes, Intermediate Care Facilities, Board and Care Homes and Assisted Living Facilities",2007,Department of Housing and Urban Development,1219476400.00,,-1219476400.00,-1.00
-14.133,Mortgage Insurance_Purchase of Units in Condominiums,2007,Department of Housing and Urban Development,27573476420.00,,-27573476420.00,-1.00
-14.135,"Mortgage Insurance_Rental and Cooperative Housing for Moderate Income Families and Elderly, Market Interest Rate",2007,Department of Housing and Urban Development,1254248333.00,,-1254248333.00,-1.00
 14.142,Property Improvement Loan Insurance for Improving All Existing Structures and Building of New Nonresidential Structures,2007,Department of Housing and Urban Development,42413306.00,,-42413306.00,-1.00
 14.151,Supplemental Loan Insurance_Multifamily Rental Housing,2007,Department of Housing and Urban Development,5477300.00,,-5477300.00,-1.00
-14.155,Mortgage Insurance for the Purchase or Refinancing of Existing Multifamily Housing Projects,2007,Department of Housing and Urban Development,1509619356.00,,-1509619356.00,-1.00
 14.167,"Mortgage Insurance_Two Year Operating Loss Loans, Section 223(d)",2007,Department of Housing and Urban Development,7044000.00,,-7044000.00,-1.00
-14.183,Home Equity Conversion Mortgages,2007,Department of Housing and Urban Development,5571350940.00,,-5571350940.00,-1.00
 14.188,Housing Finance Agencies (HFA) Risk Sharing,2007,Department of Housing and Urban Development,93880377.00,,-93880377.00,-1.00
 14.189,Qualified Participating Entities (QPE) Risk Sharing,2007,Department of Housing and Urban Development,12424100.00,,-12424100.00,-1.00
 14.248,Community Development Block Grants_Section 108 Loan Guarantees,2007,Department of Housing and Urban Development,137500000.00,,-137500000.00,-1.00
 14.865,Public and Indian Housing_Indian Loan Guarantee Program,2007,Department of Housing and Urban Development,235074000.00,,-235074000.00,-1.00
 14.869,Title VI Federal Guarantees for Financing Tribal Housing Activities,2007,Department of Housing and Urban Development,12457000.00,,-12457000.00,-1.00
-15.124,Indian Loans_Economic Development,2007,Department of the Interior,85485456.00,0.00,-85485456.00,-1.00
+15.124,Indian Loans_Economic Development,2007,Department of the Interior,85485456.00,,-85485456.00,-1.00
 20.802,Federal Ship Financing Guarantees,2007,Department of Transportation,4085000.00,,-4085000.00,-1.00
 59.012,7(a) Loan Guarantees,2007,Small Business Administraton,13558822000.00,15631506373.00,2072684373.00,0.15
 59.041,504 Certified Development Loans,2007,Small Business Administraton,6298028000.00,7492840068.00,1194812068.00,0.19
 59.054,7(a)Export Loan Guarantees,2007,Small Business Administraton,5258000.00,,-5258000.00,-1.00
 64.114,Veterans Housing_Guaranteed and Insured Loans,2007,Department of Veterans Affairs,24186118000.00,,-24186118000.00,-1.00
 64.119,Veterans Housing_Manufactured Home Loans,2007,Department of Veterans Affairs,0.00,,0.00,0.00
-10.450,Crop Insurance,2007,Department of Agriculture,8069341000.00,,-8069341000.00,-1.00
+10.450,Crop Insurance,2007,Department of Agriculture,5266271000.00,,-5266271000.00,-1.00
 19.204,Fishermen's Guaranty Fund,2007,U.S. Department of State,500000.00,,-500000.00,-1.00
 20.803,Maritime War Risk Insurance,2007,Department of Transportation,50000.00,,-50000.00,-1.00
-44.001,"Credit Union Charter, Examination, Supervision, and Insurance",2007,National Credit Union Administration,268000000.00,,-268000000.00,-1.00
 45.201,Arts and Artifacts Indemnity,2007,National Endowment for the Arts,0.00,,0.00,0.00
 59.016,Surety Bond Guarantees,2007,Small Business Administraton,556750000.00,,-556750000.00,-1.00
-70.003,Foreign Investment Insurance,2007,Overseas Private Investment Corporation,1200000000.00,,-1200000000.00,-1.00
 86.001,Pension Plan Termination Insurance,2007,Pension Benefit Guaranty Corporation,4890000000.00,,-4890000000.00,-1.00
-97.022,Flood Insurance,2007,Department of Homeland Security,128084050.00,,-128084050.00,-1.00
-59.046,Microloan Program,2008,Small Business Administraton,0.00,25387566.00,25387566.00,0.00
-93.264,Nurse Faculty Loan Program (NFLP),2008,Department of Health and Human Services,7089668.00,,-7089668.00,-1.00
-10.417,Very Low-Income Housing Repair Loans and Grants,2008,Department of Agriculture,28700000.00,,-28700000.00,-1.00
-10.444,Direct Housing_Natural Disaster Loans and Grants,2008,Department of Agriculture,1300.00,,-1300.00,-1.00
-10.760,Water and Waste Disposal Systems for Rural Communities,2008,Department of Agriculture,1279402000.00,1225816219.00,-53585781.00,-0.04
-10.766,Community Facilities Loans and Grants,2008,Department of Agriculture,591208168.00,618491617.00,27283449.00,0.05
-10.770,Water and Waste Disposal Loans and Grants (Section 306C),2008,Department of Agriculture,0.00,0.00,0.00,0.00
-10.781,Water and Waste Disposal Systems for Rural Communities - ARRA,2008,Department of Agriculture,0.00,,0.00,0.00
-10.854,Rural Economic Development Loans and Grants,2008,Department of Agriculture,43120656.00,33142228.00,-9978428.00,-0.23
-10.855,Distance Learning and Telemedicine Loans and Grants,2008,Department of Agriculture,13092850.00,13092850.00,0.00,0.00
-10.858,Denali Commmission Grants and Loans,2008,Department of Agriculture,10000000.00,,-10000000.00,-1.00
+59.046,Microloan Program,2008,Small Business Administraton,0.00,25387566.00,25387566.00,
+10.417,Very Low-Income Housing Repair Loans and Grants,2008,Department of Agriculture,34409003.00,,-34409003.00,-1.00
+10.444,Direct Housing_Natural Disaster Loans and Grants,2008,Department of Agriculture,0.00,,0.00,0.00
+10.760,Water and Waste Disposal Systems for Rural Communities,2008,Department of Agriculture,1080236000.00,1159697155.00,79461155.00,0.07
+10.770,Water and Waste Disposal Loans and Grants (Section 306C),2008,Department of Agriculture,0.00,,0.00,0.00
+10.854,Rural Economic Development Loans and Grants,2008,Department of Agriculture,33120656.00,32014228.00,-1106428.00,-0.03
+10.855,Distance Learning and Telemedicine Loans and Grants,2008,Department of Agriculture,0.00,13092850.00,13092850.00,
 10.870,Rural Microentrepreneur Assistance Program,2008,Department of Agriculture,0.00,,0.00,0.00
-59.051,New Markets Venture Capital Program,2008,Small Business Administraton,242000.00,,-242000.00,-1.00
 93.220,Clinical Research Loan Repayment Program for Individuals from Disadvantaged Backgrounds,2008,Department of Health and Human Services,360724.00,,-360724.00,-1.00
 93.232,Loan Repayment Program for General Research,2008,Department of Health and Human Services,4767520.00,,-4767520.00,-1.00
 93.936,National Institutes of Health Acquired Immunodeficiency Syndrome Research Loan Repayment Program,2008,Department of Health and Human Services,720000.00,,-720000.00,-1.00
-10.051,Commodity Loans and Loan Deficiency Payments,2008,Department of Agriculture,9509047023.00,2964699759.00,-6544347264.00,-0.69
 64.116,Vocational Rehabilitation for Disabled Veterans,2008,Department of Veterans Affairs,2406000.00,,-2406000.00,-1.00
-10.410,Very Low to Moderate Income Housing Loans,2008,Department of Agriculture,7979762000.00,,-7979762000.00,-1.00
-10.411,Rural Housing Site Loans and Self_Help Housing Land Development Loans,2008,Department of Agriculture,1800000.00,1800000.00,0.00,0.00
-10.445,Direct Housing_Natural Disaster,2008,Department of Agriculture,1246400.00,,-1246400.00,-1.00
+10.410,Very Low to Moderate Income Housing Loans,2008,Department of Agriculture,5250711000.00,,-5250711000.00,-1.00
 10.767,Intermediary Relending Program,2008,Department of Agriculture,33772000.00,33536033.00,-235967.00,-0.01
-10.775,Renewable Energy Systems and Energy Efficiency Improvements Program,2008,Department of Agriculture,220841560.00,12774992.00,-208066568.00,-0.94
-10.850,Rural Electrification Loans and Loan Guarantees,2008,Department of Agriculture,6599300000.00,7099300000.00,500000000.00,0.08
-10.851,Rural Telephone Loans and Loan Guarantees,2008,Department of Agriculture,674966000.00,674966000.00,0.00,0.00
-10.886,Rural Broadband Access Loans and Loan Guarantees,2008,Department of Agriculture,438475000.00,438475000.00,0.00,0.00
+10.775,Renewable Energy Systems and Energy Efficiency Improvements Program,2008,Department of Agriculture,220841560.00,,-220841560.00,-1.00
+10.851,Rural Telephone Loans and Loan Guarantees,2008,Department of Agriculture,690000000.00,626355000.00,-63645000.00,-0.09
+10.886,Rural Broadband Access Loans and Loan Guarantees,2008,Department of Agriculture,300000000.00,372708000.00,72708000.00,0.24
 11.415,Fisheries Finance Program,2008,Department of Commerce,37857682.00,31721799.00,-6135883.00,-0.16
 20.223,Transportation Infrastructure Finance and Innovation Act (TIFIA) Program,2008,Department of Transportation,2391000000.00,2199768625.00,-191231375.00,-0.08
-20.316,Railroad Rehabilitation and Improvement Financing Program,2008,Department of Transportation,0.00,,0.00,0.00
-31.007,Export - Loan Guarantee/Insured Loans,2008,Export Import Bank of the United States,14398900000.00,12399132948.00,-1999767052.00,-0.14
+20.316,Railroad Rehabilitation and Improvement Financing Program,2008,Department of Transportation,123000000.00,,-123000000.00,-1.00
+31.007,Export - Loan Guarantee/Insured Loans,2008,Export Import Bank of the United States,14398900000.00,10831076275.00,-3567823725.00,-0.25
 44.002,Community Development Revolving Loan Fund Program for Credit Unions,2008,National Credit Union Administration,2500000.00,2089651.00,-410349.00,-0.16
 59.008,Disaster Assistance Loans,2008,Small Business Administraton,1345782000.00,277987161.00,-1067794839.00,-0.79
 59.011,Small Business Investment Companies,2008,Small Business Administraton,3000000000.00,1003990000.00,-1996010000.00,-0.67
@@ -117,90 +95,69 @@ Program Number,Program Name,Fiscal Year,Agency,CFDA Obligations,USASpending Obli
 64.118,Veterans Housing_Direct Loans for Certain Disabled Veterans,2008,Department of Veterans Affairs,0.00,,0.00,0.00
 64.126,Native American Veteran Direct Loan Program,2008,Department of Veterans Affairs,12428000.00,,-12428000.00,-1.00
 70.002,Foreign Investment Financing,2008,Overseas Private Investment Corporation,1374000000.00,,-1374000000.00,-1.00
-81.126,Federal Loan Guarantees for Innovative Energy Technologies,2008,Department of Energy,0.00,,0.00,0.00
-84.268,Federal Direct Student Loans,2008,Department of Education,33175000000.00,942574727287.00,909399727287.00,27.41
+84.268,Federal Direct Student Loans,2008,Department of Education,33175000000.00,1494011651826.00,1460836651826.00,44.03
 93.342,"Health Professions Student Loans, Including Primary Care Loans/Loans for Disadvantaged Students",2008,Department of Health and Human Services,13453724.00,,-13453724.00,-1.00
 93.364,Nursing Student Loans,2008,Department of Health and Human Services,1562835.00,,-1562835.00,-1.00
-97.030,Community Disaster Loans,2008,Department of Homeland Security,4400000.00,,-4400000.00,-1.00
-10.438,Section 538 Rural Rental Housing Guaranteed Loans,2008,Department of Agriculture,132400000.00,134931943.00,2531943.00,0.02
-10.768,Business and Industry Loans,2008,Department of Agriculture,1390531595.00,1324140588.00,-66391007.00,-0.05
+97.030,Community Disaster Loans,2008,Department of Homeland Security,4000400.00,,-4000400.00,-1.00
+10.768,Business and Industry Loans,2008,Department of Agriculture,1390531595.00,1257936007.00,-132595588.00,-0.10
 10.865,Biorefinery Assistance,2008,Department of Agriculture,0.00,,0.00,0.00
-14.108,Rehabilitation Mortgage Insurance,2008,Department of Housing and Urban Development,1089641726.00,,-1089641726.00,-1.00
-14.110,Manufactured Home Loan Insurance_Financing Purchase of Manufactured Homes as Principal Residences of Borrowers,2008,Department of Housing and Urban Development,56976391.00,,-56976391.00,-1.00
-14.112,Mortgage Insurance for Construction or Substantial Rehabilitation of Condominium Projects,2008,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.117,Mortgage Insurance_Homes,2008,Department of Housing and Urban Development,171875000000.00,,-171875000000.00,-1.00
-14.119,Mortgage Insurance_Homes for Disaster Victims,2008,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.122,Mortgage Insurance_Homes in Urban Renewal Areas,2008,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.123,"Mortgage Insurance_Housing in Older, Declining Areas",2008,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.126,Mortgage Insurance_Cooperative Projects,2008,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.127,Mortgage Insurance_Manufactured Home Parks,2008,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.128,Mortgage Insurance_Hospitals,2008,Department of Housing and Urban Development,714821300.00,,-714821300.00,-1.00
-14.129,"Mortgage Insurance_Nursing Homes, Intermediate Care Facilities, Board and Care Homes and Assisted Living Facilities",2008,Department of Housing and Urban Development,913157700.00,,-913157700.00,-1.00
-14.133,Mortgage Insurance_Purchase of Units in Condominiums,2008,Department of Housing and Urban Development,8269037398.00,,-8269037398.00,-1.00
-14.134,Mortgage Insurance_Rental Housing,2008,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.135,"Mortgage Insurance_Rental and Cooperative Housing for Moderate Income Families and Elderly, Market Interest Rate",2008,Department of Housing and Urban Development,4788600.00,,-4788600.00,-1.00
-14.138,Mortgage Insurance_Rental Housing for the Elderly,2008,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.139,Mortgage Insurance_Rental Housing in Urban Renewal Areas,2008,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.142,Property Improvement Loan Insurance for Improving All Existing Structures and Building of New Nonresidential Structures,2008,Department of Housing and Urban Development,56976391.00,,-56976391.00,-1.00
-14.151,Supplemental Loan Insurance_Multifamily Rental Housing,2008,Department of Housing and Urban Development,5603900.00,,-5603900.00,-1.00
-14.155,Mortgage Insurance for the Purchase or Refinancing of Existing Multifamily Housing Projects,2008,Department of Housing and Urban Development,1129375200.00,,-1129375200.00,-1.00
-14.159,Section 245 Graduated Payment Mortgage Program,2008,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.162,Mortgage Insurance_Combination and Manufactured Home Lot Loans,2008,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.163,Mortgage Insurance_Single Family Cooperative Housing,2008,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.167,"Mortgage Insurance_Two Year Operating Loss Loans, Section 223(d)",2008,Department of Housing and Urban Development,11000808.00,,-11000808.00,-1.00
-14.172,Mortgage Insurance_Growing Equity Mortgages,2008,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.175,Adjustable Rate Mortgages,2008,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.183,Home Equity Conversion Mortgages,2008,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.184,Mortgages Insurance for Single Room Occupancy (SRO) Projects,2008,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.188,Housing Finance Agencies (HFA) Risk Sharing,2008,Department of Housing and Urban Development,57575539.00,,-57575539.00,-1.00
-14.189,Qualified Participating Entities (QPE) Risk Sharing,2008,Department of Housing and Urban Development,9338000.00,,-9338000.00,-1.00
+14.108,Rehabilitation Mortgage Insurance,2008,Department of Housing and Urban Development,583421000.00,,-583421000.00,-1.00
+14.110,Manufactured Home Loan Insurance_Financing Purchase of Manufactured Homes as Principal Residences of Borrowers,2008,Department of Housing and Urban Development,71121000.00,,-71121000.00,-1.00
+14.142,Property Improvement Loan Insurance for Improving All Existing Structures and Building of New Nonresidential Structures,2008,Department of Housing and Urban Development,54367000.00,,-54367000.00,-1.00
+14.151,Supplemental Loan Insurance_Multifamily Rental Housing,2008,Department of Housing and Urban Development,7500000.00,,-7500000.00,-1.00
+14.167,"Mortgage Insurance_Two Year Operating Loss Loans, Section 223(d)",2008,Department of Housing and Urban Development,11250000.00,,-11250000.00,-1.00
+14.188,Housing Finance Agencies (HFA) Risk Sharing,2008,Department of Housing and Urban Development,90000000.00,,-90000000.00,-1.00
+14.189,Qualified Participating Entities (QPE) Risk Sharing,2008,Department of Housing and Urban Development,11250000.00,,-11250000.00,-1.00
 14.248,Community Development Block Grants_Section 108 Loan Guarantees,2008,Department of Housing and Urban Development,200000000.00,,-200000000.00,-1.00
-14.865,Public and Indian Housing_Indian Loan Guarantee Program,2008,Department of Housing and Urban Development,307455775.00,,-307455775.00,-1.00
-14.869,Title VI Federal Guarantees for Financing Tribal Housing Activities,2008,Department of Housing and Urban Development,13351000.00,,-13351000.00,-1.00
+14.865,Public and Indian Housing_Indian Loan Guarantee Program,2008,Department of Housing and Urban Development,367000000.00,,-367000000.00,-1.00
+14.869,Title VI Federal Guarantees for Financing Tribal Housing Activities,2008,Department of Housing and Urban Development,17000000.00,,-17000000.00,-1.00
 14.874,Loan Guarantees for Native Hawaiian Housing ,2008,Department of Housing and Urban Development,41504000.00,,-41504000.00,-1.00
-15.124,Indian Loans_Economic Development,2008,Department of the Interior,84172203.00,0.00,-84172203.00,-1.00
+15.124,Indian Loans_Economic Development,2008,Department of the Interior,84172203.00,,-84172203.00,-1.00
 20.802,Federal Ship Financing Guarantees,2008,Department of Transportation,8408000.00,,-8408000.00,-1.00
 59.012,7(a) Loan Guarantees,2008,Small Business Administraton,17543942000.00,9716920690.00,-7827021310.00,-0.45
 59.041,504 Certified Development Loans,2008,Small Business Administraton,7516521000.00,4168790269.00,-3347730731.00,-0.45
 64.114,Veterans Housing_Guaranteed and Insured Loans,2008,Department of Veterans Affairs,34761311000.00,,-34761311000.00,-1.00
 64.119,Veterans Housing_Manufactured Home Loans,2008,Department of Veterans Affairs,0.00,,0.00,0.00
 84.032,Federal Family Education Loans,2008,Department of Education,73097000000.00,,-73097000000.00,-1.00
-10.450,Crop Insurance,2008,Department of Agriculture,10233036000.00,0.00,-10233036000.00,-1.00
-17.151,Employee Benefits Security Administration (EBSA),2008,Department of Labor,0.00,,0.00,0.00
+10.450,Crop Insurance,2008,Department of Agriculture,6569971000.00,,-6569971000.00,-1.00
 20.803,Maritime War Risk Insurance,2008,Department of Transportation,60000.00,,-60000.00,-1.00
-44.001,"Credit Union Charter, Examination, Supervision, and Insurance",2008,National Credit Union Administration,274000000.00,,-274000000.00,-1.00
 45.201,Arts and Artifacts Indemnity,2008,National Endowment for the Arts,0.00,,0.00,0.00
 59.016,Surety Bond Guarantees,2008,Small Business Administraton,1010553000.00,,-1010553000.00,-1.00
 86.001,Pension Plan Termination Insurance,2008,Pension Benefit Guaranty Corporation,4606000000.00,,-4606000000.00,-1.00
-97.022,Flood Insurance,2008,Department of Homeland Security,138000000.00,,-138000000.00,-1.00
 59.046,Microloan Program,2009,Small Business Administraton,5000000.00,32319974.00,27319974.00,5.46
-93.264,Nurse Faculty Loan Program (NFLP),2009,Department of Health and Human Services,10679570.00,0.00,-10679570.00,-1.00
+93.264,Nurse Faculty Loan Program (NFLP),2009,Department of Health and Human Services,10679570.00,,-10679570.00,-1.00
 10.405,Farm Labor Housing Loans and Grants,2009,Department of Agriculture,49370109.00,36335816.00,-13034293.00,-0.26
-10.417,Very Low-Income Housing Repair Loans and Grants,2009,Department of Agriculture,34400000.00,11541585.00,-22858415.00,-0.66
-10.444,Direct Housing_Natural Disaster Loans and Grants,2009,Department of Agriculture,2800.00,207577.00,204777.00,73.13
-10.760,Water and Waste Disposal Systems for Rural Communities,2009,Department of Agriculture,932000000.00,572020861.00,-359979139.00,-0.39
-10.766,Community Facilities Loans and Grants,2009,Department of Agriculture,528692762.00,577409192.00,48716430.00,0.09
-10.770,Water and Waste Disposal Loans and Grants (Section 306C),2009,Department of Agriculture,0.00,0.00,0.00,0.00
-10.780,Community Facilities Loans and Grants,2009,Department of Agriculture,1163000000.00,204875881.00,-958124119.00,-0.82
-10.781,Water and Waste Disposal Systems for Rural Communities - ARRA,2009,Department of Agriculture,1000000000.00,982131401.00,-17868599.00,-0.02
-10.855,Distance Learning and Telemedicine Loans and Grants,2009,Department of Agriculture,16265779.00,8432766.00,-7833013.00,-0.48
-10.858,Denali Commmission Grants and Loans,2009,Department of Agriculture,8500000.00,,-8500000.00,-1.00
+10.415,Rural Rental Housing Loans,2009,Department of Agriculture,40935632.00,69364190.00,28428558.00,0.69
+10.417,Very Low-Income Housing Repair Loans and Grants,2009,Department of Agriculture,30008242.00,11541585.00,-18466657.00,-0.62
+10.444,Direct Housing_Natural Disaster Loans and Grants,2009,Department of Agriculture,0.00,207577.00,207577.00,
+10.760,Water and Waste Disposal Systems for Rural Communities,2009,Department of Agriculture,555937761.00,563414104.00,7476343.00,0.01
+10.766,Community Facilities Loans and Grants,2009,Department of Agriculture,575695282.00,526399426.00,-49295856.00,-0.09
+10.770,Water and Waste Disposal Loans and Grants (Section 306C),2009,Department of Agriculture,0.00,,0.00,0.00
+10.780,Community Facilities Loans and Grants,2009,Department of Agriculture,204369381.00,204875881.00,506500.00,0.00
+10.781,Water and Waste Disposal Systems for Rural Communities - ARRA,2009,Department of Agriculture,884193114.00,872298158.00,-11894956.00,-0.01
+10.787,Broadband Initiatives Program,2009,Department of Agriculture,0.00,,0.00,0.00
+10.855,Distance Learning and Telemedicine Loans and Grants,2009,Department of Agriculture,16256779.00,7870127.00,-8386652.00,-0.52
 10.870,Rural Microentrepreneur Assistance Program,2009,Department of Agriculture,0.00,,0.00,0.00
-59.051,New Markets Venture Capital Program,2009,Small Business Administraton,251000.00,,-251000.00,-1.00
-93.936,National Institutes of Health Acquired Immunodeficiency Syndrome Research Loan Repayment Program,2009,Department of Health and Human Services,720000.00,0.00,-720000.00,-1.00
-10.051,Commodity Loans and Loan Deficiency Payments,2009,Department of Agriculture,8604655000.00,5622506166.00,-2982148834.00,-0.35
+93.936,National Institutes of Health Acquired Immunodeficiency Syndrome Research Loan Repayment Program,2009,Department of Health and Human Services,720000.00,,-720000.00,-1.00
+10.051,Commodity Loans and Loan Deficiency Payments,2009,Department of Agriculture,8290909000.00,1954892824.00,-6336016176.00,-0.76
 64.116,Vocational Rehabilitation for Disabled Veterans,2009,Department of Veterans Affairs,3161000.00,,-3161000.00,-1.00
-10.410,Very Low to Moderate Income Housing Loans,2009,Department of Agriculture,7471488000.00,2620904679.00,-4850583321.00,-0.65
-10.411,Rural Housing Site Loans and Self_Help Housing Land Development Loans,2009,Department of Agriculture,10015000.00,599190.00,-9415810.00,-0.94
-10.445,Direct Housing_Natural Disaster,2009,Department of Agriculture,15000000.00,1431453896.00,1416453896.00,94.43
-10.788,Very Low to Moderate Income Housing Loans - Direct,2009,Department of Agriculture,3674228000.00,266875907.00,-3407352093.00,-0.93
-10.789,Very Low to Moderate Income Housing Loans - Guaranteed,2009,Department of Agriculture,3674228000.00,9039510386.00,5365282386.00,1.46
-10.850,Rural Electrification Loans and Loan Guarantees,2009,Department of Agriculture,6600000000.00,6442767000.00,-157233000.00,-0.02
-10.851,Rural Telephone Loans and Loan Guarantees,2009,Department of Agriculture,690000000.00,684369000.00,-5631000.00,-0.01
-10.886,Rural Broadband Access Loans and Loan Guarantees,2009,Department of Agriculture,6042000.00,31000.00,-6011000.00,-0.99
+10.056,Farm Storage Facility Loans,2009,Department of Agriculture,200000000.00,68560843.00,-131439157.00,-0.66
+10.404,Emergency Loans,2009,Department of Agriculture,30402000.00,18192590.00,-12209410.00,-0.40
+10.406,Farm Operating Loans,2009,Department of Agriculture,2461539000.00,1790457567.00,-671081433.00,-0.27
+10.407,Farm Ownership Loans,2009,Department of Agriculture,1832711000.00,1294301982.00,-538409018.00,-0.29
+10.410,Very Low to Moderate Income Housing Loans,2009,Department of Agriculture,8297025919.00,2621104679.00,-5675921240.00,-0.68
+10.411,Rural Housing Site Loans and Self_Help Housing Land Development Loans,2009,Department of Agriculture,599190.00,599190.00,0.00,0.00
+10.445,Direct Housing_Natural Disaster,2009,Department of Agriculture,48845553.00,1431453896.00,1382608343.00,28.31
+10.449,Boll Weevil Eradication Loan Program,2009,Department of Agriculture,99999999.00,27161300.00,-72838699.00,-0.73
+10.767,Intermediary Relending Program,2009,Department of Agriculture,34000000.00,32602648.00,-1397352.00,-0.04
+10.788,Very Low to Moderate Income Housing Loans - Direct,2009,Department of Agriculture,3619352146.00,266875907.00,-3352476239.00,-0.93
+10.789,Very Low to Moderate Income Housing Loans - Guaranteed,2009,Department of Agriculture,9039510700.00,9039510386.00,-314.00,0.00
+10.850,Rural Electrification Loans and Loan Guarantees,2009,Department of Agriculture,6598477000.00,6396360000.00,-202117000.00,-0.03
+10.851,Rural Telephone Loans and Loan Guarantees,2009,Department of Agriculture,690000000.00,680757168.00,-9242832.00,-0.01
+10.886,Rural Broadband Access Loans and Loan Guarantees,2009,Department of Agriculture,6042000.00,,-6042000.00,-1.00
 11.415,Fisheries Finance Program,2009,Department of Commerce,67000000.00,55695467.00,-11304533.00,-0.17
-20.316,Railroad Rehabilitation and Improvement Financing Program,2009,Department of Transportation,600000000.00,,-600000000.00,-1.00
-31.007,Export - Loan Guarantee/Insured Loans,2009,Export Import Bank of the United States,17500000000.00,14350394752.00,-3149605248.00,-0.18
+20.316,Railroad Rehabilitation and Improvement Financing Program,2009,Department of Transportation,104334000.00,,-104334000.00,-1.00
+31.007,Export - Loan Guarantee/Insured Loans,2009,Export Import Bank of the United States,17500000000.00,14217116675.00,-3282883325.00,-0.19
 59.008,Disaster Assistance Loans,2009,Small Business Administraton,350076000.00,82450663.00,-267625337.00,-0.76
 59.011,Small Business Investment Companies,2009,Small Business Administraton,3005377000.00,663390000.00,-2341987000.00,-0.78
 59.049,Small Disadvantaged Businesses,2009,Small Business Administraton,1459000.00,,-1459000.00,-1.00
@@ -210,56 +167,206 @@ Program Number,Program Name,Fiscal Year,Agency,CFDA Obligations,USASpending Obli
 64.118,Veterans Housing_Direct Loans for Certain Disabled Veterans,2009,Department of Veterans Affairs,0.00,,0.00,0.00
 64.126,Native American Veteran Direct Loan Program,2009,Department of Veterans Affairs,12676000.00,,-12676000.00,-1.00
 70.002,Foreign Investment Financing,2009,Overseas Private Investment Corporation,2000000000.00,,-2000000000.00,-1.00
-81.126,Federal Loan Guarantees for Innovative Energy Technologies,2009,Department of Energy,0.00,,0.00,0.00
-84.268,Federal Direct Student Loans,2009,Department of Education,41175000000.00,5211789108874.00,5170614108874.00,125.58
+81.126,Federal Loan Guarantees for Innovative Energy Technologies,2009,Department of Energy,3361100000.00,,-3361100000.00,-1.00
+84.268,Federal Direct Student Loans,2009,Department of Education,42262000000.00,4259681805805.00,4217419805805.00,99.79
+84.409,Civil Legal Assistance Attorney Student Loan Repayment Program,2009,Department of Education,0.00,,0.00,0.00
 93.342,"Health Professions Student Loans, Including Primary Care Loans/Loans for Disadvantaged Students",2009,Department of Health and Human Services,24056441.00,,-24056441.00,-1.00
 93.364,Nursing Student Loans,2009,Department of Health and Human Services,2000000.00,,-2000000.00,-1.00
-97.030,Community Disaster Loans,2009,Department of Homeland Security,32000000.00,,-32000000.00,-1.00
-10.438,Section 538 Rural Rental Housing Guaranteed Loans,2009,Department of Agriculture,129100000.00,134845816.00,5745816.00,0.04
-10.768,Business and Industry Loans,2009,Department of Agriculture,993000000.00,1250054825.00,257054825.00,0.26
-10.865,Biorefinery Assistance,2009,Department of Agriculture,224955.00,105000000.00,104775045.00,465.76
+97.030,Community Disaster Loans,2009,Department of Homeland Security,56800000.00,,-56800000.00,-1.00
+10.099,Conservation Loans ,2009,Department of Agriculture,0.00,,0.00,0.00
+10.437,Interest Assistance Program,2009,Department of Agriculture,149709000.00,,-149709000.00,-1.00
+10.438,Section 538 Rural Rental Housing Guaranteed Loans,2009,Department of Agriculture,132614564.00,129393464.00,-3221100.00,-0.02
+10.768,Business and Industry Loans,2009,Department of Agriculture,949000000.00,971017140.00,22017140.00,0.02
+10.865,Biorefinery Assistance,2009,Department of Agriculture,224955.00,80000000.00,79775045.00,354.63
 14.108,Rehabilitation Mortgage Insurance,2009,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.110,Manufactured Home Loan Insurance_Financing Purchase of Manufactured Homes as Principal Residences of Borrowers,2009,Department of Housing and Urban Development,71000000.00,,-71000000.00,-1.00
+14.110,Manufactured Home Loan Insurance_Financing Purchase of Manufactured Homes as Principal Residences of Borrowers,2009,Department of Housing and Urban Development,97185125.00,,-97185125.00,-1.00
 14.112,Mortgage Insurance for Construction or Substantial Rehabilitation of Condominium Projects,2009,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.117,Mortgage Insurance_Homes,2009,Department of Housing and Urban Development,315000000000.00,,-315000000000.00,-1.00
+14.117,Mortgage Insurance_Homes,2009,Department of Housing and Urban Development,330458852841.00,,-330458852841.00,-1.00
 14.119,Mortgage Insurance_Homes for Disaster Victims,2009,Department of Housing and Urban Development,0.00,,0.00,0.00
 14.122,Mortgage Insurance_Homes in Urban Renewal Areas,2009,Department of Housing and Urban Development,0.00,,0.00,0.00
 14.123,"Mortgage Insurance_Housing in Older, Declining Areas",2009,Department of Housing and Urban Development,0.00,,0.00,0.00
 14.126,Mortgage Insurance_Cooperative Projects,2009,Department of Housing and Urban Development,0.00,,0.00,0.00
 14.127,Mortgage Insurance_Manufactured Home Parks,2009,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.128,Mortgage Insurance_Hospitals,2009,Department of Housing and Urban Development,1400000000.00,,-1400000000.00,-1.00
-14.129,"Mortgage Insurance_Nursing Homes, Intermediate Care Facilities, Board and Care Homes and Assisted Living Facilities",2009,Department of Housing and Urban Development,1600000000.00,,-1600000000.00,-1.00
+14.128,Mortgage Insurance_Hospitals,2009,Department of Housing and Urban Development,1111124021.00,,-1111124021.00,-1.00
+14.129,"Mortgage Insurance_Nursing Homes, Intermediate Care Facilities, Board and Care Homes and Assisted Living Facilities",2009,Department of Housing and Urban Development,1904573799.00,,-1904573799.00,-1.00
+14.133,Mortgage Insurance_Purchase of Units in Condominiums,2009,Department of Housing and Urban Development,0.00,,0.00,0.00
 14.134,Mortgage Insurance_Rental Housing,2009,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.135,"Mortgage Insurance_Rental and Cooperative Housing for Moderate Income Families and Elderly, Market Interest Rate",2009,Department of Housing and Urban Development,10000000.00,,-10000000.00,-1.00
+14.135,"Mortgage Insurance_Rental and Cooperative Housing for Moderate Income Families and Elderly, Market Interest Rate",2009,Department of Housing and Urban Development,6644700.00,,-6644700.00,-1.00
 14.138,Mortgage Insurance_Rental Housing for the Elderly,2009,Department of Housing and Urban Development,0.00,,0.00,0.00
 14.139,Mortgage Insurance_Rental Housing in Urban Renewal Areas,2009,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.142,Property Improvement Loan Insurance for Improving All Existing Structures and Building of New Nonresidential Structures,2009,Department of Housing and Urban Development,54000000.00,,-54000000.00,-1.00
-14.151,Supplemental Loan Insurance_Multifamily Rental Housing,2009,Department of Housing and Urban Development,8000000.00,,-8000000.00,-1.00
-14.155,Mortgage Insurance for the Purchase or Refinancing of Existing Multifamily Housing Projects,2009,Department of Housing and Urban Development,1350000000.00,,-1350000000.00,-1.00
+14.142,Property Improvement Loan Insurance for Improving All Existing Structures and Building of New Nonresidential Structures,2009,Department of Housing and Urban Development,56448498.00,,-56448498.00,-1.00
+14.151,Supplemental Loan Insurance_Multifamily Rental Housing,2009,Department of Housing and Urban Development,15767400.00,,-15767400.00,-1.00
+14.155,Mortgage Insurance for the Purchase or Refinancing of Existing Multifamily Housing Projects,2009,Department of Housing and Urban Development,2102044300.00,,-2102044300.00,-1.00
 14.159,Section 245 Graduated Payment Mortgage Program,2009,Department of Housing and Urban Development,0.00,,0.00,0.00
 14.162,Mortgage Insurance_Combination and Manufactured Home Lot Loans,2009,Department of Housing and Urban Development,0.00,,0.00,0.00
 14.163,Mortgage Insurance_Single Family Cooperative Housing,2009,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.167,"Mortgage Insurance_Two Year Operating Loss Loans, Section 223(d)",2009,Department of Housing and Urban Development,12000000.00,,-12000000.00,-1.00
+14.167,"Mortgage Insurance_Two Year Operating Loss Loans, Section 223(d)",2009,Department of Housing and Urban Development,6644300.00,,-6644300.00,-1.00
 14.172,Mortgage Insurance_Growing Equity Mortgages,2009,Department of Housing and Urban Development,0.00,,0.00,0.00
 14.175,Adjustable Rate Mortgages,2009,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.183,Home Equity Conversion Mortgages,2009,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.183,Home Equity Conversion Mortgages,2009,Department of Housing and Urban Development,15579827000.00,,-15579827000.00,-1.00
 14.184,Mortgages Insurance for Single Room Occupancy (SRO) Projects,2009,Department of Housing and Urban Development,0.00,,0.00,0.00
-14.188,Housing Finance Agencies (HFA) Risk Sharing,2009,Department of Housing and Urban Development,180000000.00,,-180000000.00,-1.00
-14.189,Qualified Participating Entities (QPE) Risk Sharing,2009,Department of Housing and Urban Development,5000000.00,,-5000000.00,-1.00
+14.188,Housing Finance Agencies (HFA) Risk Sharing,2009,Department of Housing and Urban Development,23954550.00,,-23954550.00,-1.00
+14.189,Qualified Participating Entities (QPE) Risk Sharing,2009,Department of Housing and Urban Development,13470000.00,,-13470000.00,-1.00
 14.248,Community Development Block Grants_Section 108 Loan Guarantees,2009,Department of Housing and Urban Development,275000000.00,,-275000000.00,-1.00
-14.865,Public and Indian Housing_Indian Loan Guarantee Program,2009,Department of Housing and Urban Development,420000000.00,,-420000000.00,-1.00
-14.869,Title VI Federal Guarantees for Financing Tribal Housing Activities,2009,Department of Housing and Urban Development,17000000.00,,-17000000.00,-1.00
+14.865,Public and Indian Housing_Indian Loan Guarantee Program,2009,Department of Housing and Urban Development,501538997.00,,-501538997.00,-1.00
+14.869,Title VI Federal Guarantees for Financing Tribal Housing Activities,2009,Department of Housing and Urban Development,7921789.00,,-7921789.00,-1.00
 14.874,Loan Guarantees for Native Hawaiian Housing ,2009,Department of Housing and Urban Development,14111848.00,,-14111848.00,-1.00
-15.124,Indian Loans_Economic Development,2009,Department of the Interior,84172203.00,0.00,-84172203.00,-1.00
-20.802,Federal Ship Financing Guarantees,2009,Department of Transportation,3531000.00,,-3531000.00,-1.00
+15.124,Indian Loans_Economic Development,2009,Department of the Interior,84172203.00,,-84172203.00,-1.00
+20.802,Federal Ship Financing Guarantees,2009,Department of Transportation,17444772.00,,-17444772.00,-1.00
 59.012,7(a) Loan Guarantees,2009,Small Business Administraton,17548027000.00,6474028385.00,-11073998615.00,-0.63
 59.041,504 Certified Development Loans,2009,Small Business Administraton,7518041000.00,2511475169.00,-5006565831.00,-0.67
 59.054,7(a)Export Loan Guarantees,2009,Small Business Administraton,6430000.00,,-6430000.00,-1.00
 64.114,Veterans Housing_Guaranteed and Insured Loans,2009,Department of Veterans Affairs,35816558000.00,,-35816558000.00,-1.00
 64.119,Veterans Housing_Manufactured Home Loans,2009,Department of Veterans Affairs,0.00,,0.00,0.00
-84.032,Federal Family Education Loans,2009,Department of Education,76845000000.00,,-76845000000.00,-1.00
-17.151,Employee Benefits Security Administration (EBSA),2009,Department of Labor,2004535.00,,-2004535.00,-1.00
-20.803,Maritime War Risk Insurance,2009,Department of Transportation,46000000.00,,-46000000.00,-1.00
+84.032,Federal Family Education Loans,2009,Department of Education,35451000000.00,,-35451000000.00,-1.00
+20.803,Maritime War Risk Insurance,2009,Department of Transportation,0.00,,0.00,0.00
 45.201,Arts and Artifacts Indemnity,2009,National Endowment for the Arts,0.00,,0.00,0.00
 59.016,Surety Bond Guarantees,2009,Small Business Administraton,1010094000.00,,-1010094000.00,-1.00
-97.022,Flood Insurance,2009,Department of Homeland Security,145680052.00,0.00,-145680052.00,-1.00
+59.046,Microloan Program,2010,Small Business Administraton,45000000.00,34818248.00,-10181752.00,-0.23
+93.264,Nurse Faculty Loan Program (NFLP),2010,Department of Health and Human Services,23480276.00,,-23480276.00,-1.00
+10.405,Farm Labor Housing Loans and Grants,2010,Department of Agriculture,37000000.00,13606447.00,-23393553.00,-0.63
+10.415,Rural Rental Housing Loans,2010,Department of Agriculture,51000000.00,70006803.00,19006803.00,0.37
+10.417,Very Low-Income Housing Repair Loans and Grants,2010,Department of Agriculture,36900000.00,25960551.00,-10939449.00,-0.30
+10.444,Direct Housing_Natural Disaster Loans and Grants,2010,Department of Agriculture,5000.00,193731.00,188731.00,37.75
+10.760,Water and Waste Disposal Systems for Rural Communities,2010,Department of Agriculture,1097161804.00,968482238.00,-128679566.00,-0.12
+10.766,Community Facilities Loans and Grants,2010,Department of Agriculture,974569649.00,900108753.00,-74460896.00,-0.08
+10.770,Water and Waste Disposal Loans and Grants (Section 306C),2010,Department of Agriculture,0.00,,0.00,0.00
+10.780,Community Facilities Loans and Grants,2010,Department of Agriculture,1101960000.00,1084755486.00,-17204514.00,-0.02
+10.781,Water and Waste Disposal Systems for Rural Communities - ARRA,2010,Department of Agriculture,1274000000.00,1281843828.00,7843828.00,0.01
+10.787,Broadband Initiatives Program,2010,Department of Agriculture,1201506000.00,1229573720.00,28067720.00,0.02
+10.855,Distance Learning and Telemedicine Loans and Grants,2010,Department of Agriculture,0.00,,0.00,0.00
+10.870,Rural Microentrepreneur Assistance Program,2010,Department of Agriculture,30000000.00,27963782.00,-2036218.00,-0.07
+10.051,Commodity Loans and Loan Deficiency Payments,2010,Department of Agriculture,8593372000.00,5085192391.00,-3508179609.00,-0.41
+64.116,Vocational Rehabilitation for Disabled Veterans,2010,Department of Veterans Affairs,2298000.00,,-2298000.00,-1.00
+10.056,Farm Storage Facility Loans,2010,Department of Agriculture,152500000.00,204507783.00,52007783.00,0.34
+10.404,Emergency Loans,2010,Department of Agriculture,40000000.00,35166785.00,-4833215.00,-0.12
+10.406,Farm Operating Loans,2010,Department of Agriculture,2400000000.00,2935146332.00,535146332.00,0.22
+10.407,Farm Ownership Loans,2010,Department of Agriculture,2100000000.00,2346427460.00,246427460.00,0.12
+10.410,Very Low to Moderate Income Housing Loans,2010,Department of Agriculture,15881721964.00,16004884655.00,123162691.00,0.01
+10.411,Rural Housing Site Loans and Self_Help Housing Land Development Loans,2010,Department of Agriculture,10015000.00,,-10015000.00,-1.00
+10.445,Direct Housing_Natural Disaster,2010,Department of Agriculture,20000000.00,435886856.00,415886856.00,20.79
+10.449,Boll Weevil Eradication Loan Program,2010,Department of Agriculture,100000000.00,,-100000000.00,-1.00
+10.767,Intermediary Relending Program,2010,Department of Agriculture,34000000.00,33534072.00,-465928.00,-0.01
+10.788,Very Low to Moderate Income Housing Loans - Direct,2010,Department of Agriculture,1000000000.00,1130344391.00,130344391.00,0.13
+10.789,Very Low to Moderate Income Housing Loans - Guaranteed,2010,Department of Agriculture,1220771098.00,1016795571.00,-203975527.00,-0.17
+10.850,Rural Electrification Loans and Loan Guarantees,2010,Department of Agriculture,6600000000.00,6992000000.00,392000000.00,0.06
+10.851,Rural Telephone Loans and Loan Guarantees,2010,Department of Agriculture,690000000.00,690000000.00,0.00,0.00
+10.886,Rural Broadband Access Loans and Loan Guarantees,2010,Department of Agriculture,95000000.00,74296722.00,-20703278.00,-0.22
+20.316,Railroad Rehabilitation and Improvement Financing Program,2010,Department of Transportation,600000000.00,,-600000000.00,-1.00
+31.007,Export - Loan Guarantee/Insured Loans,2010,Export Import Bank of the United States,16100000000.00,17195411726.00,1095411726.00,0.07
+59.056,Secondary Market Lending Authority,2010,Small Business Administraton,0.00,,0.00,0.00
+70.002,Foreign Investment Financing,2010,Overseas Private Investment Corporation,2350000000.00,,-2350000000.00,-1.00
+81.126,Federal Loan Guarantees for Innovative Energy Technologies,2010,Department of Energy,1090000000.00,,-1090000000.00,-1.00
+84.268,Federal Direct Student Loans,2010,Department of Education,88359000000.00,7906813463296.00,7818454463296.00,88.49
+84.409,Civil Legal Assistance Attorney Student Loan Repayment Program,2010,Department of Education,5000000.00,,-5000000.00,-1.00
+93.342,"Health Professions Student Loans, Including Primary Care Loans/Loans for Disadvantaged Students",2010,Department of Health and Human Services,20171302.00,,-20171302.00,-1.00
+93.364,Nursing Student Loans,2010,Department of Health and Human Services,1073242.00,,-1073242.00,-1.00
+10.099,Conservation Loans ,2010,Department of Agriculture,150000000.00,5085770.00,-144914230.00,-0.97
+10.437,Interest Assistance Program,2010,Department of Agriculture,170000000.00,,-170000000.00,-1.00
+10.438,Section 538 Rural Rental Housing Guaranteed Loans,2010,Department of Agriculture,129000000.00,100315339.00,-28684661.00,-0.22
+10.768,Business and Industry Loans,2010,Department of Agriculture,1328000000.00,1026041919.00,-301958081.00,-0.23
+10.865,Biorefinery Assistance,2010,Department of Agriculture,189848.00,54500000.00,54310152.00,286.07
+14.108,Rehabilitation Mortgage Insurance,2010,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.110,Manufactured Home Loan Insurance_Financing Purchase of Manufactured Homes as Principal Residences of Borrowers,2010,Department of Housing and Urban Development,120000000.00,,-120000000.00,-1.00
+14.112,Mortgage Insurance for Construction or Substantial Rehabilitation of Condominium Projects,2010,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.117,Mortgage Insurance_Homes,2010,Department of Housing and Urban Development,299953826000.00,,-299953826000.00,-1.00
+14.119,Mortgage Insurance_Homes for Disaster Victims,2010,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.122,Mortgage Insurance_Homes in Urban Renewal Areas,2010,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.123,"Mortgage Insurance_Housing in Older, Declining Areas",2010,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.126,Mortgage Insurance_Cooperative Projects,2010,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.127,Mortgage Insurance_Manufactured Home Parks,2010,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.128,Mortgage Insurance_Hospitals,2010,Department of Housing and Urban Development,3450000000.00,,-3450000000.00,-1.00
+14.129,"Mortgage Insurance_Nursing Homes, Intermediate Care Facilities, Board and Care Homes and Assisted Living Facilities",2010,Department of Housing and Urban Development,2650000000.00,,-2650000000.00,-1.00
+14.133,Mortgage Insurance_Purchase of Units in Condominiums,2010,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.134,Mortgage Insurance_Rental Housing,2010,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.135,"Mortgage Insurance_Rental and Cooperative Housing for Moderate Income Families and Elderly, Market Interest Rate",2010,Department of Housing and Urban Development,118000000.00,,-118000000.00,-1.00
+14.138,Mortgage Insurance_Rental Housing for the Elderly,2010,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.139,Mortgage Insurance_Rental Housing in Urban Renewal Areas,2010,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.142,Property Improvement Loan Insurance for Improving All Existing Structures and Building of New Nonresidential Structures,2010,Department of Housing and Urban Development,60000000.00,,-60000000.00,-1.00
+14.151,Supplemental Loan Insurance_Multifamily Rental Housing,2010,Department of Housing and Urban Development,25000000.00,,-25000000.00,-1.00
+14.155,Mortgage Insurance for the Purchase or Refinancing of Existing Multifamily Housing Projects,2010,Department of Housing and Urban Development,3900000000.00,,-3900000000.00,-1.00
+14.159,Section 245 Graduated Payment Mortgage Program,2010,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.162,Mortgage Insurance_Combination and Manufactured Home Lot Loans,2010,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.163,Mortgage Insurance_Single Family Cooperative Housing,2010,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.167,"Mortgage Insurance_Two Year Operating Loss Loans, Section 223(d)",2010,Department of Housing and Urban Development,4000000.00,,-4000000.00,-1.00
+14.172,Mortgage Insurance_Growing Equity Mortgages,2010,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.175,Adjustable Rate Mortgages,2010,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.183,Home Equity Conversion Mortgages,2010,Department of Housing and Urban Development,16715037124.00,,-16715037124.00,-1.00
+14.184,Mortgages Insurance for Single Room Occupancy (SRO) Projects,2010,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.188,Housing Finance Agencies (HFA) Risk Sharing,2010,Department of Housing and Urban Development,300000000.00,,-300000000.00,-1.00
+14.189,Qualified Participating Entities (QPE) Risk Sharing,2010,Department of Housing and Urban Development,30000000.00,,-30000000.00,-1.00
+14.248,Community Development Block Grants_Section 108 Loan Guarantees,2010,Department of Housing and Urban Development,275000000.00,,-275000000.00,-1.00
+14.865,Public and Indian Housing_Indian Loan Guarantee Program,2010,Department of Housing and Urban Development,919000000.00,,-919000000.00,-1.00
+14.869,Title VI Federal Guarantees for Financing Tribal Housing Activities,2010,Department of Housing and Urban Development,18000000.00,,-18000000.00,-1.00
+14.874,Loan Guarantees for Native Hawaiian Housing ,2010,Department of Housing and Urban Development,41504000.00,,-41504000.00,-1.00
+20.802,Federal Ship Financing Guarantees,2010,Department of Transportation,1420000.00,,-1420000.00,-1.00
+84.032,Federal Family Education Loans,2010,Department of Education,66964000000.00,,-66964000000.00,-1.00
+93.264,Nurse Faculty Loan Program (NFLP),2011,Department of Health and Human Services,23480276.00,,-23480276.00,-1.00
+10.405,Farm Labor Housing Loans and Grants,2011,Department of Agriculture,37000000.00,4153139.00,-32846861.00,-0.89
+10.415,Rural Rental Housing Loans,2011,Department of Agriculture,63000000.00,3257844.00,-59742156.00,-0.95
+10.417,Very Low-Income Housing Repair Loans and Grants,2011,Department of Agriculture,34004226.00,6591718.00,-27412508.00,-0.81
+10.760,Water and Waste Disposal Systems for Rural Communities,2011,Department of Agriculture,1097161804.00,105194992.00,-991966812.00,-0.90
+10.766,Community Facilities Loans and Grants,2011,Department of Agriculture,490000000.00,48314201.00,-441685799.00,-0.90
+10.770,Water and Waste Disposal Loans and Grants (Section 306C),2011,Department of Agriculture,0.00,,0.00,0.00
+10.780,Community Facilities Loans and Grants,2011,Department of Agriculture,0.00,,0.00,0.00
+10.781,Water and Waste Disposal Systems for Rural Communities - ARRA,2011,Department of Agriculture,0.00,,0.00,0.00
+10.787,Broadband Initiatives Program,2011,Department of Agriculture,0.00,,0.00,0.00
+10.855,Distance Learning and Telemedicine Loans and Grants,2011,Department of Agriculture,0.00,,0.00,0.00
+10.051,Commodity Loans and Loan Deficiency Payments,2011,Department of Agriculture,8345955000.00,8477598524.00,131643524.00,0.02
+10.056,Farm Storage Facility Loans,2011,Department of Agriculture,152500000.00,144699709.00,-7800291.00,-0.05
+10.404,Emergency Loans,2011,Department of Agriculture,86402000.00,2577380.00,-83824620.00,-0.97
+10.406,Farm Operating Loans,2011,Department of Agriculture,2400000000.00,531015562.00,-1868984438.00,-0.78
+10.407,Farm Ownership Loans,2011,Department of Agriculture,21382711000.00,580820937.00,-20801890063.00,-0.97
+10.410,Very Low to Moderate Income Housing Loans,2011,Department of Agriculture,25200000000.00,4318549959.00,-20881450041.00,-0.83
+10.411,Rural Housing Site Loans and Self_Help Housing Land Development Loans,2011,Department of Agriculture,10017063.00,,-10017063.00,-1.00
+10.449,Boll Weevil Eradication Loan Program,2011,Department of Agriculture,60000000.00,,-60000000.00,-1.00
+10.767,Intermediary Relending Program,2011,Department of Agriculture,37000000.00,,-37000000.00,-1.00
+10.789,Very Low to Moderate Income Housing Loans - Guaranteed,2011,Department of Agriculture,0.00,,0.00,0.00
+10.850,Rural Electrification Loans and Loan Guarantees,2011,Department of Agriculture,4100000000.00,430551000.00,-3669449000.00,-0.89
+10.851,Rural Telephone Loans and Loan Guarantees,2011,Department of Agriculture,690000000.00,9932000.00,-680068000.00,-0.99
+10.886,Rural Broadband Access Loans and Loan Guarantees,2011,Department of Agriculture,400000000.00,,-400000000.00,-1.00
+20.316,Railroad Rehabilitation and Improvement Financing Program,2011,Department of Transportation,600000000.00,,-600000000.00,-1.00
+81.126,Federal Loan Guarantees for Innovative Energy Technologies,2011,Department of Energy,5660000000.00,,-5660000000.00,-1.00
+84.268,Federal Direct Student Loans,2011,Department of Education,133959000000.00,1637673051534.00,1503714051534.00,11.23
+84.409,Civil Legal Assistance Attorney Student Loan Repayment Program,2011,Department of Education,2500000.00,,-2500000.00,-1.00
+93.342,"Health Professions Student Loans, Including Primary Care Loans/Loans for Disadvantaged Students",2011,Department of Health and Human Services,22000000.00,,-22000000.00,-1.00
+93.364,Nursing Student Loans,2011,Department of Health and Human Services,1073242.00,,-1073242.00,-1.00
+10.099,Conservation Loans ,2011,Department of Agriculture,150000000.00,4633070.00,-145366930.00,-0.97
+10.437,Interest Assistance Program,2011,Department of Agriculture,144000000.00,,-144000000.00,-1.00
+10.438,Section 538 Rural Rental Housing Guaranteed Loans,2011,Department of Agriculture,129000000.00,,-129000000.00,-1.00
+10.768,Business and Industry Loans,2011,Department of Agriculture,942000000.00,315698623.00,-626301377.00,-0.66
+14.108,Rehabilitation Mortgage Insurance,2011,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.110,Manufactured Home Loan Insurance_Financing Purchase of Manufactured Homes as Principal Residences of Borrowers,2011,Department of Housing and Urban Development,126000000.00,,-126000000.00,-1.00
+14.112,Mortgage Insurance for Construction or Substantial Rehabilitation of Condominium Projects,2011,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.117,Mortgage Insurance_Homes,2011,Department of Housing and Urban Development,222867868000.00,,-222867868000.00,-1.00
+14.119,Mortgage Insurance_Homes for Disaster Victims,2011,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.122,Mortgage Insurance_Homes in Urban Renewal Areas,2011,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.123,"Mortgage Insurance_Housing in Older, Declining Areas",2011,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.126,Mortgage Insurance_Cooperative Projects,2011,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.127,Mortgage Insurance_Manufactured Home Parks,2011,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.128,Mortgage Insurance_Hospitals,2011,Department of Housing and Urban Development,4040000000.00,,-4040000000.00,-1.00
+14.129,"Mortgage Insurance_Nursing Homes, Intermediate Care Facilities, Board and Care Homes and Assisted Living Facilities",2011,Department of Housing and Urban Development,3030000000.00,,-3030000000.00,-1.00
+14.133,Mortgage Insurance_Purchase of Units in Condominiums,2011,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.134,Mortgage Insurance_Rental Housing,2011,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.135,"Mortgage Insurance_Rental and Cooperative Housing for Moderate Income Families and Elderly, Market Interest Rate",2011,Department of Housing and Urban Development,64000000.00,,-64000000.00,-1.00
+14.138,Mortgage Insurance_Rental Housing for the Elderly,2011,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.139,Mortgage Insurance_Rental Housing in Urban Renewal Areas,2011,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.142,Property Improvement Loan Insurance for Improving All Existing Structures and Building of New Nonresidential Structures,2011,Department of Housing and Urban Development,63000000.00,,-63000000.00,-1.00
+14.151,Supplemental Loan Insurance_Multifamily Rental Housing,2011,Department of Housing and Urban Development,25000000.00,,-25000000.00,-1.00
+14.155,Mortgage Insurance for the Purchase or Refinancing of Existing Multifamily Housing Projects,2011,Department of Housing and Urban Development,34000000.00,,-34000000.00,-1.00
+14.159,Section 245 Graduated Payment Mortgage Program,2011,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.162,Mortgage Insurance_Combination and Manufactured Home Lot Loans,2011,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.163,Mortgage Insurance_Single Family Cooperative Housing,2011,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.167,"Mortgage Insurance_Two Year Operating Loss Loans, Section 223(d)",2011,Department of Housing and Urban Development,2000000.00,,-2000000.00,-1.00
+14.172,Mortgage Insurance_Growing Equity Mortgages,2011,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.175,Adjustable Rate Mortgages,2011,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.183,Home Equity Conversion Mortgages,2011,Department of Housing and Urban Development,15970860590.00,,-15970860590.00,-1.00
+14.184,Mortgages Insurance for Single Room Occupancy (SRO) Projects,2011,Department of Housing and Urban Development,0.00,,0.00,0.00
+14.188,Housing Finance Agencies (HFA) Risk Sharing,2011,Department of Housing and Urban Development,370000000.00,,-370000000.00,-1.00
+14.189,Qualified Participating Entities (QPE) Risk Sharing,2011,Department of Housing and Urban Development,35000000.00,,-35000000.00,-1.00
+14.248,Community Development Block Grants_Section 108 Loan Guarantees,2011,Department of Housing and Urban Development,500000000.00,,-500000000.00,-1.00
+14.865,Public and Indian Housing_Indian Loan Guarantee Program,2011,Department of Housing and Urban Development,994000000.00,,-994000000.00,-1.00
+14.869,Title VI Federal Guarantees for Financing Tribal Housing Activities,2011,Department of Housing and Urban Development,20000000.00,,-20000000.00,-1.00
+14.874,Loan Guarantees for Native Hawaiian Housing ,2011,Department of Housing and Urban Development,41504000.00,,-41504000.00,-1.00
+84.032,Federal Family Education Loans,2011,Department of Education,0.00,,0.00,0.00
+10.610,Export Guarantee Program ,2011,Department of Agriculture,1050000000.00,1257034388.00,207034388.00,0.20
