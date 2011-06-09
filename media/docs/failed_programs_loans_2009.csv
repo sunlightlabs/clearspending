@@ -1,59 +1,59 @@
-CFDA number,CFDA Program Title,Failed Metric,CFDA Program Obligation
-10.417,Very Low-Income Housing Repair Loans and Grants,consistency,34400000.00
-10.444,Direct Housing_Natural Disaster Loans and Grants,consistency,2800.00
-10.766,Community Facilities Loans and Grants,consistency,528692762.00
-10.780,Community Facilities Loans and Grants,consistency,1163000000.00
-10.781,Water and Waste Disposal Systems for Rural Communities - ARRA,timeliness,1000000000.00
-10.855,Distance Learning and Telemedicine Loans and Grants,timeliness,16265779.00
-10.858,Denali Commmission Grants and Loans,timeliness,8500000.00
-10.051,Commodity Loans and Loan Deficiency Payments,consistency,8604655000.00
-10.410,Very Low to Moderate Income Housing Loans,consistency,7471488000.00
-10.411,Rural Housing Site Loans and Self_Help Housing Land Development Loans,consistency,10015000.00
-10.445,Direct Housing_Natural Disaster,consistency,15000000.00
-10.788,Very Low to Moderate Income Housing Loans - Direct,consistency,3674228000.00
-10.886,Rural Broadband Access Loans and Loan Guarantees,consistency,6042000.00
-10.865,Biorefinery Assistance,consistency,224955.00
-84.268,Federal Direct Student Loans,consistency,41175000000.00
-84.032,Federal Family Education Loans,consistency,76845000000.00
-93.264,Nurse Faculty Loan Program (NFLP),timeliness,10679570.00
-93.936,National Institutes of Health Acquired Immunodeficiency Syndrome Research Loan Repayment Program,consistency,720000.00
-93.342,"Health Professions Student Loans, Including Primary Care Loans/Loans for Disadvantaged Students",consistency,24056441.00
-93.364,Nursing Student Loans,consistency,2000000.00
-97.030,Community Disaster Loans,consistency,32000000.00
-97.022,Flood Insurance,consistency,145680052.00
-14.110,Manufactured Home Loan Insurance_Financing Purchase of Manufactured Homes as Principal Residences of Borrowers,consistency,71000000.00
-14.117,Mortgage Insurance_Homes,consistency,315000000000.00
-14.128,Mortgage Insurance_Hospitals,consistency,1400000000.00
-14.129,"Mortgage Insurance_Nursing Homes, Intermediate Care Facilities, Board and Care Homes and Assisted Living Facilities",consistency,1600000000.00
-14.135,"Mortgage Insurance_Rental and Cooperative Housing for Moderate Income Families and Elderly, Market Interest Rate",consistency,10000000.00
-14.142,Property Improvement Loan Insurance for Improving All Existing Structures and Building of New Nonresidential Structures,consistency,54000000.00
-14.151,Supplemental Loan Insurance_Multifamily Rental Housing,consistency,8000000.00
-14.155,Mortgage Insurance for the Purchase or Refinancing of Existing Multifamily Housing Projects,consistency,1350000000.00
-14.167,"Mortgage Insurance_Two Year Operating Loss Loans, Section 223(d)",consistency,12000000.00
-14.188,Housing Finance Agencies (HFA) Risk Sharing,consistency,180000000.00
-14.189,Qualified Participating Entities (QPE) Risk Sharing,consistency,5000000.00
-14.248,Community Development Block Grants_Section 108 Loan Guarantees,consistency,275000000.00
-14.865,Public and Indian Housing_Indian Loan Guarantee Program,consistency,420000000.00
-14.869,Title VI Federal Guarantees for Financing Tribal Housing Activities,consistency,17000000.00
-14.874,Loan Guarantees for Native Hawaiian Housing ,consistency,14111848.00
-17.151,Employee Benefits Security Administration (EBSA),consistency,2004535.00
-15.124,Indian Loans_Economic Development,consistency,84172203.00
-20.316,Railroad Rehabilitation and Improvement Financing Program,consistency,600000000.00
-20.802,Federal Ship Financing Guarantees,consistency,3531000.00
-20.803,Maritime War Risk Insurance,consistency,46000000.00
-64.116,Vocational Rehabilitation for Disabled Veterans,consistency,3161000.00
-64.103,Life Insurance for Veterans,consistency,2599540.00
-64.126,Native American Veteran Direct Loan Program,consistency,12676000.00
-64.114,Veterans Housing_Guaranteed and Insured Loans,consistency,35816558000.00
+CFDA number,CFDA Program Title,Failed Metric,CFDA Program Obligation,USASpending Obligation
+10.415,Rural Rental Housing Loans,consistency,40935632.00,69364190.00
+10.417,Very Low-Income Housing Repair Loans and Grants,consistency,30008242.00,11541585.00
+10.444,Direct Housing_Natural Disaster Loans and Grants,completeness,0.00
+10.766,Community Facilities Loans and Grants,completeness,575695282.00
+10.780,Community Facilities Loans and Grants,timeliness,204369381.00
+10.781,Water and Waste Disposal Systems for Rural Communities - ARRA,timeliness,884193114.00
+10.855,Distance Learning and Telemedicine Loans and Grants,consistency,16256779.00,7870127.00
+10.051,Commodity Loans and Loan Deficiency Payments,consistency,8290909000.00,1954892824.00
+10.056,Farm Storage Facility Loans,consistency,200000000.00,68560843.00
+10.410,Very Low to Moderate Income Housing Loans,consistency,8297025919.00,2621104679.00
+10.445,Direct Housing_Natural Disaster,consistency,48845553.00,1431453896.00
+10.449,Boll Weevil Eradication Loan Program,consistency,99999999.00,27161300.00
+10.788,Very Low to Moderate Income Housing Loans - Direct,consistency,3619352146.00,266875907.00
+10.886,Rural Broadband Access Loans and Loan Guarantees,consistency,6042000.00,
+10.437,Interest Assistance Program,consistency,149709000.00,
+10.865,Biorefinery Assistance,consistency,224955.00,80000000.00
+84.268,Federal Direct Student Loans,consistency,42262000000.00,4259681805805.00
+84.032,Federal Family Education Loans,consistency,35451000000.00,
+81.126,Federal Loan Guarantees for Innovative Energy Technologies,consistency,3361100000.00,
+93.264,Nurse Faculty Loan Program (NFLP),consistency,10679570.00,
+93.936,National Institutes of Health Acquired Immunodeficiency Syndrome Research Loan Repayment Program,consistency,720000.00,
+93.342,"Health Professions Student Loans, Including Primary Care Loans/Loans for Disadvantaged Students",consistency,24056441.00,
+93.364,Nursing Student Loans,consistency,2000000.00,
+97.030,Community Disaster Loans,consistency,56800000.00,
+14.110,Manufactured Home Loan Insurance_Financing Purchase of Manufactured Homes as Principal Residences of Borrowers,consistency,97185125.00,
+14.117,Mortgage Insurance_Homes,consistency,330458852841.00,
+14.128,Mortgage Insurance_Hospitals,consistency,1111124021.00,
+14.129,"Mortgage Insurance_Nursing Homes, Intermediate Care Facilities, Board and Care Homes and Assisted Living Facilities",consistency,1904573799.00,
+14.135,"Mortgage Insurance_Rental and Cooperative Housing for Moderate Income Families and Elderly, Market Interest Rate",consistency,6644700.00,
+14.142,Property Improvement Loan Insurance for Improving All Existing Structures and Building of New Nonresidential Structures,consistency,56448498.00,
+14.151,Supplemental Loan Insurance_Multifamily Rental Housing,consistency,15767400.00,
+14.155,Mortgage Insurance for the Purchase or Refinancing of Existing Multifamily Housing Projects,consistency,2102044300.00,
+14.167,"Mortgage Insurance_Two Year Operating Loss Loans, Section 223(d)",consistency,6644300.00,
+14.183,Home Equity Conversion Mortgages,consistency,15579827000.00,
+14.188,Housing Finance Agencies (HFA) Risk Sharing,consistency,23954550.00,
+14.189,Qualified Participating Entities (QPE) Risk Sharing,consistency,13470000.00,
+14.248,Community Development Block Grants_Section 108 Loan Guarantees,consistency,275000000.00,
+14.865,Public and Indian Housing_Indian Loan Guarantee Program,consistency,501538997.00,
+14.869,Title VI Federal Guarantees for Financing Tribal Housing Activities,consistency,7921789.00,
+14.874,Loan Guarantees for Native Hawaiian Housing ,consistency,14111848.00,
+15.124,Indian Loans_Economic Development,consistency,84172203.00,
+20.316,Railroad Rehabilitation and Improvement Financing Program,consistency,104334000.00,
+20.802,Federal Ship Financing Guarantees,consistency,17444772.00,
+64.116,Vocational Rehabilitation for Disabled Veterans,consistency,3161000.00,
+64.103,Life Insurance for Veterans,consistency,2599540.00,
+64.126,Native American Veteran Direct Loan Program,consistency,12676000.00,
+64.114,Veterans Housing_Guaranteed and Insured Loans,consistency,35816558000.00,
 31.007,Export - Loan Guarantee/Insured Loans,timeliness,17500000000.00
-70.002,Foreign Investment Financing,consistency,2000000000.00
-59.046,Microloan Program,consistency,5000000.00
-59.051,New Markets Venture Capital Program,consistency,251000.00
-59.008,Disaster Assistance Loans,consistency,350076000.00
-59.011,Small Business Investment Companies,consistency,3005377000.00
-59.049,Small Disadvantaged Businesses,consistency,1459000.00
-59.057,America's Recovery Capital Loans,consistency,255000000.00
-59.012,7(a) Loan Guarantees,consistency,17548027000.00
-59.041,504 Certified Development Loans,consistency,7518041000.00
-59.054,7(a)Export Loan Guarantees,consistency,6430000.00
-59.016,Surety Bond Guarantees,consistency,1010094000.00
+70.002,Foreign Investment Financing,consistency,2000000000.00,
+59.046,Microloan Program,consistency,5000000.00,32319974.00
+59.008,Disaster Assistance Loans,consistency,350076000.00,82450663.00
+59.011,Small Business Investment Companies,consistency,3005377000.00,663390000.00
+59.049,Small Disadvantaged Businesses,consistency,1459000.00,
+59.057,America's Recovery Capital Loans,consistency,255000000.00,
+59.012,7(a) Loan Guarantees,consistency,17548027000.00,6474028385.00
+59.041,504 Certified Development Loans,consistency,7518041000.00,2511475169.00
+59.054,7(a)Export Loan Guarantees,consistency,6430000.00,
+59.016,Surety Bond Guarantees,consistency,1010094000.00,

@@ -196,7 +196,7 @@ class ProgramManager(models.Manager):
         f = open(file, 'rU')
         this_version = int(file[-9:-4]) #pull the date off of the programs csv file
         #updated kevin's regex to include 2010 funding
-        re_funding = re.compile('FY ([0-1][0,6-9]{1,1})( est. | est | )[\$]([0-9,]+)')
+        re_funding = re.compile('FY ([20]*[0-1][0,1,6-9]{1,1})( est. | est | )[\$]([0-9,]+)')
         re_funding_type = re.compile('\((.*?)\)')
         re_exclude = re.compile('[sS]alaries')
         re_loan = re.compile('[lL]oan')
@@ -256,7 +256,8 @@ class ProgramManager(models.Manager):
                             curr_type = 'default'
                         curr_year = '2000'
                         for tuple in matches:
-                            year = '20' + tuple[0]
+                            if len(tuple[0]) == 2:
+                                year = '20' + tuple[0]
 
                             if year < curr_year:
                                 try:
@@ -272,7 +273,7 @@ class ProgramManager(models.Manager):
                                 
                                 if len(re_guar.findall(curr_type)) > 0: type = 2  #guarantees and insurance had their own types but it was getting complicated so I collapsed them
                                 elif len(re_loan.findall(curr_type)) > 0: type = 2
-                                elif len(re_insur.findall(curr_type)) > 0: type = 2
+                                elif len(re_insur.findall(curr_type)) > 0: type = 1
                                 else:
                                     try: 
                                         assist_types = matching_program.types_of_assistance.all()
@@ -309,10 +310,11 @@ class ProgramManager(models.Manager):
                                             
                                             matching_ob.delta = (matching_ob.usaspending_obligation or 0) - (matching_ob.obligation or 0)
                                             try:
-                                                matching_ob.weighted_delta = matching_ob.delta / matching_ob.obligation
+                                                matching_ob.weighted_delta = float(matching_ob.delta) / float(matching_ob.obligation)
                                             except:
                                                 matching_ob.weighted_delta = 0
     
+                                            matching_ob.weighted_delta = str(matching_ob.weighted_delta)
                                             matching_ob.save()
 
                                     except Exception, e:

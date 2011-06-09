@@ -1,4 +1,5 @@
 from metrics.models import *
+from settings import FISCAL_YEARS
 from cfda.models import *
 from django.db.models import Sum
 from helpers.charts import Line
@@ -9,7 +10,7 @@ def find_possible_mistakes():
     csv_out = csv.writer(open('greater_than_50_pct_change.csv', 'w'))
 
     for f in fins:
-        obs = ProgramObligation.objects.filter(type=1, program=f).order_by('fiscal_year').exclude(fiscal_year=2010).exclude(fiscal_year=2007)
+        obs = ProgramObligation.objects.filter(type=1, program=f).order_by('fiscal_year')
         if obs:
             current = obs[0]
             for o in obs:
@@ -42,15 +43,15 @@ fins = Program.objects.filter(types_of_assistance__financial=True).distinct().or
 count = 0
 types = [None, 'grants', 'loans']
 agency_totals = {}
-for fy in [2007, 2008, 2009]:
+for fy in FISCAL_YEARS:
     writer = csv.writer(open('./media/docs/failed_programs_%s_%s.csv' % (types[TYPE], fy), 'w'), delimiter=',', quotechar='"')
-    writer.writerow(('CFDA number', 'CFDA Program Title', 'Failed Metric', 'CFDA Program Obligation'))
+    writer.writerow(('CFDA number', 'CFDA Program Title', 'Failed Metric', 'CFDA Program Obligation', 'USASpending Obligation'))
     total = 0
     for program in fins:
         ob = ProgramObligation.objects.filter(program=program, fiscal_year=fy, type=TYPE)
         if len(ob) > 0: 
             ob = ob[0]
-            cons = ProgramConsistency.objects.filter(program=program, fiscal_year=fy)
+            cons = ProgramConsistency.objects.filter(program=program, fiscal_year=fy, type=TYPE)
             if len(cons) > 0:
                 cons_single = cons[0]
                 if cons_single.non_reported_dollars > 0 or cons_single.under_reported_pct > 50 or cons_single.over_reported_pct > 50:
@@ -60,7 +61,7 @@ for fy in [2007, 2008, 2009]:
                     #if cons_single.over_reported_pct > 1.50: print "over reported"
                     total += ob.obligation
                     agency_totals = add_to_agency(agency_totals, program.agency.name, fy, ob.obligation)
-                    writer.writerow((program.program_number, "%s" % program.program_title.encode('ascii', 'ignore'), 'consistency', ob.obligation))
+                    writer.writerow((program.program_number, "%s" % program.program_title.encode('ascii', 'ignore'), 'consistency', ob.obligation, ob.usaspending_obligation))
                     continue
 
         #fail timeliness?

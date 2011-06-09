@@ -31,7 +31,7 @@ def main():
     fin_obligations = ProgramObligation.objects.filter(program__in=fin_programs, type=assistance_type)
 
     for fy in FISCAL_YEARS:
-        nr_programs = fin_obligations.filter(usaspending_obligation=None, fiscal_year=fy, type=assistance_type)
+        nr_programs = fin_obligations.filter(usaspending_obligation=None, obligation__gt=0, fiscal_year=fy, type=assistance_type)
         nonreporting = len(nr_programs)
 
         under_programs = fin_obligations.filter(fiscal_year=fy, weighted_delta__lt=0).exclude(program__in=nr_programs)
@@ -87,6 +87,10 @@ def main():
             obs = ProgramObligation.objects.filter(program=prog, fiscal_year=fy, type=assistance_type)
             for p in obs:
 		
+                if (prog.id == 1331 or prog.id == 729) and fy==2010:
+                    print "weird program"
+                    print p.delta
+
                 #add program consistency metric
                 try:
                     pcm = ProgramConsistency.objects.get(fiscal_year=fy, program=prog, type=assistance_type)
@@ -95,6 +99,10 @@ def main():
 
                 try:
                     if p.delta < 0:
+                        
+                        if (prog.id == 1331 or prog.id == 729) and fy==2010:
+                            print "less than 0"
+
                         if p.weighted_delta == -1:
                             pcm.non_reported_dollars = Decimal(str(math.fabs(p.obligation or 0)))
                             pcm.non_reported_pct = -100
@@ -103,11 +111,18 @@ def main():
                             pcm.under_reported_pct = Decimal(str(math.fabs((p.weighted_delta or 0) * 100)))
 
                     elif p.delta > 0:
+                        if (prog.id == 1331 or prog.id == 729) and fy==2010:
+                            print "greater than 0 "
+
                         pcm.over_reported_dollars = p.delta
                         pcm.over_reported_pct = (p.weighted_delta or 0) * 100
 
                     #p.save()
                     pcm.save() 
+                    if (prog.id == 1331 or prog.id == 729) and fy==2010:
+                        print pcm.over_reported_pct
+                        print pcm.under_reported_pct
+
                     program_writer.writerow((p.program.program_number, p.program.program_title.replace(u'\u2013', "").replace(u'\xa0', ''), fy, p.program.agency.name, p.obligation, p.usaspending_obligation, p.delta, p.weighted_delta)) 
                 except UnicodeEncodeError, e:
                     print e
