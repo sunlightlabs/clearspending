@@ -1,10 +1,10 @@
 from django.core.management.base import NoArgsCommand
-from faads_scorecard.timeliness import parse
+from timeliness.parser import parser_main
 import sys
 
 class Command(NoArgsCommand):
-    help = "Parse raw USASpending into tab delimited file containing new awards by submission date (used for subsequent analysis)."
+    help = "Parse raw USASpending agency submission files for new awards and stores them for subsequent analysis."
 
     def handle_noargs(self, **options):
-        parse()
+        parser_main()
                 
