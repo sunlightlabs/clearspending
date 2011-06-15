@@ -1,0 +1,70 @@
+import itertools
+import os
+
+
+class flattened(object):
+    """An iterator class that automatically chains sub-iterators."""
+
+    def __init__(self, iterable, as_is=(str, unicode, bytes)):
+        self.iterator = iter(iterable)
+        self.as_is = as_is
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        item = self.iterator.next()
+        
+        if not isinstance(item, self.as_is):
+            try:
+                new_iter = iter(item)
+                self.iterator = itertools.chain(new_iter, self.iterator)
+                return self.next()
+            except TypeError:
+                pass
+        
+        return item
+
+
+def recursive_listdir(dpath):
+    listing = []
+    for entry in os.listdir(dpath):
+        entry_path = os.path.join(dpath, entry)
+        if os.path.isdir(entry_path):
+            listing.append(recursive_listdir(entry_path))
+        else:
+            listing.append(entry_path)
+    return listing
+
+
+def pretty_bytes(n, sizes=['B', 'KB', 'MB', 'GB', 'TB']):
+    if n >= 1024:
+        return pretty_bytes(float(n) / float(1024), sizes[1:])
+    else:
+        return "%s %s" % (round(n, 1), sizes[0])
+
+
+def pretty_seconds(s):
+    (h, s) = divmod(s, 3600)
+    (m, s) = divmod(s, 60)
+
+    if h > 0:
+        return "{h}:{m!s:0>2}:{s!s:0>2}".format(h=int(h), 
+                                                m=int(m), 
+                                                s=int(s))
+    else:
+        return "{m}:{s!s:0>2}".format(m=int(m), s=int(s))
+
+
+class Accumulator(object):
+    """Simple callable that returns its current value."""
+    def __init__(self, initial=0):
+        self.value = initial
+
+    def __call__(self, incr=0):
+        oldvalue = self.value
+        self.value += incr
+        return oldvalue
+
+    def getvalue(self):
+        return self.value
