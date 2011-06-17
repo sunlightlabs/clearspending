@@ -1,4 +1,8 @@
 import itertools
+try:
+    import cPickle as pickle
+except ImportError:
+    import pickle
 import os
 
 
@@ -68,3 +72,9 @@ class Accumulator(object):
 
     def getvalue(self):
         return self.value
+
+
+def unpickle(path):
+    with file(path) as f:
+        return pickle.load(f)
+
