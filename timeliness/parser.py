@@ -55,7 +55,7 @@ def parse_line(line, import_date):
 
     award['action'] = line[135]
     award['award_id'] = line[142:158].strip()
-    award['fed_amount'] = int(line[163:173])
+    award['fed_amount'] = int(line[162:173])
     
     # for aggregates obligation date is the last day of the quarter
     award['obligation_date'] = date(year=int(line[196:200]), 
@@ -149,7 +149,8 @@ def parser_main():
                     try:
                         award = parse_line(line, import_date)
                         is_duplicate = store_award(awards, award)
-                        duplicates += 1
+                        if is_duplicate:
+                            duplicates += 1
 
                     except Exception, ex:
                         bad_records += 1
