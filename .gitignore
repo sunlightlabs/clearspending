@@ -1,7 +1,9 @@
-*.pyc
 timeliness_data/
+local_settings.py
+TAGS
+settings.py
 fips/*
 misc/*
-local_settings.py
+*.pyc
 *.svg
-settings.py
+.*.swp
