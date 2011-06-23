@@ -78,3 +78,12 @@ def unpickle(path):
     with file(path) as f:
         return pickle.load(f)
 
+
+class DictSlicer(object):
+    def __init__(self, *ks):
+        self.ks = ks
+
+    def __call__(self, d):
+        return dict(((k, v) for (k, v) in d.iteritems() if k in self.ks))
+
+    

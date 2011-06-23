@@ -1,11 +1,13 @@
 import os
 import sys
 import cPickle as pickle
+from operator import itemgetter, le
+from functools import partial
 from metrics.models import ProgramTimeliness, AgencyTimeliness
 from cfda.models import Program, Agency
 from timeliness.cube import Cube
 from timeliness import (DATA_DIR, DOWNLOAD_DIR, FISCAL_YEARS)
-
+from settings import FISCAL_YEARS
 
 def sum_dollars(data):
     sum = 0
@@ -89,7 +91,7 @@ def analyzer_main():
             reporting_lag = reporting_lag if reporting_lag > 0 else 0
             
             # select only fy 2007-2009 inclusive 
-            if fiscal_year > 2009 or fiscal_year < 2007:
+            if fiscal_year not in FISCAL_YEARS:
                 continue
             
             # filter transactions that occur later than 180 days after the end of the fiscal year
@@ -114,7 +116,7 @@ def analyzer_main():
         
         program = Program.objects.get(program_number=cfda)
         
-        for fy in range(2007, 2010):
+        for fy in FISCAL_YEARS:
             
             metric = ProgramTimeliness.objects.create(program=program, 
                                                    agency=program.agency, 
@@ -141,7 +143,7 @@ def analyzer_main():
         
         agency = Agency.objects.get(pk=agency_id)
         
-        for fy in range(2007, 2010):
+        for fy in FISCAL_YEARS:
             
             metric = AgencyTimeliness.objects.create(agency=agency, 
                                                    fiscal_year=fy,

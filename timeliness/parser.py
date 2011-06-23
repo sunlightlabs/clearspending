@@ -55,12 +55,18 @@ def parse_line(line, import_date):
 
     award['action'] = line[135]
     award['award_id'] = line[142:158].strip()
+    try:
+        award['award_mod'] = int(line[158:162].strip())
+    except ValueError:
+        award['award_mod'] = None
     award['fed_amount'] = int(line[162:173])
-    
+    award['correction_indicator'] = line[223]
+
     # for aggregates obligation date is the last day of the quarter
     award['obligation_date'] = date(year=int(line[196:200]), 
                                     month=int(line[200:202]), 
                                     day=int(line[202:204]))
+
     award['import_date'] = import_date
     award['reporting_lag'] = (award['import_date'] - award['obligation_date']).days
     
@@ -75,53 +81,71 @@ def parse_line(line, import_date):
     return award
 
 
-def store_award(awards, award):
-    """Checks for duplicate reporting for the same award ID,
-    discarding the newer report."""
+def parse_file(path, import_date, on_bad_line=None):
+    transactions = {}
 
-    is_duplicate = False
-
-    # only process new transactions
-    if award['action'] == 'A':
-        # check for past transactions with same award_id
-        if award['award_id'] in awards:
-            other_award = awards[award['award_id']]
-
-            if other_award['cfda'] == award['cfda']:
-                is_duplicate = True
+    with file(path) as fil:
+        for line in fil:
+            if line.strip() == '' or len(line) < 100:
+                continue
             
-                #check if new transaction was reported first
-                if award['import_date'] < other_award['import_date']:
-                    # keep earliest reported transaction
-                    awards[award['award_id']] = award
-        else:
-            awards[award['award_id']] = award
+            try:
+                t = parse_line(line, import_date)
+                ts = transactions.get(t['award_id'])
+                if ts is None:
+                    transactions[t['award_id']] = [t]
+                else:
+                    ts.append(t)
 
-    return is_duplicate
+            except Exception, ex:
+                if not on_bad_line is None:
+                    on_bad_line(line)
 
+    first_transactions = []
+    for (award_id, ts) in transactions.iteritems():
+        ts.sort(key=lambda t: t['award_mod'])
+        for t in ts:
+            if t['action'] == 'A' and t['correction_indicator'] == ' ':
+                first_transactions.append((award_id, ts[0]))
+                break
 
-def parser_main():
-    awards = {}
+    return [(award_id, t) 
+            for (award_id, t) in first_transactions
+            if t['fed_amount'] > 0]
 
-    failed_lines = file(os.path.join(DATA_DIR, 'failed_lines.out'), 'w')
-    failed_files = file(os.path.join(DATA_DIR, 'failed_files.out'), 'w')
-    
-    duplicates = 0
-    bad_records = 0
-    bad_filenames = 0
-    
-    # Sort files by filename. This should cause the Shove cache's
-    # hit rate to increase since the filenames are prefixed with the
-    # agency name and we don't expect two agencies to report for the 
-    # same award_id value.
+def find_files_to_process():
+    files_from_crawler = list(flattened(recursive_listdir(DOWNLOAD_DIR)))
 
-    files_to_process = sorted(flattened(recursive_listdir(DOWNLOAD_DIR)), 
-                              key=os.path.basename)
+    files_to_process = []
+    files_to_ignore = []
+    for path in files_from_crawler:
+        try:
+            import_date = find_date(path)
+            size = os.path.getsize(path)
+            files_to_process.append((path, 
+                                     import_date,
+                                     os.path.getsize(path)))
+        except ValueError:
+            files_to_ignore.append(path)
 
+    def _import_date((_1, import_date, _2)): return import_date
+    def _size((_1, _2, size)): return size
     bytes_accumulator = Accumulator()
-    files_to_process = [(path, os.path.getsize(path), bytes_accumulator(os.path.getsize(path)))
-                        for path in files_to_process]
+    files_to_process.sort(key=_import_date)
+    files_to_process = [(f, bytes_accumulator(_size(f)))
+                        for f in files_to_process]
     bytes_to_process = bytes_accumulator.getvalue()
+
+    return (bytes_to_process, files_to_process, files_to_ignore)
+
+
+def parser_main(): 
+    (bytes_to_process,
+     files_to_process,
+     files_to_ignore) = find_files_to_process()
+
+    for path in files_to_ignore:
+        print "Unparseable filename: {0}".format(os.path.basename(path))
 
     print "Files to process: {0}".format(len(files_to_process))
     print "Bytes to process: {0}".format(pretty_bytes(bytes_to_process))
@@ -130,40 +154,20 @@ def parser_main():
     if not 'yes'.startswith(user_input.lower()):
        return
 
+    transactions = {}
+
+    failed_lines = file(os.path.join(DATA_DIR, 'failed_lines.out'), 'w')
+    failed_files = file(os.path.join(DATA_DIR, 'failed_files.out'), 'w')
+    
     begin_time = time.time()
-    for files_processed, (filepath, filebytes, bytes_processed) in enumerate(files_to_process, start=0):
-        filename = os.path.basename(filepath)
-
+    for files_processed, ((filepath, import_date, filesize), bytes_processed) in enumerate(files_to_process, start=1):
         try:
-            try:
-                import_date = find_date(filename)
-            except (ValueError, ImportError), err:
-                bad_filenames += 1
-                continue
-
-            with file(filepath) as fil:
-                for line_number, line in enumerate(fil): 
-                    if line.strip() == '' or len(line) < 100:
-                        continue
-                    
-                    try:
-                        award = parse_line(line, import_date)
-                        is_duplicate = store_award(awards, award)
-                        if is_duplicate:
-                            duplicates += 1
-
-                    except Exception, ex:
-                        bad_records += 1
-                        failed_lines.write(line)
-
-                    if line_number % 100 == 0:
-                        sys.stdout.write(".")
-                        sys.stdout.flush()
-
-        except UnparseableFile, nonparse:
-            failed_files.write('%s\n' % filepath)
             print
-            print "Skipping {0} because {1}".format(filename, unicode(nonparse))
+            print "Parsing {0}".format(os.path.basename(filepath))
+            file_transactions = parse_file(filepath, import_date)
+            for (award_id, t) in file_transactions:
+                if award_id not in transactions:
+                    transactions[award_id] = t
 
         except UnicodeDecodeError, error:
             log_error(db, filepath, "Unable to parse file: {0}".format(unicode(error)))
@@ -174,8 +178,7 @@ def parser_main():
         now_time = time.time()
         bytes_per_second = bytes_processed / max(now_time - begin_time, 1)
         bytes_processed_pct = bytes_processed * 100 / bytes_to_process
-        eta_seconds = (bytes_to_process - bytes_processed) / bytes_per_second
-        print
+        eta_seconds = (bytes_to_process - bytes_processed) / max(bytes_per_second, 1)
         print "{0}/{1} ({2}%), {3}/s, ETA {4}".format(
             pretty_bytes(bytes_processed),
             pretty_bytes(bytes_to_process),
@@ -183,17 +186,12 @@ def parser_main():
             pretty_bytes(bytes_per_second),
             pretty_seconds(eta_seconds))
 
-    print 'bad filenames: %d' % bad_filenames
-    print 'files processed: %d' % files_processed  
-    print 'bad records: %d' % bad_records
-    print 'good records: %d' % len(awards)
-
     failed_lines.close()
     failed_files.close()
    
     print "Dumping awards dictionary..."
     with file(os.path.join(DATA_DIR, 'cfda_awards.out.bin'), 'wb') as outf:
-        pickle.dump(awards, outf)
+        pickle.dump(transactions, outf)
 
 
 def fix_prefix(prefix):
