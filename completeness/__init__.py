@@ -250,7 +250,7 @@ def main_csv():
 
         mtester = MetricTester()
 
-        f = open('faads-%d.csv' % year, 'r')
+        f = open('completeness/csv/%d.csv' % year, 'r')
         reader = csv.reader(f)
 
         i = 0

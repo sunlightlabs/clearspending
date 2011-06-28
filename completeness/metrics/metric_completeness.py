@@ -82,7 +82,7 @@ def action_type_is_not_empty(row):
 @boolean
 def recipient_cong_district_is_not_empty(row):
     """Recipient Congressional District is not empty"""
-    return len(row['recipient_cong_district'].strip())>0
+    return len(row['recipient_cd'].strip())>0
     
 @boolean
 def federal_agency_code_is_not_empty(row):
