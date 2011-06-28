@@ -9,9 +9,9 @@
     <h3>Search Results for <em>{{search_string}}</em>&nbsp;&nbsp;&nbsp;<span class="result-count">({{result_count}} found)</span></h3>
     {% js "jquery.tablesorter.min.js" %}
 {% endblock %}
-{% block year1 %} {% url search-request search_string unit 2007 %} {% endblock %}
 {% block year2 %} {% url search-request search_string unit 2008 %} {% endblock %}
 {% block year3 %} {% url search-request search_string unit 2009 %} {% endblock %}
+{% block year1 %} {% url search-request search_string unit 2010 %} {% endblock %}
 {% block scorecard %}
     {% block agency-key %} 
     {{ block.super }}

@@ -3,6 +3,7 @@ from settings import FISCAL_YEARS
 from cfda.models import *
 from django.db.models import Sum
 from helpers.charts import Line
+from utils import pretty_money
 import csv
 
 def find_possible_mistakes():
@@ -91,13 +92,15 @@ for fy in FISCAL_YEARS:
 
     count += 1
     all = ProgramObligation.objects.filter(program__in=fins, fiscal_year=fy, type=TYPE).aggregate(summ=Sum('obligation'))['summ']
-    print "%s - Total failed obligations: %s out of total obligations: %s" % (fy, total, all)
+    print "%s - Total failed obligations: %s out of total obligations: %s (%s%%)" % (fy, pretty_money(total), 
+                                                                                     pretty_money(all),
+                                                                                     round(total * 100 / all))
 
 data = []
 agency_names = []
 for k in agency_totals.keys():
     points = []
-    for fy in [2007, 2008, 2009]:
+    for fy in FISCAL_YEARS:
         if agency_totals[k].has_key(fy):
             points.append((fy, float(agency_totals[k][fy])))
         else:
