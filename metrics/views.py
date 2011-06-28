@@ -21,7 +21,9 @@ def contact(request):
     send_mail('Clearspending Feedback from '+name, msg, email, ['klee@sunlightfoundation.com'], fail_silently=True)
     return render_to_response('contact_thankyou.html')
 
-def search_results(request, search_string, unit='pct', fiscal_year=2009):
+def search_results(request, search_string, unit='pct', fiscal_year=None):
+    if fiscal_year is None:
+        fiscal_year = max(FISCAL_YEARS)
 
     search = unquote(search_string)
     programs = SearchQuerySet().filter(content=search_string)
@@ -136,7 +138,9 @@ def generic_program_table(programs, fiscal_year, unit):
 
     return table_data
 
-def index(request, unit='dollars', fiscal_year=2009):
+def index(request, unit='dollars', fiscal_year=None):
+    if fiscal_year is None:
+        fiscal_year = max(FISCAL_YEARS)
     #get top level agency stats 
     consistency = AgencyConsistency.objects.filter(fiscal_year=fiscal_year).order_by('agency__name')
     timeliness = AgencyTimeliness.objects.filter(fiscal_year=fiscal_year).order_by('agency__name')
@@ -161,7 +165,9 @@ def index(request, unit='dollars', fiscal_year=2009):
 
     return render_to_response('scorecard_index.html', {'table_data': table_data, 'fiscal_year': "%s" % fiscal_year, 'unit':unit})
 
-def agencyDetail(request, agency_id, unit='dollars', fiscal_year=2009):
+def agencyDetail(request, agency_id, unit='dollars', fiscal_year=None):
+    if fiscal_year is None:
+        fiscal_year = max(FISCAL_YEARS)
     
     summary_numbers = []
     summary_numbers.append(AgencyConsistency.objects.filter(agency=agency_id, type=1, fiscal_year=fiscal_year).aggregate(total=Sum('total_cfda_obligations'))['total'])

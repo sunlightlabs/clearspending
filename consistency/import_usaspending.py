@@ -8,7 +8,6 @@ import pg
 import csv
 from datetime import datetime
 import numpy as np
-FISCAL_YEAR = 2008
 
 def fix_cfda():
     #Identify possible cfda mistakes
@@ -75,7 +74,6 @@ def update_obligation(new_obligation, program):
 if __name__ == '__main__':
 
 
-    MIN_FY = 2006  # We only want fiscal years over 2006
 #    conn = MySQLdb.connect(host=MYSQL_HOST, user=MYSQL_USER, passwd=MYSQL_PASSWORD, db=MYSQL_DATABASE, port=MYSQL_PORT)
     conn = pg.connect(host=PG_HOST, user=PG_USER, passwd=PG_PASSWORD, dbname=PG_DATABASE, port=PG_PORT)
     bogus_cfda = open('csv/bogus_cfda_program_numbers', 'w')
@@ -84,10 +82,10 @@ if __name__ == '__main__':
     programs = Program.objects.all().order_by('program_number')
     program_data = {}
     
-    usaspending_total = { 2007: 0, 2008: 0, 2009: 0, 2010: 0, 2011:0}
+    usaspending_total = dict.fromkeys(FISCAL_YEARS, 0)
 
 
-    usa_query = "SELECT cfda_program_num, fiscal_year, SUM(fed_funding_amount) as fed_funding_amount, SUM(face_loan_guran) as face_loan_guran FROM %s WHERE fiscal_year > %s GROUP BY cfda_program_num, fiscal_year ORDER BY cfda_program_num" % (PG_TABLE_NAME, MIN_FY)
+    usa_query = "SELECT cfda_program_num, fiscal_year, SUM(fed_funding_amount) as fed_funding_amount, SUM(face_loan_guran) as face_loan_guran FROM %s WHERE fiscal_year >= %s AND fiscal_year <= %s GROUP BY cfda_program_num, fiscal_year ORDER BY cfda_program_num" % (PG_TABLE_NAME, min(FISCAL_YEARS), max(FISCAL_YEARS))
     print usa_query
     print "fetching summary query with rollup of programs, fiscal years and total obligations"
     rows = conn.query(usa_query).dictresult()

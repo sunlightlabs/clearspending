@@ -1,3 +1,4 @@
+import locale
 import itertools
 try:
     import cPickle as pickle
@@ -58,6 +59,27 @@ def pretty_seconds(s):
                                                 s=int(s))
     else:
         return "{m}:{s!s:0>2}".format(m=int(m), s=int(s))
+
+
+def short_money(n):
+    sizes = [
+        ('tril', 10**12),
+        ('bil', 10**9),
+        ('mil', 10**6),
+        ('K', 10**3),
+    ]
+    for (label, dollars) in sizes:
+        if n >= dollars:
+            short_n = round(float(n) / float(dollars), 2)
+            if short_n == int(short_n):
+                short_n = int(short_n)
+            return "${0} {1}".format(short_n, label)
+    return n
+
+
+def pretty_money(m):
+    locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+    return locale.currency(m, grouping=True)
 
 
 class Accumulator(object):

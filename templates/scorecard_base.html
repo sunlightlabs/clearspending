@@ -14,16 +14,16 @@
             {% if agency %}
             
             <ul id="years">
-                <li><a href="{% url agency_detail agency 2007 unit %}" {% ifequal "2007" fiscal_year %}class="active"{% endifequal %}>2007</a></li>
                 <li><a href="{% url agency_detail agency 2008 unit %}" {% ifequal "2008" fiscal_year %}class="active"{% endifequal %}>2008</a></li>
                 <li><a href="{% url agency_detail agency 2009 unit %}" {% ifequal "2009" fiscal_year %}class="active"{% endifequal %}>2009</a></li>
+                <li><a href="{% url agency_detail agency 2010 unit %}" {% ifequal "2010" fiscal_year %}class="active"{% endifequal %}>2010</a></li>
             </ul>
             {% else %}
             {% if fiscal_year %}
             <ul id="years">
-                <li><a href="{% block year1 %} {% url scorecard-index-extra unit 2007 %} {% endblock %}" {% ifequal "2007" fiscal_year %}class="active"{% endifequal %}>2007</a></li>
                 <li><a href="{% block year2 %}{% url scorecard-index-extra unit 2008 %} {% endblock %}" {% ifequal "2008" fiscal_year %}class="active"{% endifequal %}>2008</a></li>
                 <li><a href="{% block year3 %}{% url scorecard-index-extra unit 2009 %} {% endblock %}" {% ifequal "2009" fiscal_year %}class="active"{% endifequal %}>2009</a></li>
+                <li><a href="{% block year1 %} {% url scorecard-index-extra unit 2010 %} {% endblock %}" {% ifequal "2010" fiscal_year %}class="active"{% endifequal %}>2010</a></li>
             </ul>
             {% endif %}
             {% endif %}
