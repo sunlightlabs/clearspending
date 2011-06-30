@@ -6,7 +6,7 @@ import re
 import hashlib
 from datetime import date
 from functools import partial
-from utils import Accumulator
+from utils import Accumulator, DictSlicer
 
 
 class FAADSPlusFormat(object):
@@ -144,8 +144,15 @@ def main():
     def quotestr(s):
         return '"{0}"'.format(s)
 
+    args = sys.argv[1:]
+    if args[0] == '-f':
+        args = args[1:]
+        separator_idx = args.index('--')
+        fields = [f for a in args[:separator_idx] for f in a.split(',')]
+        args = args[separator_idx+1:]
+        
     print ",".join(map(quotestr, ["import_date"] + fields))
-    for path in sys.argv[1:]:
+    for path in args:
         try:
             import_date = find_date(path).strftime("%Y-%m-%d")
         except ValueError:
