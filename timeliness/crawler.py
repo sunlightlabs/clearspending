@@ -80,7 +80,7 @@ def request_listing(fy, startdate, enddate):
         sys.stdout.write("\n")
         return listing
     except urllib2.URLError, err:
-        print "URLError encountered for fiscal year %d" % fy
+        print "URLError encountered for fiscal year %s" % fy
         print "Problematic URL: %s" % url
         raise
 

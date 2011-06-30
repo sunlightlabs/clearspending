@@ -34,8 +34,9 @@ def get_fiscal_year(d):
 
 def find_date(haystack):
     patterns = [
-        re.compile('(?P<year>20[0-9]{2,2})[.\s\_]{1,1}(?P<month>[0-9]{1,2})[.\s\_]{1,1}(?P<day>[0-9]{1,2})'),
-        re.compile('(?P<year>20[0-9]{2,2})(?P<month>[0-9]{2,2})(?P<day>[0-9]{2,2})')
+        re.compile('(?P<year>20[0-9]{2,2})[-.\s\_]{1,1}(?P<month>[0-9]{1,2})[-.\s\_]{1,1}(?P<day>[0-9]{1,2})'),
+        re.compile('(?P<year>20[0-9]{2,2})(?P<month>[0-9]{2,2})(?P<day>[0-9]{2,2})'),
+        re.compile('(?P<month>[0-9]{2,2})(?P<day>[0-9]{2,2})(?P<year>20[0-9]{2,2})')
     ]
     for p in patterns:
         m = p.search(haystack)
@@ -72,9 +73,9 @@ def parse_line(line, import_date):
     
     fiscal_year = get_fiscal_year(award['obligation_date'])
     
-    award['fiscal_year_lag'] = (award['import_date'] - date(year=fiscal_year, 
-                                                            month=9, 
-                                                            day=30)).days
+    award['fiscal_year_lag'] = (import_date - date(year=fiscal_year, 
+                                                   month=9, 
+                                                   day=30)).days
 
     award['fiscal_year'] = fiscal_year
 
@@ -105,8 +106,8 @@ def parse_file(path, import_date, on_bad_line=None):
     for (award_id, ts) in transactions.iteritems():
         ts.sort(key=lambda t: t['award_mod'])
         for t in ts:
-            if t['action'] == 'A' and t['correction_indicator'] == ' ':
-                first_transactions.append((award_id, ts[0]))
+            if t['action'] == 'A' and t['correction_indicator'] not in('D', 'C', 'L'):
+                first_transactions.append((award_id, t))
                 break
 
     return [(award_id, t) 
