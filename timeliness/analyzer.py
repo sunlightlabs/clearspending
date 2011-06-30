@@ -1,13 +1,15 @@
 import os
 import sys
 import cPickle as pickle
-from operator import itemgetter, le
+import stream
+from utils import unpickle
+from operator import itemgetter, le, add
 from functools import partial
 from metrics.models import ProgramTimeliness, AgencyTimeliness
 from cfda.models import Program, Agency
 from timeliness.cube import Cube
 from timeliness import (DATA_DIR, DOWNLOAD_DIR, FISCAL_YEARS)
-from settings import FISCAL_YEARS
+from settings import FISCAL_YEARS, FISCAL_YEAR_LAG_THRESHOLD
 
 def sum_dollars(data):
     sum = 0
@@ -31,6 +33,7 @@ def count_records_45days_late(data):
             count += 1
     return count
 
+
 def avg_days_by_awards(data):
     award_count = 0
     sum_days = 0
@@ -38,6 +41,7 @@ def avg_days_by_awards(data):
         award_count += 1
         sum_days += i['days']
     return sum_days / award_count
+
 
 def avg_days_by_dollars(data):
     sum_dollars = 0
@@ -50,110 +54,94 @@ def avg_days_by_dollars(data):
     else: 
         return 0
 
-def analyzer_main():
-    
-    c = Cube()
 
-    print 'analyzing pickled cfda awards data...'
+def analyzer_main():
+    print 'Loading data...'
+    cfda_agency_map = dict((p.program_number, p.agency_id) 
+                           for p in Program.objects.all())
+   
+    awards = unpickle(os.path.join(DATA_DIR, 'cfda_awards.out.bin'))
     
-    print 'initalizing...'
-    
-    cfda_agency_map = {}
-    
-    for program in Program.objects.all():
-    
-        cfda_agency_map[program.program_number] = program.agency_id
-    
-    print 'loading data...'
-    
-    f = open(os.path.join(DATA_DIR, 'cfda_awards.out.bin'), 'rb')
-    awards = pickle.load(f)
-    f.close()
-    
-    print 'building cube...'
-    
-    for award_id in awards:
-         
-        award = awards[award_id]
-        
+    print 'Building cube'
+    c = Cube()
+    for (idx, (award_id, award)) in enumerate(awards.iteritems()):
+        # Simple progress ticker
+        if idx % 1000 == 0:
+            sys.stdout.write('.')
+            sys.stdout.flush()
+
         cfda = award['cfda']
-        
-        if cfda_agency_map.has_key(cfda):
-         
-            agency = cfda_agency_map[cfda]
-            
+        agency = cfda_agency_map.get(cfda, None)
+        if agency:
             fed_amount = award['fed_amount']
             fiscal_year  = award['fiscal_year']
             reporting_lag = award['reporting_lag']
             fiscal_year_lag = award['fiscal_year_lag']
             
-            # reporting lag of negative days converted to 0
-            reporting_lag = reporting_lag if reporting_lag > 0 else 0
-            
             # select only fy 2007-2009 inclusive 
             if fiscal_year not in FISCAL_YEARS:
                 continue
-            
-            # filter transactions that occur later than 180 days after the end of the fiscal year
-            # this allows us to make a comparison between 2007/2008 and 2009. 
-            if fiscal_year_lag > 180:
+
+            # We need to set an upper bound on the fiscal year lag in order to
+            # make comparisons between fiscal years useful.
+            if fiscal_year_lag > FISCAL_YEAR_LAG_THRESHOLD:
                 continue 
+            
+            # reporting lag of negative days converted to 0
+            reporting_lag = reporting_lag if reporting_lag > 0 else 0
             
             # add record to data cube
             c.add({'fy':fiscal_year, 'cfda':cfda, 'agency':agency}, {'days':reporting_lag, 'dollars':fed_amount})
-    
+
+
     awards = None 
-    
-    print 'querying cfda aggregates...'
-    
+
+    print 'Querying cfda aggregates...'
     result = c.query(groups=['cfda','fy'])
     
-    print 'loading cfda results into db...'
-    
+    print 'Loading cfda results into db...'
     ProgramTimeliness.objects.all().delete()
 
-    for cfda in result.values:
-        
+    for (cfda, cfda_results) in result.values.iteritems():
         program = Program.objects.get(program_number=cfda)
         
         for fy in FISCAL_YEARS:
-            
-            metric = ProgramTimeliness.objects.create(program=program, 
-                                                   agency=program.agency, 
-                                                   fiscal_year=fy,
-                                                   late_dollars=result.values[cfda].values[fy].get_data(aggregator=sum_dollars_45days_late),
-                                                   late_rows=result.values[cfda].values[fy].get_data(aggregator=count_records_45days_late),
-                                                   total_dollars=result.values[cfda].values[fy].get_data(aggregator=sum_dollars),
-                                                   total_rows=result.values[cfda].values[fy].get_data(aggregator=len),
-                                                   avg_lag_rows=result.values[cfda].values[fy].get_data(aggregator=avg_days_by_awards),
-                                                   avg_lag_dollars=result.values[cfda].values[fy].get_data(aggregator=avg_days_by_dollars))
-    
+            cfda_fy_results = cfda_results.values[fy]
+            metric = ProgramTimeliness.objects.create(
+                program=program, 
+                agency=program.agency, 
+                fiscal_year=fy,
+                late_dollars=cfda_fy_results.get_data(sum_dollars_45days_late),
+                late_rows=cfda_fy_results.get_data(count_records_45days_late),
+                total_dollars=cfda_fy_results.get_data(sum_dollars),
+                total_rows=cfda_fy_results.get_data(len),
+                avg_lag_rows=cfda_fy_results.get_data(avg_days_by_awards),
+                avg_lag_dollars=cfda_fy_results.get_data(avg_days_by_dollars)
+            )
             metric.save()
             
             
-    print 'querying agency aggregates...' 
-     
+    print 'Querying agency aggregates...' 
     result = c.query(groups=['agency','fy'])
     
-    print 'loading agency results into db...'
-    
+    print 'Loading agency results into db...'
     AgencyTimeliness.objects.all().delete()
 
-    for agency_id in result.values:
-        
+    for (agency_id, agency_results) in result.values.iteritems():
         agency = Agency.objects.get(pk=agency_id)
         
         for fy in FISCAL_YEARS:
-            
-            metric = AgencyTimeliness.objects.create(agency=agency, 
-                                                   fiscal_year=fy,
-                                                   late_dollars=result.values[agency_id].values[fy].get_data(aggregator=sum_dollars_45days_late),
-                                                   late_rows=result.values[agency_id].values[fy].get_data(aggregator=count_records_45days_late),
-                                                   total_dollars=result.values[agency_id].values[fy].get_data(aggregator=sum_dollars),
-                                                   total_rows=result.values[agency_id].values[fy].get_data(aggregator=len),
-                                                   avg_lag_rows=result.values[agency_id].values[fy].get_data(aggregator=avg_days_by_awards),
-                                                   avg_lag_dollars=result.values[agency_id].values[fy].get_data(aggregator=avg_days_by_dollars))
-    
+            agency_fy_results = agency_results.values[fy]
+            metric = AgencyTimeliness.objects.create(
+                agency=agency, 
+                fiscal_year=fy,
+                late_dollars=agency_fy_results.get_data(sum_dollars_45days_late),
+                late_rows=agency_fy_results.get_data(count_records_45days_late),
+                total_dollars=agency_fy_results.get_data(sum_dollars),
+                total_rows=agency_fy_results.get_data(len),
+                avg_lag_rows=agency_fy_results.get_data(avg_days_by_awards),
+                avg_lag_dollars=agency_fy_results.get_data(avg_days_by_dollars)
+            )
             metric.save()
     
     
