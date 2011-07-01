@@ -126,8 +126,9 @@ class FAADSPlusFormat(object):
 
 def find_date(haystack):
     patterns = [
-        re.compile('(?P<year>20[0-9]{2,2})[.\s\_]{1,1}(?P<month>[0-9]{1,2})[.\s\_]{1,1}(?P<day>[0-9]{1,2})'),
-        re.compile('(?P<year>20[0-9]{2,2})(?P<month>[0-9]{2,2})(?P<day>[0-9]{2,2})')
+        re.compile('(?P<year>20[0-9]{2,2})[-.\s\_]{1,1}(?P<month>[0-9]{1,2})[-.\s\_]{1,1}(?P<day>[0-9]{1,2})'),
+        re.compile('(?P<year>20[0-9]{2,2})(?P<month>[0-9]{2,2})(?P<day>[0-9]{2,2})'),
+        re.compile('(?P<month>[0-9]{2,2})(?P<day>[0-9]{2,2})(?P<year>20[0-9]{2,2})')
     ]
     for p in patterns:
         m = p.search(haystack)
