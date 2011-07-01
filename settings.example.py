@@ -1,3 +1,4 @@
+from datetime import date
 
 ROWS_PER_CYCLE = 500000
 
@@ -202,8 +203,15 @@ INSTALLED_APPS = (
     'haystack'
 )
 
+
 #these are the fiscal years we want to calculate metrics for
-FISCAL_YEARS = [2007, 2008, 2009]
+FISCAL_YEARS = [2008, 2009, 2010]
+
+# Threshold for consideration of spending transactions. In order to 
+# facilitate comparisons between the timeliness each fiscal year,
+# set this to the number of days between the end of the latest fiscal 
+# year and the day on which you are running the timeliness parser.
+FISCAL_YEAR_LAG_THRESHOLD = (date.today() - date(year=max(FISCAL_YEARS), month=9, day=30)).days
 
 GRAPH_DIR = MEDIA_ROOT + '/images/charts/'   #should be overridden by local settings maybe?
 
