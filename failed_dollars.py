@@ -94,7 +94,7 @@ for fy in FISCAL_YEARS:
     all = ProgramObligation.objects.filter(program__in=fins, fiscal_year=fy, type=TYPE).aggregate(summ=Sum('obligation'))['summ']
     print "%s - Total failed obligations: %s out of total obligations: %s (%s%%)" % (fy, pretty_money(total), 
                                                                                      pretty_money(all),
-                                                                                     round(total * 100 / all))
+                                                                                     round(total * 100 / all, 2))
 
 data = []
 agency_names = []
