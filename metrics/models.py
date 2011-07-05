@@ -1,5 +1,6 @@
 from django.db import models
 from cfda.models import Program, Agency
+from utils import pretty_money
 
 
 TYPE_CHOICES = (
@@ -129,3 +130,12 @@ class ProgramCompletenessDetail(Metric):
     assistance_type_is_not_empty = models.DecimalField("Assistance Type is not empty ($ misreported)", max_digits=21, decimal_places=2, null=True)
     federal_award_id_is_not_empty = models.DecimalField("Federal Award ID is not empty ($ misreported)", max_digits=21, decimal_places=2, null=True)
     recipient_city_name_not_empty = models.DecimalField("Recipient City Name is not empty ($ misreported)", max_digits=21, decimal_places=2, null=True)
+
+
+class USASpendingAggregate(models.Model):
+    fiscal_year = models.IntegerField(blank=False, null=False, primary_key=True)
+    total_federal_funding = models.DecimalField("SUM(fed_funding_amount)", max_digits=21, decimal_places=2, null=False)
+
+    def __unicode__(self):
+        return "<USASpendingAggregate(%d, %s)>" % (self.fiscal_year, unicode(pretty_money(self.total_federal_funding)))
+
