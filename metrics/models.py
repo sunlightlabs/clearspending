@@ -87,7 +87,7 @@ class ProgramCorrection(models.Model):
 
 class ProgramCompleteness(Metric):
     def __unicode__(self):
-        return "%s %s (%d) / %2.2f%% / $%.1fm" % (self.program.program_title, self.program.program_number, self.fiscal_year, (self.completeness_pct*100), self.completeness_dollars/1000000)
+        return "%s %s (%d) / %2.2f%% / $%.1fm" % (self.program.program_title, self.program.program_number, self.fiscal_year, (self.completeness_failed_dollars*100/self.completeness_total_dollars), self.completeness_failed_dollars/1000000)
     class Meta:
         verbose_name = 'Program Completeness'
         
