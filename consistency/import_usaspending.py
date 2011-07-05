@@ -3,7 +3,7 @@
 
 from settings import *
 from cfda.models import *
-from metrics.models import ProgramCorrection
+from metrics.models import ProgramCorrection, USASpendingAggregate
 import pg
 import csv
 from datetime import datetime
@@ -84,6 +84,14 @@ if __name__ == '__main__':
     
     usaspending_total = dict.fromkeys(FISCAL_YEARS, 0)
 
+    usa_query = "SELECT fiscal_year, SUM(fed_funding_amount) as fed_funding_amount FROM %s WHERE fiscal_year >= %s AND fiscal_year <= %s GROUP BY fiscal_year" % (PG_TABLE_NAME, min(FISCAL_YEARS), max(FISCAL_YEARS))
+    print "Fetching aggregate spending totals from USASpending"
+    rows = conn.query(usa_query).dictresult()
+    
+    for row in rows:
+        agg = USASpendingAggregate(fiscal_year=row['fiscal_year'])
+        agg.total_federal_funding = row['fed_funding_amount']
+        agg.save()
 
     usa_query = "SELECT cfda_program_num, fiscal_year, SUM(fed_funding_amount) as fed_funding_amount, SUM(face_loan_guran) as face_loan_guran FROM %s WHERE fiscal_year >= %s AND fiscal_year <= %s GROUP BY cfda_program_num, fiscal_year ORDER BY cfda_program_num" % (PG_TABLE_NAME, min(FISCAL_YEARS), max(FISCAL_YEARS))
     print usa_query
@@ -130,6 +138,7 @@ if __name__ == '__main__':
             pass
 
     print "Total processed: %s" % usaspending_total
+
     fix_cfda()
 
 
