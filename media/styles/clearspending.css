@@ -74,6 +74,7 @@ h5 { margin-bottom: 10px; font-weight: bold; color: #636466;}
 .graphicLeft { float: left; margin-right: 25px; margin-bottom: 15px;}
 .graphic table td{ border: 1px solid #e8e6e1; padding: 7px; text-align: left;}
 .graphic table tr th { font-weight: bold; padding: 0 0 5px 5px;}
+table.nowrapCol1 tr td:first-child { white-space: nowrap; }
 
 cite {color: #717171; font-size: 90%; font-style: italic; }
 

@@ -12,15 +12,44 @@
         <p>As long as such a large portion of its data remains unreliable, USASpending.gov is not usable as a single source for any kind of analysis, whether by a citizen, media outlet or research institution.</p>
         <h4>Timeliness</h4>
         <div class="graphic graphicRight" >
-            <h5>Obligations Reported Late by fiscal year</h5>
-            <table style="width: 230px">
-                <tr><th>fy</th><th>% of late obligations</th></tr>
-                <tr><td>2007</td><td>99.9%</td></tr>
-                <tr><td>2008</td><td>66.7%</td></tr>
-                <tr><td>2009</td><td>66.5%</td></tr>
-            </table>
+			<h5>Delay of Reported Obligations</h5>
+			<table>
+				<tr><th>Fiscal Year</th><th>Average Delay</th><th>Std. Dev.</th></tr>
+				<tr><td>2008</td><td>51 days</td><td>68.7</td></tr>
+				<tr><td>2009</td><td>59 days</td><td>94.0</td></tr>
+				<tr><td>2010</td><td>27 days</td><td>39.0</td></tr>
+			</table>
         </div>
-        <p>The Federal Funding Accountability and Transparency Act (FFATA) requires that all federal spending be reported within 30 days of its obligation. In all three years we examined, at least 60% of the recorded obligations reported through the USASpending data submission system were more than 45 days after the obligation was made. In 2007, 99.96% of all funding we measured for timeliness was reported late. Between 2007 and 2009, the average delay between obligation and reporting has increased from 42 to 55 days. The agencies with the worst record of being on time are the Department of Health and Human Services and the Department of Education. These agencies reported 97.2% and 99.8% of their funds late in 2009, respectively. As stated in our <a href="{% url methodology %}">methodology</a>, timeliness was not measured for all of the records in USASpending.gov. It was only measured for those records that appear in the raw agency submission files appearing on USASpending.gov. </p>
+		<p>The Federal Funding Accountability and Transparency Act (FFATA) requires that all federal spending be reported within 30 days of its obligation. The average reporting delay among all agencies for which data is available dropped below this threshold for the first time in 2010.</p>
+
+		<p>This decrease in average reporting delay is accompanied by a decrease in the standard deviation of agency reporting delay. This suggests that the drop is due to a government-wide improvement rather than a minority of agencies making drastic improvements.</p>
+
+		<p>As explained in our methodology, timeliness could not be measured for all records in USASpending.gov. It could only be measured for those records that appear in the raw agency submission files appearing on USASpending.gov. The size of the sample of records available in these files is modest. Unfortunately we cannot know whether the timeliness improvement we’ve measured in 2010 is an aberration due to the smaller sample size available:</p>
+
+        <div class="graphic">
+			<h5>Sample Size of Agency Submissions</h5>
+			<table>
+				<tr><th>Fiscal Year</th><th>USA Spending Total</th><th>Agency Submission Total</th><th>Sample Percentage</th></tr>
+				<tr><td>2008</td><td>$1.54 trillion</td><td>$288.44 billion</td><td>18.73%</td></tr>
+				<tr><td>2009</td><td>$2.39 trillion</td><td>$436.7 billion</td><td>18.27%</td></tr>
+				<tr><td>2010</td><td>$1.87 trillion</td><td>$309.96 billion</td><td>16.6%</td></tr>
+			</table>
+        </div>		
+
+		<h4>Timeliness Rankings</h4>
+		<p>We could use a variety of methods to rank agencies by the timeliness with which they report their spending. We could rank them by how many days it usually took them to report their spending. We could also rank them by how much spending they reported late. A ranking based on the amount an agency reports late involves another decision. We may rank agencies by the dollar amount of the spending they reported late in order to focus on the largest agencies, which are the best targets for improving the overall timeliness of federal spending reporting. However each agency should report their spending in a timely manner regardless of their size, so we may also want to rank the agencies by the percentage of their spending that they reported late. Five agencies have the unfortunate distinction of being in the list of the ten tardiest agencies by all three of these measures:</p>
+
+        <div class="graphic">
+			<table class="nowrapCol1">
+				<tr><th>Agency</th><th>Late Spending</th><th>% Reported Late</th><th>Average Delay (days)</th></tr>
+				<tr><td>Export Import Bank of the United States</td><td>$1.29 billion</td><td>85%</td><td>69</td></tr>
+				<tr><td>Department of Homeland Security</td><td>$674.18 mil</td><td>82%</td><td>187</td></tr>
+				<tr><td>Small Business Administration</td><td>$661.71 mil</td><td>78%</td><td>140</td></tr>
+				<tr><td>Department of Agriculture</td><td>$5.97 bil</td><td>23%</td><td>81</td></tr>
+				<tr><td>Department of Labor</td><td>$471.2 mil</td><td>21%</td><td>37*</td></tr>
+			</table>
+		</div>
+
         <h4>Consistency</h4>
         <p>A report by the Government Accountability Office (GAO) assessing USASpending.gov reported that 15 grant programs did not report any funding to USASpending.gov in 2008. Our analysis shows that this is a considerable underestimate.  In fact, 325 programs did not report any spending to USASpending.gov for that year. The total amount of the (non-reported) spending was $583 billion, or 22%, of the total grant spending for 2008. For loans, the total not reported was $772 billion out of $872 billion in outstanding loans.</p>
         <p>In addition to unreported spending, there are many instances where program reporting contains significant errors. In the case of the CFDA program for State Fire Training Systems Grants (97.043), a grant for $5.8 million was obligated and then later returned to a different CFDA program. The wrong CFDA number was entered in either the obligation or the return transaction. Furthermore, the project description associated with this grant is so terse that it is impossible for a user to determine which CFDA program is the correct one.</p>

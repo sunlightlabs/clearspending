@@ -4,6 +4,7 @@
 from settings import *
 from cfda.models import *
 from metrics.models import ProgramCorrection, USASpendingAggregate
+import sys
 import pg
 import csv
 from datetime import datetime
@@ -38,18 +39,22 @@ def fix_cfda():
             elif input == 'n':
                 break
 
-            elif 0 < int(input) <= len(outliers):
-                program = outliers[int(input)-1]
-                new_obligation = raw_input("Enter the new CFDA obligation for %s: " % program.program.program_title)
-                if int(new_obligation) > program.obligation:
-                    update_obligation(new_obligation, program)
-                    print "%s obligation updated to %s" % (program.program.program_title, new_obligation)
-                else:
-                    confirm = raw_input('amount entered is less than original obligation. Continue anyway?(y or n): ')
-                    if confirm == 'y':
-                        update_obligation(new_obligation, program)
-                    else:
-                        continue
+            else:
+                try:
+                    if 0 < int(input) <= len(outliers):
+                        program = outliers[int(input)-1]
+                        new_obligation = raw_input("Enter the new CFDA obligation for %s: " % program.program.program_title)
+                        if int(new_obligation) > program.obligation:
+                            update_obligation(new_obligation, program)
+                            print "%s obligation updated to %s" % (program.program.program_title, new_obligation)
+                        else:
+                            confirm = raw_input('amount entered is less than original obligation. Continue anyway?(y or n): ')
+                            if confirm == 'y':
+                                update_obligation(new_obligation, program)
+                            else:
+                                continue
+                except ValueError, err:
+                    print str(err)
                     
 
 def update_obligation(new_obligation, program):
@@ -72,7 +77,9 @@ def update_obligation(new_obligation, program):
     correction.save()
 
 if __name__ == '__main__':
-
+    if sys.argv[1] == "fix_cfda":
+        fix_cfda()
+        sys.exit()
 
 #    conn = MySQLdb.connect(host=MYSQL_HOST, user=MYSQL_USER, passwd=MYSQL_PASSWORD, db=MYSQL_DATABASE, port=MYSQL_PORT)
     conn = pg.connect(host=PG_HOST, user=PG_USER, passwd=PG_PASSWORD, dbname=PG_DATABASE, port=PG_PORT)
@@ -99,7 +106,6 @@ if __name__ == '__main__':
     rows = conn.query(usa_query).dictresult()
     
     for row in rows:
-        print row
         try:    
             if row['cfda_program_num']:
                 usaspending_total[row['fiscal_year']] += row['fed_funding_amount']
