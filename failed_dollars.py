@@ -39,7 +39,13 @@ def add_to_agency(agency_totals, agency_name, fy, obligation):
 TYPE = 1
 if len(sys.argv) > 1:
     TYPE = int(sys.argv[1])
+if len(sys.argv) > 2:
+    metric = sys.argv[2]
+else:
+    metric = 'all'
 
+print "Failed obligations for %s" % metric
+ 
 fins = Program.objects.filter(types_of_assistance__financial=True).distinct().order_by('agency')
 count = 0
 types = [None, 'grants', 'loans']
@@ -52,49 +58,47 @@ for fy in FISCAL_YEARS:
         ob = ProgramObligation.objects.filter(program=program, fiscal_year=fy, type=TYPE)
         if len(ob) > 0: 
             ob = ob[0]
-            cons = ProgramConsistency.objects.filter(program=program, fiscal_year=fy, type=TYPE)
-            if len(cons) > 0:
-                cons_single = cons[0]
-                if cons_single.non_reported_dollars > 0 or cons_single.under_reported_pct > 50 or cons_single.over_reported_pct > 50:
-                    #print "%s, %s -- non: %s, under: %s, over: %s" % (program.program_number, program.program_title, cons_single.non_reported_dollars, cons_single.under_reported_pct, cons_single.over_reported_pct)
-                    #if cons_single.non_reported_dollars > 0: print "non reported"
-                    #if cons_single.under_reported_pct > .50: print "under reported"
-                    #if cons_single.over_reported_pct > 1.50: print "over reported"
-                    total += ob.obligation
-                    agency_totals = add_to_agency(agency_totals, program.agency.name, fy, ob.obligation)
-                    writer.writerow((program.program_number, "%s" % program.program_title.encode('ascii', 'ignore'), 'consistency', ob.obligation, ob.usaspending_obligation))
-                    continue
+            if metric == 'all' or metric == 'consistency':
+                cons = ProgramConsistency.objects.filter(program=program, fiscal_year=fy, type=TYPE)
+                if len(cons) > 0:
+                    cons_single = cons[0]
+                    if cons_single.non_reported_dollars > 0 or cons_single.under_reported_pct > 50 or cons_single.over_reported_pct > 50:
+                        total += ob.obligation
+                        agency_totals = add_to_agency(agency_totals, program.agency.name, fy, ob.obligation)
+                        writer.writerow((program.program_number, "%s" % program.program_title.encode('ascii', 'ignore'), 'consistency', ob.obligation, ob.usaspending_obligation))
+                        continue
 
         #fail timeliness?
-            time = ProgramTimeliness.objects.filter(program=program, fiscal_year=fy)
-            if len(time) > 0:
-                time = time[0]
-                if time.total_dollars and (float(time.late_dollars / time.total_dollars)  > .5):
-                    #print "%s, %s -- total: %s failed: %s  ratio:%f" % (program.program_number, program.program_title, time.total_dollars, time.late_dollars, time.late_dollars/time.total_dollars)
-                    total += ob.obligation
-                    agency_totals = add_to_agency(agency_totals, program.agency.name, fy, ob.obligation)
-                    writer.writerow((program.program_number, "%s" % program.program_title.encode('ascii', 'ignore'), 'timeliness', ob.obligation))
-                    continue
+            if metric == 'all' or metric == 'timeliness':
+                time = ProgramTimeliness.objects.filter(program=program, fiscal_year=fy)
+                if len(time) > 0:
+                    time = time[0]
+                    if time.total_dollars and (float(time.late_dollars / time.total_dollars)  > .5):
+                        total += ob.obligation
+                        agency_totals = add_to_agency(agency_totals, program.agency.name, fy, ob.obligation)
+                        writer.writerow((program.program_number, "%s" % program.program_title.encode('ascii', 'ignore'), 'timeliness', ob.obligation))
+                        continue
 
-            comp = ProgramCompleteness.objects.filter(program=program, fiscal_year=fy)
-            if len(comp) > 0:
-                comp = comp[0]
-                if comp.completeness_total_dollars and (float(comp.completeness_failed_dollars / comp.completeness_total_dollars) > .5):
-                    #print "%s, %s -- total: %s  failed: %s  ratio:%f" % (program.program_number, program.program_title, comp.completeness_total_dollars, comp.completeness_failed_dollars, comp.completeness_failed_dollars / comp.completeness_total_dollars)
-                    #print "comparison:"
-                    #print (comp.completeness_failed_dollars / comp.completeness_total_dollars) > .5
-                    total += ob.obligation
-                    agency_totals = add_to_agency(agency_totals, program.agency.name, fy, ob.obligation)
-                    writer.writerow((program.program_number, "%s" % program.program_title.encode('ascii', 'ignore'), 'completeness', ob.obligation))
-                    continue
         # fail completeness?
+            if metric == 'all' or metric == 'completeness':
+                comp = ProgramCompleteness.objects.filter(program=program, fiscal_year=fy)
+                if len(comp) > 0:
+                    comp = comp[0]
+                    if comp.completeness_total_dollars and (float(comp.completeness_failed_dollars / comp.completeness_total_dollars) > .5):
+                        total += ob.obligation
+                        agency_totals = add_to_agency(agency_totals, program.agency.name, fy, ob.obligation)
+                        writer.writerow((program.program_number, "%s" % program.program_title.encode('ascii', 'ignore'), 'completeness', ob.obligation))
+                        continue
 
 
     count += 1
-    all = ProgramObligation.objects.filter(program__in=fins, fiscal_year=fy, type=TYPE).aggregate(summ=Sum('obligation'))['summ']
-    print "%s - Total failed obligations: %s out of total obligations: %s (%s%%)" % (fy, pretty_money(total), 
-                                                                                     pretty_money(all),
-                                                                                     round(total * 100 / all, 2))
+    all_obs = ProgramObligation.objects.filter(program__in=fins, fiscal_year=fy, type=TYPE).aggregate(summ=Sum('obligation'))['summ']
+    if all_obs:
+        print "%s - Total failed obligations: %s out of total obligations: %s (%s%%)" % (fy, pretty_money(total), 
+                                                                                     pretty_money(all_obs),
+                                                                                     round(total * 100 / all_obs, 2))
+    else:
+        print "No obligations for %s " % fy
 
 data = []
 agency_names = []
