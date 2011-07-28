@@ -251,3 +251,25 @@ div#scorecard-intro span.clear { margin: 0; float:none; }
 ol#cite { font-size: x-small; font-style: italic; }
 ol#cite li { margin-bottom: 2px;  }
 .footnote { padding: 10px; margin: 10px; display: block; font-style:italic; }
+
+
+
+.clear:after { display: block; visibility: hidden; clear: both; height: 0; content: "."; }
+
+            body {
+                background-color: #F8F6EC;
+                background-image: url(http://assets.sunlightfoundation.com/site/3.1/images/bg_blog.jpg);
+                background-position: 50% 0%;
+                background-repeat: repeat-x;
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                margin: 0;
+            }
+            
+            p { margin-bottom: 1em;}
+            strong, b { font-weight: bold;}
+            em, i { font-style: italic; }
+
+            .container, header { margin: 0 auto; width: 940px; padding: 0 10px;}
+            #navWrapper { background: url("http://assets.sunlightfoundation.com/site/3.1/images/green_bar_bg.png") top left repeat-x; height: 36px; }
+            #contentWrapper { background: #F8F6EC url(http://assets.sunlightfoundation.com/site/3.1/images/below_green_bg.png) repeat-x; padding-top: 25px; padding-bottom: 80px;}
+
