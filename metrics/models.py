@@ -1,6 +1,6 @@
 from django.db import models
 from cfda.models import Program, Agency
-from utils import pretty_money
+from utils import pretty_money, short_money
 
 
 TYPE_CHOICES = (
@@ -88,7 +88,16 @@ class ProgramCorrection(models.Model):
 
 class ProgramCompleteness(Metric):
     def __unicode__(self):
-        return "%s %s (%d) / %2.2f%% / $%.1fm" % (self.program.program_title, self.program.program_number, self.fiscal_year, (self.completeness_failed_dollars*100/self.completeness_total_dollars), self.completeness_failed_dollars/1000000)
+        if self.completeness_total_dollars in (0, None):
+            failed_pct = None
+        else:
+            failed_pct = "%2.2f%%" % (self.completeness_failed_dollars * 100 / self.completeness_total_dollars)
+
+        return "%s %s (%d) / %s / $%.1fm" % (self.program.program_title, 
+                                             self.program.program_number, 
+                                             self.fiscal_year, 
+                                             failed_pct, 
+                                             short_money(self.completeness_failed_dollars))
     class Meta:
         verbose_name = 'Program Completeness'
         
