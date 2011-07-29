@@ -19,14 +19,10 @@ def main():
 
         ag.save()
 
-    file = "csv/programs-full10121.csv"
-    file_old = "csv/programs-full09164.csv"
-    if len(sys.argv) > 1:
-        file = sys.argv[1]
-    
-    man = ProgramManager()
-    man.import_programs(file)
-    man.import_programs(file_old) #for 2007 data
+    for filename in ('programs-full09164.csv', 'programs-full10121.csv',
+                     'programs-full10268.csv', 'programs-full11204.csv'):
+        man = ProgramManager()
+        man.import_programs("csv/{0}".format(filename))
 
 if __name__ == '__main__':
     main()
