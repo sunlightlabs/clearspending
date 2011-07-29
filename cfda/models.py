@@ -313,7 +313,7 @@ class ProgramManager(models.Manager):
 
                                             try:
                                                 matching_ob.weighted_delta = float(matching_ob.delta) / float(matching_ob.obligation)
-                                            except ZeroDivisionError:
+                                            except:
                                                 matching_ob.weighted_delta = float(1.0)
     
                                             matching_ob.weighted_delta = str(matching_ob.weighted_delta)
