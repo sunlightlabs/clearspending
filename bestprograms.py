@@ -8,9 +8,11 @@ def main():
     timeliness = ProgramTimeliness.objects.filter(fiscal_year=max(FISCAL_YEARS),
                                                   late_dollars=0).exclude(total_dollars=0)
     under_reporting = ProgramConsistency.objects.filter(fiscal_year=max(FISCAL_YEARS),
+                                                        type=1,
                                                         under_reported_pct__isnull=False,
                                                         under_reported_pct__lte='0.25')
     over_reporting = ProgramConsistency.objects.filter(fiscal_year=max(FISCAL_YEARS),
+                                                       type=1,
                                                        over_reported_pct__isnull=False,
                                                        over_reported_pct__lte='0.25')
     completeness = ProgramCompleteness.objects.filter(fiscal_year=max(FISCAL_YEARS), 
@@ -30,7 +32,8 @@ def main():
         prog_timeliness = ProgramTimeliness.objects.get(program=program_id, 
                                                         fiscal_year=max(FISCAL_YEARS))
         prog_consistency = ProgramConsistency.objects.get(program=program_id,
-                                                          fiscal_year=max(FISCAL_YEARS))
+                                                          fiscal_year=max(FISCAL_YEARS),
+                                                          type=1)
         prog_completeness = ProgramCompleteness.objects.get(program=program_id,
                                                             fiscal_year=max(FISCAL_YEARS))
         print "{0:>17} . . . {1} ".format(pretty_money(prog_completeness.completeness_total_dollars),
