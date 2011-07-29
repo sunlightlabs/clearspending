@@ -6,6 +6,7 @@ import sys
 from django.utils.encoding import smart_unicode
 import helpers.unicode as un
 from datetime import datetime
+from settings import FISCAL_YEARS
 
 
 class Agency(models.Model):
@@ -309,10 +310,11 @@ class ProgramManager(models.Manager):
                                                 edited.append(matching_ob)
                                             
                                             matching_ob.delta = (matching_ob.usaspending_obligation or 0) - (matching_ob.obligation or 0)
+
                                             try:
                                                 matching_ob.weighted_delta = float(matching_ob.delta) / float(matching_ob.obligation)
-                                            except:
-                                                matching_ob.weighted_delta = 0
+                                            except ZeroDivisionError:
+                                                matching_ob.weighted_delta = float(1.0)
     
                                             matching_ob.weighted_delta = str(matching_ob.weighted_delta)
                                             matching_ob.save()
@@ -408,6 +410,9 @@ class ProgramManager(models.Manager):
 
             matching_program.save()
         f.close()
+
+        # Remove programs from years outside our range
+        ProgramObligation.objects.exclude(fiscal_year__in=FISCAL_YEARS).delete()
 
         print "Run complete. \n%s new programs were added" % new_program_count
         

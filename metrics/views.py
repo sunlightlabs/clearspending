@@ -288,7 +288,7 @@ def programDetailConsistency(program, unit):
     #returns a chunk of HTML showing the detailed consistency stats for this program
     types = [1, 2] # 1=grants, 2=loans,guarantees,insurance
     type_names = {1: 'Grants', 2: 'Loans'}
-    program_obligations = ProgramObligation.objects.filter(program=program, fiscal_year__lte=max(FISCAL_YEARS)).order_by('fiscal_year')
+    program_obligations = ProgramObligation.objects.filter(program=program, fiscal_year__gte=min(FISCAL_YEARS), fiscal_year__lte=max(FISCAL_YEARS)).order_by('fiscal_year')
     html = []
     if program_obligations.count() > 0:
         for ty in types:
@@ -306,7 +306,7 @@ def programDetailConsistency(program, unit):
                         for row in values[count]:
                             if row:
                                 if unit == 'dollars': row = moneyfmt(Decimal(str(row)), places=0, curr='$', sep=',', dp='')
-                                else: row = "%d" % (row * 100) + '%'
+                                else: row = "%d" % (row * 100) + '%' + ('<sup>&dagger;</sup>' if obligations[count].obligation == 0 else '')
                                 html.append('<td>%s</td>' % row ) 
                             else:
                                 html.append('<td>&mdash;</td>')
