@@ -28,7 +28,7 @@
             </div>
             <ul id="bignumbers">
                 {% for num in summary_numbers %}
-                    <li>${{num|floatformat|intcomma}}<span class="bignumberstext">{% cycle 'Total' 'Under Reported' 'Over Reported' 'Not Reported' 'Late' 'Incomplete' %}</span></li>
+                    <li>${{num|floatformat:0|intcomma}}<span class="bignumberstext">{% cycle 'Total' 'Over Reported' 'Under Reported' 'Not Reported' 'Late' 'Incomplete' %}</span></li>
                 {% endfor %}
             </ul>
             <div class="clear"></div>
