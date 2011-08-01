@@ -289,6 +289,10 @@ def programDetailConsistency(program, unit):
     types = [1, 2] # 1=grants, 2=loans,guarantees,insurance
     type_names = {1: 'Grants', 2: 'Loans'}
     program_obligations = ProgramObligation.objects.filter(program=program, fiscal_year__gte=min(FISCAL_YEARS), fiscal_year__lte=max(FISCAL_YEARS)).order_by('fiscal_year')
+    program_obligations_by_year = {}
+    for o in program_obligations:
+        program_obligations_by_year[o.fiscal_year] = o
+
     html = []
     if program_obligations.count() > 0:
         for ty in types:
@@ -303,10 +307,17 @@ def programDetailConsistency(program, unit):
                     for metric in ['Over Reported', 'Under Reported', 'Not Reported']:
                         html.append('<tr class="%s"><td title="trend over time" ><span class="%s"></span></td>' % (getRowClass(count), trends[count] ))
                         html.append('<td class="reviewed">'+metric+'</td>')
-                        for row in values[count]:
+                        for (year_idx, row) in enumerate(values[count]):
                             if row:
-                                if unit == 'dollars': row = moneyfmt(Decimal(str(row)), places=0, curr='$', sep=',', dp='')
-                                else: row = "%d" % (row * 100) + '%' + ('<sup>&dagger;</sup>' if obligations[count].obligation == 0 else '')
+                                if unit == 'dollars':
+                                    row = moneyfmt(Decimal(str(row)), 
+                                                   places=0, curr='$', sep=',', dp='')
+                                else:
+                                    row = "%d" % (row * 100) + '%'
+                                    o = program_obligations_by_year.get(FISCAL_YEARS[year_idx])
+                                    if o is not None and o.obligation == Decimal('0.0') and o.usaspending_obligation != Decimal('0.0'):
+                                        row += '<sup>&dagger;</sup>'
+                                    
                                 html.append('<td>%s</td>' % row ) 
                             else:
                                 html.append('<td>&mdash;</td>')
