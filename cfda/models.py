@@ -4,6 +4,8 @@ import csv
 import re
 import sys
 from django.utils.encoding import smart_unicode
+from decimal import DivisionByZero
+from math import fabs
 import helpers.unicode as un
 from datetime import datetime
 from settings import FISCAL_YEARS
@@ -313,8 +315,16 @@ class ProgramManager(models.Manager):
 
                                             try:
                                                 matching_ob.weighted_delta = float(matching_ob.delta) / float(matching_ob.obligation)
+                                            except (ZeroDivisionError, DivisionByZero):
+                                                if fabs(matching_ob.delta) > 0:
+                                                    matching_ob.weighted_delta = float(1.0)
+                                                else:
+                                                    matching_ob.weighted_delta = float(0.0)
+                                            except Exception, e:
+                                                print "Generic exception: %s" % str(e)
+                                                matching_ob.weighted_delta = float(0.0)
                                             except:
-                                                matching_ob.weighted_delta = float(1.0)
+                                                print "Untyped exception caught."
     
                                             matching_ob.weighted_delta = str(matching_ob.weighted_delta)
                                             matching_ob.save()
