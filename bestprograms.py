@@ -99,7 +99,7 @@ def print_program_list(best_program_ids):
                                      
 
 def main():
-    thresholds = ['25', '50', '75']
+    thresholds = ['1', '25', '50', '75']
     lists = dict.fromkeys(thresholds)
     cumulative = set()
 
@@ -110,7 +110,7 @@ def main():
 
     for threshold in thresholds:
         programs_for_threshold = lists[threshold]
-        print "%s%d programs in %d at %s threshold" % (
+        print "%s%d programs in %d at %s%% threshold" % (
             "" if threshold == thresholds[0] else "plus ",
             len(programs_for_threshold), 
             FISCAL_YEAR, threshold)
