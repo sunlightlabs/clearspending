@@ -298,7 +298,7 @@ def programDetailConsistency(program, unit):
                     html.append('<li><table><thead>')
                     html.append('<tr><th class="arrow"></th><th class="reviewed">Consistency (%s)</th>' % type_names[ty])
                     for fy in FISCAL_YEARS: html.append('<th>' + str(fy) + '</th>')
-                    html.append('</tr></thead><tbody>')
+                    html.append('</tr><tr><td></td><td colspan="4"><em>percent or dollar amount of obligations that were over/under reported, or not reported at all</em></td></tr></thead><tbody>')
                     values, trends = getConsistencyTrends(obligations, unit)
                     count = 0
                     for metric in ['Over Reported', 'Under Reported', 'Not Reported']:
@@ -330,10 +330,10 @@ def programDetailGeneral(program_id, unit, field_names, proper_names, coll, metr
     if coll:
         html.append('<li><table><thead><tr><th class="arrow"></th><th class="reviewed">'+metric+'</th>')
         for fy in FISCAL_YEARS: html.append('<th>' + str(fy) + '</th>')
-        html.append('</tr><tr><td colspan="4">')
+        html.append('</tr><tr><td></td><td colspan="4"><em>')
         if metric == "Completeness" : html.append('percent or dollar amount of obligations that failed each field')
         else: html.append('percent or dollar amount of obligations that were late' )
-        html.append('</td></tr></thead><tbody>')
+        html.append('</em></td></tr></thead><tbody>')
         count = 0
         for f in field_names:
             temp_html = []
@@ -355,7 +355,7 @@ def programDetailGeneral(program_id, unit, field_names, proper_names, coll, metr
                                 val = '%d' % (((item.__dict__[f] / com_totals[y]) or 0) * 100)
                                 val += '%'
                             elif f != 'total_dollars':
-                                val = str((item.__dict__[f] or 0) * 100) + '%'
+                                val = str((item.__dict__[f] or 0)) + '%'
                             else:
                                 val = "%s" % moneyfmt((item.__dict__[f] or 0), places=0, curr='$', sep=',', dp='')
                         elif f != 'avg_lag_rows':
