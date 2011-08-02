@@ -118,6 +118,8 @@ def analyzer_main():
                 avg_lag_rows=cfda_fy_results.get_data(avg_days_by_awards),
                 avg_lag_dollars=cfda_fy_results.get_data(avg_days_by_dollars)
             )
+            if metric.total_dollars > 0:
+                metric.late_pct = metric.late_dollars * 100 / metric.total_dollars
             metric.save()
             
             
@@ -142,6 +144,8 @@ def analyzer_main():
                 avg_lag_rows=agency_fy_results.get_data(avg_days_by_awards),
                 avg_lag_dollars=agency_fy_results.get_data(avg_days_by_dollars)
             )
+            if metric.total_dollars > 0:
+                metric.late_pct = metric.late_dollars * 100 / metric.total_dollars
             metric.save()
     
     

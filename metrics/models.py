@@ -1,5 +1,6 @@
 from django.db import models
 from cfda.models import Program, Agency
+from decimal import Decimal
 from utils import pretty_money, short_money
 
 
@@ -105,6 +106,13 @@ class ProgramCompleteness(Metric):
     
     completeness_failed_dollars = models.DecimalField("Dollar total of rows failing one or more completeness tests", max_digits=21, decimal_places=2, null=True)
     completeness_total_dollars = models.DecimalField("Dollar total of all rows", max_digits=21, decimal_places=2, null=True)
+
+    @property
+    def failed_pct(self):
+        if self.completeness_total_dollars == Decimal('0.0'):
+            return None
+        else:
+            return self.completeness_failed_dollars * 100 / self.completeness_total_dollars
 
 class ProgramCompletenessDetail(Metric):
     def __unicode__(self):
