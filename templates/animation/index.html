@@ -87,13 +87,13 @@
             <a href="{% url scorecard-index %}" id="view">View Our Scorecard</a>
         </div>
         <div id="stage">
-            <img src="{% media_url %}/images/slides-0.jpg"/>
+			<img src="{% media_url %}/images/slides-0.jpg" alt="Slide 0">
         </div>
         <div class="clear"></div>
     </div>
 </div>
 {% js "jquery-ui-1.8.4.custom.min.js" %}
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
     
     $().ready(function() {
         $("#sidenav").accordion({
