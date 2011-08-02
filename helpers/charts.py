@@ -548,3 +548,47 @@ class Column(GridChart):
                 self.add_label(l, label_count)
 
             label_count += 1
+
+class Area(Line):
+    def __init__(self, height, width, data, area_flags, stylesheet=None, *args, **kwargs):
+        self.area_flags = area_flags or [True] * len(data)
+        assert len(data) == len(area_flags)
+        super(Area, self).__init__(height, width, data, stylesheet, **kwargs)
+
+    def data_series(self):
+        g_container = ET.Element('g')
+
+        y_min = min([y for series in self.data
+                       for (x, y) in series])
+
+        area_idx = 0
+        line_idx = 0
+        for (idx, series) in enumerate(self.data):
+            x_min = min([x for (x, y) in series])
+            x_max = max([x for (x, y) in series])
+
+            points = [(x, y) 
+                      for (x, y) in series]
+            if self.area_flags[idx]:
+                area_idx += 1
+                points.append((x_max, y_min))
+                points.append((x_min, y_min))
+                points = map(lambda (x, y): (x * self.x_scale, y * self.y_scale), points)
+                points_str = " ".join(["{x},{y}".format(x=self.x_padding + x,
+                                                        y=self.grid_height - y)
+                                       for (x, y) in points])
+                polygon = ET.Element("polygon", points=points_str)
+                polygon.attrib['class'] = 'series-%s-area' % area_idx
+                g_container.append(polygon)
+            else:
+                line_idx += 1
+                points = map(lambda (x, y): (x * self.x_scale, y * self.y_scale), points)
+                points_str = "M " + (" L ".join(["{x} {y}".format(x=self.x_padding + x,
+                                                                  y=self.grid_height - y)
+                                                 for (x, y) in points]))
+                line = ET.Element("path", d=points_str)
+                line.attrib['class'] = 'series-%s-line' % line_idx
+                g_container.append(line)
+
+        self.grid.append(g_container)
+            
