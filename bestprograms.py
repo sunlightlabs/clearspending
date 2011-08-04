@@ -1,9 +1,12 @@
+import plac
 from metrics.models import ProgramTimeliness, ProgramConsistency, ProgramCompleteness
 from cfda.models import Program, ProgramObligation
 from operator import attrgetter
 from decimal import Decimal
 from settings import FISCAL_YEARS
+from helpers.charts import Area
 from utils import pretty_money
+from settings import MEDIA_ROOT
 
 
 FISCAL_YEAR = max(FISCAL_YEARS)
@@ -39,6 +42,11 @@ def best_programs(threshold):
                                                        over_reported_pct__isnull=False,
                                                        over_reported_pct__lte=threshold,
                                                        non_reported_dollars__isnull=True)
+    accurate_reporting = ProgramConsistency.objects.filter(fiscal_year=FISCAL_YEAR,
+                                                           type=1,
+                                                           over_reported_pct__isnull=True,
+                                                           under_reported_pct__isnull=True,
+                                                           non_reported_pct__isnull=True)
     completeness = [pc for pc in ProgramCompleteness.objects.filter(fiscal_year=FISCAL_YEAR)
                     if pc.failed_pct < Decimal(threshold)]
 
@@ -46,7 +54,8 @@ def best_programs(threshold):
     get_program_id = attrgetter('program_id')
     timeliness_set = set(map(get_program_id, timeliness))
     consistency_set = set(map(get_program_id, under_reporting) +
-                          map(get_program_id, over_reporting))
+                          map(get_program_id, over_reporting) +
+                          map(get_program_id, accurate_reporting))
     completeness_set = set(map(get_program_id, completeness))
     best_program_ids = (consistency_set & completeness_set) - timeliness_set
     return best_program_ids
@@ -90,7 +99,8 @@ def print_program_list(best_program_ids):
 
         values = {
             'program': str(program.program_number),
-            'consistency': str(over_or_under) + '%',
+            'consistency': (str(over_or_under) + '%'
+                            if over_or_under else '---'),
             'completeness': str(round(prog_completeness.failed_pct)) + '%',
             'timeliness': str(round(prog_timeliness.late_pct)) + '%' if prog_timeliness and prog_timeliness.late_pct is not None else '---',
             'cfda': pretty_money(program_obligation.obligation)
@@ -98,8 +108,31 @@ def print_program_list(best_program_ids):
         print fmtstr.format(**values)
                                      
 
-def main():
-    thresholds = ['1', '25', '50', '75']
+def main_chart():
+    def point_for_threshold(threshold):
+        return (threshold, len(best_programs(threshold)))
+
+    good_series = [point_for_threshold(t)
+                   for t in range(0, 26, 5)]
+
+    okay_series = [point_for_threshold(t)
+                   for t in range(25, 76, 5)]
+    
+    bad_series = [point_for_threshold(t)
+                  for t in range(75, 126, 5)]
+
+    series = [good_series, okay_series, bad_series]
+    area_flags = [True, True, True]
+
+    chart = Area(725, 280, series, area_flags,
+                 MEDIA_ROOT + '/styles/bestprograms.css', 
+                 label_intervals=25, x_padding=55, padding=20, 
+                 units=True, use_zero_minimum=True)
+    chart.output(MEDIA_ROOT + '/images/charts/best-programs-area.svg')
+
+
+def main_lists():
+    thresholds = ['1', '25', '50', '75', '100', '101', '110', '1000', '10000', '100000']
     lists = dict.fromkeys(thresholds)
     cumulative = set()
 
@@ -117,6 +150,16 @@ def main():
         print_program_list(programs_for_threshold)
         print
 
+
+@plac.annotations(
+    target=('Output target type', 'positional', None, str, ['chart', 'lists'], 'TARGET'),
+)
+def main(target):
+    if target == "lists":
+        main_lists()
+    else:
+        main_chart()
+
 if __name__ == "__main__":
-    main()
+    plac.call(main)
 
