@@ -65,6 +65,6 @@ for fy in FISCAL_YEARS:
 progs = consistent_allyears[0] & consistent_allyears[1] & consistent_allyears[2]
 for p in progs:
     program = Program.objects.get(id=p)
-    writer.writerow((program.program_number, program.program_title))
+    writer.writerow((program.id, program.program_number, program.program_title))
 print "%s programs report consistent for all three years" % len(progs)
 
