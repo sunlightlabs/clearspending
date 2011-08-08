@@ -2,9 +2,13 @@ from operator import attrgetter
 from numpy import mean, std
 from django.db.models import Sum
 from metrics.models import ProgramConsistency
-from cfda.models import ProgramObligation
+from cfda.models import ProgramObligation, Program
 from utils import short_money
 from settings import FISCAL_YEARS
+import csv
+
+writer = csv.writer(open('media/docs/consistent_programs_all_years.csv', 'w'))
+consistent_allyears = []
 
 for fy in FISCAL_YEARS:
     all_programs = ProgramObligation.objects.filter(fiscal_year=fy, type=1)
@@ -34,6 +38,8 @@ for fy in FISCAL_YEARS:
     under_reporting_set = set(map(get_program_id, under_reporting))
     over_reporting_set = set(map(get_program_id, over_reporting))
     consistency_set = accurate_set | under_reporting_set | over_reporting_set
+  
+    consistent_allyears.append(consistency_set)
 
     consistent_programs = ProgramObligation.objects.filter(fiscal_year=fy, type=1, program__in=consistency_set)
     consistent_dollars = sum([o.obligation for o in consistent_programs])
@@ -55,4 +61,10 @@ for fy in FISCAL_YEARS:
         short_money(consistent_mean),
         short_money(all_grant_mean))
 
+
+progs = consistent_allyears[0] & consistent_allyears[1] & consistent_allyears[2]
+for p in progs:
+    program = Program.objects.get(id=p)
+    writer.writerow((program.program_number, program.program_title))
+print "%s programs report consistent for all three years" % len(progs)
 
