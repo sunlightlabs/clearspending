@@ -114,7 +114,7 @@ def print_program_list(fiscal_year, best_program_ids):
                                      
 
 def main_chart(fiscal_year):
-    good_cnt = len(best_programs(fiscal_year, 0, 26))
+    good_cnt = len(best_programs(fiscal_year, 0, 50))
 
     all_cnt = len(ProgramObligation.objects.filter(fiscal_year=fiscal_year,
                                                    obligation__gt='0',
@@ -136,7 +136,7 @@ def main_chart(fiscal_year):
 
 
 def main_lists(fiscal_year):
-    ranges = [(0, 25), (25, 50), (50, 75), 
+    ranges = [(0, 50), (50, 75), 
               (75, 100), (100, 125), (125, 1000),
               (1000, 10000000)]
 

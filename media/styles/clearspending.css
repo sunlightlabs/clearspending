@@ -108,6 +108,7 @@ span#keyTitle { padding-top:2px; font-weight: bold; margin-right: 10px;}
 .tip { font-family: Georgia, Times, "Times New Roman", serif; font-style: oblique; font-size: 95%;}
 
 #graph { float: left; }
+.graph { float: left; }
 #description { margin-bottom: 30px; }
 #description ul.legend { font-size: 90%; float:left; margin-top: 10px; }
 #pageMain #description ul.legend li { margin-bottom: 10px; margin-left: 0;}
@@ -252,6 +253,26 @@ ol#cite { font-size: x-small; font-style: italic; }
 ol#cite li { margin-bottom: 2px;  }
 .footnote { padding: 10px; margin: 10px; display: block; font-style:italic; }
 
+
+#summary { margin: 0; padding: 0; vertical-align: top; }
+#summary .section { clear: both; }
+#summary .section h1 { font-weight: bold; font-size: 150%; margin: 1.5em 0 0.5em 0; }
+#summary .col1a, #summary .col2a, #summary .col1b, #summary .col2b { margin: 0; padding: 0; }
+#summary .col1a { width: 60%; float: left; padding-right: 2%; }
+#summary .col2a { width: 36%; float: right; vertical-align: top; padding-left: 2%; }
+#summary .col1b { width: 36%; float: left; padding-right: 2%; }
+#summary .col2b { width: 60%; float: right; padding-left: 2%; }
+#summary span.graph-title { display: inline-block; font-weight: bold; padding: 0; margin: 0; text-align: center; width: 100%; }
+#summary ul.legend { margin-top: 30px; }
+#summary ul.legend li span { width: 10px; height: 10px; display: block; float: left; margin-right: 5px; margin-top: 4px; }
+
+#summary table.exhibit td { border: 1px #C4C2C1 solid; padding: 0.25em 0 0.25em 0; margin: 0; }
+#summary table.exhibit th { border-bottom: 1px #C4C2C1 solid; font-weight: bold; vertical-align: bottom; padding: 0.25em; margin: 0; }
+#summary table.exhibit tr.odd { background-color: transparent; }
+table.exhibit th, td.year, td.pct, td.tally { text-align: center; }
+#summary #completeness-total { float: left; width: 219px; height: 219px; position: relative; background-color: #EB4724; margin-right: 20px; margin-top: 20px; color: white; font-size: 125%; font-weight: bold; vertical-align: middle; }
+#summary #completeness-complete { width: 79px; height: 79px; position: absolute; top: 0; right: 0; background-color: #83A93F; }
+#summary #completeness-total span { display: inline-block; margin: 1em; }
 
 
 .clear:after { display: block; visibility: hidden; clear: both; height: 0; content: "."; }
