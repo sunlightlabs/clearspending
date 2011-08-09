@@ -27,9 +27,8 @@ def best_programs(fiscal_year, range_low, range_high):
     Additionally any program that is over the threshold for the
     timeliness metric will be removed from the list
     """
-    timeliness = ProgramTimeliness.objects.filter(fiscal_year=fiscal_year,
-                                                  late_pct__gte=range_low,
-                                                  late_pct__lt=range_high).exclude(total_dollars='0.0')
+    late = ProgramTimeliness.objects.filter(fiscal_year=fiscal_year,
+                                            late_pct__gte=range_high).exclude(total_dollars='0.0')
     under_reporting = ProgramConsistency.objects.filter(fiscal_year=fiscal_year,
                                                         type=1,
                                                         under_reported_pct__isnull=False,
@@ -57,12 +56,12 @@ def best_programs(fiscal_year, range_low, range_high):
 
     get_program_id = attrgetter('program_id')
     accurate_set = set(map(get_program_id, null_reporting)) & set(map(get_program_id, programs_with_obligations))
-    timeliness_set = set(map(get_program_id, timeliness))
+    late_set = set(map(get_program_id, late))
     under_reporting_set = set(map(get_program_id, under_reporting))
     over_reporting_set = set(map(get_program_id, over_reporting))
     consistency_set = accurate_set | under_reporting_set | over_reporting_set
     completeness_set = set(map(get_program_id, completeness))
-    best_program_ids = (consistency_set & completeness_set) - timeliness_set
+    best_program_ids = (consistency_set & completeness_set) - late_set 
     return best_program_ids
 
 
@@ -120,11 +119,13 @@ def main_chart(fiscal_year):
                                                    obligation__gt='0',
                                                    usaspending_obligation__gt='0',
                                                    type=1))
-    poor_cnt= all_cnt - good_cnt
+    poor_cnt = all_cnt - good_cnt
 
-    print "%d: %d good, %d poor" % (fiscal_year,
-                                    good_cnt,
-                                    poor_cnt)
+    print "%d: %d good (%.2f%%), %d poor (%.2f%%)" % (fiscal_year,
+                                                      good_cnt,
+                                                      good_cnt * 100 / all_cnt,
+                                                      poor_cnt,
+                                                      poor_cnt * 100 / all_cnt)
 
     series = [[('',good_cnt),('',poor_cnt)]]
 
