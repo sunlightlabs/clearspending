@@ -36,7 +36,7 @@ def main():
         tardy_sum = sum([t.late_dollars for t in all_agencies])
         tardy_pct = tardy_sum * 100 / (timely_sum + tardy_sum)
 
-        pie = Pie(220, 220, [[('Timely', float(timely_sum))],
+        pie = Pie(170, 170, [[('Timely', float(timely_sum))],
                              [('Tardy', float(tardy_sum))]],
                   show_labels=False,
                   stylesheet=MEDIA_ROOT + '/styles/timeliness-charts.css',
