@@ -42,20 +42,25 @@ def best_programs(fiscal_year, range_low, range_high):
                                                        over_reported_pct__gte=range_low,
                                                        over_reported_pct__lt=range_high,
                                                        non_reported_dollars__isnull=True)
-    accurate_reporting = ProgramConsistency.objects.filter(fiscal_year=fiscal_year,
-                                                           type=1,
-                                                           over_reported_pct__isnull=True,
-                                                           under_reported_pct__isnull=True,
-                                                           non_reported_pct__isnull=True)
+    null_reporting = ProgramConsistency.objects.filter(fiscal_year=fiscal_year,
+                                                       type=1,
+                                                       over_reported_pct__isnull=True,
+                                                       under_reported_pct__isnull=True,
+                                                       non_reported_pct__isnull=True)
+    programs_with_obligations = ProgramObligation.objects.filter(fiscal_year=fiscal_year,
+                                                                 type=1,
+                                                                 obligation__gt='0',
+                                                                 usaspending_obligation__gt='0')
     completeness = [pc for pc in ProgramCompleteness.objects.filter(fiscal_year=fiscal_year)
                     if Decimal(range_low) < pc.failed_pct < Decimal(range_high)]
 
 
     get_program_id = attrgetter('program_id')
+    accurate_set = set(map(get_program_id, null_reporting)) & set(map(get_program_id, programs_with_obligations))
     timeliness_set = set(map(get_program_id, timeliness))
-    consistency_set = set(map(get_program_id, under_reporting) +
-                          map(get_program_id, over_reporting) +
-                          map(get_program_id, accurate_reporting))
+    under_reporting_set = set(map(get_program_id, under_reporting))
+    over_reporting_set = set(map(get_program_id, over_reporting))
+    consistency_set = accurate_set | under_reporting_set | over_reporting_set
     completeness_set = set(map(get_program_id, completeness))
     best_program_ids = (consistency_set & completeness_set) - timeliness_set
     return best_program_ids
@@ -110,34 +115,38 @@ def print_program_list(fiscal_year, best_program_ids):
 
 def main_chart(fiscal_year):
     good_cnt = len(best_programs(fiscal_year, 0, 26))
-    avg_cnt = len(best_programs(fiscal_year, 26, 51))
-    poor_cnt = len(best_programs(fiscal_year, 51, 1000000000))
 
-    series = [[('',good_cnt),('',avg_cnt),('',poor_cnt)]]
+    all_cnt = len(ProgramObligation.objects.filter(fiscal_year=fiscal_year,
+                                                   obligation__gt='0',
+                                                   usaspending_obligation__gt='0',
+                                                   type=1))
+    poor_cnt= all_cnt - good_cnt
+
+    print "%d: %d good, %d poor" % (fiscal_year,
+                                    good_cnt,
+                                    poor_cnt)
+
+    series = [[('',good_cnt),('',poor_cnt)]]
 
     chart = Pie(240, 240, series,
                 show_labels=False,
                 stylesheet=MEDIA_ROOT + '/styles/bestprograms.css',
                 x_padding=0, y_padding=0)
-    chart.output(MEDIA_ROOT + '/images/charts/program-consistency-pie.svg')
+    chart.output(MEDIA_ROOT + '/images/charts/best-programs-pie.svg')
 
 
 def main_lists(fiscal_year):
-    thresholds = ['1', '25', '50', '75', '100', '101', '110', '1000', '10000', '100000']
-    lists = dict.fromkeys(thresholds)
-    cumulative = set()
+    ranges = [(0, 25), (25, 50), (50, 75), 
+              (75, 100), (100, 125), (125, 1000),
+              (1000, 10000000)]
 
-    for threshold in thresholds:
-        programs_for_threshold = best_programs(fiscal_year, threshold)
-        lists[threshold] = programs_for_threshold - cumulative
-        cumulative = cumulative.union(programs_for_threshold)
-
-    for threshold in thresholds:
-        programs_for_threshold = lists[threshold]
-        print "%s%d programs in %d at %s%% threshold" % (
-            "" if threshold == thresholds[0] else "plus ",
-            len(programs_for_threshold), 
-            fiscal_year, threshold)
+    for (low, high) in ranges:
+        programs_for_threshold = best_programs(fiscal_year, low, high)
+        print "%d: %d programs reported between %s%% and %s%% inconsistently" % (
+            fiscal_year,
+            len(programs_for_threshold),
+            low,
+            high)
         print_program_list(fiscal_year, programs_for_threshold)
         print
 
