@@ -110,8 +110,9 @@ class Chart(object):
 class Pie(Chart):
     """Subclass of Chart, containing functions relevant to all pie charts"""
 
-    def __init__(self, height, width, data, stylesheet=None, **kwargs):
+    def __init__(self, height, width, data, show_labels=True, stylesheet=None, **kwargs):
 
+        self.show_labels = show_labels
         super(Pie, self).__init__(height, width, data, stylesheet, **kwargs)
         #Catch passed in keyword argument overrides of defaults
         for key in kwargs:
@@ -171,8 +172,9 @@ class Pie(Chart):
                 elif y_label < (self.y_origin - 12): y_label -= 10
 
                 point3 = "a%s,%s 0 %s,0 %s,%s z" % (self.radius, self.radius, arc, (x - last_point[0]), -(y - last_point[1]))
-                              
-                self.add_label(x_label, y_label, point[0], percent) 
+            
+                if self.show_labels:
+                    self.add_label(x_label, y_label, point[0], percent) 
                 last_point = [x, y]
                 path = ET.Element("path", d="%s %s %s" % (point1, point2, point3))
                 path.attrib['class'] = 'slice-%s' % count
