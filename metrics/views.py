@@ -1,6 +1,9 @@
 
+import json
+from operator import attrgetter
 from cfda.models import Program, ProgramObligation, Agency
 from metrics.models import *
+from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.db.models import Count, Sum
 from django.db.models.query import QuerySet
@@ -392,6 +395,101 @@ def programDetailGeneral(program_id, unit, field_names, proper_names, coll, metr
     
     return ''.join(html)
 
+
+def list_best_programs(request, fiscal_year):
+    late = ProgramTimeliness.objects.filter(fiscal_year=fiscal_year,
+                                            late_pct__gte='50').exclude(total_dollars='0.0')
+    under_reporting = ProgramConsistency.objects.filter(fiscal_year=fiscal_year,
+                                                        type=1,
+                                                        under_reported_pct__isnull=False,
+                                                        under_reported_pct__gte='0',
+                                                        under_reported_pct__lt='50',
+                                                        non_reported_dollars__isnull=True)
+    over_reporting = ProgramConsistency.objects.filter(fiscal_year=fiscal_year,
+                                                       type=1,
+                                                       over_reported_pct__isnull=False,
+                                                       over_reported_pct__gte='0',
+                                                       over_reported_pct__lt='50',
+                                                       non_reported_dollars__isnull=True)
+    null_reporting = ProgramConsistency.objects.filter(fiscal_year=fiscal_year,
+                                                       type=1,
+                                                       over_reported_pct__isnull=True,
+                                                       under_reported_pct__isnull=True,
+                                                       non_reported_pct__isnull=True)
+    programs_with_obligations = ProgramObligation.objects.filter(fiscal_year=fiscal_year,
+                                                                 type=1,
+                                                                 obligation__gt='0',
+                                                                 usaspending_obligation__gt='0')
+    completeness = [pc for pc in ProgramCompleteness.objects.filter(fiscal_year=fiscal_year)
+                    if Decimal('0') < pc.failed_pct < Decimal('50')]
+
+
+    get_program_id = attrgetter('program_id')
+    accurate_set = set(map(get_program_id, null_reporting)) & set(map(get_program_id, programs_with_obligations))
+    late_set = set(map(get_program_id, late))
+    under_reporting_set = set(map(get_program_id, under_reporting))
+    over_reporting_set = set(map(get_program_id, over_reporting))
+    consistency_set = accurate_set | under_reporting_set | over_reporting_set
+    completeness_set = set(map(get_program_id, completeness))
+    best_program_ids = (consistency_set & completeness_set) - late_set 
+
+    completeness_lookup = dict(map(lambda o: (get_program_id(o), o),
+                                   ProgramCompleteness.objects.filter(
+                                       fiscal_year=fiscal_year,
+                                       program__in=best_program_ids)))
+    consistency_lookup = dict(map(lambda o: (get_program_id(o), o),
+                                  ProgramConsistency.objects.filter(
+                                      fiscal_year=fiscal_year,
+                                      type=1,
+                                      program__in=best_program_ids)))
+    timeliness_lookup = dict(map(lambda o: (get_program_id(o), o),
+                                 ProgramTimeliness.objects.filter(
+                                     fiscal_year=fiscal_year,
+                                     program__in=best_program_ids)))
+
+    obligation_lookup = dict(map(lambda o: (get_program_id(o), o),
+                                 ProgramObligation.objects.filter(
+                                     fiscal_year=fiscal_year,
+                                     type=1,
+                                     program__in=best_program_ids)))
+
+    def make_detail_record(program_id):
+        consistency = consistency_lookup.get(program_id)
+        under_reported_field = ('%s%%' % consistency.under_reported_pct) if consistency and consistency.under_reported_pct else None
+        over_reported_field = ('%s%%' % consistency.over_reported_pct) if consistency and consistency.over_reported_pct else None
+
+        timeliness = timeliness_lookup.get(program_id)
+        if timeliness is None or timeliness.total_rows == 0:
+            # None if there is no timeliness data for the program
+            # 0 if there is timeliness data for the program, but not for this fiscal year
+            timeliness_field = None
+        else:
+            timeliness_field = '%0.2f%%' % (float(timeliness.late_rows) / float(timeliness.total_rows))
+
+        completeness = completeness_lookup.get(program_id)
+        if completeness is None:
+            completeness_field = None
+        else:
+            pct = completeness.failed_pct
+            if pct is None:
+                completeness_field = None
+            else:
+                completeness_field = '%.2f%%' % pct
+
+        return [obligation_lookup[program_id].program.program_number,
+                obligation_lookup[program_id].program.program_title,
+                under_reported_field,
+                over_reported_field,
+                completeness_field,
+                timeliness_field,
+                pretty_money(obligation_lookup[program_id].obligation)
+               ]
+                
+    program_details = map(make_detail_record, best_program_ids) 
+    return render_to_response('bestprograms.html', 
+                              { 'fiscal_year': fiscal_year,
+                                'program_details': program_details
+                              })
 
 
 

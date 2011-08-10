@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load media %}
+{% load humanize %}
+{% block title %} <title>Clearspending.org - Best Programs</title> {% endblock %}
+{% block bodyclass %}bestprograms{% endblock %}
+{% block header %}
+{% endblock %}
+{% block content %}
+	<div id="pageMain">
+		<div id="fullWidthColumn">
+
+		<h3>Best-Reporting Programs</h3>
+
+        <div id="filters">
+            <h4>Revise results below</h4>
+            <ul id="years">
+                <li><a href="{% block year2 %}{% url list-best-programs 2008 %} {% endblock %}" {% ifequal "2008" fiscal_year %}class="active"{% endifequal %}>2008</a></li>
+                <li><a href="{% block year3 %}{% url list-best-programs 2009 %} {% endblock %}" {% ifequal "2009" fiscal_year %}class="active"{% endifequal %}>2009</a></li>
+                <li><a href="{% block year1 %} {% url list-best-programs 2010 %} {% endblock %}" {% ifequal "2010" fiscal_year %}class="active"{% endifequal %}>2010</a></li>
+            </ul>
+
+            <div class="clear"></div>
+        </div>
+
+		<div id="agencytablecontainer">
+			<table id="programtable">
+				<thead>
+					<tr>
+						<th class="sort lg">Program Number</th>
+						<th class="sort lg">Program Name</th>
+						<th class="sort med">Over Reported</th>
+						<th class="sort med">Under Reported</th>
+						<th class="sort med">Incomplete</th>
+						<th class="sort med">Late</th>
+						<th class="sort lg">Obligation</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for pgm in program_details %}
+					<tr class="{% cycle 'odd' 'even'  %}">
+						<td class="lg">{{ pgm.0 }}</td>
+						<td class="lg">{{ pgm.1 }}</td>
+						<td class="med">{% if pgm.2 %}{{ pgm.2 }}{% else %}-{% endif %}</td>
+						<td class="med">{% if pgm.3 %}{{ pgm.3 }}{% else %}-{% endif %}</td>
+						<td class="med">{% if pgm.4 %}{{ pgm.4 }}{% else %}-{% endif %}</td>
+						<td class="med">{% if pgm.5 %}{{ pgm.5 }}{% else %}-{% endif %}</td>
+						<td class="lg">{{ pgm.6 }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div class="clear"></div>
+	</div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            
+            $("#programtable").tablesorter({
+                headers: {
+                            1: { sorter:'currency'},
+                            2: { sorter:'currency'},
+                            3: { sorter:'currency'},
+                            4: { sorter:'currency'},
+                            5: { sorter:'currency'},
+                            6: { sorter:'currency'},
+                            7: { sorter:'currency'}
+                        }
+            });
+            $("#programtable").bind("sortEnd", function() {
+                $("#programtable tr:even").removeClass().addClass("even")
+                $("#programtable tr:odd").removeClass().addClass("odd");
+			});
+		});
+	</script>
+{% endblock %}

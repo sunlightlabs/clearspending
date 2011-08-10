@@ -38,7 +38,7 @@ h2 a { background: url(../images/clearspending-logo.png) top left no-repeat; wid
 #nav { width: 940px; height: 35px; background: #85BE3D url(../images/bg_nav.jpg) bottom left repeat-x; -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px;}
 #nav li {  float: left;  text-transform: uppercase; width: 115px;}
 #nav li a { color: #F8F6EC; text-decoration: none; font-weight: normal; padding: 8px 0; display: block; text-align: center; width: 115px;}
-#nav li a:hover, body.scorecard #nav li#scorecard a, body.background #nav li#background a, body.analysis #nav li#analysis a, body.methodology #nav li#methodology a, body.media #nav li#media a, body.corrections #nav li#corrections a, body.resources #nav li#resources a, body.feedback #nav li#feedback a  { color: #fff; background: url(../images/nav_arrow.png) center 27px no-repeat; font-weight: bold; padding: 9px 0 7px;}
+#nav li a:hover, body.scorecard #nav li#scorecard a, body.background #nav li#background a, body.analysis #nav li#analysis a, body.methodology #nav li#methodology a, body.media #nav li#media a, body.corrections #nav li#corrections a, body.resources #nav li#resources a, body.feedback #nav li#feedback a, body.summary #nav li#summary a  { color: #fff; background: url(../images/nav_arrow.png) center 27px no-repeat; font-weight: bold; padding: 9px 0 7px;}
 
 #featureBox { background: url(../images/bg_featureBox.jpg) bottom left no-repeat; padding-top: 35px; margin-bottom: 65px;}
 #featureNumber { color: #80C2D6; margin-left: 50px; font-size: 400%; font-weight: bold; display: block; line-height: 50px;}
