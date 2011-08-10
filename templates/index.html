@@ -2,12 +2,12 @@
 {% block content %}
 {% load media %}
 <div id="featureBox">
-    <span id="featureNumber">$1,281,442,556,640*</span>
-    <span id="featureTitle">Broken Spending Reporting in 2009</span>
+    <span id="featureNumber">$1,306,120,795,761</span>
+    <span id="featureTitle">Broken Spending Reporting in 2010</span>
     <div id="featureBody">
         <h3>How Reliable is USASpending.gov?</h3>
         <p>We've taken data from other federal reporting systems and compared it with the data found in USASpending.gov across three categories: <strong>Consistency</strong>, <strong>Completeness</strong> and <strong>Timeliness</strong>. How close are the reported dollar amounts to the yearly estimates? How many of the required fields are filled out in each record? And how long did it take the agency to report the money once it was allocated to a project?</p>
-        <a id="scorecardBtn" href="{% url scorecard-index %}">Check out our scorecard</a>
+        <a id="scorecardBtn" href="{% url summary %}">Get the Highlights</a>
     </div>
 </div>
 <div id="pageMain">
@@ -29,15 +29,27 @@
     </div>
     <div id="homertColumn">
         <div id="important">
-            <h3>Why is federal spending reporting important?</h3>
-            <p class="no-border">For an introduction on what federal reporting is and why it's important, watch our video.</p>
-                <object width="480" height="270"><param name="movie" value="http://www.youtube.com/v/GSCZHBNrIGg&amp;hl=en_US&amp;fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/GSCZHBNrIGg&amp;hl=en_US&amp;fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="270"></embed></object>
+            <h3>Top Programs</h3>
+            <p class="no-border">The following are some of the top programs that report well across all three metrics</p>
+            <ul>
+                <li><a href="/clearspending/program/722/dollars/">Violence Against Women Act Court Training and Improvement Grants</a></li>
+                <li><a href="/clearspending/program/1376/dollars/">Special Education Grants for Infants & Families</a></li>
+                <li><a href="/clearspending/program/1374/dollars/">Special Education Preschool Grants</a></li>
+                <li><a href="/clearspending/program/1315/dollars/">Energy Efficient Appliance Rebate Program</a></li>
+                <li><a href="/clearspending/program/34/dollars/">Cooperative Forestry Research</a></li>
+                <li><a href="/clearspending/program/35/dollars/">Payments to Agricultural Experiment Stations</a></li>
+                <li><a href="/clearspending/program/1241/dollars/">State Senior Enviromental Employment Programs</a></li>
+                <li><a href="/clearspending/program/1385/dollars/">Even Start</a></li>
+                <li><a href="/clearspending/program/65/dollars/">Specialty Crop Research Initiative</a></li>
+                <li><a href="/clearspending/program/1417/dollars/">Civic Education Cooperative Education Exchange Program</a></li>
+
+            </ul>
+            <em><a style="float:right;" href="/clearspending/top-programs/">See all top programs &raquo;</a></em>
         </div>    
     </div>
     <div class="clear"></div>
 </div>
 
-    <span style="display:block; font-style:italic; padding:10px;">*We've adjusted this figure down from $1,361,672,559,288. For details please see our <a href="{% url corrections %}">corrections page</a></span>
 </div>
 
 

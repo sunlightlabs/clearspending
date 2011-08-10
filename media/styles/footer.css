@@ -1,0 +1,24 @@
+#footerContent { padding: 0 10px; width: 940px; margin: 0 auto;}
+#mainFooter { background: url(http://assets.sunlightfoundation.com/site/4.0/images/footer.jpg) bottom center repeat-x; color: #c7c2c2; height: 176px; padding: 35px 0 0; margin-top: 0; border: none;}
+#contact, #aboutSunlight { float: left; width: 200px; margin-right: 30px; padding-right: 30px; border-right: 1px dashed #5c5755; height: 155px; font-size: 115%;}
+#privacyPolicy { font-family: Georgia, "Times New Roman", Times, serif; font-style: oblique; font-size: 98%; line-height: 17px; float: left; width: 400px;}
+#mainFooter h2 { font-size: 119%; margin-bottom: 10px; color: #fcfcfc; font-weight: normal; text-transform:uppercase; line-height:22px; height: auto; width: auto; }
+#mainFooter a:link, footer a:active, footer a:visited { color: #c7c2c2; font-weight: normal; text-decoration:underline; }
+#mainFooter a:hover { color: #fcfcfc; }
+#mainFooter span.gc-cs-link { color: #C7C2C2; }
+#aboutSunlight li { margin-bottom: 10px;}
+#aboutSunlight, address { line-height: 22px; }
+
+.adr { display: block; margin-bottom: 8px;}
+.org { font-size: 110%; margin-bottom: 5px; display: block;}
+footer { padding: 20px; margin-top: 20px; background-color: #f3f2e9; -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 1px solid #e5e4db;}
+
+.tel-skype {
+    background: url(../images/icons/16/skype.png) left 2px no-repeat;
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    text-indent: -9999em;
+    padding-bottom:2px;
+}
+

@@ -5,6 +5,7 @@
     {% load media %}
     {% css "clearspending.css" %}
     {% css "header.css" %}
+    {% css "footer.css" %}
     {% js "jquery-1.4.2.min.js" %}
 	{% js "jquery-ui-1.8.4.custom.min.js" %}
 	{% js "jquery.tablesorter.min.js" %}
@@ -66,6 +67,7 @@
     <div id="mainContainer">
         <div id="nav">
             <ul>
+                <li id="summary"><a href="{%url summary %}">Summary</a></li>
                 <li id="scorecard"><a href="{% url scorecard-index %}">Scorecard</a></li>
                 <li id="background"><a href="{% url background %}">Background</a></li>
                 <li id="analysis"><a href="{% url analysis %}">Results</a></li>
@@ -80,5 +82,40 @@
             {% block content %}
             {% endblock content %}
     </div>
+<footer id="mainFooter"> 
+                <div id="footerContent"> 
+                        <div id="contact"> 
+                            <h2>Contact Us</h2> 
+                            <address class="vcard"> 
+                                <span class="fn org"> 
+                                    <a href="http://sunlightfoundation.com" class="url">Sunlight Foundation</a> 
+                                </span> 
+                                <span class="adr"> 
+                                    <span class="street-address">1818 N Street NW</span> 
+                                    <span class="extended-address">Suite 300</span> 
+                                    <span class="locality">Washington</span>,
+                                    <span class="region" title="District of Columbia">DC</span> 
+                                    <span class="postal-code">20036</span> 
+                                </span> 
+                            <span class="tel">202-742-1520</span> 
+                                <a href="callto:+12027421520" class="tel-skype">Call with Skype</a> 
+                            </address> 
+                    </div> 
+                    <div id="aboutSunlight"> 
+                            <h2>About Sunlight</h2> 
+                            <ul> 
+                                <li><a href="/about/">Our Mission</a></li> 
+                                <li><a href="/about/board/">Board &amp; Advisory Board</a></li> 
+                                <li><a href="/about/funding/">How We're Funded</a></li> 
+                                <li><a href="/people/">Our Team</a> and <a href="/jobs/">Jobs</a></li> 
+                            </ul> 
+                        </div> 
+                        <div id="privacyPolicy"> 
+                                <p>Our <a href="/legal/privacy/">privacy policy</a> details how personally identifiable information that is collected on our web sites is handled. Read our <a href="/legal/terms/">terms of service</a>.</p> 
+                            <p>This work by <a href="http://sunlightfoundation.com">Sunlight Foundation</a>, unless <a href="/colophon/">otherwise noted</a>, is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/us/">Creative Commons Attribution 3.0 United States License</a>.</p> 
+                        </div> 
+                        <div class="clear"></div> 
+                </div> 
+            </footer>
 </div>
 </body></html>
