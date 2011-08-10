@@ -5,72 +5,90 @@
 <div id="pageMain">
     <div id="ltColumn">
         <h3>Results</h3>
-        <p>Clearspending’s analysis consists of three metrics: consistency, completeness and timeliness. The consistency metric compares obligations reported in USASpending.gov with obligations reported in the Catalog of Federal Domestic Assistance (CFDA). Timeliness is a measure of how quickly those metrics are reported. Completeness is a measurement of how many required fields were completed for each record reported to USASpending.gov. Together, these metrics speak to whether the information reported by agencies is correct and whether the reporting is occurring in compliance with Office of Management and Budget policy and U.S. law.</p>
+        <p>Clearspending’s analysis consists of three metrics: consistency, completeness and timeliness. The consistency metric compares obligations reported in USASpending.gov with obligations reported in the Catalog of Federal Domestic Assistance (CFDA). Timeliness is a measure of how quickly those obligationd are reported. Completeness is a measurement of how many required fields were completed for each transaction reported to USASpending.gov. Together, these metrics speak to whether the information reported by agencies is consistent with figures reported elsewhere and whether the reporting is occurring in compliance with Office of Management and Budget policy and U.S. law.</p>
         <p>Clearspending’s scorecard allows users to view these metrics on an agency level and on a program level. For more information on how these metrics were calculated, please see our <a href="{% url methodology %}">methodology.</a></p>
-        <p>Although our analysis provides a detailed view of each metric for every agency and program, here we present some aggregate figures that illustrate trends over the entire USASpending.gov dataset for the years 2008-2010.</p>
-        <p>In the past three years there has been an increase in the number of programs reporting to USASpending.gov. However, the reported data suffers from an abundance of errors. There are also serious problems with the data’s timeliness and completeness. Of the total amount the government spent on grants in 2009, $1.3 trillion – 94% -- was incorrectly accounted for on USASpending.gov.</p>
-        <p>As long as such a large portion of its data remains unreliable, USASpending.gov is not usable as a single source for any kind of analysis, whether by a citizen, media outlet or research institution.</p>
+        <p>Although our <a href="{% url scorecard-index %}">scorecard</a> provides a detailed view of each metric for every agency and program, here we present some aggregate figures that illustrate trends over the entire USASpending.gov dataset for the years 2008-2010.</p>
+        <p>In the past three years there has been an increase in the number of programs reporting to USASpending.gov. However, the reported data suffers from an abundance of errors. There are also serious problems with the data’s timeliness and completeness. Previously, we reported that out of the total amount the government spent on grants in 2009, $1.3 trillion – 94% -- was incorrectly accounted for on USASpending.gov. Since that time, more late transactions have flowed into USASpending.gov, increasing the misreported percentage to 95.3%. For 2010, 94.5% of obligations failed at least one of our three metrics described above. These figures are summarized in the table below.</p>
+
+        <h5>Failed Program Obligations By Fiscal Year</h5>
+        <table>
+            <thead>
+                <tr><th>Fiscal Year</th><th>Misreported Dollars</th><th>Total Dollars</th><th>% Misreported</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>2008</td><td>$1,789,074,455,301</td><td>$1,852,452,110,821</td><td>96.58%</td></tr>
+                <tr><td>2009</td><td>$1,544,968,459,230</td><td>$1,621,109,941,736</td><td>95.30%</td></tr>
+                <tr><td>2010</td><td>$1,306,120,795,761</td><td>$1,381,784,887,564</td><td>94.52%</td></tr>
+            </tbody>
+        </table>
+
+        <p>The table above represents the total spending from failing programs out of the total value of all programs that reported data. We have seen no significant improvement in the quality of this data. As long as such a large portion of its data remains unreliable, USASpending.gov is not usable as a single source for any kind of analysis, whether by a citizen, media outlet or research institution.</p>
+
         <h4>Timeliness</h4>
-        <div class="graphic graphicRight" >
-			<h5>Delay of Reported Obligations</h5>
-			<table>
-				<tr><th>Fiscal Year</th><th>Average Delay</th><th>Std. Dev.</th></tr>
-				<tr><td>2008</td><td>51 days</td><td>74.2</td></tr>
-				<tr><td>2009</td><td>58 days</td><td>94.4</td></tr>
-				<tr><td>2010</td><td>27 days</td><td>40.2</td></tr>
-			</table>
-        </div>
-		<p>The Federal Funding Accountability and Transparency Act (FFATA) requires that all federal spending be reported within 30 days of its obligation. The average reporting delay among all programs for which data is available dropped below this threshold for the first time in 2010.</p>
+        <p>The Federal Funding Accountability and Transparency Act (FFATA) requires that all federal spending be reported within 30 days of its obligation. For the purposes of our analysis, we use a window of 45 days. Note that we do not have comparison data for every transaction when measuring timeliness, only those presented in the raw agency submissions on USASpending.gov. As such, the following numbers are based on that sample (for more information on the makeup of this sample, see our <a href="{%url methodology%}">methodology</a>). Below are two tables, one showing the percentage of spending and the other showing the percentage of transactions that fail the timeliness metric. </p>
+		<h5>Delay of Reported Obligations</h5>
+		<table>
+            <thead>
+    		    <tr><th>Fiscal Year</th><th>Spending in Sample Failing Timeliness</th><th>Total Spending in Sample</th><th>% Failed Timeliness</th></tr>
+            </thead>
+            <tbody>
+    			<tr><td>2008</td><td>$251,958,897,554</td><td>$290,664,635,664</td><td>86.68%</td></tr>
+	    		<tr><td>2009</td><td>$308,385,976,501</td><td>$437,348,451,504</td><td>70.51%</td></tr>
+		    	<tr><td>2010</td><td>$41,287,268,187</td><td>$322,506,134,182</td><td>12.8%</td></tr>
+            </tbody>
+		</table>
+        <h5>Transactions Reported Late by Fiscal Year</h5>
+        <table>
+            <thead>
+    		    <tr><th>Fiscal Year</th><th>Transactions in Sample Failing Timeliness</th><th>Total Transactions in Sample</th><th>% Failed Timeliness</th></tr>
+            </thead>
+            <tbody>
+    			<tr><td>2008</td><td>157,462</td><td>207463</td><td>75.90%</td></tr>
+	    		<tr><td>2009</td><td>69,912</td><td>287,834</td><td>24.20%</td></tr>
+		    	<tr><td>2010</td><td>1532967</td><td>1815756</td><td>84.43%</td></tr>
+            </tbody>
+		</table>
 
-		<p>This decrease in average reporting delay is accompanied by a decrease in the standard deviation of program reporting delay. This suggests that the drop is due to a government-wide improvement rather than a minority of programs making drastic improvements.</p>
+<p>Between 2008 and 2010, the average delay between program obligation and reporting has decreased from 51 to 27 days. However, these improvements were not dispersed widely enough to bring the average agency reporting lag below the 30 days requirement as it has only fallen to 55 days.</p>
+<p>The agencies with the worst record of being on time for FY 2010 are the Nuclear Regulatory Commission (100% late), the Export Import Bank of the United States (85%), and the Department of Homeland Security (82%). The agencies that were the most timely in FY 2010 were the Environmental Protection Agency (0%), the Department of Housing and Urban Development (1.6%) and the Department of Transportation (4.6%). </p>
 
-		<p>As explained in our methodology, timeliness could not be measured for all records in USASpending.gov. It could only be measured for those records that appear in the raw agency submission files appearing on USASpending.gov. The size of the sample of records available in these files is modest:</p>
-
-        <div class="graphic">
-			<h5>Sample Size of Agency Submissions</h5>
-			<table>
-				<tr><th>Fiscal Year</th><th>USA Spending Total</th><th>Agency Submission Total</th><th>Sample Percentage</th></tr>
-				<tr><td>2008</td><td>$1.54 trillion</td><td>$290.66 billion</td><td>18.87%</td></tr>
-				<tr><td>2009</td><td>$2.39 trillion</td><td>$437.35 billion</td><td>18.30%</td></tr>
-				<tr><td>2010</td><td>$1.87 trillion</td><td>$322.51 billion</td><td>17.28%</td></tr>
-			</table>
-        </div>		
-
-		<h4>Timeliness Rankings</h4>
-		<p>We could use a variety of methods to rank agencies by the timeliness with which they report their spending. We could rank them by how many days it usually took them to report their spending. We could also rank them by how much spending they reported late. A ranking based on the amount an agency reports late involves another decision. We may rank agencies by the dollar amount of the spending they reported late in order to focus on the largest agencies, which are the best targets for improving the overall timeliness of federal spending reporting. However each agency should report their spending in a timely manner regardless of their size, so we may also want to rank the agencies by the percentage of their spending that they reported late. Five agencies have the unfortunate distinction of being in the list of the ten tardiest agencies by all three of these measures:</p>
-
-        <div class="graphic">
-			<table class="nowrapCol1">
-				<tr><th>Agency</th><th>Late Spending</th><th>% Reported Late</th><th>Average Delay (days)</th></tr>
-				<tr><td>Export Import Bank of the United States</td><td>$1.29 billion</td><td>85%</td><td>69</td></tr>
-				<tr><td>Department of Homeland Security</td><td>$674.18 mil</td><td>82%</td><td>187</td></tr>
-				<tr><td>Small Business Administration</td><td>$661.71 mil</td><td>78%</td><td>140</td></tr>
-				<tr><td>Department of Agriculture</td><td>$5.97 bil</td><td>23%</td><td>81</td></tr>
-				<tr><td>Department of Labor</td><td>$471.2 mil</td><td>21%</td><td>37*</td></tr>
-			</table>
-		</div>
 
         <h4>Consistency</h4>
-        <p>A report by the Government Accountability Office (GAO) assessing USASpending.gov reported that 15 grant programs did not report any funding to USASpending.gov in 2008. Our analysis shows that this is a considerable underestimate.  In fact, 325 programs did not report any spending to USASpending.gov for that year. The total amount of the (non-reported) spending was $583 billion, or 22%, of the total grant spending for 2008. For loans, the total not reported was $772 billion out of $872 billion in outstanding loans.</p>
-        <p>In addition to unreported spending, there are many instances where program reporting contains significant errors. In the case of the CFDA program for State Fire Training Systems Grants (97.043), a grant for $5.8 million was obligated and then later returned to a different CFDA program. The wrong CFDA number was entered in either the obligation or the return transaction. Furthermore, the project description associated with this grant is so terse that it is impossible for a user to determine which CFDA program is the correct one.</p>
-        <p>Another example of a reporting error is the total value of all federal student loans for 2009. The Federal Direct Student Loan program (84.268) reports over $5 trillion in loans. This is more than the entire federal budget. There seem to be no data quality checks built in to the data entry system to flag or warn users that their entries far exceed a program’s or an agency’s budget.</p>
-        <p>The above instance of overreporting is not an isolated one. Over the past three years the total overreported grant obligations (excluding loan programs) has stayed somewhat steady, wavering from $75 billion in 2007 to $68 billion in 2009. Underreporting has significantly increased. In 2009, $161 billion in grant obligations was underreported -- up from $125 billion in 2007.</p>
-        <div class="graphic graphicLeft">
-            <h5>Consistently Reporting Programs</h5>
-            <table>
-                <tr><th>fy</th><th># of programs (% of all programs)</th><th>% of all grants</th></tr>
-                <tr><td>2007</td><td>446 (33%)</td><td>53%</td></tr>
-                <tr><td>2008</td><td>506 (35%)</td><td>43%</td></tr>
-                <tr><td>2009</td><td>487 (35%)</td><td>18%</td></tr>
-            </table>
-        </div>
-        <p>Despite the pervasiveness of reporting errors, a significant number of programs report obligations figures to both the CFDA and USASpending.gov that are consistent with one another. In fact, over the past three years the number of such programs has increased. Even though the number of programs reporting consistently has increased, the overall share of obligations reported consistently has decreased. This indicates that an almost static number of programs are reporting consistently despite a marked increase in grant funding. The sudden drop in the percentage of total grants reporting consistently in 2009 is probably the result of Recovery Act funding to programs that do not report consistently.</p>
-        <p>However, in all three years examined at least one-third of all programs reported obligations consistently. Our goal, and what should be the goal of the federal government, is to take the consistently reporting programs out of the minority by getting more agencies to report accurate and consistent numbers. The small percentage of programs doing this already proves that it can be done.</p>
+       <p>A report by the Government Accountability Office (GAO) assessing USASpending.gov reported that 15 grant programs did not report any funding to USASpending.gov in 2008. Our analysis shows that this is a considerable underestimate. In fact, 327 programs did not report any spending to USASpending.gov for that year. For FY 2009 and FY 2010, there are also at least 300 programs that were not reporting. The total amount of the (non-reported) spending was $77 billion, or 5%, of the total grant spending for 2010. This is a significant drop from 12% in 2008 and 16% in 2009. </p>
+        <p>In our last analysis, non-reported spending in FY 2008 was 22% of the overall total.  After re-running the analysis with updated data, it has dropped to 12%. We believe this is mostly due to several Medicare programs that retroactively reported spending to USASpending for 2007-2009. Coupled with the low percentage for 2010, this is a very positive trend. Several large programs have started reporting their spending consistently. However, the number of non-reporting programs has still not dropped below 300, suggesting that there is still a large core of programs (albeit with much lower annual obligations) that are completely divorced from the USASpending.gov reporting stream. In fact, 118 programs have not reported anything for all three years analyzed.</p> 
+
+        <table>
+            <thead>
+                <tr><th>Fiscal Year</th><th># of Programs<br />(% of all Programs)</th><th>Program Obligations<br />(% of all Obligations)</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>2008</td><td>559 (35%)</td><td>$1.35 trillion (71.78%)</td></tr>
+                <tr><td>2009</td><td>583 (34%)</td><td>$1.01 trillion (60.75%)</td></tr>
+                <tr><td>2010</td><td>531 (33%)</td><td>$435.53 billion (30.50%)</td></tr>
+            </tbody>
+        </table>
+<p>Despite the pervasiveness of reporting errors, a significant number of programs report obligations figures to both the CFDA and USASpending.gov that are consistent with one another. In fact, over the past three years the percentage of all programs that report consistently has hovered around 33%, or one-third of all programs. However, between FY2008 and FY2010, the overall percentage of consistently reported obligations appears to have decreased. A similar trend was apparent in our last run of this analysis, which covered FY2007-FY2009. This is most likely due to the high latency that we have observed in the reporting to USASpending.gov.</p>
+<p>In all three years examined, at least one-third of all programs reported obligations consistently.  262 programs reported consistently for all three of these years. The agencies with the highest number of consistently reporting programs were the Department of Health and Human Services (110), the Department of Education (44) and the Department of Agriculture (25). </p>
+
         <h4>Completeness</h4>
-        <p>Tracking where the money goes is just as important as tracking how much was spent. The FFATA requires that data regarding the recipient, location, agency and CFDA program of each obligation be reported. However, these fields suffer from serious data quality problems. For each year between 2007 and 2009, at least one-third of all CFDA programs were incompletely reported. The dollar amount of obligations affected by incomplete data entry is increasing rapidly. In 2007, $941 billion in obligations were incompletely reported. In 2009, this number had increased to $1.68 trillion – a 30% increase.</p>
+        <p>Tracking where the money goes is just as important as tracking how much was spent. The FFATA requires that data regarding the recipient, location, agency and CFDA program of each obligation be reported. However, these fields suffer from serious data quality problems. For each year between 2008 and 2010, at least 50% of all obligations were incompletely reported.</p>
+    	<h5>Spending Incompletely Reported by Fiscal Year</h5>
+		<table>
+            <thead>
+    		    <tr><th>Fiscal Year</th><th>Failed Spending for Completeness</th><th>Total Spending</th><th>% Failed Completeness</th></tr>
+            </thead>
+            <tbody>
+    			<tr><td>2008</td><td>$1,455,055,450,288</td><td>$1,852,452,110,821</td><td>78.55%</td></tr>
+	    		<tr><td>2009</td><td>$952,058,362,968</td><td>$1,621,109,941,736</td><td>58.73%</td></tr>
+		    	<tr><td>2010</td><td>$951,739,782,465</td><td>$1,381,784,887,564</td><td>68.88%</td></tr>
+            </tbody>
+		</table>
         <p>In addition to incomplete and poorly formatted fields, there is another class of error that we have no way of programmatically measuring. Many of the descriptive fields, such as those that describe the purpose of the grant, appear to be a random mix of letters and numbers. Because we have no way of quantifying these descriptive errors, the above percentages represent the lower bound of completion errors in USASpending.gov. It is possible that the actual error rate is substantially higher.</p>
-        <p>Because USASpending.gov is based on datasets that are widely accepted as flawed or incomplete, the data on the site can only be as good as the data in the Federal Assistance Award Data System (FAADS) or the Federal Procurement Data System (FPDS) – the underlying reporting systems. USASpending.gov must fix the way agencies report program spending to these systems. One path to improvement would be to institute meaningful oversight. According to a GAO report, the Office of Management and Budget (OMB) has no process for tracking down programs that do not report at all. The data in Clearspending makes it possible for anyone to find both nonreporting programs and those programs with an excellent reporting record. Highlighting programs and agencies on both ends of the spectrum is the first step to identifying best practices and pitfalls of federal spending reporting.</p>
-    </div>
+
+    <h4>Conclusion</h4>
+    <p>Because USASpending.gov is based on datasets that are widely accepted as flawed or incomplete, the data on the site can only be as good as the data in the Federal Assistance Award Data System (FAADS Plus) or the Federal Procurement Data System (FPDS-NG) – the underlying reporting systems. USASpending.gov must fix the way agencies report program spending to these systems. One path to improvement would be to institute meaningful oversight. According to a GAO report, the Office of Management and Budget (OMB) has no process for tracking down programs that do not report at all. The data in Clearspending makes it possible for anyone to find both nonreporting programs and those programs with an excellent reporting record. Highlighting programs and agencies on both ends of the spectrum is the first step to identifying best practices and pitfalls of federal spending reporting.</p>
+        
+</div>
     <div id="rtColumn">
         <div id="reporting">
             <h3>How does the federal government report its spending?</h3>
