@@ -280,15 +280,19 @@ ol#cite li { margin-bottom: 2px;  }
 #summary ul.legend { margin-top: 30px; }
 #summary ul.legend li span { width: 10px; height: 10px; display: block; float: left; margin-right: 5px; margin-top: 4px; }
 
-#summary table.exhibit td { border: 1px #C4C2C1 solid; padding: 0.25em 0 0.25em 0; margin: 0; }
-#summary table.exhibit th { border-bottom: 1px #C4C2C1 solid; font-weight: bold; vertical-align: bottom; padding: 0.25em; margin: 0; }
+#summary table.exhibit td, .results-table td { border: 1px #C4C2C1 solid; padding: 0.25em 0 0.25em 0; margin: 0; }
+#summary table.exhibit th, .results-table td { border-bottom: 1px #C4C2C1 solid; font-weight: bold; vertical-align: bottom; padding: 0.25em; margin: 0; }
 #summary table.exhibit tr.odd { background-color: transparent; }
 table.exhibit th, td.year, td.pct, td.tally { text-align: center; }
 #summary #completeness-total { float: left; width: 219px; height: 219px; position: relative; background-color: #EB4724; margin-right: 20px; margin-top: 20px; color: white; font-size: 125%; font-weight: bold; vertical-align: middle; }
 #summary #completeness-complete { width: 79px; height: 79px; position: absolute; top: 0; right: 0; background-color: #83A93F; }
 #summary #completeness-total span { display: inline-block; margin: 1em; }
 
-
+.results-table td { padding: 10px; text-align:right;}
+.results-table th { padding-bottom: 5px; text-align:right;}
+.results-table { margin: 20px 0px; }
+.results-table tr.even {background-color: #F6F4EE; }
+h5.table-header { margin-top: 20px; }
 .clear:after { display: block; visibility: hidden; clear: both; height: 0; content: "."; }
 
             body {
