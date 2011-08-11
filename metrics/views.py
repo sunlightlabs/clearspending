@@ -14,7 +14,7 @@ import math
 from urllib import unquote
 from haystack.query import SearchQuerySet
 from haystack.models import SearchResult
-from settings import FISCAL_YEARS
+from settings import FISCAL_YEARS, SUB_SITE
 
 
 def contact(request):
@@ -167,7 +167,7 @@ def index(request, unit='dollars', fiscal_year=None):
 
         table_data.append(a_data) 
 
-    return render_to_response('scorecard_index.html', {'table_data': table_data, 'fiscal_year': "%s" % fiscal_year, 'unit':unit})
+    return render_to_response('scorecard_index.html', {'table_data': table_data, 'fiscal_year': "%s" % fiscal_year, 'unit':unit, 'SUB_SITE': SUB_SITE})
 
 def agencyDetail(request, agency_id, unit='dollars', fiscal_year=None):
     if fiscal_year is None:
@@ -490,7 +490,8 @@ def list_best_programs(request, fiscal_year):
     program_details.sort(key=lambda pgm: pgm[0])
     return render_to_response('bestprograms.html', 
                               { 'fiscal_year': fiscal_year,
-                                'program_details': program_details
+                                'program_details': program_details,
+                                'SUB_SITE': SUB_SITE
                               })
 
 
