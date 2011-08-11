@@ -76,7 +76,7 @@
             $("#program-search").submit(function() {
                 var search_text = $(this).find('input[name="search-text"]').val()
                 if (search_text) {
-                    document.location = '/clearspending/search/'+ search_text + '/{{unit}}/{{fiscal_year}}/';
+				    document.location = '{{ SUB_SITE }}/search/' + search_text + '/{{unit}}/{{fiscal_year}}/';
                 }
                 return false;
             });

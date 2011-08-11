@@ -82,6 +82,14 @@
                 $("#programtable tr:even").removeClass().addClass("even")
                 $("#programtable tr:odd").removeClass().addClass("odd");
 			});
-		});
+
+            $("#program-search").submit(function() {
+                var search_text = $(this).find('input[name="search-text"]').val()
+                if (search_text) {
+				    document.location = '{{ SUB_SITE }}/search/'+ search_text + '/dollars/{{fiscal_year}}/';
+                }
+                return false;
+            });
+        });
 	</script>
 {% endblock %}
