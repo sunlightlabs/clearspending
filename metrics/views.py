@@ -482,7 +482,7 @@ def list_best_programs(request, fiscal_year):
                 over_reported_field,
                 completeness_field,
                 timeliness_field,
-                pretty_money(obligation_lookup[program_id].obligation)
+                moneyfmt(obligation_lookup[program_id].obligation, curr='$', places=0, sep=',', dp='')
                ]
                 
     program_details = map(make_detail_record, best_program_ids) 
