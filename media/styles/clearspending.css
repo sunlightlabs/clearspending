@@ -150,9 +150,13 @@ th { color: #636466; font-weight: bold; padding-bottom: 15px; font-size: 100%; t
 .ratingtable .reviewed { width: 350px;}
 
 td { padding: 15px 0 15px 15px; padding-right: 10px;}
-.sort { background: url(../images/sortArrows.png) left 10px no-repeat;  padding-left: 15px; cursor:pointer; }
-.headerSortDown { background: url(../images/sortArrows_down.png) left 10px no-repeat;}
-.headerSortUp { background: url(../images/sortArrows_up.png) left 10px no-repeat;}
+.sort, #agencytable th.sort:nth-child(2) { background: url(../images/sortArrows.png) right 10px no-repeat;  padding-right: 15px; cursor:pointer; }
+th.sort:nth-child(1), th.sort:nth-child(2) { background: url(../images/sortArrows.png) left 10px no-repeat;  padding-left: 15px; cursor:pointer; }
+
+.headerSortDown, #agencytable th.headerSortDown:nth-child(2) { background: url(../images/sortArrows_down.png) right 10px no-repeat;}
+.headerSortUp, #agencytable th.headerSortUp:nth-child(2) { background: url(../images/sortArrows_up.png) right 10px no-repeat;}
+th.headerSortDown:nth-child(1), th.headerSortDown:nth-child(2) { background: url(../images/sortArrows_down.png) left 10px no-repeat;}
+th..headerSortUp:nth-child(1), th.headerSortUp:nth-child(2) { background: url(../images/sortArrows_up.png) left 10px no-repeat;}
 
 .last-cell { padding-right: 20px;}
 
@@ -218,19 +222,22 @@ div#agencytablecontainer tbody, div#programtablecontainer tbody { height: 500px;
 div#agencytablecontainer tr, div#programtablecontainer tr {  }
 
 
-div#programtablecontainer .med, div#agencytablecontainer .med { width: 105px;}
-div#programtablecontainer .lg, div#agencytablecontainer .lg { width: 150px;}
-div#programtablecontainer .sm, div#agencytablecontainer .sm { width: 70px;}
+div#programtablecontainer .med { width: 105px;}
+div#programtablecontainer .lg { width: 150px;}
+div#programtablecontainer .sm { width: 70px;}
+div#agencytablecontainer .med  { width: 116px; }
+ div#agencytablecontainer .lg  { width: 160px; }
+ div#agencytablecontainer .sm  { width: 70px; }
 
 div#agencytablecontainer, div#programtablecontainer { margin: 40px 0;}
 #agencytable tr, #programtable tr, #agencytable tr td, #programtable tr td {height: auto;}
 
 #agencytable tr > td, #agencytable tr > th {text-align:right; }
-#agencytable tr > td:first-of-type, #agencytable tr > th { text-align:left; }
+#agencytable tr > td:first-of-type, #agencytable tr > th:first-of-type { text-align:left; }
 #programtable tr > td, #programtable tr > th { text-align:right; }
 #programtable tr > td:nth-child(1), #programtable tr > td:nth-child(2), #programtable tr > th:nth-child(1), #programtable tr > th:nth-child(2) { text-align:left; }
 
-tr#titles, #programtable thead tr {margin-right: 15px; }
+tr#titles, #programtable thead tr {margin-right: 20px; }
 
 .agencydescription { color: #8E8E8E; font-size: 100%; line-height: 150%; padding-left: 10px; display: none; width: 280px; }
 
