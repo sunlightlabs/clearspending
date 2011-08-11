@@ -19,6 +19,15 @@
                 <li><a href="{% block year1 %} {% url list-best-programs 2010 %} {% endblock %}" {% ifequal "2010" fiscal_year %}class="active"{% endifequal %}>2010</a></li>
             </ul>
 
+            {% block search %}
+            <form id="program-search">
+                <label for="search-text">Search Programs</label>
+                <input class="search-text" type="text" name="search-text" />
+                <input type="submit" value="" class="submit" />
+            </form>
+            <div class="clear"></div>
+            {% endblock %}
+
             <div class="clear"></div>
         </div>
 
@@ -26,7 +35,7 @@
 			<table id="programtable">
 				<thead>
 					<tr>
-						<th class="sort lg">Program Number</th>
+						<th class="sort sm">Program Number</th>
 						<th class="sort lg">Program Name</th>
 						<th class="sort med">Over Reported</th>
 						<th class="sort med">Under Reported</th>
@@ -38,19 +47,21 @@
 				<tbody>
 					{% for pgm in program_details %}
 					<tr class="{% cycle 'odd' 'even'  %}">
-						<td class="lg">{{ pgm.0 }}</td>
-						<td class="lg">{{ pgm.1 }}</td>
-						<td class="med">{% if pgm.2 %}{{ pgm.2 }}{% else %}-{% endif %}</td>
+						<td class="sm"><a href="{% url program_detail pgm.0 'dollars' %}">{{ pgm.1 }}</a></td>
+						<td class="lg"><a href="{% url program_detail pgm.0 'dollars' %}">{{ pgm.2 }}</a></td>
 						<td class="med">{% if pgm.3 %}{{ pgm.3 }}{% else %}-{% endif %}</td>
 						<td class="med">{% if pgm.4 %}{{ pgm.4 }}{% else %}-{% endif %}</td>
 						<td class="med">{% if pgm.5 %}{{ pgm.5 }}{% else %}-{% endif %}</td>
-						<td class="lg">{{ pgm.6 }}</td>
+						<td class="med">{% if pgm.6 %}{{ pgm.6 }}{% else %}-{% endif %}</td>
+						<td class="lg">{{ pgm.7 }}</td>
 					</tr>
 					{% endfor %}
 				</tbody>
 			</table>
 		</div>
 		<div class="clear"></div>
+
+		</div>
 	</div>
 
     <script type="text/javascript">

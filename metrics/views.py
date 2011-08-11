@@ -476,7 +476,8 @@ def list_best_programs(request, fiscal_year):
             else:
                 completeness_field = '%.2f%%' % pct
 
-        return [obligation_lookup[program_id].program.program_number,
+        return [program_id,
+                obligation_lookup[program_id].program.program_number,
                 obligation_lookup[program_id].program.program_title,
                 under_reported_field,
                 over_reported_field,
@@ -486,6 +487,7 @@ def list_best_programs(request, fiscal_year):
                ]
                 
     program_details = map(make_detail_record, best_program_ids) 
+    program_details.sort(key=lambda pgm: pgm[0])
     return render_to_response('bestprograms.html', 
                               { 'fiscal_year': fiscal_year,
                                 'program_details': program_details
