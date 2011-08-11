@@ -225,6 +225,13 @@ div#programtablecontainer .sm, div#agencytablecontainer .sm { width: 70px;}
 div#agencytablecontainer, div#programtablecontainer { margin: 40px 0;}
 #agencytable tr, #programtable tr, #agencytable tr td, #programtable tr td {height: auto;}
 
+#agencytable tr > td, #agencytable tr > th {text-align:right; }
+#agencytable tr > td:first-of-type, #agencytable tr > th { text-align:left; }
+#programtable tr > td, #programtable tr > th { text-align:right; }
+#programtable tr > td:nth-child(1), #programtable tr > td:nth-child(2), #programtable tr > th:nth-child(1), #programtable tr > th:nth-child(2) { text-align:left; }
+
+tr#titles, #programtable thead tr {margin-right: 15px; }
+
 .agencydescription { color: #8E8E8E; font-size: 100%; line-height: 150%; padding-left: 10px; display: none; width: 280px; }
 
 .caveat { -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #C30B0B; color: #636466; display:block; font-style:italic; margin-top: 20px; padding: 10px 30px; }
