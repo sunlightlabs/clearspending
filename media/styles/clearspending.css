@@ -167,6 +167,8 @@ th..headerSortUp:nth-child(1), th.headerSortUp:nth-child(2) { background: url(..
 .warn { color: #EC9322; }
 .good { color: #83A93F;}
 
+#pageMain a.name { text-decoration: none;}
+#pageMain a.name:hover { text-decoration: underline; }
 
 /*buttons*/
 button { text-indent: -9999em; display: block; height: 45px; cursor: pointer; border: none;}
