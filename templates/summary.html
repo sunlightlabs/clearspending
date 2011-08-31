@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load media %}
 {% block title %} <title>Clearspending.org - Summary</title> {% endblock %}
 {% block bodyclass %}summary{% endblock %}
 {% block content %}
@@ -17,7 +18,7 @@
 			</div>
 			<div class="col2a">
 				<span class="graph-title">2010 Programs with Good Reporting</span>
-				<img class="graph" src="/media/images/charts/best-programs-pie.png">
+				<img class="graph" src="{% media_url %}/images/charts/best-programs-pie.png">
 				<ul class="legend">
 					<li><span style="background-color: #83A93F;"></span> Good </li>
 					<li><span style="background-color: #EB4724;"></span> Poor </li>
@@ -111,7 +112,7 @@
 			<div class="col2b" style="text-align: center;">
 				<span class="graph-title" style="">Proportion of Spending Reported On-Time</span>
 				<span style="display: inline-block; text-align: center;">
-					<img src="/media/images/charts/program-timeliness-2008.png">
+					<img src="{% media_url %}/images/charts/program-timeliness-2008.png">
 					<br>2008
 					<ul class="legend">
 						<li style="text-align: left;"><span style="background-color: #83A93F;"></span> 13.32% On-time </li>
@@ -119,7 +120,7 @@
 					</ul>
 				</span>
 				<span style="display: inline-block; text-align: center;">
-					<img src="/media/images/charts/program-timeliness-2009.png">
+					<img src="{% media_url %}/images/charts/program-timeliness-2009.png">
 					<br>2009
 					<ul class="legend">
 						<li style="text-align: left;"><span style="background-color: #83A93F;"></span> 29.49% On-time </li>
@@ -127,7 +128,7 @@
 					</ul>
 				</span>
 				<span style="display: inline-block; text-align: center;">
-					<img src="/media/images/charts/program-timeliness-2010.png">
+					<img src="{% media_url %}/images/charts/program-timeliness-2010.png">
 					<br>2010
 					<ul class="legend">
 						<li style="text-align: left;"><span style="background-color: #83A93F;"></span> 87.2% On-time </li>

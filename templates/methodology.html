@@ -59,10 +59,17 @@ USASpending.gov contains information about two main types of spending: contracts
 		<p>The loan data in USASpending.gov is of substantially lower quality than the grant data. It is often the case that only defaults are reported despite the FFATA’s requirement that all loans be reported. Because loan data is sparse, it is not included in our timeliness metric and is considered separately in our consistency metric. Aggregate figures for the consistency measurement do not include loans and loan guarantees, though these figures are available in the program detail view. Since only the face value of the loan is reliably available in both CFDA and USASpending.gov we use this figure in our analysis and not the subsidy cost.</p>
     </div>
     <div id="rtColumn">
+        <div id="no-contracts">
+            <h3>Why doesn't Clearspending Analyze Contracts?</h3>
+            <p>
+                Clearspending uses the Catalog of Federal Domestic Assistance (CFDA) as a comparison point for the obligations in USASpending.gov. The CFDA includes only direct assistance, such as grants and loans. Contracts are not reported to the CFDA. Because we do not have another comparison point for contract obligations, we have not ported this analysis to the procurement space. We do however, have a pending Freedom of Information Act request for this data and hope to post an analysis soon.
+            </p>
+        </div>
         <div id="reporting">
             <h3>How does the federal government report its spending?</h3>
             <p>The flow of federal spending reporting can get complicated. We've tried to simplify it for you with a <a href="{% url animation %}">step-by-step visualization</a>.</p> 
         </div>
+        
     </div> 
     <div class="clear"></div>
 </div>
