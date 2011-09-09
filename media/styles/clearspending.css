@@ -280,7 +280,7 @@ ol#cite li { margin-bottom: 2px;  }
 #summary .legend li { display: inline-block; text-align: center; margin: 5px 0 5px 15px;}
 #summary img { margin-top: 20px;}
 
-#updated { text-indent: -9999em; display: block; background: url(../images/img_updated.png); width: 90px; height: 90px; position: absolute; top: 20px; left: 560px;}
+#updated { text-indent: -9999em; display: block; background: url(../images/img_updated.png); width: 90px; height: 90px; position: relative; top: -100px; left: 340px; float: left;}
  
 .spendingOverTime img { float: left; margin-right: 15px;}
 #summary .spendingOverTime .legend { float: left; width: 120px; margin-top: 25px; }
