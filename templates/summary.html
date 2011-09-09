@@ -6,35 +6,37 @@
 <div id="pageMain">
 
 	<div id="summary">
-
 		<div class="section">
-			<h1>Overall Poor Quality</h1>
-			<div class="col1a">
-				To measure the usefulness of USASpending.gov, we used three metrics: <i>consistency, completeness, &amp; timeliness</i>. These metrics work in concert to test whether citizens have accurate spending information information when they need it. Spending occurs continually, so spending data loses value over time. Thus spending should be reported as soon as possible. Yet inaccurate data is of little use, no matter how timely it is.</p>
+			<h3>Overall Poor Quality</h3>
+			<div class="ltColumn">
+				<p>To measure the usefulness of USASpending.gov, we used three metrics: <i>consistency, completeness, &amp; timeliness</i>. These metrics work in concert to test whether citizens have accurate spending information information when they need it. Spending occurs continually, so spending data loses value over time. Thus spending should be reported as soon as possible. Yet inaccurate data is of little use, no matter how timely it is.</p>
 
 				<p>Programs that misreport less than 50% of their spending, across all three metrics, are considered good, colored green in the graph. It's immediately clear that most programs are not good at reporting their spending.</p>
 
-				<p><a href="{% url list-best-programs 2010 %}">See our list of the best-reporting programs &raquo;</a></p>
+				<a href="{% url list-best-programs 2010 %}">See our list of the best-reporting programs &raquo;</a>
 			</div>
-			<div class="col2a">
+			<div class="rtColumn">
 				<span class="graph-title">2010 Programs with Good Reporting</span>
-				<img class="graph" src="{% media_url %}/images/charts/best-programs-pie.png">
+				<img style="margin: 20px auto 0; display: block;" src="{% media_url %}/images/charts/best-programs-pie.png">
 				<ul class="legend">
-					<li><span style="background-color: #83A93F;"></span> Good </li>
-					<li><span style="background-color: #EB4724;"></span> Poor </li>
+					<li>
+					    <span class="lightBlock">Lighter color block</span>Good 
+                    </li>
+					<li><span class="darkBlock">Darker color block</span>Poor</li>
 				</ul>
 			</div>
+			<div class="clear"></div>
 		</div>
 
 		<div class="section">
-			<h1>Still Inconsistent</h1>
-			<div class="col1a">
+			<h3>Still Inconsistent</h3>
+			<div class="ltColumn">
 				<p>To determine a program's consistency, we compare what government agencies report to USASpending.gov against the obligations reported in the Catalog of Federal Domestic Assistance (CFDA). Discrepencies between these two systems hinder the ability of citizens to use these tools to ensure accountability in federal spending. Furthermore, the ability to debate the merits of individual assistance programs relies on our ability to agree on how much those programs cost. How can outside observers agree on these costs if those spending the money seemingly cannot agree with themselves?</p>
 
 				<p>The proportion of programs that report their spending consistently between USASpenging.gov and CFDA has not improved from 2008 to 2010. The lack of enforcement of the current law has weakened the incentive for agencies or programs to accurately report their spending. This trend is likely to hold until such an incentive is introduced.</p>
 			</div>
 
-			<div class="col2a">
+			<div class="rtColumn">
 				<span class="graph-title">2010 Program Consistency</span>
 				<table class="exhibit">
 					<thead>
@@ -49,18 +51,17 @@
 					</tbody>
 				</table>
 			</div>
+			<div class="clear"></div>
 		</div>
 
-		<div class="clear"></div>
-
 		<div class="section">
-			<h1>Incomplete</h1>
-			<div class="col1a">
+			<h3>Incomplete</h3>
+			<div class="ltColumn">
 				<p>Completing paper work is usually a necessary step in applying for assistance from the government. If you fail to completely fill out the forms, you usually don't get assistance. Yet when it comes to USASpending.gov, the government doesn't subject itself to that same level of scrutiny. While the law requires certain fields in the USASpending.gov data to be completely filled out, most are not. Indeed 87% of all reported 2010 spending is lacking some required information.</p>
 
 				<p>USASpending.gov has been described as the nation's checkbook. In order to balance a checkbook you need to know a minimum set of information about each transaction. You need to know how much money was transferred, who received the money, and when the transaction took place. The fields required by USASpending.gov are meant to allow such a balancing. However, our results show that this is not possible with most of the recrods in USASpending.gov.</p>
 			</div>
-			<div class="col2a">
+			<div class="rtColumn">
 				<span class="graph-title">2010 Incompletely Reported Spending</span>
 				<div id="completeness-total">
 					<div id="completeness-complete">
@@ -69,28 +70,18 @@
 					<span>87%</span>
 				</div>
 				<ul class="legend">
-					<li><span style="background-color: #83A93F;"></span> Complete </li>
-					<li><span style="background-color: #EB4724;"></span> Incomplete </li>
+					<li><span class="lightBlock">Lighter color block</span> Complete</li>
+					<li><span class="darkBlock">Darker color block</span> Incomplete</li>
 				</ul>
 			</div>
-		</div>
-
-		<div class="clear"></div>
-
-		<div class="section">
-			<h1>Punctual</h1>
-			<div class="col1a">
-			   
-			</div>
-			<div class="col2a">
-			</div>
+			<div class="clear"></div>
 		</div>
 
 		<div class="section">
-			<div class="col1b">
+			<h3>Punctual</h3>
+			<div class="ltColumn">
 				<p>There has been considerable improvement from 2008 to 2010 in our timeliness metric. For the first time, in 2010 the average program reporting lag was within the 30 day requirement. The latest average is 27 days, which is is down nearly 50% from 51 days in 2008.</p>
 
-				<br>
 				<table class="exhibit">
 					<thead>
 						<tr><th>Fiscal Year</th>
@@ -103,42 +94,46 @@
 						<tr class="even"><td class="year">2010</td><td class="tally">27 days</td></tr>
 					</tbody>
 				</table>
-				<br>
 
 				<p>More impressive is the reversal of the proportion of spending reported on-time (seen to the right). In 2010 87% of spending was reported on-time while in 2008 that same proportion was reported late.</p>
 			   
 				<p>Unfortunately the value of this on-time reporting is ultimately diminished by the inconsistency and incompleteness of the data reported.</p>
 			</div>
-			<div class="col2b" style="text-align: center;">
+			<div class="rtColumn">
 				<span class="graph-title" style="">Proportion of Spending Reported On-Time</span>
-				<span style="display: inline-block; text-align: center;">
+				<div class="spendingOverTime">
 					<img src="{% media_url %}/images/charts/program-timeliness-2008.png">
-					<br>2008
-					<ul class="legend">
-						<li style="text-align: left;"><span style="background-color: #83A93F;"></span> 13.32% On-time </li>
-						<li style="text-align: left;"><span style="background-color: #EB4724;"></span> 86.68% Tardy </li>
-					</ul>
-				</span>
-				<span style="display: inline-block; text-align: center;">
+					<div class="legend">
+					    <span class="legendTitle">2008</span>
+    					<ul>
+    						<li><span class="lightBlock">Lighter color block</span> 13.32% On-time</li>
+    						<li><span class="darkBlock">Darker color block</span> 86.68% Tardy</li>
+    					</ul>
+    				</div>
+				</div>
+				<div class="spendingOverTime">
 					<img src="{% media_url %}/images/charts/program-timeliness-2009.png">
-					<br>2009
-					<ul class="legend">
-						<li style="text-align: left;"><span style="background-color: #83A93F;"></span> 29.49% On-time </li>
-						<li style="text-align: left;"><span style="background-color: #EB4724;"></span> 70.51% Tardy </li>
-					</ul>
-				</span>
-				<span style="display: inline-block; text-align: center;">
+					<div class="legend">
+					    <span class="legendTitle">2009</span>
+    					<ul>
+    						<li><span class="lightBlock">Lighter color block</span> 29.49% On-time </li>
+    						<li><span class="darkBlock">Darker color block</span> 70.51% Tardy </li>
+    					</ul>
+    				</div>
+				</div>
+				<div class="spendingOverTime">
 					<img src="{% media_url %}/images/charts/program-timeliness-2010.png">
-					<br>2010
-					<ul class="legend">
-						<li style="text-align: left;"><span style="background-color: #83A93F;"></span> 87.2% On-time </li>
-						<li style="text-align: left;"><span style="background-color: #EB4724;"></span> 12.8% Tardy </li>
-					</ul>
-				</span>
+					<div class="legend">
+    					<span class="legendTitle">2010</span>
+    					<ul>
+    						<li><span class="lightBlock">Lighter color block</span> 87.2% On-time </li>
+    						<li><span class="darkBlock">Darker color block</span> 12.8% Tardy </li>
+    					</ul>
+    				</div>
+				</div>
 			</div>
+			<div class="clear"></div>
 		</div>
-
-		<div class="clear"></div>
 	</div>
 
 </div>

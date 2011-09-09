@@ -32,8 +32,8 @@ h2 a { background: url(../images/clearspending-logo.png) top left no-repeat; wid
 
 #header { width: 940px; margin: 0 auto;}
 
-#ltColumn { width: 565px; margin-right: 30px; float: left;}
-#rtColumn { width: 265px; margin-left: 30px; float: left;}
+#ltColumn, .ltColumn { width: 565px; margin-right: 30px; float: left;}
+#rtColumn, .rtColumn { width: 265px; margin-left: 30px; float: left;}
 
 #nav { width: 940px; height: 35px; background: #85BE3D url(../images/bg_nav.jpg) bottom left repeat-x; -moz-border-radius-topleft: 5px; -moz-border-radius-topright: 5px; -webkit-border-top-left-radius: 5px; -webkit-border-top-right-radius: 5px;}
 #nav li {  float: left;  text-transform: uppercase; width: 115px;}
@@ -51,9 +51,11 @@ h2 a { background: url(../images/clearspending-logo.png) top left no-repeat; wid
 a#scorecardBtn { display: block; width: 322px; height: 45px; background: url(../images/btn_results.png) top left no-repeat; text-indent: -9999em; position: relative; top: 20px;}
 
 h3 { color: #43413f; font-size: 180%; margin-bottom: 20px; text-transform: uppercase; line-height: 28px;}
+#summary h3 { text-transform: none;}
 #homeltColumn h3, #homertColumn h3  { text-transform: capitalize;}
 
 h4 { color: #636466; font-size: 130%; font-weight: bold; line-height: 130%; margin-bottom: 15px; margin-top:25px;}
+#rtColumn h4 { margin-top: 0px;}
 h5 { margin-bottom: 10px; font-weight: bold; color: #636466;}
 
 #homeltColumn { width: 345px; margin-right: 25px; float: left;}
@@ -269,25 +271,31 @@ ol#cite { font-size: x-small; font-style: italic; }
 ol#cite li { margin-bottom: 2px;  }
 .footnote { padding: 10px; margin: 10px; display: block; font-style:italic; }
 
-
 #summary { margin: 0; padding: 0; vertical-align: top; }
-#summary .section { clear: both; }
+.section { margin-bottom: 30px;}
 #summary .section h1 { font-weight: bold; font-size: 150%; margin: 1.5em 0 0.5em 0; }
-#summary .col1a, #summary .col2a, #summary .col1b, #summary .col2b { margin: 0; padding: 0; }
-#summary .col1a { width: 60%; float: left; padding-right: 2%; }
-#summary .col2a { width: 36%; float: right; vertical-align: top; padding-left: 2%; }
-#summary .col1b { width: 36%; float: left; padding-right: 2%; }
-#summary .col2b { width: 60%; float: right; padding-left: 2%; }
 #summary span.graph-title { display: inline-block; font-weight: bold; padding: 0; margin: 0; text-align: center; width: 100%; }
-#summary ul.legend { margin-top: 30px; }
-#summary ul.legend li span { width: 10px; height: 10px; display: block; float: left; margin-right: 5px; margin-top: 4px; }
+#summary .legend { background-color: #F7F7F2; border: 1px solid #EAE7E4; -moz-border-radius: 3px; -webkit-border-radius: 3px; width: 220px; margin: 15px auto; }
+#summary .legend li span { width: 10px; height: 10px; display: block; float: left; margin-right: 5px; margin-top: 4px; }
+#summary .legend li { display: inline-block; text-align: center; margin: 5px 0 5px 15px;}
+#summary img { margin-top: 20px;}
+
+#updated { text-indent: -9999em; display: block; background: url(../images/img_updated.png); width: 90px; height: 90px; position: absolute; top: 20px; left: 560px;}
+ 
+.spendingOverTime img { float: left; margin-right: 15px;}
+#summary .spendingOverTime .legend { float: left; width: 120px; margin-top: 25px; }
+#summary .spendingOverTime .legend li { text-align: left;}
+.legendTitle { margin: 5px 0 0 15px; font-weight: bold;}
+
+.lightBlock { background-color: #F7E2AD; border: 1px solid #D6AF63; text-indent: -9999em; display: block;}
+.darkBlock { background-color: #FBCB2D; border: 1px solid #BC8E0C; text-indent: -9999em; display: block;}
 
 #summary table.exhibit td, .results-table td { border: 1px #C4C2C1 solid; padding: 0.25em 0 0.25em 0; margin: 0; }
 #summary table.exhibit th, .results-table td { border-bottom: 1px #C4C2C1 solid; font-weight: bold; vertical-align: bottom; padding: 0.25em; margin: 0; }
 #summary table.exhibit tr.odd { background-color: transparent; }
 table.exhibit th, td.year, td.pct, td.tally { text-align: center; }
-#summary #completeness-total { float: left; width: 219px; height: 219px; position: relative; background-color: #EB4724; margin-right: 20px; margin-top: 20px; color: white; font-size: 125%; font-weight: bold; vertical-align: middle; }
-#summary #completeness-complete { width: 79px; height: 79px; position: absolute; top: 0; right: 0; background-color: #83A93F; }
+#summary #completeness-total { width: 219px; height: 219px; position: relative; background-color: #faca2c; margin: 20px auto;  font-size: 125%; font-weight: bold; border: 2px solid #ddab1d; }
+#summary #completeness-complete { width: 79px; height: 79px; position: absolute; top: 0; right: 0; background-color: #f6e4b2; }
 #summary #completeness-total span { display: inline-block; margin: 1em; }
 
 .results-table td { padding: 10px; text-align:right;}
