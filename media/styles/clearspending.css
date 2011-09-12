@@ -27,7 +27,7 @@ p#shortedText { width: 580px;}
 h2 { width: 268px; height: 44px; margin-bottom: 25px; }
 h2 a { background: url(../images/clearspending-logo.png) top left no-repeat; width: 311px; height: 52px; display: block; text-indent: -9999em; }
 
-#contentWrapper #mainContainer { width: 940px; background: #FFF; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; margin: 0px auto 80px; border: 1px solid #ddd7d7; padding: 0;}
+#contentWrapper #mainContainer { width: 940px; background: #FFF; border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; margin: -90px auto 80px; border: 1px solid #ddd7d7; padding: 0;}
 #pageMain { margin: 35px 25px 50px; }
 
 #header { width: 940px; margin: 0 auto;}
@@ -280,7 +280,7 @@ ol#cite li { margin-bottom: 2px;  }
 #summary .legend li { display: inline-block; text-align: center; margin: 5px 0 5px 15px;}
 #summary img { margin-top: 20px;}
 
-#updated { text-indent: -9999em; display: block; background: url(../images/img_updated.png); width: 90px; height: 90px; position: relative; top: -100px; left: 340px; float: left;}
+#updated { text-indent: -9999em; display: block; background: url(../images/img_updated.png); width: 90px; height: 90px; position: relative; top: -100px; left: 340px; }
  
 .spendingOverTime img { float: left; margin-right: 15px;}
 #summary .spendingOverTime .legend { float: left; width: 120px; margin-top: 25px; }
