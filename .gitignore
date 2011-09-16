@@ -1,7 +1,6 @@
 timeliness_data/
 local_settings.py
 TAGS
-settings.py
 fips/*
 misc/*
 *.pyc
