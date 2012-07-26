@@ -40,25 +40,13 @@
 </head>
 
 <body class="{% block bodyclass %}home{% endblock %}">
-    <div class="sf_mini_header"> 
-        <div class="sf_mini_header_nav_wrapper"> 
-           <a href="http://www.sunlightfoundation.com"> 
-           <h1>Sunlight Foundation
-            </h1> 
-            </a>
-            <ul> 
-                <li class="about"> <a href="http://sunlightfoundation.com/about/">About</a> 
-                </li> 
-                <li class="blog"> <a href="http://sunlightfoundation.com/blog/">Blog</a> 
-                </li> 
-                <li class="projects"> <a href="http://sunlightfoundation.com/projects/">Projects</a> 
-                </li> 
-                <li class="contact"> <a href="http://sunlightfoundation.com/contact/">Contact</a> 
-                </li> 
-            </ul> 
-            <div class="clear"></div> 
-        </div> 
-    </div> 
+    <div class="sf-header">
+		<div class="container">
+            {% block header %}
+            <a class="sf-logo" href="http://www.sunlightfoundation.com">Sunlight Foundation</a>
+            {% endblock header %}
+        </div>
+	</div>
    <!-- ends top container -->
 <div id="contentWrapper">
     <div id="header">
