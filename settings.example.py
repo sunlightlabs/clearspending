@@ -1,4 +1,8 @@
+import random
+import os
 from datetime import date
+
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 ROWS_PER_CYCLE = 500000
 
@@ -68,15 +72,15 @@ CANONICAL_FIELD_ORDER = [
     'lookup_parent_rec_id'
 ]
 
-#database settings for USASpending data, not django project database settings
-MYSQL_USER = ''
-MYSQL_PASSWORD = ''
-MYSQL_HOST = ''
-MYSQL_DATABASE = ''
-MYSQL_TABLE_NAME = ''
-MYSQL_PORT = 3306
+# database settings for USASpending data, not django project database settings
+PG_USER = ''
+PG_PASSWORD = ''
+PG_HOST = ''
+PG_DATABASE = ''
+PG_TABLE_NAME = 'grants_grant'
+PG_PORT = 5432
 # TODO: add clauses eliminating nonfinancial programs & summary-level programs
-MYSQL_WHERE_CLAUSE = "fiscal_year IN (2007, 2008, 2009)"
+PG_WHERE_CLAUSE = "fiscal_year IN (2009, 2010, 2011)"
 
 #for contact form
 EMAIL_HOST = ''
@@ -99,20 +103,22 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASE_ENGINE = 'mysql'
-DATABASE_NAME = ''
-DATABASE_USER = ''
-DATABASE_PASSWORD = ''
-DATABASE_HOST = 'localhost'
-DATABASE_PORT = ''
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': '',
+        'USER': '', 
+        'PASSWORD': '',
+        'HOST': 'localhost',
+    }
+}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'America/Eastern'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -133,6 +139,16 @@ MEDIA_ROOT = ''
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = ''
 
+# Absolute path to the directory static files should be collected to.
+# Don't put anything in this directory yourself; store your static files
+# in apps' "static/" subdirectories and in STATICFILES_DIRS.
+# Example: "/home/media/media.lawrence.com/static/"
+STATIC_ROOT = os.path.abspath(os.path.join(PROJECT_ROOT, '..', '.static'))
+
+# URL prefix for static files.
+# Example: "http://media.lawrence.com/static/"
+STATIC_URL = '/static/'
+
 #since we're under the foundation site we use this url prefix instead ofthe root
 SUB_SITE = 'clearspending' 
  
@@ -141,17 +157,10 @@ SUB_SITE = 'clearspending'
 # Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = 'http://assets.sunlightfoundation.com/admin/8961/'
 
-MEDIASYNC = {
-    'BACKEND': 'mediasync.backends.s3',
-    'AWS_KEY': "",
-    'AWS_SECRET': "",
-    'AWS_BUCKET': "",    
-    'AWS_PREFIX': '',
-    'CSS_PATH': 'styles',
-    'JS_PATH': 'scripts'
-}
-
-# Make this unique, and don't share it with anybody.
+# Set this in your local_settings.py to something not generated at runtime
+SECRET_KEY_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxy'
+SECRET_KEY = ''.join([SECRET_KEY_CHARS[random.randint(0, len(SECRET_KEY_CHARS)-1)]
+                      for _ in range(50)])
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -177,12 +186,13 @@ CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 CACHE_MIDDLEWARE_SECONDS = (60 * 60 * 24)
 CACHE_MIDDLEWARE_KEY_PREFIX = ''
 
-ROOT_URLCONF = 'faads_scorecard.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_ROOT, 'templates'),
 )
 
 INSTALLED_APPS = (
@@ -196,7 +206,6 @@ INSTALLED_APPS = (
     'consistency',
     'timeliness',
     'metrics',
-    'mediasync',
     'animation',
     'django.contrib.humanize',
     'helpers',
@@ -205,7 +214,7 @@ INSTALLED_APPS = (
 
 
 #these are the fiscal years we want to calculate metrics for
-FISCAL_YEARS = [2008, 2009, 2010]
+FISCAL_YEARS = [2009, 2010, 2011]
 
 # Threshold for consideration of spending transactions. In order to 
 # facilitate comparisons between the timeliness each fiscal year,
