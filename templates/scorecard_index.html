@@ -1,7 +1,6 @@
 {% extends "scorecard_base.html" %}
 {% block title %} <title>Clearspending.org - Scorecard Index</title> {% endblock %}
 {% block bodyclass %}scorecard{% endblock %}
-{% load media %}
 {% load humanize %}
 {% load smarterif %}
 {% block header %}
@@ -16,11 +15,11 @@
         <ul>
             <li>
                 <span>Choose your fiscal year:</span>
-                <img src="{% media_url %}/images/chooseyear.png" />
+                <img src="{{ STATIC_URL }}/images/chooseyear.png" />
             </li>
             <li>
                 <span>Choose display unit:</span>
-                <img src="{% media_url %}/images/chooseunit.png" />
+                <img src="{{ STATIC_URL }}/images/chooseunit.png" />
             </li>     
             <li>
                 <span>Sort by the metric values:</span>

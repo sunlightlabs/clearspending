@@ -1,7 +1,6 @@
 {% extends "scorecard_base.html" %}
 {% block bodyclass %}scorecard{% endblock %}
 {% load humanize %}
-{% load media %}
 {% block title %} <title>Clearspending.org - {{agency_name}}</title> {% endblock %}
 {% block header %}
 <div id="pageMain">
@@ -12,7 +11,7 @@
         {% block scorecard %}
         <div id="agency_data">
             <div id="description">
-                <img id="graph" alt="agency trends" src="{% media_url %}/images/charts/agency_chart_{{agency}}.png" />
+                <img id="graph" alt="agency trends" src="{{ STATIC_URL }}/images/charts/agency_chart_{{agency}}.png" />
                 <ul class="legend">
                     <li><span style="background-color: #e9dd53;"></span> Over Reported (grants)</li>
                     <li><span style="background-color: #EE9F2E;"></span> Under Reported (grants)</li>

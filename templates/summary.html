@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load media %}
 {% block title %} <title>Clearspending.org - Summary</title> {% endblock %}
 {% block bodyclass %}summary{% endblock %}
 {% block content %}
@@ -16,7 +15,7 @@
 			</div>
 			<div class="rtColumn">
 				<span class="graph-title">2010 Programs with Good Reporting</span>
-				<img style="margin: 20px auto 0; display: block;" src="{% media_url %}/images/charts/best-programs-pie.png">
+				<img style="margin: 20px auto 0; display: block;" src="{{ STATIC_URL }}/images/charts/best-programs-pie.png">
 				<ul class="legend">
 					<li>
 					    <span class="lightBlock">Lighter color block</span>Good 
@@ -101,7 +100,7 @@
 			<div class="rtColumn">
 				<span class="graph-title" style="">Proportion of Spending Reported On-Time</span>
 				<div class="spendingOverTime">
-					<img src="{% media_url %}/images/charts/program-timeliness-2008.png">
+					<img src="{{ STATIC_URL }}/images/charts/program-timeliness-2008.png">
 					<div class="legend">
 					    <span class="legendTitle">2008</span>
     					<ul>
@@ -111,7 +110,7 @@
     				</div>
 				</div>
 				<div class="spendingOverTime">
-					<img src="{% media_url %}/images/charts/program-timeliness-2009.png">
+					<img src="{{ STATIC_URL }}/images/charts/program-timeliness-2009.png">
 					<div class="legend">
 					    <span class="legendTitle">2009</span>
     					<ul>
@@ -121,7 +120,7 @@
     				</div>
 				</div>
 				<div class="spendingOverTime">
-					<img src="{% media_url %}/images/charts/program-timeliness-2010.png">
+					<img src="{{ STATIC_URL }}/images/charts/program-timeliness-2010.png">
 					<div class="legend">
     					<span class="legendTitle">2010</span>
     					<ul>

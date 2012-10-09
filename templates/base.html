@@ -2,15 +2,15 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-    {% load media %}
-    {% css "clearspending.css" %}
-    {% css "header.css" %}
-    {% css "footer.css" %}
-    {% js "jquery-1.4.2.min.js" %}
-	{% js "jquery-ui-1.8.4.custom.min.js" %}
-	{% js "jquery.tablesorter.min.js" %}
-	{% js "jquery.cookie.js" %}
-    {% js "clearspending.js" %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/clearspending.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/header.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/footer.css">
+
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery-ui-1.8.4.custom.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery.cookie.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/clearspending.js"></script>
     <!-- added by timball  Tue Sep  7 15:12:38 UTC 2010 -->
    <script type="text/javascript">
 
@@ -31,7 +31,7 @@
         <meta name="description" content="Clearspending compares the federal spending reporting found in USASpending.gov with alternate reporting sources to create a scorecard that shows how effective each agency and program are in three metrics: consistency, timeliness and completeness.">
         <meta name="keywords" content="federal spending, federal spending reporting, financial transparency, clearspending, clear spending, financial, transparency, open government">
     	<!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<!--[if IE]>{%css "buggy.css" %}<![endif]-->
+        <!--[if IE]><link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/footer.css"><![endif]-->
     	<style>
     		article, aside, details, figcaption, figure, footer, header,
     		hgroup, menu, nav, section { display: block; }

@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load media %}
 {% load math %}
 
 {% block container %}
@@ -36,7 +35,7 @@
     #animation #advance { margin-top: 500px;}
 
     
-    #animation .dollar-sign { left: 100px; top: 100px; color: green; width: 30px; height: 30px; background-image: url({% media_url %}/images/dollar.png); background-repeat: no-repeat; z-index: -1;}
+    #animation .dollar-sign { left: 100px; top: 100px; color: green; width: 30px; height: 30px; background-image: url({{ STATIC_URL }}/images/dollar.png); background-repeat: no-repeat; z-index: -1;}
 
     #animation #caption { display: block; font-size: 1.5em; margin-top: 350px; width:950px;}
 

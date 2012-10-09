@@ -1,12 +1,8 @@
 {% extends "base.html" %}
-{% load media %}
 {% load math %}
 
 {% block container %}
-
-	 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-	 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
-	 {% js "/scripts/mapbox.js" %}
+    <script type="text/javascript" src="{{ STATIC_URL }}scripts/mapbox.js"></script>
 	 
 	 <style type="text/css"> 
        #viewport { 
@@ -21,17 +17,17 @@
 <div id="container">
   
   <div id="viewport"> 
-      <div style="background: url({% media_url %}/images/map/layer0.png) no-repeat; width: 692px; height: 432px;"> 
+      <div style="background: url({{ STATIC_URL }}/images/map/layer0.png) no-repeat; width: 692px; height: 432px;"> 
           <!--top level map content goes here--> 
       </div> 
       <div style="width: 1152px; height: 720px;"> 
-          <img src="{% media_url %}/images/map/layer1.png" alt="" /> 
+          <img src="{{ STATIC_URL }}/images/map/layer1.png" alt="" /> 
           <div class="mapcontent"> 
               <!--map content goes here--> 
           </div> 
       </div> 
       <div style="width: 1728px; height: 1080px;"> 
-          <img src="{% media_url %}/images/map/layer2.png" alt="" /> 
+          <img src="{{ STATIC_URL }}/images/map/layer2.png" alt="" /> 
            <div class="mapcontent"> 
               <!--map content goes here--> 
           </div> 
