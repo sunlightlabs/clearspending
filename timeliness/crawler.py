@@ -9,7 +9,7 @@ import os
 import sys
 import pickle
 import urllib
-import urllib2
+import requests
 import demjson
 import stream
 from datetime import date, time, datetime
@@ -20,22 +20,23 @@ from utils import pretty_bytes
 
 from timeliness import DATA_DIR, DOWNLOAD_DIR, FISCAL_YEARS
 
-URL_PATTERN = ("http://www.usaspending.gov/trendslist"
-               + "?type=1"
-#               + "&qcount="  This parameter seems to limit the search
-#                             results but it isn't clear to me how it
-#                             is supposed to be used.
-               + "&trendreport=assistance"
-               + "&fiscalyear=%(fiscalyear)s"
-               + "&agencySelect="
-               + "&startdate=%(startdate)s"
-               + "&enddate=%(enddate)s"
-               + "&page=%(page)s"
-               + "&rp=50"
-               + "&sortname=agency_submission_date"
-               + "&sortorder=desc"
-               + "&query="
-               + "&qtype=")
+LISTING_URL = "http://usaspending.gov/customcode/datafile_json.php"
+
+# Example of response body:
+#{
+#    "page": 2, 
+#    "rows": [
+#        {
+#            "cell": [
+#                "Department of HOMELAND SECURITY", 
+#                "<a href=\"/uploads/September2012/DHSFEMAFI_ASSISTANCE_2012.09.28.txt\" target=\"_blank\">DHSFEMAFI_ASSISTANCE_2012.09.28.txt</a>", 
+#                "2012-09-28 11:44:18"
+#            ]
+#        }, 
+#        ...
+#    ]
+#}
+
 DATA_URL_BASE = "http://www.usaspending.gov"
 
 
@@ -43,9 +44,14 @@ def request_listing(fy, startdate, enddate):
     json = demjson.JSON()
     params = {
         'fiscalyear': fy,
+        'agencySelect': 'All',
+        'sortname': 'agency_submission_date',
+        'sortorder': 'desc',
+        'trendreport': 'assistance',
         'startdate': startdate.strftime('%Y-%m-%d') if startdate else '',
         'enddate': enddate.strftime('%Y-%m-%d') if enddate else '',
-        'page': 1
+        'page': 1,
+        'rp': 50
     }
     rows_processed = 0
     listing = []
@@ -55,15 +61,13 @@ def request_listing(fy, startdate, enddate):
             sys.stdout.write(".")
             sys.stdout.flush()
 
-            url = URL_PATTERN % params
-            response = urllib2.urlopen(url)
-            if response.code == 200: # OK
-                response_obj = json.decode(response.read())
-                row_count = len(response_obj['rows'])
+            response = requests.post(url=LISTING_URL, data=params)
+            if response.status_code == 200: # OK
+                response_obj = json.decode(response.content)
                 total_rows = response_obj['total']
 
                 for row in response_obj['rows']:
-                    (agency, html, datetime) = row['cell']
+                    (agency, html, _) = row['cell']
                     href = extract_href(html)
                     if href:
                         listing.append((href, datetime))
@@ -76,13 +80,14 @@ def request_listing(fy, startdate, enddate):
 
             else:
                 raise Exception("Unexpected response status code: %s" 
-                                % str(response.code))
+                                % str(response.status_code))
         sys.stdout.write("\n")
         return listing
-    except urllib2.URLError, err:
-        print "URLError encountered for fiscal year %s" % fy
-        print "Problematic URL: %s" % url
-        raise
+    except requests.exceptions.RequestException as e:
+        print u"URLError encountered for fiscal year %s" % fy
+        print u"Problematic URL: %s" % LISTING_URL
+        print u"Problematic parameters: %s" % repr(params)
+        print u"Exception: %s" % unicode(e)
 
 
 def update_download_schedule(schedule, listing):
@@ -97,18 +102,15 @@ def update_download_schedule(schedule, listing):
 
     def obtain_head(href):
         url = url_for_href(href)
-        request = urllib2.Request(url)
-        request.get_method = lambda: 'HEAD'
         try:
-            response = urllib2.urlopen(request)
-            if response.code == 200:
-                response_info = response.info()
-                content_length = int(response_info['Content-Length'])
-                return (response.code, content_length)
+            response = requests.head(url)
+            if response.status_code == 200:
+                content_length = int(response.headers['content-length'])
+                return (response.status_code, content_length)
             else:
-                return (response.code, None)
-        except urllib2.HTTPError, http_err:
-            return (http_err.code, None)
+                return (response.status_code, None)
+        except requests.exceptions.RequestException as e:
+            return (e.response.status_code, None)
 
     sys.stdout.write("Determining files to download")
     for (href, datetime) in listing:
@@ -192,16 +194,16 @@ def download_data_file(href):
     destination_path = data_file_destination_path(href)
     try:
         url = url_for_href(href)
-        response = urllib2.urlopen(url)
-        if response.code == 200:
+        response = requests.get(url)
+        if response.status_code == 200:
             destination_dir = os.path.dirname(destination_path)
             if not os.path.exists(destination_dir):
                 os.makedirs(destination_dir)
             with file(destination_path, 'w') as destination_file:
-                destination_file.write(response.read())
+                destination_file.write(response.content)
         else:
             raise Exception("Unexpected response code %s for data file: %s"
-                            % (str(response.code), destination_path))
+                            % (str(response.status_code), destination_path))
     except KeyboardInterrupt:
         os.remove(destination_path)
         raise
