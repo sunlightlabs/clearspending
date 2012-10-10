@@ -228,6 +228,8 @@ HAYSTACK_SITECONF = 'search_sites'
 HAYSTACK_SEARCH_ENGINE = 'solr'
 HAYSTACK_SOLR_URL = ''
 
+CFDA_DOWNLOAD_DIR = 'ftp.cfda.gov' if os.path.exists('ftp.cfda.gov') else 'csv'
+
 try:
     from local_settings import *
 except Exception, e:
