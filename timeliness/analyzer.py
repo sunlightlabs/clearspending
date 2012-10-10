@@ -56,6 +56,11 @@ def avg_days_by_dollars(data):
 
 
 def analyzer_main():
+    program_count = Program.objects.count()
+    if program_count == 0:
+        print "No CFDA program loaded. You probably forgot to run cfda_loader.py"
+        return
+
     print 'Loading data...'
     cfda_agency_map = dict((p.program_number, p.agency_id) 
                            for p in Program.objects.all())
@@ -94,7 +99,7 @@ def analyzer_main():
             c.add({'fy':fiscal_year, 'cfda':cfda, 'agency':agency}, {'days':reporting_lag, 'dollars':fed_amount})
 
 
-    awards = None 
+    del awards
 
     print 'Querying cfda aggregates...'
     result = c.query(groups=['cfda','fy'])
