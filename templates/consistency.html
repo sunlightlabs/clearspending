@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block scripts %}
+    {{ block.super }}
+    <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <script src="http://code.highcharts.com/stock/highcharts-more.js"></script>
+    <script src="{{ STATIC_URL }}scripts/data.js"></script>
+    <script src="{{ STATIC_URL }}scripts/charts.js"></script>
+{% endblock %}
+{% block content %}
+<div id="featureBox">
+
+    <div id="chart">
+    </div>
+
+</div>
+{% endblock %}
+

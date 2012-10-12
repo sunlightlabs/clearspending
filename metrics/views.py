@@ -17,6 +17,9 @@ from haystack.models import SearchResult
 from settings import FISCAL_YEARS, SUB_SITE
 
 
+def consistency(request):
+    return render(request, 'consistency.html', {})
+
 def contact(request):
     #submission of contact form
     name = request.POST.get('name', '')
