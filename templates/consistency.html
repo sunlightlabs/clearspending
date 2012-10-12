@@ -1,15 +1,37 @@
 {% extends "base.html" %}
 {% block scripts %}
     {{ block.super }}
-    <script src="http://code.highcharts.com/stock/highstock.js"></script>
-    <script src="http://code.highcharts.com/stock/highcharts-more.js"></script>
-    <script src="{{ STATIC_URL }}scripts/data.js"></script>
+    <script src="{{ STATIC_URL }}scripts/d3.v2.js"></script>
+    <script src="{{ STATIC_URL }}scripts/programs.js"></script>
     <script src="{{ STATIC_URL }}scripts/charts.js"></script>
+    <style type="text/css">
+        .cell {
+            border: solid 1px white;
+            font: 8.9px sans-serif;
+            line-height: 10px;
+            overflow: hidden;
+            position: absolute;
+            text-indent: 2px;
+        }
+        #chart-con {
+            width: 840px;
+            height: 500px;
+            margin: auto auto;
+        }
+    </style>
 {% endblock %}
 {% block content %}
 <div id="featureBox">
 
-    <div id="chart">
+    <div id="chart-con">
+        <div id="chart">
+        </div>
+    </div>
+
+    <div class="legend">
+        <span class="swatch" id="blind-swatch">&nbsp;</div>
+        <span class="swatch" id="bad-swatch">&nbsp;</div>
+        <span class="swatch" id="ok-swatch">&nbsp;</div>
     </div>
 
 </div>
