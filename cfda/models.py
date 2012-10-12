@@ -8,8 +8,12 @@ from decimal import DivisionByZero
 from math import fabs
 import helpers.unicode as un
 from datetime import datetime
-from settings import FISCAL_YEARS
+from django.conf import settings
 
+
+class MySqlTextField(models.TextField):
+    def db_type(self, connection):
+        return 'text'
 
 class Agency(models.Model):
     def __unicode__(self):
@@ -108,46 +112,142 @@ class Program(models.Model):
         return "%s %s" % (self.program_number, self.program_title)
 
     program_number = models.CharField("Program number", max_length=7)
-    program_title = models.CharField("Program title", max_length=255)
-    federal_agency = models.TextField("Federal agency", blank=True, default="")
+    program_title = MySqlTextField("Program title", max_length=255)
+    federal_agency = MySqlTextField("Federal agency",
+                                    max_length=64000,
+                                    blank=True,
+                                    default="")
     agency = models.ForeignKey('Agency', blank=True, null=True)
-    authorization = models.TextField("Authorization",blank=True,default="")
-    objectives = models.TextField("Objectives",blank=True,default="")
+    authorization = MySqlTextField("Authorization",
+                                   max_length=64000,
+                                   blank=True,
+                                   default="")
+    objectives = MySqlTextField("Objectives",
+                                max_length=64000,
+                                blank=True,
+                                default="")
     types_of_assistance = models.ManyToManyField(AssistanceType)
-    uses_and_use_restrictions = models.TextField("Uses and use restrictions",blank=True,default="")
-    applicant_eligibility = models.TextField("Applicant eligibility",blank=True,default="")
-    beneficiary_eligibility = models.TextField("Beneficiary eligibility",blank=True,default="")
-    credentials_documentation = models.TextField("Credentials / documentation",blank=True,default="")
-    preapplication_coordination = models.TextField("Preapplication coordination",blank=True,default="")
-    application_procedure = models.TextField("Application procedure",blank=True,default="")
-    award_procedure = models.TextField("Award procedure",blank=True,default="")
-    deadlines = models.TextField("Deadlines",blank=True,default="")
-    range_of_approval_disapproval_time = models.TextField("Range of approval / disapproval time",blank=True,default="")
-    appeals = models.TextField("Appeals",blank=True,default="")
-    renewals = models.TextField("Renewals",blank=True,default="")
-    formula_and_matching_requirements = models.TextField("Formula and matching requirements",blank=True,default="")
-    length_and_time_phasing_of_assistance = models.TextField("Length and time phasing of assistance",blank=True,default="")
-    reports = models.TextField("Reports",blank=True,default="")
-    audits = models.TextField("Audits",blank=True,default="")
-    records = models.TextField("Records",blank=True,default="")
+    uses_and_use_restrictions = MySqlTextField("Uses and use restrictions",
+                                               max_length=64000,
+                                               blank=True,
+                                               default="")
+    applicant_eligibility = MySqlTextField("Applicant eligibility",
+                                           max_length=64000,
+                                           blank=True,
+                                           default="")
+    beneficiary_eligibility = MySqlTextField("Beneficiary eligibility",
+                                             max_length=64000,
+                                             blank=True,
+                                             default="")
+    credentials_documentation = MySqlTextField("Credentials / documentation",
+                                               max_length=64000,
+                                               blank=True,
+                                               default="")
+    preapplication_coordination = MySqlTextField("Preapplication coordination",
+                                                 max_length=64000,
+                                                 blank=True,
+                                                 default="")
+    application_procedure = MySqlTextField("Application procedure",
+                                           max_length=64000,
+                                           blank=True,
+                                           default="")
+    award_procedure = MySqlTextField("Award procedure",
+                                     max_length=64000,
+                                     blank=True,
+                                     default="")
+    deadlines = MySqlTextField("Deadlines",
+                               max_length=64000,
+                               blank=True,
+                               default="")
+    range_of_approval_disapproval_time = MySqlTextField("Range of approval / disapproval time",
+                                                        max_length=64000,
+                                                        blank=True,
+                                                        default="")
+    appeals = MySqlTextField("Appeals",
+                             max_length=64000,
+                             blank=True,
+                             default="")
+    renewals = MySqlTextField("Renewals",
+                              max_length=64000,
+                              blank=True,
+                              default="")
+    formula_and_matching_requirements = MySqlTextField("Formula and matching requirements",
+                                                       max_length=64000,
+                                                       blank=True,
+                                                       default="")
+    length_and_time_phasing_of_assistance = MySqlTextField("Length and time phasing of assistance",
+                                                           max_length=64000,
+                                                           blank=True,
+                                                           default="")
+    reports = MySqlTextField("Reports",
+                             max_length=64000,
+                             blank=True,
+                             default="")
+    audits = MySqlTextField("Audits",
+                            max_length=64000,
+                            blank=True,
+                            default="")
+    records = MySqlTextField("Records",
+                             max_length=64000,
+                             blank=True,
+                             default="")
     account_identification = models.ManyToManyField(ProgramAccount)
-    range_and_average_of_financial_assistance = models.TextField("Range and average of financial assistance",blank=True,default="")
-    program_accomplishments = models.TextField("Program accomplishments",blank=True,default="")
-    regulations_guidelines_and_literature = models.TextField("Regulations guidelines and literature",blank=True,default="")
-    regional_or_local_office = models.TextField("Regional or local office",blank=True,default="")
-    headquarters_office = models.TextField("Headquarters office",blank=True,default="")
-    web_site_address = models.TextField("Web site address",blank=True,default="")
-    related_programs = models.TextField("Related programs",blank=True,default="")
-    examples_of_funded_projects = models.TextField("Examples of funded projects",blank=True,default="")
-    criteria_for_selecting_proposals = models.TextField("Criteria for selecting proposals",blank=True,default="")
-    published_date = models.TextField("Published Date", blank=True, default="")
-    parent_shortname = models.TextField("Parent Shortname", blank=True, default="")
-    url = models.TextField("URL on CFDA website", blank=True, default="")
+    range_and_average_of_financial_assistance = MySqlTextField("Range and average of financial assistance",
+                                                               max_length=64000,
+                                                               blank=True,
+                                                               default="")
+    program_accomplishments = MySqlTextField("Program accomplishments",
+                                             max_length=64000,
+                                             blank=True,
+                                             default="")
+    regulations_guidelines_and_literature = MySqlTextField("Regulations guidelines and literature",
+                                                           max_length=64000,
+                                                           blank=True,
+                                                           default="")
+    regional_or_local_office = MySqlTextField("Regional or local office",
+                                              max_length=64000,
+                                              blank=True,
+                                              default="")
+    headquarters_office = MySqlTextField("Headquarters office",
+                                         max_length=64000,
+                                         blank=True,
+                                         default="")
+    web_site_address = MySqlTextField("Web site address",
+                                      max_length=64000,
+                                      blank=True,
+                                      default="")
+    related_programs = MySqlTextField("Related programs",
+                                      max_length=64000,
+                                      blank=True,
+                                      default="")
+    examples_of_funded_projects = MySqlTextField("Examples of funded projects",
+                                                 max_length=64000,
+                                                 blank=True,
+                                                 default="")
+    criteria_for_selecting_proposals = MySqlTextField("Criteria for selecting proposals",
+                                                      max_length=64000,
+                                                      blank=True,
+                                                      default="")
+    published_date = MySqlTextField("Published Date",
+                                    max_length=64000,
+                                    blank=True,
+                                    default="")
+    parent_shortname = MySqlTextField("Parent Shortname",
+                                      max_length=64000,
+                                      blank=True,
+                                      default="")
+    url = MySqlTextField("URL on CFDA website",
+                         max_length=64000,
+                         blank=True,
+                         default="")
     recovery = models.BooleanField(default=False)
 
     cfda_edition = models.IntegerField("CFDA Edition", blank=True, null=True)
     load_date = models.DateTimeField("Load Date", auto_now=True)    
-    caveat = models.TextField("Caveats about the spending of this program", blank=True, null=True)
+    caveat = MySqlTextField("Caveats about the spending of this program",
+                            max_length=64000,
+                            blank=True,
+                            null=True)
 
 class ProgramManager(models.Manager):
     
@@ -226,7 +326,7 @@ class ProgramManager(models.Manager):
                 continue 
 
             program_number = row[1].strip()
-            matching_programs = Program.objects.filter(program_number=program_number)
+            matching_programs = list(Program.objects.filter(program_number=program_number))
            
             if len(matching_programs)==0:
                 matching_program = Program()
@@ -279,7 +379,7 @@ class ProgramManager(models.Manager):
                                 elif len(re_insur.findall(curr_type)) > 0: type = 1
                                 else:
                                     try: 
-                                        assist_types = matching_program.types_of_assistance.all()
+                                        assist_types = list(matching_program.types_of_assistance.all())
                                         if assist_types[0].code == 6:
                                             type = 2
                                         elif assist_types[0].code == 7:
@@ -292,7 +392,7 @@ class ProgramManager(models.Manager):
                                     except Exception:
                                         type = 1
                                     
-                                matching_obligation = ProgramObligation.objects.filter(program=matching_program, fiscal_year=int(year), type=type)
+                                matching_obligation = list(ProgramObligation.objects.filter(program=matching_program, fiscal_year=int(year), type=type))
                                 if len(matching_obligation) == 0 or matching_obligation[0].cfda_version <= this_version:
                                     try:
                                         #either it doesn't exist yet or this is a newer version of cfda
@@ -349,7 +449,7 @@ class ProgramManager(models.Manager):
                             for type_tuple in AssistanceType.CODE_OPTIONS:
                                 if clean_asst == type_tuple[1].lower():
                                             
-                                    matching_assistance_relations = matching_program.types_of_assistance.filter(code=type_tuple[0])
+                                    matching_assistance_relations = list(matching_program.types_of_assistance.filter(code=type_tuple[0]))
                                     if len(matching_assistance_relations) == 0:
                                         #need to add
                                         matching_program.types_of_assistance.add(AssistanceType.objects.get(code=type_tuple[0]))
@@ -360,7 +460,7 @@ class ProgramManager(models.Manager):
                                 elif len(type_tuple) > 2:
                                     for other_name in type_tuple[2]:
                                         if clean_asst == other_name.lower():
-                                            matching_assistance_relations = matching_program.types_of_assistance.filter(code=type_tuple[0])
+                                            matching_assistance_relations = list(matching_program.types_of_assistance.filter(code=type_tuple[0]))
                                             if len(matching_assistance_relations) == 0:
                                                 #need to add
                                                 matching_program.types_of_assistance.add(AssistanceType.objects.get(code=type_tuple[0]))
@@ -381,7 +481,7 @@ class ProgramManager(models.Manager):
                         accts = account.findall(un.kill_gremlins(row[i]))
 
                         for a in accts:
-                            matching_accounts = ProgramAccount.objects.filter(account_number=a)
+                            matching_accounts = list(ProgramAccount.objects.filter(account_number=a))
                             if len(matching_accounts) == 0:
                                 matching_account = ProgramAccount(account_number=a)
                                 matching_account.save()
@@ -389,7 +489,7 @@ class ProgramManager(models.Manager):
                             else:
                                 matching_account = matching_accounts[0]
                             
-                            if matching_account not in matching_program.account_identification.all():
+                            if matching_account not in list(matching_program.account_identification.all()):
                                 matching_program.account_identification.add(matching_account)
                                 matching_program.save()
 
@@ -422,7 +522,7 @@ class ProgramManager(models.Manager):
         f.close()
 
         # Remove programs from years outside our range
-        ProgramObligation.objects.exclude(fiscal_year__in=FISCAL_YEARS).delete()
+        ProgramObligation.objects.exclude(fiscal_year__in=settings.FISCAL_YEARS).delete()
 
         print "Run complete. \n%s new programs were added" % new_program_count
         
