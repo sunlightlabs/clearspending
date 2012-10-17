@@ -1,13 +1,15 @@
 
 #Metric for consistency in USASpending versus CFDA reported obligations
 
-from settings import *
-from cfda.models import *
-from metrics.models import ProgramCorrection, USASpendingAggregate
 import pg
 import csv
 from datetime import datetime
 import numpy as np
+
+from metrics.models import ProgramCorrection, USASpendingAggregate
+from cfda.models import Program, ProgramObligation
+
+from django.conf import settings
 
 def fix_cfda():
     #Identify possible cfda mistakes
@@ -15,7 +17,7 @@ def fix_cfda():
     fin_programs = Program.objects.filter(types_of_assistance__financial=True)
     fin_obligations = ProgramObligation.objects.filter(program__in=fin_programs)
 
-    for fy in FISCAL_YEARS:
+    for fy in settings.FISCAL_YEARS:
         over_programs = fin_obligations.filter(fiscal_year=fy, weighted_delta__gt=0)
         sd = np.std([float(v) for v in over_programs.values_list('weighted_delta', flat=True)])
         avg = np.average([float(v) for v in over_programs.values_list('weighted_delta', flat=True)])
@@ -74,17 +76,20 @@ def update_obligation(new_obligation, program):
 if __name__ == '__main__':
 
 
-#    conn = MySQLdb.connect(host=MYSQL_HOST, user=MYSQL_USER, passwd=MYSQL_PASSWORD, db=MYSQL_DATABASE, port=MYSQL_PORT)
-    conn = pg.connect(host=PG_HOST, user=PG_USER, passwd=PG_PASSWORD, dbname=PG_DATABASE, port=PG_PORT)
+    conn = pg.connect(host=settings.PG_HOST, user=settings.PG_USER,
+                      passwd=settings.PG_PASSWORD, dbname=settings.PG_DATABASE,
+                      port=settings.PG_PORT)
     bogus_cfda = open('csv/bogus_cfda_program_numbers', 'w')
     bogus_cfda_writer = csv.writer(bogus_cfda)
 
     programs = Program.objects.all().order_by('program_number')
     program_data = {}
     
-    usaspending_total = dict.fromkeys(FISCAL_YEARS, 0)
+    usaspending_total = dict.fromkeys(settings.FISCAL_YEARS, 0)
 
-    usa_query = "SELECT fiscal_year, SUM(fed_funding_amount) as fed_funding_amount FROM %s WHERE fiscal_year >= %s AND fiscal_year <= %s GROUP BY fiscal_year" % (PG_TABLE_NAME, min(FISCAL_YEARS), max(FISCAL_YEARS))
+    usa_query = "SELECT fiscal_year, SUM(fed_funding_amount) as fed_funding_amount FROM %s WHERE fiscal_year >= %s AND fiscal_year <= %s GROUP BY fiscal_year" % (settings.PG_TABLE_NAME,
+                                                                                                                                                                  min(settings.FISCAL_YEARS),
+                                                                                                                                                                  max(settings.FISCAL_YEARS))
     print "Fetching aggregate spending totals from USASpending"
     rows = conn.query(usa_query).dictresult()
     
@@ -93,7 +98,9 @@ if __name__ == '__main__':
         agg.total_federal_funding = row['fed_funding_amount']
         agg.save()
 
-    usa_query = "SELECT cfda_program_num, fiscal_year, SUM(fed_funding_amount) as fed_funding_amount, SUM(face_loan_guran) as face_loan_guran FROM %s WHERE fiscal_year >= %s AND fiscal_year <= %s GROUP BY cfda_program_num, fiscal_year ORDER BY cfda_program_num" % (PG_TABLE_NAME, min(FISCAL_YEARS), max(FISCAL_YEARS))
+    usa_query = "SELECT cfda_program_num, fiscal_year, SUM(fed_funding_amount) as fed_funding_amount, SUM(face_loan_guran) as face_loan_guran FROM %s WHERE fiscal_year >= %s AND fiscal_year <= %s GROUP BY cfda_program_num, fiscal_year ORDER BY cfda_program_num" % (settings.PG_TABLE_NAME,
+                                                                                                                                                                                                                                                                         min(settings.FISCAL_YEARS),
+                                                                                                                                                                                                                                                                         max(settings.FISCAL_YEARS))
     print usa_query
     print "fetching summary query with rollup of programs, fiscal years and total obligations"
     rows = conn.query(usa_query).dictresult()

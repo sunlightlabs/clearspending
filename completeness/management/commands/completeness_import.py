@@ -4,7 +4,7 @@ from cfda.models import *
 from metrics.models import *
 from settings import *
 from decimal import Decimal
-from faads_scorecard.completeness import MetricTester
+from completeness import MetricTester
 import pickle
 import sys
 import csv

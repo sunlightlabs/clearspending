@@ -1,11 +1,31 @@
 import locale
-import itertools
+from itertools import chain, izip
 try:
     import cPickle as pickle
 except ImportError:
     import pickle
 import os
+from operator import itemgetter
 
+
+def grouped(xs, key):
+    groups = {}
+    key = key if callable(key) else itemgetter(key)
+    for x in xs:
+        k = key(x)
+        grp = groups.get(k, [])
+        grp.append(x)
+        groups[k] = grp
+    return groups.values()
+
+def freq(xs, key):
+    ftable = {}
+    key = key if callable(key) else itemgetter(key)
+    for x in xs:
+        k = key(x)
+        cnt = ftable.get(k, 0)
+        ftable[k] = cnt + 1
+    return ftable
 
 class flattened(object):
     """An iterator class that automatically chains sub-iterators."""
@@ -23,7 +43,7 @@ class flattened(object):
         if not isinstance(item, self.as_is):
             try:
                 new_iter = iter(item)
-                self.iterator = itertools.chain(new_iter, self.iterator)
+                self.iterator = chain(new_iter, self.iterator)
                 return self.next()
             except TypeError:
                 pass
@@ -108,4 +128,26 @@ class DictSlicer(object):
     def __call__(self, d):
         return dict(((k, v) for (k, v) in d.iteritems() if k in self.ks))
 
-    
+   
+def chunk_list(xs, pred):
+    if len(xs) == 0:
+        return
+    chunk = [xs[0]]
+    prev = xs[0]
+    for x in xs[1:]:
+        split = pred(prev, x)
+        if split:
+            yield chunk
+            chunk = []
+        chunk.append(x)
+        prev = x
+    yield chunk
+
+
+def izip_with(xs, ys, combine):
+    """
+    [x] -> [y] -> (x -> y -> z) -> [z]
+    """
+    for (x, y) in izip(xs, ys):
+        yield combine(x, y)
+

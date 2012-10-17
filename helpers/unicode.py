@@ -36,6 +36,15 @@ cp1252 = {
 
 }
 
+def decode_string(text, encoding_names=None):
+    enc_names = encoding_names or ['windows-1251', 'latin1', 'utf-8']
+    for enc_name in enc_names:
+        try:
+            return text.decode(enc_name)
+        except UnicodeDecodeError:
+            pass
+    raise UnicodeDecodeError("Unable to decide text using any of these encodings: {0}".format(enc_names))
+
 def kill_gremlins(text):
     RE_STRING = u"([\x80-\x9f]|\xA0|\xAC|\xAE|\xA7)"
     # map cp1252 gremlins to real unicode characters

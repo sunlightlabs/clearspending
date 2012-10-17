@@ -1,5 +1,5 @@
 from django.core.management.base import NoArgsCommand
-from faads_scorecard.completeness import main
+from completeness import main
 import sys
 
 class Command(NoArgsCommand):
