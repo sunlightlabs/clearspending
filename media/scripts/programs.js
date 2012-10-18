@@ -1,3 +1,56 @@
+var agencies = {
+    '10': 'Department of Agriculture',
+    '11': 'Department of Commerce',
+    '12': 'Department of Defense',
+    '14':'Department of Housing and Urban Development',
+    '15': 'Department of the Interior',
+    '16':'Department of Justice',
+    '17': 'Department of Labor',
+    '19': 'U.S. Department of State',
+    '20':'Department of Transportation',
+    '21':'Department of the Treasury',
+    '23':'Appalachian Regional Commission',
+    '27':'Office of Personnel Management',
+    '29':'Commission on Civil Rights',
+    '30':'Equal Employment Opportunity Commission',
+    '31':'Export Import Bank of the United States',
+    '32':'Federal Communications Commission',
+    '33':'Federal Maritime Commission',
+    '34': 'Federal Mediation and Concillation Service',
+    '36':'Federal Trade Commission',
+    '39':'General Services Administration',
+    '40': 'Government Printing Office',
+    '42':'Library of Congress',
+    '43':'National Aeronautics and Space Administration',
+    '44':'National Credit Union Administration',
+    '45':'National Endowment for the Arts',
+    '46':'National Labor Relations Board',
+    '47':'National Science Foundation',
+    '57':'Railroad Retirement Board',
+    '58':'Securities and Exchange Commission',
+    '59':'Small Business Administraton',
+    '64':'Department of Veterans Affairs',
+    '66':'Environmental Protection Agency',
+    '68':'National Gallery of Art',
+    '70':'Overseas Private Investment Corporation',
+    '77':'Nuclear Regulatory Commission',
+    '78':'Commodity Futures Trading Commission',
+    '81':'Department of Energy',
+    '84':'Department of Education',
+    '85': 'Various Scholarship and Fellowship Foundations',
+    '86':'Pension Benefit Guaranty Corporation',
+    '88':'Architectural and Transportation Barriers Compliance Board',
+    '89':'National Archives and Records Administration',
+    '90':'Denali Commission, Delta Regional Authority, Japan US Friendship Commission, US Election Assistance Commission, Broadcasting Board of Governors',
+    '91':'United States Institute of Peace',
+    '93':'Department of Health and Human Services',
+    '94':'Corporation for National and Community Service',
+    '95': 'Executive Office of the President',
+    '96':'Social Security Administration',
+    '97':'Department of Homeland Security',
+    '98':'United States Agency for International Development'
+};
+
 var pro_consistency = [
     ["10.001","Agricultural Research_Basic and Applied Research",21500000.00,149608099.00,null,596.00,null],
     ["10.051","Commodity Loans and Loan Deficiency Payments",178555000.00,0.00,-100.00,null,null],
@@ -1465,6 +1518,44 @@ var pro_flare = {
                 var usa_ob = pro[3];
                 return {
                     name: pro_num,
+                    size: Math.max(cfda_ob, usa_ob),
+                    non: pro[4],
+                    over: pro[5],
+                    under: pro[6]
+                };
+            })
+        };
+    })
+};
+
+function log_of(val, base) {
+  return Math.log(val) / Math.log(base);
+}
+var pro_consistency_grps = assoc_list(group_by(pro_consistency, function(row){
+    if (row[4] == -100.0) {
+        return 'blind';
+    } else if ((row[5] >= 50.0) || (row[6] >= 50.0)) {
+        return 'fail';
+    } else if ((row[5] >= 0) || (row[6] >= 0)) {
+        return 'pass';
+    } else {
+        return 'unknown';
+    }
+}));
+var pro_flare = {
+    name: "programs",
+    children: pro_consistency_grps.map(function(grp){
+        var grade = grp[0];
+        var grp_pros = grp[1];
+        return {
+            name: grade,
+            children: grp_pros.map(function(pro){
+                var pro_num = pro[0];
+                var cfda_ob = pro[2];
+                var usa_ob = pro[3];
+                return {
+                    program_number: pro[0],
+                    program_name: pro[1],
                     size: Math.max(cfda_ob, usa_ob),
                     non: pro[4],
                     over: pro[5],

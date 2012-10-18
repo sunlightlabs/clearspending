@@ -44,20 +44,39 @@ $(document).ready(function(){
        .data(treemap.nodes)
        .enter()
        .append("div")
-       .attr("class", "cell")
-       .style("background", function(d){
+       .on("mouseover", function(d){
+           if (d.children) {
+               console.log(this);
+           } else {
+               var ag_prefix = d.program_number.split('.')[0];
+               var ag_name = agencies[ag_prefix];
+               var ag_inits = initials(ag_name);
+               $("#program-description").text(d.program_name + ' (CFDA program ' + d.program_number + '), ' + ag_name);
+               $("#status, #program-description").toggle();
+           }
+       })
+       .on("mouseout", function(d){
+           if (d.children) {
+           } else {
+               $("#status, #program-description").toggle();
+           }
+       })
+       .on("click", function(d){
+           window.location.href = '/clearspending/program/' + d.program_number + '/pct/';
+       })
+       .attr("class", function(d){
             if (d.non == -100.0) {
-                return '#000000';
+                return 'cell blind';
             } else if ((d.over >= 50.0) || (d.under >= 50.0)) {
-                return 'rgb(240, 59, 32)';
+                return 'cell fail';
             } else if ((d.over >= 0) || (d.under >= 0)) {
-                return 'rgb(255, 237, 160)';
+                return 'cell pass';
             } else {
-                return '#ffffff';
+                return 'cell unknown';
             }
        })
-       .call(cell)
-       .text(function(d){ return d.children ? null : d.name });
+       .call(cell);
 
+    
     console.log(pro_flare);
 });
