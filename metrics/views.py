@@ -4,7 +4,7 @@ from operator import attrgetter
 from cfda.models import Program, ProgramObligation, Agency
 from metrics.models import *
 from django.http import HttpResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.db.models import Count, Sum
 from django.db.models.query import QuerySet
 from decimal import Decimal
@@ -23,7 +23,7 @@ def contact(request):
     email = request.POST.get('email', '')
     msg = request.POST.get('message', '')
     send_mail('Clearspending Feedback from '+name, msg, email, ['klee@sunlightfoundation.com'], fail_silently=True)
-    return render_to_response('contact_thankyou.html')
+    return render(request, 'contact_thankyou.html')
 
 def search_results(request, search_string, unit='pct', fiscal_year=None):
     if fiscal_year is None:
@@ -34,7 +34,7 @@ def search_results(request, search_string, unit='pct', fiscal_year=None):
     result_count = programs.count()
     table_data = generic_program_table(programs, fiscal_year, unit)
     
-    return render_to_response('generic_program_list.html', { 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'search_string': search, 'result_count': result_count })
+    return render(request, 'generic_program_list.html', { 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'search_string': search, 'result_count': result_count })
     
  
 
@@ -167,7 +167,7 @@ def index(request, unit='dollars', fiscal_year=None):
 
         table_data.append(a_data) 
 
-    return render_to_response('scorecard_index.html', {'table_data': table_data, 'fiscal_year': "%s" % fiscal_year, 'unit':unit, 'SUB_SITE': SUB_SITE})
+    return render(request, 'scorecard_index.html', {'table_data': table_data, 'fiscal_year': "%s" % fiscal_year, 'unit':unit, 'SUB_SITE': SUB_SITE})
 
 def agencyDetail(request, agency_id, unit='dollars', fiscal_year=None):
     if fiscal_year is None:
@@ -185,7 +185,7 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=None):
     agency = Agency.objects.get(code=agency_id)
     table_data = generic_program_table(programs, fiscal_year, unit)
 
-    return render_to_response('agency_detail.html', {'summary_numbers': summary_numbers, 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'agency_name': agency.name, 'agency': agency_id, 'description': agency.description, 'caveat': agency.caveat})
+    return render(request, 'agency_detail.html', {'summary_numbers': summary_numbers, 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'agency_name': agency.name, 'agency': agency_id, 'description': agency.description, 'caveat': agency.caveat})
 
 
 def programDetail(request, program_id, unit):
@@ -229,7 +229,7 @@ def programDetail(request, program_id, unit):
     com_coll = ProgramCompletenessDetail.objects.filter(program=program_id).order_by('fiscal_year')
     completeness_block = programDetailGeneral(program_id, unit, com_field_names, com_proper_names, com_coll, 'Completeness')
     
-    return render_to_response('program_detail.html', {'consistency':consistency_block, 'timeliness': timeliness_block, 'completeness': completeness_block, 'agency_name': program.agency.name, 'program_number': program.program_number, 'title': program.program_title, 'desc': description, 'unit': unit, 'program_totals': total_obs, 'caveat': program.caveat}) 
+    return render(request, 'program_detail.html', {'consistency':consistency_block, 'timeliness': timeliness_block, 'completeness': completeness_block, 'agency_name': program.agency.name, 'program_number': program.program_number, 'title': program.program_title, 'desc': description, 'unit': unit, 'program_totals': total_obs, 'caveat': program.caveat}) 
     
 def getRowClass(count):
     if count % 2 == 0 : row = "odd"
@@ -488,11 +488,11 @@ def list_best_programs(request, fiscal_year):
                 
     program_details = map(make_detail_record, best_program_ids) 
     program_details.sort(key=lambda pgm: pgm[0])
-    return render_to_response('bestprograms.html', 
-                              { 'fiscal_year': fiscal_year,
-                                'program_details': program_details,
-                                'SUB_SITE': SUB_SITE
-                              })
+    return render(request, 'bestprograms.html', 
+                  { 'fiscal_year': fiscal_year,
+                   'program_details': program_details,
+                   'SUB_SITE': SUB_SITE
+                  })
 
 
 
