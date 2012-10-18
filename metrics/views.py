@@ -191,8 +191,10 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=None):
     return render(request, 'agency_detail.html', {'summary_numbers': summary_numbers, 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'agency_name': agency.name, 'agency': agency_id, 'description': agency.description, 'caveat': agency.caveat})
 
 
-def programDetail(request, program_id, unit):
-    program = Program.objects.get(id=program_id)
+def programDetail(request, program_id=None, cfda_number=None, unit='dollars'):
+    program = (Program.objects.get(id=program_id)
+               if program_id is not None
+               else Program.objects.get(program_number=cfda_number))
     program_total_obs = ProgramObligation.objects.filter(program=program, fiscal_year__in=FISCAL_YEARS).order_by('fiscal_year')
     total_obs = []
     curr_year = None
