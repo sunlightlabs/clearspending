@@ -126,7 +126,29 @@ class ProgramObligation(models.Model):
 
     def save(self, *args, **kwargs):
         self.obligation_type = self._guess_obligation_type()
+        self._update_deltas()
         super(ProgramObligation, self).save(*args, **kwargs)
+
+    def _update_deltas(self):
+        self.delta = (self.usaspending_obligation or 0) - (self.obligation or 0)
+        try:
+            self.weighted_delta = float(self.delta) / float(self.obligation)
+        except (ZeroDivisionError, DivisionByZero):
+            if fabs(self.delta) > 0:
+                self.weighted_delta = float(1.0)
+            else:
+                self.weighted_delta = float(0.0)
+        except Exception, e:
+            fmt = u"Exception while calculating delta for program {0} FY {1}: {2}"
+            print fmt.format(self.program.program_number,
+                             self.fiscal_year,
+                             unicode(e))
+            self.weighted_delta = float(0.0)
+        except:
+            fmt = u"Exception while calculating delta for program {0} FY {1}"
+            print fmt.format(self.program.program_number,
+                             self.fiscal_year)
+        self.weighted_delta = str(self.weighted_delta)
 
     def _guess_obligation_type(self):
         re_loan = re.compile('loan', re.I)
@@ -526,69 +548,47 @@ class ProgramManager(models.Manager):
             (program, created) = Program.objects.get_or_create(
                 program_number=row['program_number'],
                 defaults={'load_date': datetime.now()})
+
             if created or program.cfda_edition < row['cfda_edition']:
                 for fld in naive_fields:
                     setattr(program, fld, unicode(row.get(fld)))
                 if created:
                     new_program_count += 1
 
-            try:
-                agency_code = int(program.program_number[:2])
-                program.agency = Agency.objects.get(code=agency_code)
-            except Agency.DoesNotExist as e:
-                print "Unrecognized agency prefix {0} in CFDA program number {1}".format(
-                    agency_code, program.program_number)
-            except ValueError as e:
-                print "Invalid CFDA program number: {0}".format(program.program_number)
-                print "Program numbers must begin with two digits."
+                try:
+                    agency_code = int(program.program_number[:2])
+                    program.agency = Agency.objects.get(code=agency_code)
+                except Agency.DoesNotExist as e:
+                    print "Unrecognized agency prefix {0} in CFDA program number {1}".format(
+                        agency_code, program.program_number)
+                except ValueError as e:
+                    print "Invalid CFDA program number: {0}".format(program.program_number)
+                    print "Program numbers must begin with two digits."
       
 
-            for account_number in row['parsed_accounts']:
-                (account, created) = ProgramAccount.objects.get_or_create(account_number=account_number)
-                program.account_identification.add(account_number)
+                for account_number in row['parsed_accounts']:
+                    (account, created) = ProgramAccount.objects.get_or_create(account_number=account_number)
+                    program.account_identification.add(account_number)
 
-            for assistance_code in row['parsed_types_of_assistance']:
-                assistance_type = AssistanceType.objects.get(code=assistance_code)
-                program.types_of_assistance.add(assistance_type)
+                for assistance_code in row['parsed_types_of_assistance']:
+                    assistance_type = AssistanceType.objects.get(code=assistance_code)
+                    program.types_of_assistance.add(assistance_type)
 
-            for ((asst_type, fy), (ob_cfda_edition, amt)) in row['parsed_obligations'].items():
-                (obligation, created) = ProgramObligation.objects.get_or_create(
-                    program=program,
-                    fiscal_year=fy,
-                    assistance_type_description=asst_type,
-                    defaults={
-                        'cfda_edition': ob_cfda_edition,
-                        'obligation': amt
-                    })
-                if obligation.cfda_edition < ob_cfda_edition:
-                    obligation.cfda_edition = ob_cfda_edition
-                    obligation.obligation = amt
-                    obligation.save()
+                for ((asst_type, fy), (ob_cfda_edition, amt)) in row['parsed_obligations'].items():
+                    (obligation, created) = ProgramObligation.objects.get_or_create(
+                        program=program,
+                        fiscal_year=fy,
+                        assistance_type_description=asst_type,
+                        defaults={
+                            'cfda_edition': ob_cfda_edition,
+                            'obligation': amt
+                        })
+                    if obligation.cfda_edition < ob_cfda_edition:
+                        obligation.cfda_edition = ob_cfda_edition
+                        obligation.obligation = amt
+                        obligation.save()
             
-           program.save()
-
-
-            """--------------------------------------------------------------------------"""
-            """ Update deltas:
-
-                                        matching_ob.delta = (matching_ob.usaspending_obligation or 0) - (matching_ob.obligation or 0)
-
-                                        try:
-                                            matching_ob.weighted_delta = float(matching_ob.delta) / float(matching_ob.obligation)
-                                        except (ZeroDivisionError, DivisionByZero):
-                                            if fabs(matching_ob.delta) > 0:
-                                                matching_ob.weighted_delta = float(1.0)
-                                            else:
-                                                matching_ob.weighted_delta = float(0.0)
-                                        except Exception, e:
-                                            print "Generic exception: %s" % str(e)
-                                            matching_ob.weighted_delta = float(0.0)
-                                        except:
-                                            print "Untyped exception caught."
-
-                                        matching_ob.weighted_delta = str(matching_ob.weighted_delta)
-                                        matching_ob.save()
-                                        """
+                program.save()
 
         # Remove programs from years outside our range
         # ProgramObligation.objects.exclude(fiscal_year__in=settings.FISCAL_YEARS).delete()

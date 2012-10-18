@@ -47,7 +47,6 @@ def main():
         print "Importing {0}".format(filepath)
         man.import_programs_file(filepath)
 
-    print "Committing changes to the database."
     man.commit_programs()
 
     print "{cnt} Programs after import.".format(cnt=Program.objects.count())
