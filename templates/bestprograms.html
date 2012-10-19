@@ -13,9 +13,9 @@
         <div id="filters">
             <h4>Revise results below</h4>
             <ul id="years">
-                <li><a href="{% block year2 %}{% url list-best-programs 2008 %} {% endblock %}" {% ifequal "2008" fiscal_year %}class="active"{% endifequal %}>2008</a></li>
                 <li><a href="{% block year3 %}{% url list-best-programs 2009 %} {% endblock %}" {% ifequal "2009" fiscal_year %}class="active"{% endifequal %}>2009</a></li>
-                <li><a href="{% block year1 %} {% url list-best-programs 2010 %} {% endblock %}" {% ifequal "2010" fiscal_year %}class="active"{% endifequal %}>2010</a></li>
+                <li><a href="{% block year2 %} {% url list-best-programs 2010 %} {% endblock %}" {% ifequal "2010" fiscal_year %}class="active"{% endifequal %}>2010</a></li>
+                <li><a href="{% block year1 %} {% url list-best-programs 2011 %} {% endblock %}" {% ifequal "2011" fiscal_year %}class="active"{% endifequal %}>2011</a></li>
             </ul>
 
             {% block search %}
