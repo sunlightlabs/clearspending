@@ -11,7 +11,7 @@ writer = csv.writer(open('media/docs/consistent_programs_all_years.csv', 'w'))
 consistent_allyears = []
 
 for fy in FISCAL_YEARS:
-    all_programs = ProgramObligation.objects.filter(fiscal_year=fy, type=1)
+    all_programs = ProgramObligation.objects.filter(fiscal_year=fy, obligation_type=1)
     
     under_reporting = ProgramConsistency.objects.filter(fiscal_year=fy,
                                                         type=1,
@@ -29,7 +29,7 @@ for fy in FISCAL_YEARS:
                                                        under_reported_pct__isnull=True,
                                                        non_reported_pct__isnull=True)
     programs_with_obligations = ProgramObligation.objects.filter(fiscal_year=fy,
-                                                                 type=1,
+                                                                 obligation_type=1,
                                                                  obligation__gt='0',
                                                                  usaspending_obligation__gt='0')
 
@@ -41,7 +41,7 @@ for fy in FISCAL_YEARS:
   
     consistent_allyears.append(consistency_set)
 
-    consistent_programs = ProgramObligation.objects.filter(fiscal_year=fy, type=1, program__in=consistency_set)
+    consistent_programs = ProgramObligation.objects.filter(fiscal_year=fy, obligation_type=1, program__in=consistency_set)
     consistent_dollars = sum([o.obligation for o in consistent_programs])
     consistent_mean = mean([float(o.obligation) for o in consistent_programs])
     all_grant_dollars = sum([o.obligation for o in all_programs])

@@ -11,7 +11,8 @@ def find_possible_mistakes():
     csv_out = csv.writer(open('greater_than_50_pct_change.csv', 'w'))
 
     for f in fins:
-        obs = ProgramObligation.objects.filter(type=1, program=f).order_by('fiscal_year')
+        obs = ProgramObligation.objects.filter(obligation_type=1,
+                                               program=f).order_by('fiscal_year')
         if obs:
             current = obs[0]
             for o in obs:
@@ -55,7 +56,9 @@ for fy in FISCAL_YEARS:
     writer.writerow(('CFDA number', 'CFDA Program Title', 'Failed Metric', 'CFDA Program Obligation', 'USASpending Obligation'))
     total = 0
     for program in fins:
-        ob = ProgramObligation.objects.filter(program=program, fiscal_year=fy, type=TYPE)
+        ob = ProgramObligation.objects.filter(program=program,
+                                              fiscal_year=fy,
+                                              obligation_type=TYPE)
         if len(ob) > 0: 
             ob = ob[0]
             if metric == 'all' or metric == 'consistency':
@@ -92,7 +95,9 @@ for fy in FISCAL_YEARS:
 
 
     count += 1
-    all_obs = ProgramObligation.objects.filter(program__in=fins, fiscal_year=fy, type=TYPE).aggregate(summ=Sum('obligation'))['summ']
+    all_obs = ProgramObligation.objects.filter(program__in=fins,
+                                               fiscal_year=fy,
+                                               obligation_type=TYPE).aggregate(summ=Sum('obligation'))['summ']
     if all_obs:
         print "%s - Total failed obligations: %s out of total obligations: %s (%s%%)" % (fy, pretty_money(total), 
                                                                                      pretty_money(all_obs),

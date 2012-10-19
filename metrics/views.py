@@ -133,7 +133,7 @@ def generic_program_table(programs, fiscal_year, unit):
             for ob in consistency[1:]:
                 row = [ program_number,
                         p_id,
-                        "%s (%s)" % (display_name, types[ob.type]),
+                        "%s (%s)" % (display_name, types[ob.obligation_type]),
                         ]
                 row.extend(get_consistency(ob, unit))
                 row.extend(get_timeliness(get_first(timeliness), unit))
@@ -271,7 +271,6 @@ def getConsistencyTrends(qset, unit):
             under.append(math.fabs(q.__dict__[unit])); over.append(0); non.append(0)
 
         count += 1
-    #if q.fiscal_year < 2009:
     while count < 3:
         over.append(0); under.append(0); non.append(0)
         count += 1
@@ -300,7 +299,7 @@ def programDetailConsistency(program, unit):
     html = []
     if program_obligations.count() > 0:
         for ty in types:
-            obligations = program_obligations.filter(type=ty)
+            obligations = program_obligations.filter(obligation_type=ty)
             if obligations:
                     html.append('<li><table><thead>')
                     html.append('<tr><th class="arrow"></th><th class="reviewed">Consistency (%s)</th>' % type_names[ty])
@@ -417,7 +416,7 @@ def list_best_programs(request, fiscal_year):
                                                        under_reported_pct__isnull=True,
                                                        non_reported_pct__isnull=True)
     programs_with_obligations = ProgramObligation.objects.filter(fiscal_year=fiscal_year,
-                                                                 type=1,
+                                                                 obligation_type=1,
                                                                  obligation__gt='0',
                                                                  usaspending_obligation__gt='0')
     completeness = [pc for pc in ProgramCompleteness.objects.filter(fiscal_year=fiscal_year)
@@ -450,7 +449,7 @@ def list_best_programs(request, fiscal_year):
     obligation_lookup = dict(map(lambda o: (get_program_id(o), o),
                                  ProgramObligation.objects.filter(
                                      fiscal_year=fiscal_year,
-                                     type=1,
+                                     obligation_type=1,
                                      program__in=best_program_ids)))
 
     def make_detail_record(program_id):

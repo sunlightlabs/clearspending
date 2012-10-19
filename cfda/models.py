@@ -103,7 +103,6 @@ class ProgramObligation(models.Model):
     weighted_delta = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True)
     cfda_edition = models.IntegerField(blank=False, null=False)
     corrected = models.BooleanField(default=False)
-    assistance_type_description = MySqlTextField(max_length=64000, blank=True, null=True)
 
     TYPE_CHOICES = (
         (1, 'Grants'),
@@ -125,7 +124,6 @@ class ProgramObligation(models.Model):
     grade = models.TextField(choices=GRADE_CHOICES)
 
     def save(self, *args, **kwargs):
-        self.obligation_type = self._guess_obligation_type()
         self._update_deltas()
         super(ProgramObligation, self).save(*args, **kwargs)
 
@@ -149,30 +147,6 @@ class ProgramObligation(models.Model):
             print fmt.format(self.program.program_number,
                              self.fiscal_year)
         self.weighted_delta = str(self.weighted_delta)
-
-    def _guess_obligation_type(self):
-        re_loan = re.compile('loan', re.I)
-        re_guar = re.compile('guarantee', re.I)
-        re_insur = re.compile('insur', re.I)
-        re_grants = re.compile('((formula|project|flex|incentive) )?grants', re.I)
-
-        if len(re_guar.findall(self.assistance_type_description)) > 0:
-            return 2
-
-        if len(re_loan.findall(self.assistance_type_description)) > 0:
-            return 2
-
-        if len(re_insur.findall(self.assistance_type_description)) > 0:
-            return 1
-
-        if len(re_grants.findall(self.assistance_type_description)) > 0:
-            return 1
-
-        if self.program.types_of_assistance.filter(code__in=(5, 6, 7)).count() > 0:
-            return 2
-
-        # print >>sys.stderr, "Defaulting to obligation type GRANTS for assistance type {0} for program {1}".format(self.assistance_type_description, self.program.program_number)
-        return 1
 
 class ProgramAccount(models.Model):
 
@@ -323,6 +297,30 @@ class Program(models.Model):
                             null=True)
 
 
+def guess_obligation_type(program_assistance_types, assistance_type_text):
+    re_loan = re.compile('loan', re.I)
+    re_guar = re.compile('guarantee', re.I)
+    re_insur = re.compile('insur', re.I)
+    re_grants = re.compile('((formula|project|flex|incentive) )?grants', re.I)
+
+    if len(re_guar.findall(assistance_type_text)) > 0:
+        return 2
+
+    if len(re_loan.findall(assistance_type_text)) > 0:
+        return 2
+
+    if len(re_insur.findall(assistance_type_text)) > 0:
+        return 1
+
+    if len(re_grants.findall(assistance_type_text)) > 0:
+        return 1
+
+    if len(set(program_assistance_types) & set([5,6,7])) > 0:
+        return 2
+
+    # print >>sys.stderr, "Defaulting to obligation type GRANTS for assistance type {0} for program {1}".format(asst_type, self.program.program_number)
+    return 1
+
 IGNORED_ASSISTANCE_TYPES = [u'salaries',
                             u'training',
                             u'contracts and interagency agreements',
@@ -330,7 +328,7 @@ IGNORED_ASSISTANCE_TYPES = [u'salaries',
                             u'sales',
                             u'sale, exchange, or donation or property']
 RE_IGNORED_ASSISTANCE_TYPES = re.compile(u'|'.join(IGNORED_ASSISTANCE_TYPES), re.I)
-def parse_obligations(obligations_text):
+def parse_obligations(program_assistance_types, obligations_text):
     """ Parses obligations text into a list of tuples:
             (asst_type, fiscal_year, amount)
 
@@ -358,13 +356,20 @@ def parse_obligations(obligations_text):
                         for (fy, amt) in obs
                         if RE_IGNORED_ASSISTANCE_TYPES.search(asst_type) is None]
 
+    """ Map the assistance types to obligation types """
+    flat_obligations1 = [(guess_obligation_type(program_assistance_types,
+                                                asst_type),
+                          fy,
+                          amt)
+                         for (asst_type, fy, amt) in flat_obligations]
+
 
     """ We've flattened the list of obligations to:
-            [(asst_type, fy, amt) ...]
-        but there will be duplicates for (asst_type, fy) pairs so we need
+            [(obligation_type, fy, amt) ...]
+        but there will be duplicates for (obligation_type, fy) pairs so we need
         to sum those values. """
-    asst_type_fy_groups = grouped(flat_obligations,
-                                  key=lambda (asst_type, fy, amt): (asst_type, fy))
+    asst_type_fy_groups = grouped(flat_obligations1,
+                                  key=lambda (ob_type, fy, amt): (ob_type, fy))
 
     def add_amounts(a, b):
         (a_type, a_year, a_amount) = a
@@ -475,36 +480,9 @@ class ProgramManager(models.Manager):
         re_account = re.compile('[\d]{2}[-][\d]{4}[-][\d]{1}[-][\d]{1}[-][\d]{3}')
 
         for (program_number, row) in self.programs.iteritems():
-            flattened_obligations = [] # a flat list of all obligations from all cfda files
-            for (cfda, obligations_text) in sorted(row['obligations'], key=itemgetter(0)):
-                obligations = parse_obligations(obligations_text)
-                versioned_obligations = [(cfda, asst_type, fy, amt)
-                                         for (asst_type, fy, amt) in obligations]
-                flattened_obligations.extend(versioned_obligations)
-
-            """ Flatten the list to facilitate sorting, which in turn ensures that
-                later cfda versions overrite preceding ones when dictified. """
-            flattened_obligations.sort(key=itemgetter(0))
-            """ Here we get a dictionary mapping:
-                    (type, fy) => (cfda_edition, amount) """
-            row['parsed_obligations'] = dict((((asst_type, fy), (cfda, amt))
-                                              for (cfda, asst_type, fy, amt) in flattened_obligations))
-
-
-            """ Parses a list of account identifiers from the list built by the
-                import_programs_file method, reducing it down to a unique set. """
-            account_identifiers = set()
-            for account_string in row['account_identification']:
-                accounts = re_account.findall(account_string)
-                account_identifiers.update(accounts)
-            row['parsed_accounts'] = account_identifiers
-
-
-            """
-            Parses a list of valid assistance types from those observed
-            in the 'types_of_assistance' field. The result is a list
-            of strings.
-            """
+            """ Parses a list of valid assistance types from those observed
+                in the 'types_of_assistance' field. The result is a list
+                of strings. """
             re_asst_type = re.compile(ur'^(.*?)(?: \(.*\))?$')
             if isinstance(row['types_of_assistance'], unicode):
                 assistance_types = set([base_type.strip().upper()
@@ -520,8 +498,34 @@ class ProgramManager(models.Manager):
                     print >>sys.stderr, fmt.format(list(assistance_types),
                                                    prog=row['program_number'],
                                                    ver=row['cfda_edition'])
-
                 row['parsed_types_of_assistance'] = list(retained_assistance_types)
+
+            """ Parses obligations from the obligations text, reduces down to the most
+                recently published values for each fiscal year. """
+            flattened_obligations = [] # a flat list of all obligations from all cfda files
+            for (cfda, obligations_text) in sorted(row['obligations'], key=itemgetter(0)):
+                obligations = parse_obligations(row['parsed_types_of_assistance'],
+                                                obligations_text)
+                versioned_obligations = [(cfda, ob_type, fy, amt)
+                                         for (ob_type, fy, amt) in obligations]
+                flattened_obligations.extend(versioned_obligations)
+
+            """ Flatten the list to facilitate sorting, which in turn ensures that
+                later cfda versions overrite preceding ones when dictified. """
+            flattened_obligations.sort(key=itemgetter(0))
+            """ Here we get a dictionary mapping:
+                    (obligation_type, fy) => (cfda_edition, amount) """
+            row['parsed_obligations'] = dict((((ob_type, fy), (cfda, amt))
+                                              for (cfda, ob_type, fy, amt) in flattened_obligations))
+
+
+            """ Parses a list of account identifiers from the list built by the
+                import_programs_file method, reducing it down to a unique set. """
+            account_identifiers = set()
+            for account_string in row['account_identification']:
+                accounts = re_account.findall(account_string)
+                account_identifiers.update(accounts)
+            row['parsed_accounts'] = account_identifiers
 
             """Convert the recovery field to a boolean."""
             if isinstance(row.get('recovery'), (str, bytes, unicode)):
@@ -574,11 +578,11 @@ class ProgramManager(models.Manager):
                     assistance_type = AssistanceType.objects.get(code=assistance_code)
                     program.types_of_assistance.add(assistance_type)
 
-                for ((asst_type, fy), (ob_cfda_edition, amt)) in row['parsed_obligations'].items():
+                for ((ob_type, fy), (ob_cfda_edition, amt)) in row['parsed_obligations'].items():
                     (obligation, created) = ProgramObligation.objects.get_or_create(
                         program=program,
                         fiscal_year=fy,
-                        assistance_type_description=asst_type,
+                        obligation_type=ob_type,
                         defaults={
                             'cfda_edition': ob_cfda_edition,
                             'obligation': amt

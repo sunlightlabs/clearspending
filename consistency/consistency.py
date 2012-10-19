@@ -1,15 +1,20 @@
 
 #Metric for consistency in USASpending versus CFDA reported obligations
 
-from settings import *
-from cfda.models import *
-from metrics.models import AgencyConsistency, ProgramConsistency, AgencyTimeliness, ProgramTimeliness, ProgramCompleteness, ProgramCompletenessDetail
-from django.db.models import Avg, Sum
+import os
+import sys
 import csv
-import numpy as np
 import math
 from decimal import Decimal
+from traceback import print_exc
+
+import numpy as np
+from django.db.models import Sum
+
 from helpers.charts import Line
+from cfda.models import Agency, Program, ProgramObligation
+from metrics.models import AgencyConsistency, ProgramConsistency, AgencyTimeliness, ProgramCompleteness
+from django.conf import settings
 
 def main():
     assistance_hash = {'1': "grants", '2': "loans"} 
@@ -28,10 +33,10 @@ def main():
     program_writer.writerow(('Program Number', 'Program Name', 'Fiscal Year', 'Agency', 'CFDA Obligations', 'USASpending Obligations', 'Delta', 'Percent under/over reported'))
 
     fin_programs = Program.objects.filter(types_of_assistance__financial=True ).distinct()
-    fin_obligations = ProgramObligation.objects.filter(program__in=fin_programs, type=assistance_type)
+    fin_obligations = ProgramObligation.objects.filter(program__in=fin_programs, obligation_type=assistance_type)
 
-    for fy in FISCAL_YEARS:
-        nr_programs = fin_obligations.filter(usaspending_obligation=None, obligation__gt=0, fiscal_year=fy, type=assistance_type)
+    for fy in settings.FISCAL_YEARS:
+        nr_programs = fin_obligations.filter(usaspending_obligation=None, obligation__gt=0, fiscal_year=fy, obligation_type=assistance_type)
         nonreporting = len(nr_programs)
 
         under_programs = fin_obligations.filter(fiscal_year=fy, weighted_delta__lt=0).exclude(program__in=nr_programs)
@@ -84,7 +89,7 @@ def main():
             score_agency(agency, fin_obligations, fy, agency_writer, assistance_type)
 
         for prog in fin_programs:
-            obs = ProgramObligation.objects.filter(program=prog, fiscal_year=fy, type=assistance_type)
+            obs = ProgramObligation.objects.filter(program=prog, fiscal_year=fy, obligation_type=assistance_type)
             for p in obs:
 		
 
@@ -112,8 +117,9 @@ def main():
                     #p.save()
                     pcm.save() 
 
-                    program_writer.writerow((p.program.program_number, p.program.program_title.replace(u'\u2013', "").replace(u'\xa0', ''), fy, p.program.agency.name, p.obligation, p.usaspending_obligation, p.delta, p.weighted_delta)) 
+                    program_writer.writerow((p.program.program_number, p.program.program_title.encode('utf-8'), fy, p.program.agency.name, p.obligation, p.usaspending_obligation, p.delta, p.weighted_delta)) 
                 except UnicodeEncodeError, e:
+                    print_exc()
                     print e
                     print "%s - %s" % (p.program.program_number, p.program.program_title)
 
@@ -123,7 +129,7 @@ def main():
 def score_agency(agency, fin_obligations, fiscal_year, writer, type):
 
     #obligations from financial programs
-    obs = fin_obligations.filter(program__agency=agency,fiscal_year=fiscal_year, type=type)
+    obs = fin_obligations.filter(program__agency=agency,fiscal_year=fiscal_year, obligation_type=type)
     total_misreported = Decimal('0')
     total = Decimal('0')
     for o in obs:
@@ -179,10 +185,10 @@ def generate_graphs():
     agencies = Agency.objects.all()
     for a in agencies:
         series = []
-        consistency_coll_grants = AgencyConsistency.objects.filter(agency=a, type=1, fiscal_year__in=FISCAL_YEARS).order_by('fiscal_year')
-        consistency_coll_loans = AgencyConsistency.objects.filter(agency=a, type=2, fiscal_year__in=FISCAL_YEARS).order_by('fiscal_year')
-        timeliness_coll = AgencyTimeliness.objects.filter(agency=a, fiscal_year__in=FISCAL_YEARS).order_by('fiscal_year')
-        completeness_coll = ProgramCompleteness.objects.filter(agency=a, fiscal_year__in=FISCAL_YEARS).order_by('fiscal_year')
+        consistency_coll_grants = AgencyConsistency.objects.filter(agency=a, type=1, fiscal_year__in=settings.FISCAL_YEARS).order_by('fiscal_year')
+        consistency_coll_loans = AgencyConsistency.objects.filter(agency=a, type=2, fiscal_year__in=settings.FISCAL_YEARS).order_by('fiscal_year')
+        timeliness_coll = AgencyTimeliness.objects.filter(agency=a, fiscal_year__in=settings.FISCAL_YEARS).order_by('fiscal_year')
+        completeness_coll = ProgramCompleteness.objects.filter(agency=a, fiscal_year__in=settings.FISCAL_YEARS).order_by('fiscal_year')
 
         grants_over = [(x.fiscal_year, float(x.over_reported_dollars or 0)) for x in consistency_coll_grants]
         grants_under = [(x.fiscal_year, float(x.under_reported_dollars or 0)) for x in consistency_coll_grants]
@@ -193,7 +199,7 @@ def generate_graphs():
         timeliness = [(x.fiscal_year, float(x.late_dollars or 0)) for x in timeliness_coll]
         
         completeness = []
-        for fy in FISCAL_YEARS:
+        for fy in settings.FISCAL_YEARS:
             comp = float(completeness_coll.filter(fiscal_year=fy).aggregate(total_failed=Sum('completeness_failed_dollars'))['total_failed'] or 0)
             completeness.append((fy, comp))
             print fy
@@ -215,8 +221,14 @@ def generate_graphs():
 
 
         if series and overall_max > 0:
-            line_chart = Line(725, 280, series, MEDIA_ROOT+'/styles/linechart.css', label_intervals=1, x_padding=55, padding=20, units=True, use_zero_minimum=True)
-            line_chart.output("%sagency_chart_%s.svg" % (GRAPH_DIR, a.code)) 
+            line_chart = Line(725, 280, series,
+                              os.path.join(settings.STATIC_ROOT, 'styles', 'linechart.css'),
+                              label_intervals=1,
+                              x_padding=55,
+                              padding=20,
+                              units=True,
+                              use_zero_minimum=True)
+            line_chart.output("%sagency_chart_%s.svg" % (settings.GRAPH_DIR, a.code)) 
     
 
 

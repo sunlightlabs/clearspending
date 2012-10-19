@@ -47,7 +47,7 @@ def best_programs(fiscal_year, range_low, range_high):
                                                        under_reported_pct__isnull=True,
                                                        non_reported_pct__isnull=True)
     programs_with_obligations = ProgramObligation.objects.filter(fiscal_year=fiscal_year,
-                                                                 type=1,
+                                                                 obligation_type=1,
                                                                  obligation__gt='0',
                                                                  usaspending_obligation__gt='0')
     completeness = [pc for pc in ProgramCompleteness.objects.filter(fiscal_year=fiscal_year)
@@ -82,7 +82,7 @@ def print_program_list(fiscal_year, best_program_ids):
     for prog_consistency in best_program_consistencies:
         program = Program.objects.get(pk=prog_consistency.program_id)
         program_obligation = ProgramObligation.objects.get(fiscal_year=fiscal_year,
-                                                           type=1,
+                                                           obligation_type=1,
                                                            program=prog_consistency.program_id)
 
         prog_completeness = ProgramCompleteness.objects.get(fiscal_year=fiscal_year,
@@ -118,7 +118,7 @@ def main_chart(fiscal_year):
     all_cnt = len(ProgramObligation.objects.filter(fiscal_year=fiscal_year,
                                                    obligation__gt='0',
                                                    usaspending_obligation__gt='0',
-                                                   type=1))
+                                                   obligation_type=1))
     poor_cnt = all_cnt - good_cnt
 
     print "%d: %d good (%.2f%%), %d poor (%.2f%%)" % (fiscal_year,

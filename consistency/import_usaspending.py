@@ -1,6 +1,7 @@
 
 #Metric for consistency in USASpending versus CFDA reported obligations
 
+import sys
 import pg
 import csv
 from datetime import datetime
@@ -115,24 +116,14 @@ if __name__ == '__main__':
                 if row['face_loan_guran'] > 0:
                     this_type =2 
 
-                cfda_ob = ProgramObligation.objects.get(program=program, fiscal_year=row['fiscal_year'], type=this_type)
+                cfda_ob = ProgramObligation.objects.get(program=program, fiscal_year=row['fiscal_year'], obligation_type=this_type)
                 
-                if cfda_ob.type == 1:
+                if cfda_ob.obligation_type == 1:
                     #its direct spending/grants
                     obligation = row['fed_funding_amount']
                 else:
                     obligation = row['face_loan_guran']
-            
                 cfda_ob.usaspending_obligation = obligation
-                cfda_ob.delta = (cfda_ob.usaspending_obligation - cfda_ob.obligation)
-                try:
-                    cfda_ob.weighted_delta = (cfda_ob.delta / cfda_ob.obligation)
-                except Exception as e:
-                    if cfda_ob.obligation == 0:
-                        if not cfda_ob.usaspending_obligation:
-                            cfda_ob.weighted_delta = 0
-                        else:
-                            cfda_ob.weighted_delta = None
                 cfda_ob.save()
 
                     #print "MATCH: %s - %s - %s - %s diff %s" % (row[0], row[1], cfda_ob.obligation, cfda_ob.usaspending_obligation, cfda_ob.delta)

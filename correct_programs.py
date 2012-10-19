@@ -37,7 +37,7 @@ if __name__ == '__main__':
             count = 0
             print "%s" % program.program_title
             for o in obs:
-                print "%d: %s  (%s)  %s" % ( count, o.fiscal_year, o.type, o.obligation)
+                print "%d: %s  (%s)  %s" % ( count, o.fiscal_year, o.obligation_type, o.obligation)
                 count += 1
 
             number = raw_input("Select an item number to update:")
