@@ -1,10 +1,13 @@
 #!/bin/python
 
-import sys, csv, os, imp, pickle
-from settings import *
+import sys
+import csv
+import os
+import pickle
 from completeness.statlib import stats
 from decimal import Decimal
 import doctest
+from django.conf import settings
 
 BOOKMARK = 'completeness/bookmark.pickle'
 
@@ -152,7 +155,7 @@ class MetricTester(object):
     def _row_to_dict(self, row):
         """ Turns the incoming row into a hash for ease of use """
         r = {}
-        for (field_index, field_name) in enumerate(CANONICAL_FIELD_ORDER):
+        for (field_index, field_name) in enumerate(settings.CANONICAL_FIELD_ORDER):
             if field_index < len(row):
                 r[field_name] = row[field_index]
         return r 
@@ -244,7 +247,7 @@ class MetricTester(object):
         
 def main_csv():
 
-    for year in FISCAL_YEARS:
+    for year in settings.FISCAL_YEARS:
 
         print "Processing FAADS results for %d" % year
 
