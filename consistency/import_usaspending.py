@@ -2,15 +2,47 @@
 #Metric for consistency in USASpending versus CFDA reported obligations
 
 import sys
-import pg
+import re
 import csv
+from decimal import Decimal
 from datetime import datetime
+
+import pg
 import numpy as np
 
 from metrics.models import ProgramCorrection, USASpendingAggregate
 from cfda.models import Program, ProgramObligation
+from utils import pretty_money
 
 from django.conf import settings
+
+def fix_cfda_program_all_years(program_number):
+    program = Program.objects.get(program_number=program_number)
+    obligations = list(program.programobligation_set.all())
+
+    def print_obligations():
+        print "{0}\t{1}".format(program_number, program.program_title)
+        for (i, o) in enumerate(obligations):
+            print "{0}: {1}\t{2}".format(i, 'Grants' if o.obligation_type == 1 else 'Loans', o.fiscal_year)
+            print "\t\tCFDA: {0!s: >17} ({1}) {2}".format(pretty_money(o.obligation or 0), o.obligation, 'CORRECTED' if o.corrected else '')
+            print "\t\tFAADS: {0!s: >17} ({1})".format(pretty_money(o.usaspending_obligation or 0), o.usaspending_obligation)
+            print
+
+    while True:
+        print_obligations()
+        response = raw_input("To fix an obligation, enter the number followed by the corrected value. Press 'q' to quit): ")
+        if response.lower() in ('q', 'quit'):
+            break
+        elif response == '':
+            pass
+        else:
+            try:
+                (i, new_value) = re.split(ur'[:,\s]+', response.strip())
+                i = int(i)
+            except ValueError:
+                print "I don't understand what you mean!"
+                continue
+            update_obligation(new_value, obligations[i])
 
 def fix_cfda():
     #Identify possible cfda mistakes
@@ -26,13 +58,19 @@ def fix_cfda():
         sd_new = np.std([float(v) for v in new_over.values_list('weighted_delta', flat=True)])
         avg_new = np.average([float(v) for v in new_over.values_list('weighted_delta', flat=True)])
 
-        outliers = over_programs.filter(weighted_delta__gte=str(avg_new))
-        i = 1
-        print "Possible CFDA mistakes for FY %s" % fy
-        for o in outliers:
-            print "%s: %s\t%s\t%s\t%s\t%s" % (i, o.program.program_number, o.program.program_title, o.obligation, o.usaspending_obligation, o.weighted_delta)
-            i += 1
+        outliers = over_programs.filter(weighted_delta__gte=str(avg_new)).exclude(corrected=True)
+        def print_outliers():
+            print "Possible CFDA mistakes for FY %s" % fy
+            i = 1
+            for o in outliers:
+                print "{0}: {1}\t{2}".format(i, o.program.program_number, o.program.program_title)
+                print "\t\tCFDA:  {0!s: >17}".format(pretty_money(o.obligation))
+                print "\t\tFAADS: {0!s: >17}".format(pretty_money(o.usaspending_obligation))
+                print "\t\tWeighted delta: {0}".format(o.weighted_delta)
+                print
+                i += 1
 
+        print_outliers()
         while True:
             input = raw_input("fix an obligation? (enter number of obligation, q to quit, or n to move to the next FY): ")
             if input == 'q':
@@ -40,6 +78,9 @@ def fix_cfda():
 
             elif input == 'n':
                 break
+
+            elif input == '':
+                print_outliers()
 
             elif 0 < int(input) <= len(outliers):
                 program = outliers[int(input)-1]
@@ -59,15 +100,6 @@ def update_obligation(new_obligation, program):
     
     old_obligation = program.obligation
     program.obligation = int(new_obligation)
-    program.delta = program.usaspending_obligation - program.obligation
-    try:
-        program.weighted_delta = program.delta / program.obligation
-    except Exception:
-        if program.obligation == 0:
-            if not program.usaspending_obligation:
-                program.weighted_delta = 0
-            else:
-                program.weighted_delta = 1
     program.corrected = True
     program.save()
 
