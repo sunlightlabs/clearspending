@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/header.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/footer.css">
 
+    {% block scripts %}
     <script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery-ui-1.8.4.custom.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery.tablesorter.min.js"></script>
@@ -27,6 +28,7 @@
       })();
 
     </script>
+    {% endblock %}
 
     
     	<meta charset="utf-8" />
