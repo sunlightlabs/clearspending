@@ -11,6 +11,8 @@
     <script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery.tablesorter.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery.cookie.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}scripts/clearspending.js"></script>
+    <script type="text/javascript" src="//use.typekit.net/ktu4xpo.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
     <!-- added by timball  Tue Sep  7 15:12:38 UTC 2010 -->
    <script type="text/javascript">
 
@@ -51,10 +53,8 @@
 <div id="contentWrapper">
     <div id="header">
         <h2><a href="{% url clearspending-index %}"><big>Clearspending</big><small>Making Sense of the Federal Checkbook</small></a></h2>
-        <div id="updated">Updated for 2011!</div>
-    </div>
-    <div id="mainContainer">
-        <div id="nav">
+        <span id="updated">2012 Report</span>
+        <div id="nav" class="clear">
             <ul>
                 <li id="summary"><a href="{%url summary %}">Summary</a></li>
                 <li id="scorecard"><a href="{% url scorecard-index %}">Scorecard</a></li>
@@ -63,47 +63,40 @@
                 <li id="methodology"><a href="{% url methodology %}">Methodology</a></li>
                 <li id="media"><a href="{% url media-index %}">Media</a></li>
                 <li id="resources"><a href="{% url resources %}">Resources</a></li>
-                <li id="feedback"><a href="{% url feedback %}">Feedback</a></li>
+                <li class="last" id="feedback"><a href="{% url feedback %}">Feedback</a></li>
             </ul>
         </div>
-
+        <div id="subnav" class="clear">
+            <ul>
+                <li><a href="#">subnav #1</a></li>
+                <li><a href="#">subnav #1</a></li>
+                <li><a href="#">subnav #1</a></li>
+            </ul>    
+        </div>    
+    </div>
+    <div id="mainContainer" class="clear">
             {% block content %}
             {% endblock content %}
     </div>
-<footer id="mainFooter"> 
-                <div id="footerContent"> 
-                        <div id="contact"> 
-                            <h2>Contact Us</h2> 
-                            <address class="vcard"> 
-                                <span class="fn org"> 
-                                    <a href="http://sunlightfoundation.com" class="url">Sunlight Foundation</a> 
-                                </span> 
-                                <span class="adr"> 
-                                    <span class="street-address">1818 N Street NW</span> 
-                                    <span class="extended-address">Suite 300</span> 
-                                    <span class="locality">Washington</span>,
-                                    <span class="region" title="District of Columbia">DC</span> 
-                                    <span class="postal-code">20036</span> 
-                                </span> 
-                            <span class="tel">202-742-1520</span> 
-                                <a href="callto:+12027421520" class="tel-skype">Call with Skype</a> 
-                            </address> 
-                    </div> 
-                    <div id="aboutSunlight"> 
-                            <h2>About Sunlight</h2> 
-                            <ul> 
-                                <li><a href="/about/">Our Mission</a></li> 
-                                <li><a href="/about/board/">Board &amp; Advisory Board</a></li> 
-                                <li><a href="/about/funding/">How We're Funded</a></li> 
-                                <li><a href="/people/">Our Team</a> and <a href="/jobs/">Jobs</a></li> 
-                            </ul> 
-                        </div> 
-                        <div id="privacyPolicy"> 
-                                <p>Our <a href="/legal/privacy/">privacy policy</a> details how personally identifiable information that is collected on our web sites is handled. Read our <a href="/legal/terms/">terms of service</a>.</p> 
-                            <p>This work by <a href="http://sunlightfoundation.com">Sunlight Foundation</a>, unless <a href="/colophon/">otherwise noted</a>, is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/us/">Creative Commons Attribution 3.0 United States License</a>.</p> 
-                        </div> 
-                        <div class="clear"></div> 
-                </div> 
-            </footer>
+    <div class="sf-footerWrapper">
+        <div class="sf-footer container">
+            <div class="row">
+                <div class="span6 signup span-divider">
+                    <h4>Like this Project and Want to Discover Others Like It?</h4>
+                    <span class="tip">Join the Sunlight Foundation's open government community to learn more</span>
+                    <form action="/subscribe/" method="post" id="sfapp-subscribe-form" class="form-inline">
+                        {% csrf_token %}
+                        <input type="text" name="email" placeholder="your email address">
+                        <input type="text" name="zipcode" placeholder="your zip code">
+                        <button type="submit" class="btn btn-sunlight">Sign Up</button>
+                    </form>
+                </div>
+                <div class="span6 terms">
+                    <p>Our <a href="http://sunlightfoundation.com/legal/privacy/">privacy policy</a> details how personally identifiable information that is collected on our web sites is handled. Read our <a href="http://sunlightfoundation.com/legal/terms/">terms of service</a>.</p>
+                    <p>This work by <a href="http://sunlightfoundation.com">Sunlight Foundation</a>, unless <a href="http://sunlightfoundation.com/colophon/">otherwise noted</a>, is licensed under a <a href="http://creativecommons.org/licenses/by/3.0/us/">Creative Commons Attribution 3.0 United States License</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body></html>

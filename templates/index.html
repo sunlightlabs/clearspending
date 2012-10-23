@@ -1,52 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
 <div id="featureBox">
-    <span id="featureNumber">$1,306,120,795,761</span>
-    <span id="featureTitle">Broken Spending Reporting in 2010</span>
-    <div id="featureBody">
-        <h3>How Reliable is USASpending.gov?</h3>
-        <p>We've taken data from other federal reporting systems and compared it with the data found in USASpending.gov across three categories: <strong>Consistency</strong>, <strong>Completeness</strong> and <strong>Timeliness</strong>. How close are the reported dollar amounts to the yearly estimates? How many of the required fields are filled out in each record? And how long did it take the agency to report the money once it was allocated to a project?</p>
-        <a id="scorecardBtn" href="{% url summary %}">Results Summary</a>
-    </div>
-</div>
-<div id="pageMain">
-    <div id="homeltColumn">
-        <div id="reporting">
-            <h3>How does the federal government report its spending?</h3>
-            <p>The flow of federal spending reporting can get complicated. We've tried to simplify it for you with a <a href="{% url animation %}">step-by-step visualization</a>.</p> 
-        </div>
-        <div id="metrics">
-            <h3>Our Metrics</h3>
-            <p class="no-border">How did we conduct our analysis and what assumptions did we make? What limitations exist with the comparison data we're using? We measured the data across three categories:</p>
-            <ul>
-                <li><strong>Consistency</strong>: A comparison of CFDA obligations and USASpending.gov obligations.</li>
-                <li><strong>Completeness</strong>: A measure of how many required fields are completed. </li>
-                <li><strong>Timeliness</strong>: A measure of how quickly obligations were reported.</li>
-            </ul>
-           <p class="no-border">See our <a href="{% url methodology %}">methodology</a> for more information.</p>
-        </div>
-    </div>
-    <div id="homertColumn">
-        <div id="important">
-            <h3>Top Programs</h3>
-            <p class="no-border">The following are some of the top programs that report well across all three metrics:</p>
-            <ul>
-                <li><a href="/clearspending/program/722/dollars/">Violence Against Women Act Court Training and Improvement Grants</a></li>
-                <li><a href="/clearspending/program/1376/dollars/">Special Education Grants for Infants and Families</a></li>
-                <li><a href="/clearspending/program/1374/dollars/">Special Education Preschool Grants</a></li>
-                <li><a href="/clearspending/program/1315/dollars/">Energy Efficient Appliance Rebate Program</a></li>
-                <li><a href="/clearspending/program/34/dollars/">Cooperative Forestry Research</a></li>
-                <li><a href="/clearspending/program/35/dollars/">Payments to Agricultural Experiment Stations</a></li>
-                <li><a href="/clearspending/program/1241/dollars/">State Senior Environmental Employment Programs</a></li>
-                <li><a href="/clearspending/program/1385/dollars/">Even Start</a></li>
-                <li><a href="/clearspending/program/65/dollars/">Specialty Crop Research Initiative</a></li>
-                <li><a href="/clearspending/program/1417/dollars/">Civic Education Cooperative Education Exchange Program</a></li>
-
-            </ul>
-			<em><a style="float:right;" href="{% url list-best-programs 2010 %}">See all top programs &raquo;</a></em>
-        </div>    
+    <div id="ltColumn">
+        <h3>Keeping Tabs on <span>USASpending.gov</span></h3>
+        <p>We've taken data from other federal reporting systems and compared it with the data found in USASpending.gov across three categories: Consistency, Completeness and Timeliness. How close are the reported dollar amounts to the yearly estimates? How many of the required fields are filled out in each record? And how long did it take the agency to report the money once it was allocated to a project?</p>
     </div>
     <div class="clear"></div>
+</div>
+<div id="pageMain">
+    <div class="module">
+        <h3>Federal Waste by Metric</h3>
+    </div>
+    <div class="ltColumn">
+        <div class="module">
+            <h3>Types of Federal Spending</h3>
+        </div>
+        <div class="module">
+            <h3>On-Time Spending Over Time</h3>
+        </div>
+    </div>
+    <div class="rtColumn">
+        <div class="module" id="scorecardPromo">
+            <h4>See how Government Agencies Measure Up</h4>
+            <a class="textReplace" href="#">View our Scorecard</a>
+        </div>
+        <div class="module">
+            <h4>Download Previous Reports</h4>
+            <ul>
+                <li><a href="#">2010 Spending Report</a></li>
+                <li><a href="#">2010 Spending Report</a></li>
+                <li><a href="#">2010 Spending Report</a></li>
+            </ul>    
+        </div>
+    </div>
 </div>
 
 </div>
