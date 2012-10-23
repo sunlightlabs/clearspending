@@ -5,8 +5,10 @@ import os
 import sys
 import csv
 import math
+import simplejson
 from decimal import Decimal
 from traceback import print_exc
+from itertools import izip
 
 import numpy as np
 from django.db.models import Sum
@@ -222,7 +224,7 @@ def generate_graphs():
 
         if series and overall_max > 0:
             line_chart = Line(725, 280, series,
-                              os.path.join(settings.STATIC_ROOT, 'styles', 'linechart.css'),
+                              os.path.join('media', 'styles', 'linechart.css'),
                               label_intervals=1,
                               x_padding=55,
                               padding=20,
@@ -230,10 +232,113 @@ def generate_graphs():
                               use_zero_minimum=True)
             line_chart.output("%sagency_chart_%s.svg" % (settings.GRAPH_DIR, a.code)) 
     
+def generate_agency_flare_data():
+    print "Building consistency flare tree grouped by agency."
+    minimum_program_size = 10**6
+    flares = dict([
+        (fy, {
+            'name': "{0} consistency".format(fy),
+            'children': [
+                {
+                    'name': agency.name,
+                    'children': [
+                        {
+                            'number': program.program_number,
+                            'title': program.program_title,
+                            'non': consistency.non_reported_pct,
+                            'over': consistency.over_reported_pct,
+                            'under': consistency.under_reported_pct,
+                            'size': max(obligation.obligation,
+                                        obligation.usaspending_obligation)
+                        }
+                        for program in agency.program_set.select_related()
+                        for (obligation_list, consistency_list) in [
+                            (program.programobligation_set.filter(obligation_type=1, fiscal_year=fy),
+                             program.programconsistency_set.filter(type=1, fiscal_year=fy))
+                        ]
+                        for (obligation, consistency) in izip(obligation_list, consistency_list)
+                        if len(obligation_list) == 1 and len(consistency_list) == 1
+                        and (obligation.obligation > minimum_program_size
+                             or obligation.usaspending_obligation > minimum_program_size)
+                    ]
+                } 
+                for agency in Agency.objects.all()
+                if agency.programconsistency_set.count() > 0]
+        }) for fy in settings.FISCAL_YEARS])
+
+    for (fy, flare) in flares.iteritems():
+        for category in flare['children']:
+            for program in category['children']:
+                for field in ['non', 'over', 'under']:
+                    if program[field] is None:
+                        del program[field]
+
+    for (fy, flare) in flares.iteritems():
+        filepath = "media/data/consistency_flare_{0}_agencies.json".format(fy)
+        print "Writing {path}".format(path=filepath)
+        with file(filepath, 'w') as outf:
+            simplejson.dump(flare, outf)
+
+
+def generate_category_flare_data():
+    print "Building consistency flare tree grouped by category."
+    categories = [group['category']
+                  for group in ProgramConsistency.objects.values('category').distinct()]
+    minimum_program_size = 10**7
+
+    flares = dict([
+        (fy, {
+            'name': "{0} consistency".format(fy),
+            'children': [
+                {
+                    'name': category,
+                    'children': [
+                        {
+                            'number': program.program_number,
+                            'title': program.program_title,
+                            'non': consistency.non_reported_pct,
+                            'over': consistency.over_reported_pct,
+                            'under': consistency.under_reported_pct,
+                            'size': max(obligation.obligation,
+                                        obligation.usaspending_obligation)
+                        }
+                        for program in Program.objects.all()
+                        for (obligation_list, consistency_list) in [
+                            (program.programobligation_set.filter(obligation_type=1,
+                                                                  fiscal_year=fy),
+                             program.programconsistency_set.filter(type=1,
+                                                                   category=category,
+                                                                   fiscal_year=fy))
+                        ]
+                        for (obligation, consistency) in izip(obligation_list, consistency_list)
+                        if len(obligation_list) == 1 and len(consistency_list) == 1
+                        and (obligation.obligation > minimum_program_size
+                             or obligation.usaspending_obligation > minimum_program_size)
+                    ]
+                }
+                for category in categories]
+        })
+        for fy in settings.FISCAL_YEARS])
+
+    for (fy, flare) in flares.iteritems():
+        for category in flare['children']:
+            for program in category['children']:
+                for field in ['non', 'over', 'under']:
+                    if program[field] is None:
+                        del program[field]
+
+    for (fy, flare) in flares.iteritems():
+        filepath = "media/data/consistency_flare_{0}_categories.json".format(fy)
+        print "Writing {path}".format(path=filepath)
+        with file(filepath, 'w') as outf:
+            simplejson.dump(flare, outf)
 
 
 if __name__ == '__main__':
     main()
+    generate_graphs()
+    generate_category_flare_data()
+    generate_agency_flare_data()
     
          
 

@@ -18,15 +18,36 @@
         }
         .cell.unknown {
         }
+        .cell.category {
+            display: none;
+        }
+        div.chart-loading {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            height: 48px;
+            margin-top: -24px;
+            font-weight: bold;
+            color: #6C6764;
+            font-size: 24px;
+            vertical-align: middle;
+            text-align: center;
+        }
+        div.chart-loading div {
+            display: inline-block;
+            margin: 0 auto;
+        }
         #chart-con {
+            position: relative;
             width: 840px;
-            height: 500px;
             margin: auto auto;
         }
-        #status, #program-description {
+        #status-con {
+            position: relative;
             width: 840px;
             height: 3em;
-            margin: auto auto;
+        }
+        #status, #program-description {
             font-weight: bold;
         }
         #program-description {
@@ -51,6 +72,9 @@
             height: 1em;
             overflow: hidden;
         }
+        .perfect {
+            background: none rgb(0, 200, 0);
+        }
         .fail {
             background: none rgb(240, 59, 32);
         }
@@ -60,6 +84,27 @@
         }
         .blind {
             background: none rgb(0, 0, 0);
+        }
+        div#chart-buttons {
+            float: right;
+        }
+        span.fiscal_year_chooser {
+            text-align: right;
+            color: #68A31D;
+            margin: 0 0.5em;
+            cursor: pointer;
+        }
+        span.fiscal_year_chooser:hover {
+        }
+        span.fiscal_year_chooser.selected {
+            color: #68A31D;
+            font-weight: bold;
+        }
+        span.title {
+            display: inline;
+            float: left;
+            font-weight: bold;
+            font-size: 14px;
         }
     </style>
 {% endblock %}
@@ -71,15 +116,29 @@
     </p>
 
     <div id="chart-con">
+        <span class="title">Consistency of Federal Direct Assistance Reporting</span>
+        <div id="chart-buttons">
+            {% for fy in FISCAL_YEARS %}
+            <span class="fiscal_year_chooser">{{ fy }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="clear"></div>
+
         <div id="chart">
         </div>
-    </div>
 
-    <div id="status">
-        Move your cursor over the diagram for details on each federal spending program.
+        <div class="clear"></div>
+        <div id="status-con">
+            <div id="status">
+                Move your cursor over the diagram for details on each federal spending program.
+            </div>
+            <div id="program-description">
+            </div>
+        </div>
     </div>
-    <div id="program-description">
-    </div>
+        <div class="clear"></div>
+
 
     <div id="legend">
         <span id="legend-title">Legend</span> <br>

@@ -17,66 +17,118 @@ $(document).ready(function(){
                                  .join('');
     };
 
+    var consistency_treemap = function (options) {
+        var options = options || {};
+        var default_to = function (opt, val) { options[opt] = options[opt] || val; };
+        default_to("width", 840);
+        default_to("height", 520);
+        default_to("element", "#chart");
 
-    var width = 840;
-    var height = 500;
+        var cell = function () {
+            this.style("left", function(d){ return d.x + "px"; })
+                .style("top", function(d){ return d.y + "px"; })
+                .style("width", function(d){ return Math.max(0, d.dx - 1) + "px"; })
+                .style("height", function(d){ return Math.max(0, d.dy - 1) + "px"; });
+        };
 
-    var treemap = d3.layout.treemap()
-                    .size([width, height])
-                    .sticky(true)
-                    .value(function(d){ return d.size; });
+        var show_program_label = function (d) {
+            if (d.children) {
+                console.log(this);
+            } else {
+                var ag_prefix = d.number.split('.')[0];
+                var ag_name = agencies[ag_prefix];
+                var ag_inits = initials(ag_name);
+                $("#program-description").text(d.title + " (CFDA program " + d.number + "), " + ag_name);
+                $("#status, #program-description").toggle();
+            }
+        };
 
-    var div = d3.select("#chart")
-                .append("div")
-                .style("position", "relative")
-                .style("width", width + "px")
-                .style("height", height + "px");
+        var reset_program_label = function (d) {
+            if (d.children) {
+            } else {
+                $("#status, #program-description").toggle();
+            }
+        };
 
-    var cell = function () {
-        this.style("left", function(d){ return d.x + "px"; })
-            .style("top", function(d){ return d.y + "px"; })
-            .style("width", function(d){ return Math.max(0, d.dx - 1) + "px"; })
-            .style("height", function(d){ return Math.max(0, d.dy - 1) + "px"; });
-    };
-
-    div.data([pro_flare])
-       .selectAll("div")
-       .data(treemap.nodes)
-       .enter()
-       .append("div")
-       .on("mouseover", function(d){
-           if (d.children) {
-               console.log(this);
-           } else {
-               var ag_prefix = d.program_number.split('.')[0];
-               var ag_name = agencies[ag_prefix];
-               var ag_inits = initials(ag_name);
-               $("#program-description").text(d.program_name + ' (CFDA program ' + d.program_number + '), ' + ag_name);
-               $("#status, #program-description").toggle();
-           }
-       })
-       .on("mouseout", function(d){
-           if (d.children) {
-           } else {
-               $("#status, #program-description").toggle();
-           }
-       })
-       .on("click", function(d){
-           window.location.href = '/clearspending/program/' + d.program_number + '/pct/';
-       })
-       .attr("class", function(d){
+        var classify_datum = function (d) {
             if (d.non == -100.0) {
                 return 'cell blind';
             } else if ((d.over >= 50.0) || (d.under >= 50.0)) {
                 return 'cell fail';
             } else if ((d.over >= 0) || (d.under >= 0)) {
                 return 'cell pass';
+            } else if (d.children == null) {
+                return 'cell perfect';
             } else {
-                return 'cell unknown';
+                return 'cell category';
             }
-       })
-       .call(cell);
+        };
 
-    
-    console.log(pro_flare);
+        var id_from_program_number = function (d) {
+            if (d.children) {
+                return "category_" + d.name;
+            } else {
+                return "program_" + d.number.toString().replace(".", "_");
+            }
+        };
+
+        var show_consistency_flare = function (fiscal_year) {
+            $(options["element"]).css("width", options["width"]).css("height", options["height"]).empty().append('<div class="chart-loading"><div>Loading...</div></div>');
+
+            setTimeout(function(){
+
+            var flare_url = "/static/data/consistency_flare_" + fiscal_year + "_categories.json";
+            d3.json(flare_url, function(json){
+                var treemap = d3.layout.treemap()
+                                .size([options["width"], options["height"]])
+                                .sticky(true)
+                                .value(function(d){ return d.size; });
+
+                $(options["element"]).empty();
+
+                var chart = d3.select(options['element'])
+                              .append("div")
+                              .style("position", "relative")
+                              .style("width", options["width"] + "px")
+                              .style("height", options["height"] + "px");
+
+                var map = chart.data([json])
+                               .selectAll("div")
+                               .data(treemap.nodes);
+
+                map.enter()
+                   .append("div")
+                   .on("mouseover", show_program_label)
+                   .on("mouseout", reset_program_label)
+                   .on("click", function(d){
+                       window.location.href = "/program/" + d.number + "/pct/";
+                   })
+                   .attr("class", classify_datum)
+                   .attr("id", id_from_program_number)
+                   .call(cell);
+
+                map.exit().remove();
+
+                $("span.fiscal_year_chooser").each(function(){
+                    $(this).removeClass("selected");
+                    var year = parseInt($(this).text());
+                    if (year == fiscal_year) {
+                        $(this).addClass("selected");
+                    }
+                });
+            });
+
+            }, 0);
+        };
+
+        var years = $("span.fiscal_year_chooser").map(function(){ return $(this).text(); });
+        var max_year = Math.max.apply(null, years);
+        show_consistency_flare(max_year);
+
+        $("span.fiscal_year_chooser").click(function(event){
+            show_consistency_flare(parseInt($(this).text()));
+        });
+    };
+
+    consistency_treemap();
 });

@@ -53,6 +53,7 @@ class ProgramMetric(Metric):
     
     class Meta:
         abstract = True
+
     
 class ProgramConsistency(ProgramMetric):
     over_reported_pct = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True) 
@@ -62,6 +63,19 @@ class ProgramConsistency(ProgramMetric):
     under_reported_dollars = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True) 
     non_reported_dollars = models.DecimalField(max_digits=21, decimal_places=2, blank=True, null=True) 
     type = models.IntegerField(blank=False, null=False, choices=TYPE_CHOICES)
+    category = models.CharField(max_length=16)
+
+    def save(self, *args, **kwargs):
+        if self.non_reported_pct == -100:
+            self.category = 'non-reported'
+        elif self.over_reported_pct >= 50 or self.under_reported_pct >= 50:
+            self.category = 'failing'
+        elif self.over_reported_pct >= 0 or self.under_reported_pct >= 0:
+            self.category = 'passing'
+        else:
+            self.category = 'perfect'
+        super(ProgramConsistency, self).save(*args, **kwargs)
+
 
 class ProgramTimeliness(ProgramMetric):
         
