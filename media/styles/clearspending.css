@@ -39,16 +39,22 @@ h2 a { background: url(../images/logo.png) top left no-repeat; width: 354px; hei
 #rtColumn, .rtColumn { width: 285px; margin-left: 25px; float: left;}
 
 #nav { width: 940px; height: 35px; background: #85BE3D url(../images/bg_nav.jpg) bottom left repeat-x; }
-#nav li {  float: left;  text-transform: uppercase; padding: 0 20px; background: url(../images/bg_navLine.png) right 5px no-repeat; }
-#nav li.last { background: none; }
-#nav li a { color: #F8F6EC; text-decoration: none; font-weight: normal; padding: 8px 0; display: block; text-align: center; }
-#nav li:hover, #nav li:hover a, body.scorecard #nav li#scorecard, body.scorecard #nav li#scorecard a, body.background #nav li#background, body.background #nav li#background a, body.analysis #nav li#analysis, body.analysis #nav li#analysis a, body.methodology #nav li#methodology, body.methodology #nav li#methodology a,  body.media #nav li#media, body.media #nav li#media a, body.corrections #nav li#corrections, body.corrections #nav li#corrections a, body.resources #nav li#resources, body.resources #nav li#resources a, body.feedback #nav li#feedback, body.feedback #nav li#feedback a, body.summary #nav li#summary, body.summary #nav li#summary a  { color: #5e9913; background-color: #fff; }
+
+#nav li {  float: left;  text-transform: uppercase; padding: 0px; background: url(../images/bg_navLine.png) right 5px no-repeat; width:130px; }
+/*#nav li.last { background: none; }*/
+#nav li a { color: #F8F6EC; text-decoration: none; font-weight: normal; padding: 8px 20px; display: block; text-align: center; }
+/*#nav li:hover, #nav li:hover a, body.scorecard #nav li#scorecard, body.scorecard #nav li#scorecard a, body.background #nav li#background, body.background #nav li#background a, body.analysis #nav li#analysis, body.analysis #nav li#analysis a, body.methodology #nav li#methodology, body.methodology #nav li#methodology a,  body.media #nav li#media, body.media #nav li#media a, body.corrections #nav li#corrections, body.corrections #nav li#corrections a, body.resources #nav li#resources, body.resources #nav li#resources a, body.feedback #nav li#feedback, body.feedback #nav li#feedback a, body.summary #nav li#summary, body.summary #nav li#summary a  { color: #5e9913; background-color: #fff; }*/
 
 #subnav { border-bottom: 1px solid #f3f2f2; }
-#subnav li { padding: 12px 20px 8px; float: left;  }
+#subnav li { padding: 12px 20px 8px; float: left; position:relative; }
 #subnav li a { color: #807c77; font-weight: normal;  }
 #subnav li:hover a { color: #807c77; font-weight: bold;  }
 #subnav li:hover { border-bottom: 3px solid #f3f2f2;  }
+
+#nav ul li ul {left: -9999px; position:absolute; list-style: none; width:130px; z-index:2147483647; }
+#nav ul li ul li { background-color: #84BC3D; padding:0px; float: none; width:130px; margin: 0;}
+#nav ul li:hover ul {left: auto;  }
+#nav ul li ul li:hover {background-color:#609819;}
 
 #featureBox { background: url(../images/bg_featureBox.jpg) center bottom no-repeat; min-height: 320px; }
 #featureBox h3 { margin-bottom: 15px; color: #645253; font-size: 380%; line-height: 50px; }

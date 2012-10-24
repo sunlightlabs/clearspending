@@ -58,16 +58,21 @@
         <span id="updated">2012 Report</span>
         <div id="nav" class="clear">
             <ul>
-                <li id="about">
-                    <ul class="sub-nav">
-                    <li id="methodology"><a href="{% url methodology %}">Methodology</a></li>
+                <li id="about"><a href="#">About</a>
+                    <ul>
                     <li id="background"><a href="{% url background %}">Background</a></li>
-                    <li id="feedback"><a href="{% url feedback %}">Feedback</a></li>
+                    <li id="methodology"><a href="{% url methodology %}">Methodology</a></li>
+                    <li class="last" id="feedback"><a href="{% url feedback %}">Feedback</a></li>
                     </ul>
                 </li>
                 <li id="scorecard"><a href="{% url scorecard-index %}">Scorecard</a></li>
                 <li id="analysis"><a href="{% url analysis %}">Results</a></li>
-
+                <li id="resources"><a href="#">Resources</a>
+                    <ul>
+                        <li><a href="{% url resources %}">Links & Data</a></li>
+                        <li id="media"><a href="{% url media-index %}">Media</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <div id="subnav" class="clear">
