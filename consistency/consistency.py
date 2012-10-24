@@ -102,6 +102,15 @@ def main():
                     pcm = ProgramConsistency(fiscal_year=fy, program=prog, type=assistance_type, agency=prog.agency)
 
                 try:
+                    # Reset fields to avoid accidentally setting more than one pair
+                    # over multiple runs of this script against modified data.
+                    pcm.over_reported_dollars = None
+                    pcm.over_reported_pct = None
+                    pcm.under_reported_dollars = None
+                    pcm.under_reported_pct = None
+                    pcm.non_reported_dollars = None
+                    pcm.non_reported_pct = None
+
                     if p.delta < 0:
                         
                         if p.weighted_delta == -1:
@@ -248,8 +257,9 @@ def generate_agency_flare_data():
                             'non': consistency.non_reported_pct,
                             'over': consistency.over_reported_pct,
                             'under': consistency.under_reported_pct,
-                            'size': max(obligation.obligation,
-                                        obligation.usaspending_obligation)
+                            'size': (obligation.obligation
+                                     if obligation.obligation > 1
+                                     else obligation.usaspending_obligation)
                         }
                         for program in agency.program_set.select_related()
                         for (obligation_list, consistency_list) in [
@@ -299,8 +309,9 @@ def generate_category_flare_data():
                             'non': consistency.non_reported_pct,
                             'over': consistency.over_reported_pct,
                             'under': consistency.under_reported_pct,
-                            'size': max(obligation.obligation,
-                                        obligation.usaspending_obligation)
+                            'size': (obligation.obligation
+                                     if obligation.obligation > 1
+                                     else obligation.usaspending_obligation)
                         }
                         for program in Program.objects.all()
                         for (obligation_list, consistency_list) in [

@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block bodyclass %}scorecard{% endblock %}
 {% block content %}
-{% block header %}
-<div id="pageMain">
-    <div id="fullColumn">    
-        <h3>Agencies</h3>
-        {% endblock %}
+    {% block header %}
+    <div id="pageMain">
+        <div id="fullColumn">    
+            <h3>Agencies</h3>
+    {% endblock %}
         <!--[if gte IE 7]>
             <style>html>body div#programtablecontainer, html>body div#agencytablecontainer { overflow-y:scroll; }</style>
         <![endif]-->
@@ -14,16 +14,16 @@
             {% if agency %}
             
             <ul id="years">
-                <li><a href="{% url agency_detail agency 2009 unit %}" {% ifequal "2009" fiscal_year %}class="active"{% endifequal %}>2009</a></li>
-                <li><a href="{% url agency_detail agency 2010 unit %}" {% ifequal "2010" fiscal_year %}class="active"{% endifequal %}>2010</a></li>
-                <li><a href="{% url agency_detail agency 2011 unit %}" {% ifequal "2011" fiscal_year %}class="active"{% endifequal %}>2011</a></li>
+                {% for fy in FISCAL_YEARS_UNICODE %}
+                <li><a href="{% url agency_detail agency fy unit %}" {% ifequal fy fiscal_year %}class="active"{% endifequal %}>{{ fy }}</a></li>
+                {% endfor %}
             </ul>
             {% else %}
             {% if fiscal_year %}
             <ul id="years">
-                <li><a href="{% block year3 %}{% url scorecard-index-extra unit 2009 %} {% endblock %}" {% ifequal "2009" fiscal_year %}class="active"{% endifequal %}>2009</a></li>
-                <li><a href="{% block year2 %} {% url scorecard-index-extra unit 2010 %} {% endblock %}" {% ifequal "2010" fiscal_year %}class="active"{% endifequal %}>2010</a></li>
-                <li><a href="{% block year1 %} {% url scorecard-index-extra unit 2011 %} {% endblock %}" {% ifequal "2011" fiscal_year %}class="active"{% endifequal %}>2011</a></li>
+                {% for fy in FISCAL_YEARS_UNICODE %}
+                <li><a href="{% url scorecard-index-extra unit fy %}" {% if fy == fiscal_year %}class="active"{% endif %}>{{ fy }}</a></li>
+                {% endfor %}
             </ul>
             {% endif %}
             {% endif %}

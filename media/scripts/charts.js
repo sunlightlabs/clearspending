@@ -1,5 +1,23 @@
 $(document).ready(function(){
 
+    var short_money = function (n) {
+        var sizes = [
+            ['trillion', Math.pow(10, 12)],
+            ['billion', Math.pow(10, 9)],
+            ['million', Math.pow(10, 6)],
+            ['thousand', Math.pow(10, 3)]
+        ];
+        for (var ix = 0; ix < sizes.length; ix++) {
+            var label = sizes[ix][0];
+            var dollars = sizes[ix][1];
+            if (n >= dollars) {
+                short_n = Math.round(n / dollars, 2);
+                return "$" + short_n.toString() + " " + label;
+            }
+        }
+        return "$" + n
+    };
+
     var initials = function (name) {
         var first_clause = function (s) {
             return s.split(',')[0];
@@ -24,7 +42,7 @@ $(document).ready(function(){
         default_to("height", 520);
         default_to("element", "#chart");
 
-        var cell = function () {
+        var cell = function (d, i) {
             this.style("left", function(d){ return d.x + "px"; })
                 .style("top", function(d){ return d.y + "px"; })
                 .style("width", function(d){ return Math.max(0, d.dx - 1) + "px"; })
@@ -38,7 +56,14 @@ $(document).ready(function(){
                 var ag_prefix = d.number.split('.')[0];
                 var ag_name = agencies[ag_prefix];
                 var ag_inits = initials(ag_name);
-                $("#program-description").text(d.title + " (CFDA program " + d.number + "), " + ag_name);
+                $("#program-description").text(d.title
+                                               + " (CFDA program "
+                                               + d.number
+                                               + "), "
+                                               + ag_name
+                                               + ": "
+                                               + short_money(d.size)
+                                               );
                 $("#status, #program-description").toggle();
             }
         };
