@@ -248,8 +248,9 @@ def generate_agency_flare_data():
                             'non': consistency.non_reported_pct,
                             'over': consistency.over_reported_pct,
                             'under': consistency.under_reported_pct,
-                            'size': max(obligation.obligation,
-                                        obligation.usaspending_obligation)
+                            'size': (obligation.obligation
+                                     if obligation.obligation > 1
+                                     else obligation.usaspending_obligation)
                         }
                         for program in agency.program_set.select_related()
                         for (obligation_list, consistency_list) in [
@@ -299,8 +300,9 @@ def generate_category_flare_data():
                             'non': consistency.non_reported_pct,
                             'over': consistency.over_reported_pct,
                             'under': consistency.under_reported_pct,
-                            'size': max(obligation.obligation,
-                                        obligation.usaspending_obligation)
+                            'size': (obligation.obligation
+                                     if obligation.obligation > 1
+                                     else obligation.usaspending_obligation)
                         }
                         for program in Program.objects.all()
                         for (obligation_list, consistency_list) in [
