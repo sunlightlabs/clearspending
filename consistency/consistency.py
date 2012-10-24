@@ -102,6 +102,15 @@ def main():
                     pcm = ProgramConsistency(fiscal_year=fy, program=prog, type=assistance_type, agency=prog.agency)
 
                 try:
+                    # Reset fields to avoid accidentally setting more than one pair
+                    # over multiple runs of this script against modified data.
+                    pcm.over_reported_dollars = None
+                    pcm.over_reported_pct = None
+                    pcm.under_reported_dollars = None
+                    pcm.under_reported_pct = None
+                    pcm.non_reported_dollars = None
+                    pcm.non_reported_pct = None
+
                     if p.delta < 0:
                         
                         if p.weighted_delta == -1:
