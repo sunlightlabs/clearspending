@@ -234,7 +234,20 @@ def programDetail(request, program_id=None, cfda_number=None, unit='dollars'):
     com_coll = ProgramCompletenessDetail.objects.filter(program=program_id).order_by('fiscal_year')
     completeness_block = programDetailGeneral(program_id, unit, com_field_names, com_proper_names, com_coll, 'Completeness')
     
-    return render(request, 'program_detail.html', {'consistency':consistency_block, 'timeliness': timeliness_block, 'completeness': completeness_block, 'agency_name': program.agency.name, 'program_number': program.program_number, 'title': program.program_title, 'desc': description, 'unit': unit, 'program_totals': total_obs, 'caveat': program.caveat}) 
+    return render(request, 'program_detail.html', {
+        'consistency': consistency_block,
+        'timeliness': timeliness_block,
+        'completeness': completeness_block,
+        'agency_name': program.agency.name,
+        'agency_id': program.agency.code,
+        'program_number': program.program_number,
+        'title': program.program_title,
+        'program_url': program.url,
+        'desc': description,
+        'unit': unit,
+        'program_totals': total_obs,
+        'caveat': program.caveat
+    }) 
     
 def getRowClass(count):
     if count % 2 == 0 : row = "odd"

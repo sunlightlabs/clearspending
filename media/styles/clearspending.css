@@ -90,6 +90,7 @@ cite {color: #717171; font-size: 90%; font-style: italic; }
 /*--------------------------filters*/
 
 #filters { background-color: #ECE8DC; padding: 15px; border: 1px solid #d6d2c4;}
+body.program-detail #filters { float: left; width: 100%; max-width: 600px; margin-top: 15px; }
 #filters ul li, #pageMain #bottom-legend li, #pageMain  ul.legend li { list-style-type: none;}
 #pageMain #filters ul li, #pageMain #bottom-legend li  { margin-left: 0;}
 #pageMain #filters li { margin-bottom: 0;}
@@ -125,7 +126,7 @@ span#keyTitle { padding-top:2px; font-weight: bold; margin-right: 10px;}
 
 #agency_data { margin: 40px 0; padding-bottom: 40px; border-bottom: 1px solid #e8e6e1;}
 
-#pageMain #bignumbers li, #program-total-value { color: #7ABDD4; font-size: 120%; float: left; display: block; text-align: center; margin: 0 20px; width: 108px; font-weight: bold; }
+#pageMain #bignumbers li, #program-total-value { color: #7ABDD4; font-size: 120%; float: left; display: block; text-align: center; margin: 0 20px 0 0; width: 108px; font-weight: bold; }
 #bignumbers li span { font-weight: normal;}
 .bignumberstext { display: block; font-size: 80%; }
 
@@ -135,7 +136,20 @@ span#keyTitle { padding-top:2px; font-weight: bold; margin-right: 10px;}
 #department { color: #636466; font-size: 120%; font-weight: bold; }
 #title { float: left; width: 670px; }
 
-#program-total-value { float: right; width: 210px; margin: 15px 0 0; }
+.program-title > a:link,
+.program-title > a:active,
+.program-title > a:visited,
+.program-title > a:hover 
+.agency-title > a:link,
+.agency-title > a:active,
+.agency-title > a:visited,
+.agency-title > a:hover { color: #645253; text-decoration: underline; font-weight: normal; }
+.program-title { vertical-align: bottom; }
+.agency-title { vertical-align: bottom; }
+h3.program-title, h3.agency-title { font-size: 20px; line-height: 22px; }
+h4.program-title, h4.agency-title { font-size: 26px; line-height: 28px; }
+
+#program-total-value { float: right; width: 210px; margin: 0; }
 #program-total-value span { font-size: 95%; font-weight: normal; margin-bottom: 10px; display: block;}
 #program-total-value ul li { list-style-type: none; margin-left: 0px;  font-weight:normal; }
 #program-total-value ul { list-style-type: none; }
