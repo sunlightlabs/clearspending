@@ -5,7 +5,7 @@ import csv
 import os
 import pickle
 from completeness.statlib import stats
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 import doctest
 from django.conf import settings
 
@@ -172,9 +172,12 @@ class MetricTester(object):
 
         dollars = None
         try:
-            amt = len(str(row['fed_funding_amount']).strip())>0 and str(row['fed_funding_amount']) or '0'
-            dollars = Decimal(amt)
-        except Exception, e:
+            dollars = Decimal(row['fed_funding_amount'] or '0')
+        except InvalidOperation:
+            print >>sys.stderr, "Invalid dollar value: {0}".format(row['fed_funding_amount'])
+            dollars = 0        
+        except Exception:
+            print >>sys.stderr, "Invalid dollar value: {0}".format(row['fed_funding_amount'])
             dollars = 0        
 
         
