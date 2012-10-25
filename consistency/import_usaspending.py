@@ -18,13 +18,14 @@ from django.conf import settings
 
 def fix_cfda_program_all_years(program_number):
     program = Program.objects.get(program_number=program_number)
-    obligations = list(program.programobligation_set.all())
+    obligations = list(program.programobligation_set.order_by('obligation_type', 'fiscal_year'))
 
     def print_obligations():
         print "{0}\t{1}".format(program_number, program.program_title)
+        print "\tURL:   {0}".format(program.url)
         for (i, o) in enumerate(obligations):
             print "{0}: {1}\t{2}".format(i, 'Grants' if o.obligation_type == 1 else 'Loans', o.fiscal_year)
-            print "\t\tCFDA: {0!s: >17} ({1}) {2}".format(pretty_money(o.obligation or 0), o.obligation, 'CORRECTED' if o.corrected else '')
+            print "\t\tCFDA:  {0!s: >17} ({1}) {2}".format(pretty_money(o.obligation or 0), o.obligation, 'CORRECTED' if o.corrected else '')
             print "\t\tFAADS: {0!s: >17} ({1})".format(pretty_money(o.usaspending_obligation or 0), o.usaspending_obligation)
             print
 
@@ -64,6 +65,7 @@ def fix_cfda():
             i = 1
             for o in outliers:
                 print "{0}: {1}\t{2}".format(i, o.program.program_number, o.program.program_title)
+                print "\t\tURL:   {0}".format(o.program.url)
                 print "\t\tCFDA:  {0!s: >17}".format(pretty_money(o.obligation))
                 print "\t\tFAADS: {0!s: >17}".format(pretty_money(o.usaspending_obligation))
                 print "\t\tWeighted delta: {0}".format(o.weighted_delta)
