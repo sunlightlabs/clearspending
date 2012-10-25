@@ -108,7 +108,7 @@ class ProgramCompleteness(Metric):
         else:
             failed_pct = "%2.2f%%" % (self.completeness_failed_dollars * 100 / self.completeness_total_dollars)
 
-        return "%s %s (%d) / %s / $%.1fm" % (self.program.program_title, 
+        return "%s %s (%d) / %s / %s" % (self.program.program_title, 
                                              self.program.program_number, 
                                              self.fiscal_year, 
                                              failed_pct, 
