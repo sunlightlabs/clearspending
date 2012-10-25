@@ -14,7 +14,7 @@ import math
 from urllib import unquote
 from haystack.query import SearchQuerySet
 from haystack.models import SearchResult
-from settings import FISCAL_YEARS, SUB_SITE
+from django.conf import settings
 
 
 def consistency(request):
@@ -30,7 +30,7 @@ def contact(request):
 
 def search_results(request, search_string, unit='pct', fiscal_year=None):
     if fiscal_year is None:
-        fiscal_year = max(FISCAL_YEARS)
+        fiscal_year = max(settings.FISCAL_YEARS)
 
     search = unquote(search_string)
     programs = SearchQuerySet().filter(content=search_string)
@@ -147,7 +147,7 @@ def generic_program_table(programs, fiscal_year, unit):
 
 def index(request, unit='dollars', fiscal_year=None):
     if fiscal_year is None:
-        fiscal_year = max(FISCAL_YEARS)
+        fiscal_year = max(settings.FISCAL_YEARS)
     #get top level agency stats 
     consistency = AgencyConsistency.objects.filter(fiscal_year=fiscal_year).order_by('agency__name')
     timeliness = AgencyTimeliness.objects.filter(fiscal_year=fiscal_year).order_by('agency__name')
@@ -170,11 +170,11 @@ def index(request, unit='dollars', fiscal_year=None):
 
         table_data.append(a_data) 
 
-    return render(request, 'scorecard_index.html', {'table_data': table_data, 'fiscal_year': "%s" % fiscal_year, 'unit':unit, 'SUB_SITE': SUB_SITE})
+    return render(request, 'scorecard_index.html', {'table_data': table_data, 'fiscal_year': "%s" % fiscal_year, 'unit':unit, 'SUB_SITE': settings.SUB_SITE})
 
 def agencyDetail(request, agency_id, unit='dollars', fiscal_year=None):
     if fiscal_year is None:
-        fiscal_year = max(FISCAL_YEARS)
+        fiscal_year = max(settings.FISCAL_YEARS)
     
     summary_numbers = []
     summary_numbers.append(AgencyConsistency.objects.filter(agency=agency_id, type=1, fiscal_year=fiscal_year).aggregate(total=Sum('total_cfda_obligations'))['total'])
@@ -195,7 +195,7 @@ def programDetail(request, program_id=None, cfda_number=None, unit='dollars'):
     program = (Program.objects.get(id=program_id)
                if program_id is not None
                else Program.objects.get(program_number=cfda_number))
-    program_total_obs = ProgramObligation.objects.filter(program=program, fiscal_year__in=FISCAL_YEARS).order_by('fiscal_year')
+    program_total_obs = ProgramObligation.objects.filter(program=program, fiscal_year__in=settings.FISCAL_YEARS).order_by('fiscal_year')
     total_obs = []
     curr_year = None
     for p in program_total_obs:
@@ -212,8 +212,8 @@ def programDetail(request, program_id=None, cfda_number=None, unit='dollars'):
     consistency_block = programDetailConsistency(program, unit) 
     field_names = ['total_dollars', 'late_'+unit, 'avg_lag_rows']
     proper_names = ['Total Dollars Analyzed', 'Late Dollars (reported over 45 days after obligation)', 'Average Reporting Lag (days since obligation)']
-    coll = ProgramTimeliness.objects.filter(program=program_id).order_by('fiscal_year')
-    timeliness_block = programDetailGeneral(program_id, unit, field_names, proper_names, coll, 'Timeliness')
+    coll = ProgramTimeliness.objects.filter(program=program).order_by('fiscal_year')
+    timeliness_block = programDetailGeneral(program.id, unit, field_names, proper_names, coll, 'Timeliness')
 
     if len(program.objectives) < 1300:
         description = program.objectives
@@ -231,8 +231,8 @@ def programDetail(request, program_id=None, cfda_number=None, unit='dollars'):
                         'Recipient County Name', 'Recipient City Code', 'Recipient City Name', 'Principal State of Grant', 'Record Type', 
                         'Action Type', 'Recipient Congressional District', 'Obligation Action Date Formatted Correctly', 
                         'Assistance Type', 'Federal Award ID' ]
-    com_coll = ProgramCompletenessDetail.objects.filter(program=program_id).order_by('fiscal_year')
-    completeness_block = programDetailGeneral(program_id, unit, com_field_names, com_proper_names, com_coll, 'Completeness')
+    com_coll = ProgramCompletenessDetail.objects.filter(program=program).order_by('fiscal_year')
+    completeness_block = programDetailGeneral(program.id, unit, com_field_names, com_proper_names, com_coll, 'Completeness')
     
     return render(request, 'program_detail.html', {
         'consistency': consistency_block,
@@ -277,7 +277,7 @@ def getConsistencyTrends(qset, unit):
     trends = []
     count = 0
     for q in qset:
-        while q.fiscal_year != FISCAL_YEARS[count]:
+        while q.fiscal_year != settings.FISCAL_YEARS[count]:
             over.append(0); under.append(0); non.append(0)
             count += 1
 
@@ -309,7 +309,7 @@ def programDetailConsistency(program, unit):
     #returns a chunk of HTML showing the detailed consistency stats for this program
     types = [1, 2] # 1=grants, 2=loans,guarantees,insurance
     type_names = {1: 'Grants', 2: 'Loans'}
-    program_obligations = ProgramObligation.objects.filter(program=program, fiscal_year__gte=min(FISCAL_YEARS), fiscal_year__lte=max(FISCAL_YEARS)).order_by('fiscal_year')
+    program_obligations = ProgramObligation.objects.filter(program=program, fiscal_year__gte=min(settings.FISCAL_YEARS), fiscal_year__lte=max(settings.FISCAL_YEARS)).order_by('fiscal_year')
     program_obligations_by_year = {}
     for o in program_obligations:
         program_obligations_by_year[o.fiscal_year] = o
@@ -321,7 +321,7 @@ def programDetailConsistency(program, unit):
             if obligations:
                     html.append('<li><table><thead>')
                     html.append('<tr><th class="arrow"></th><th class="reviewed">Consistency (%s)</th>' % type_names[ty])
-                    for fy in FISCAL_YEARS: html.append('<th>' + str(fy) + '</th>')
+                    for fy in settings.FISCAL_YEARS: html.append('<th>' + str(fy) + '</th>')
                     html.append('</tr><tr><td></td><td colspan="4"><em>percent or dollar amount of obligations that were over/under reported, or not reported at all</em></td></tr></thead><tbody>')
                     values, trends = getConsistencyTrends(obligations, unit)
                     count = 0
@@ -335,7 +335,7 @@ def programDetailConsistency(program, unit):
                                                    places=0, curr='$', sep=',', dp='')
                                 else:
                                     row = "%d" % (row * 100) + '%'
-                                    o = program_obligations_by_year.get(FISCAL_YEARS[year_idx])
+                                    o = program_obligations_by_year.get(settings.FISCAL_YEARS[year_idx])
                                     if o is not None and o.obligation == Decimal('0.0') and o.usaspending_obligation != Decimal('0.0'):
                                         row += '<sup>&dagger;</sup>'
                                     
@@ -360,7 +360,7 @@ def programDetailGeneral(program_id, unit, field_names, proper_names, coll, metr
 
     if coll:
         html.append('<li><table><thead><tr><th class="arrow"></th><th class="reviewed">'+metric+'</th>')
-        for fy in FISCAL_YEARS: html.append('<th>' + str(fy) + '</th>')
+        for fy in settings.FISCAL_YEARS: html.append('<th>' + str(fy) + '</th>')
         html.append('</tr><tr><td></td><td colspan="4"><em>')
         if metric == "Completeness" : html.append('percent or dollar amount of obligations that failed each field')
         else: html.append('percent or dollar amount of obligations that were late' )
@@ -372,7 +372,7 @@ def programDetailGeneral(program_id, unit, field_names, proper_names, coll, metr
             last = None
             temp_html.append('<td class="reviewed">%s</td>' % proper_names[count])
             year_count = 0
-            for y in FISCAL_YEARS:
+            for y in settings.FISCAL_YEARS:
                 item = get_first(coll.filter(fiscal_year=y))
                 if item: 
                     if not first and item.__dict__[f]:
@@ -508,7 +508,7 @@ def list_best_programs(request, fiscal_year):
     return render(request, 'bestprograms.html', 
                   { 'fiscal_year': fiscal_year,
                    'program_details': program_details,
-                   'SUB_SITE': SUB_SITE
+                   'SUB_SITE': settings.SUB_SITE
                   })
 
 
