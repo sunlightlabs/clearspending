@@ -1,32 +1,27 @@
-import datetime
 from haystack import indexes
-from haystack.sites import site
 from cfda.models import Program
 
 
-class ProgramIndex(indexes.SearchIndex):
-    
+class ProgramIndex(indexes.SearchIndex, indexes.Indexable):
     type = 'cfda'
     program_number = indexes.CharField(model_attr='program_number') 
-    program_title = indexes.CharField(document=True, model_attr='program_title')
+    program_title = indexes.CharField(model_attr='program_title')
+    text = indexes.CharField(document=True)
     
-   
-#    def prepare_text(self, object):
-        
-#       text = getattr(object, 'objectives')
-#limit to just program title. Objectives produces a lot of noise
-#        text = getattr(object, 'program_title')
+    def get_model(self):
+        return Program
 
- #       return text
+    def prepare_text(self, object):
+        tmpl = u"{obj.program_number} {obj.program_title}"
+        return tmpl.format(obj=object
+                          ).replace('_', ' '
+                          ).encode('utf-8')
 
     def prepare_program_title(self, object):
-        return str(object.program_title.replace('_', ' ').encode('ascii', 'ignore'))
+        return object.program_title.replace('_', ' ').encode('utf-8')
                  
     def get_queryset(self):
         "Used when the entire index for model is updated."
         
         return Program.objects.filter(types_of_assistance__financial=True ).distinct()
-        #return Program.objects.all()
-    
 
-site.register(Program, ProgramIndex)

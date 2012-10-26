@@ -229,9 +229,12 @@ FISCAL_YEAR_LAG_THRESHOLD = (date.today() - date(year=max(FISCAL_YEARS), month=9
 
 GRAPH_DIR = MEDIA_ROOT + '/images/charts/'   #should be overridden by local settings maybe?
 
-HAYSTACK_SITECONF = 'search_sites'
-HAYSTACK_SEARCH_ENGINE = 'solr'
-HAYSTACK_SOLR_URL = ''
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(PROJECT_ROOT, '..', 'whoosh_index')
+    }
+}
 
 CFDA_DOWNLOAD_DIR = 'ftp.cfda.gov' if os.path.exists('ftp.cfda.gov') else 'csv'
 
