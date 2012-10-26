@@ -2,16 +2,13 @@
 {% block title %} <title>Clearspending.org - {{title}}</title> {% endblock %}
 {% block bodyclass %}scorecard program-detail{% endblock %}
 {% block header %}
-<div id="pageMain">
-    <div id="fullColumn">
-        <h4 class="program-title"><a href="{{ program_url }}">{{program_number}} {{title}}</a></h4>
-        <h3 class="agency-title"><a href="{% url agency_detail agency_id MAX_YEAR unit %}">{{ agency_name }}</a></h3>
-        <p id="programdescription">{{desc|safe}}</p>
-        <div class="clear"></div>
+<h4 class="program-title"><a href="{{ program_url }}">{{program_number}} {{title}}</a></h4>
+<h3 class="agency-title"><a href="{% url agency_detail agency_id MAX_YEAR unit %}">{{ agency_name }}</a></h3>
+<p id="programdescription">{{desc|safe}}</p>
+<div class="clear"></div>
 {% endblock %}
 {% load humanize %}
 {%block scorecard %}
-
 
             <div id="program-total-value">
                 <strong>Total Program Obligations*:</strong>
@@ -29,26 +26,26 @@
                 <div class="clear"></div>
             </div>
         
-        <ul class="ratingtable program-detail">
-            {{consistency|safe}}
-            {{timeliness|safe}}
-            {{completeness|safe}}
-        </ul>
+            <ul class="ratingtable program-detail">
+                {{consistency|safe}}
+                {{timeliness|safe}}
+                {{completeness|safe}}
+            </ul>
 
-        <cite>* Total program obligations reported in the Catalog of Federal Domestic Assistance </cite>
-		<br>
-		<cite><sup>&dagger;</sup> No obligations reported in the Catalog of Federal Domestic Assistance</cite>
-    </div>
-</div>
-<script type="text/javascript" charset="utf-8">
-        $(document).ready(function(){
-            $("#dollars_radio").change(function(){
-                $(document)[0].location = $(document)[0].location.href.replace('\/pct\/', '\/dollars\/');
-            }); 
-            $("#pct_radio").change(function(){
-                $(document)[0].location = $(document)[0].location.href.replace('/dollars/', '/pct/');
-            }); 
+            <cite>* Total program obligations reported in the Catalog of Federal Domestic Assistance </cite>
+            <br>
+            <cite><sup>&dagger;</sup> No obligations reported in the Catalog of Federal Domestic Assistance</cite>
 
-        })
-</script>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $("#dollars_radio").change(function(){
+                        $(document)[0].location = $(document)[0].location.href.replace('\/pct\/', '\/dollars\/');
+                    }); 
+                    $("#pct_radio").change(function(){
+                        $(document)[0].location = $(document)[0].location.href.replace('/dollars/', '/pct/');
+                    }); 
+
+                })
+            </script>
+
 {% endblock %}

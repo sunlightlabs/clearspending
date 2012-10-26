@@ -18,6 +18,9 @@ body {
   	line-height: 20px;
 }
 
+span.big { font-size: 120%; }
+span.small { font-size: 80%; }
+
 .clear { clear: both;}
 .clearfix { clear: right; }
 
