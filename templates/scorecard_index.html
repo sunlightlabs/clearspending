@@ -7,6 +7,12 @@
 <h3>Agencies</h3>
 {% endblock %}
 
+{% block filter_years %}
+{% for fy in FISCAL_YEARS_UNICODE %}
+<li><a href="{% url scorecard-index-extra unit fy %}" {% if fy == fiscal_year %}class="active"{% endif %}>{{ fy }}</a></li>
+{% endfor %}
+{% endblock filter_years %}
+
 {% block scorecard %}
     <div id="scorecard-intro">
         <h3>How to Use the Clearspending Scorecard</h3>

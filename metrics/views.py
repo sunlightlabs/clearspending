@@ -4,7 +4,7 @@ from operator import attrgetter
 from cfda.models import Program, ProgramObligation, Agency
 from metrics.models import *
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db.models import Count, Sum
 from django.db.models.query import QuerySet
 from decimal import Decimal
@@ -27,6 +27,16 @@ def contact(request):
     msg = request.POST.get('message', '')
     send_mail('Clearspending Feedback from '+name, msg, email, ['klee@sunlightfoundation.com'], fail_silently=True)
     return render(request, 'contact_thankyou.html')
+
+def search_query(request):
+    fiscal_year = int(request.POST.get('fiscal-year'))
+    fiscal_year = (fiscal_year
+                   if fiscal_year in settings.FISCAL_YEARS
+                   else max(settings.FISCAL_YEARS))
+    unit = request.POST.get('unit')
+    unit = unit if unit in ('pct', 'dollars') else 'pct'
+    q = request.POST.get('search-text', '')
+    return redirect('search-request', unit=unit, fiscal_year=fiscal_year, search_string=q)
 
 def search_results(request, search_string, unit='pct', fiscal_year=None):
     if fiscal_year is None:

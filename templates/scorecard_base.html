@@ -11,22 +11,11 @@
         <![endif]-->
         <div id="filters">
             <h4>Revise results below</h4>
-            {% if agency %}
 
             <ul id="years">
-                {% for fy in FISCAL_YEARS_UNICODE %}
-                <li><a href="{% url agency_detail agency fy unit %}" {% ifequal fy fiscal_year %}class="active"{% endifequal %}>{{ fy }}</a></li>
-                {% endfor %}
+                {% block filter_years %}
+                {% endblock filter_years %}
             </ul>
-            {% else %}
-            {% if fiscal_year %}
-            <ul id="years">
-                {% for fy in FISCAL_YEARS_UNICODE %}
-                <li><a href="{% url scorecard-index-extra unit fy %}" {% if fy == fiscal_year %}class="active"{% endif %}>{{ fy }}</a></li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            {% endif %}
             <form id="{% if not fiscal_year %}programradios{% else %}radios{% endif %}">
                 <ul>    
                     <li>
@@ -40,7 +29,10 @@
                 </ul>
             </form>
             {% block search %}
-            <form id="program-search">
+            <form id="program-search" method="POST" action="{% url search-query %}">
+                {% csrf_token %}
+                <input type="hidden" name="fiscal-year" value="{{ fiscal_year }}">
+                <input type="hidden" name="unit" value="{{ unit }}">
                 <label for="search-text">Search Programs</label>
                 <input class="search-text" type="text" name="search-text" id="search-text">
                 <input type="submit" value="" class="submit">
@@ -73,6 +65,7 @@
 </div>
 
     <script type="text/javascript">
+    /*
         $(document).ready(function () {
             $("#program-search").submit(function() {
                 var search_text = $(this).find('input[name="search-text"]').val()
@@ -81,6 +74,6 @@
                 }
                 return false;
             });
-        });
+        }); */
     </script>
 {% endblock %}
