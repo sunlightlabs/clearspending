@@ -20,6 +20,35 @@ from django.conf import settings
 def consistency(request):
     return render(request, 'consistency.html', {})
 
+def agency_timeliness_data(request, fiscal_year):
+    timeliness = AgencyTimeliness.objects.select_related().filter(fiscal_year=fiscal_year)
+    timeliness_records = [
+        {
+            'number': t.agency.code,
+            'title': t.agency.name,
+            'lag_dollars': t.avg_lag_rows,
+            'lag_rows': t.avg_lag_dollars
+        }
+        for t in timeliness
+    ]
+    return HttpResponse(json.dumps(timeliness_records), content_type='application/json')
+
+def program_timeliness_data(request, fiscal_year):
+    timeliness = ProgramTimeliness.objects.select_related().filter(fiscal_year=fiscal_year)
+    timeliness_records = [
+        {
+            'number': t.program.program_number,
+            'title': t.program.program_title,
+            'lag_dollars': t.avg_lag_rows,
+            'lag_rows': t.avg_lag_dollars
+        }
+        for t in timeliness
+    ]
+    return HttpResponse(json.dumps(timeliness_records), content_type='application/json')
+
+def timeliness(request):
+    return render(request, 'timeliness.html', {})
+
 def contact(request):
     #submission of contact form
     name = request.POST.get('name', '')
