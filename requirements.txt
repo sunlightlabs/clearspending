@@ -6,7 +6,7 @@ argparse
 boto
 demjson
 django-debug-toolbar
-django-haystack==2.0.0-beta1
+django-haystack==2.0.0-beta
 Whoosh==2.4.1
 ipython
 numpy
