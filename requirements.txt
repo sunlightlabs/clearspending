@@ -7,6 +7,7 @@ boto
 demjson
 django-debug-toolbar
 django-haystack==2.0.0-beta
+django-storages
 Whoosh==2.4.1
 ipython
 numpy
