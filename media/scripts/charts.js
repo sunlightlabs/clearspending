@@ -163,11 +163,11 @@ $(document).ready(function(){
         var options = options || {};
         var default_to = function (opt, val) { options[opt] = options[opt] || val; };
         default_to("width", 280);
-        default_to("height", 600);
+        default_to("height", 380);
         default_to("element", "#chart");
 
         var show_timeliness_chart = function (fiscal_year) {
-            $(options["element"]).css("width", options["width"]).css("height", options["height"]).empty().append('<div class="chart-loading"><div>Loading...</div></div>');
+            $(options["element"]).css("width", options["width"]).css("height", options["height"]).empty().append('<div class="chart-loading"></div>');
             setTimeout(function(){
                 var flare_url = "" + fiscal_year + "/";
                 d3.json(flare_url, function(json){
@@ -176,9 +176,7 @@ $(document).ready(function(){
                         d['delta_dollars'] = d.lag_dollars - 30;
                     });
 
-                    $(options['element']).empty();
-
-                    json.sort(function(a,b){ return b.delta_rows - a.delta_rows; });
+                    json.sort(function(a,b){ return a.delta_rows - b.delta_rows; });
 
                     var chart = d3.select(options['element'])
                                   .append("svg")
@@ -186,18 +184,18 @@ $(document).ready(function(){
                                   .style("width", options["width"] + "px")
                                   .style("height", options["height"] + "px");
 
-                    var y = d3.scale
+                    var x = d3.scale
                               .ordinal()
-                              .rangeRoundBands([0, options["height"]], 0.1)
+                              .rangeRoundBands([0, options["width"]], 0.1)
                               .domain(json.map(function(d){ return d.title; }));
 
-                    x_min = d3.min(json.map(function(d){ return d.delta_rows; }));
-                    x_max= d3.max(json.map(function(d){ return d.delta_rows; }));
-                    x = d3.scale
+                    y_min = d3.min(json.map(function(d){ return d.delta_rows; }));
+                    y_max= d3.max(json.map(function(d){ return d.delta_rows; }));
+                    y = d3.scale
                               .linear()
                               .range([0, options["width"]])
-                              .domain([x_min, x_max]);
-                    var on_time_xcoord = x(0);
+                              .domain([y_min, y_max]);
+                    var on_time_xcoord = y(0);
 
                     var bars = chart.selectAll("g.bar")
                                     .data(json)
@@ -207,11 +205,11 @@ $(document).ready(function(){
                                     .attr("data-agency-name", function(d){ return d.title; })
                                     .attr("class", "bar")
                                     .attr("transform", function(d){
-                                        return "translate(0, Y)".replace("Y", '' + y(d.title));
+                                        return "translate(X, 0)".replace("X", '' + x(d.title));
                                     }).on("mouseover", function(d){
-                                        $("#program-description").text(
+                                        $("#program-description").html(
                                             d.title
-                                            + ": "
+                                            + "<br> "
                                             + Math.abs(d.delta_rows)
                                             + " days "
                                             + ((d.delta_rows >= 0) ? "late" : "early")
@@ -222,31 +220,38 @@ $(document).ready(function(){
                                     });
 
                     bars.append("rect")
-                        .attr("class", "bar")
-                        .attr("y", 0)
-                        .attr("x", function(d){
-                            if (d.delta_rows >= 0) {
-                                return on_time_xcoord;
+                        .attr("class", function(d){
+                            if (d.delta_rows > 0) {
+                                return "bar fail";
                             } else {
-                                return x(d.delta_rows);
+                                return "bar pass";
                             }
                         })
-                        .attr("width", function(d){
-                            if (d.delta_rows >= 0) {
-                                return x(d.delta_rows) - on_time_xcoord;
+                        .attr("x", 0)
+                        .attr("y", function(d){
+                            if (d.delta_rows > 0) {
+                                return on_time_xcoord - 1;
                             } else {
-                                return on_time_xcoord - x(d.delta_rows);
+                                return y(d.delta_rows) - 1;
                             }
                         })
-                        .attr("height", y.rangeBand());
+                        .attr("height", function(d){
+                            if (d.delta_rows > 0) {
+                                return y(d.delta_rows) - on_time_xcoord + 2;
+                            } else {
+                                return on_time_xcoord - y(d.delta_rows) + 2;
+                            }
+                        })
+                        .attr("width", x.rangeBand());
 
+/*
                     bars.append("text")
                         .attr("class", "delta-label")
                         .attr("x", 1)
                         .attr("y", y.rangeBand() / 2)
                         .attr("dy", "0.35em")
                         .attr("text-anchor", function(d){ return (d.delta_rows >= 0) ? "end" : "start"; })
-                        .text(function(d){ return "" + d.delta_rows + " days"; })
+                        .text(function(d){ return "" + d.delta_rows + " days"; }) */
                 });
 
             }, 0);

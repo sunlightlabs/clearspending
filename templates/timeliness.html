@@ -45,8 +45,9 @@
         }
         #status-con {
             position: relative;
-            width: 840px;
-            height: 3em;
+            font-size: 12px;
+            width: 280px;
+            height: 8em;
         }
         #status, #program-description {
             font-weight: bold;
@@ -55,6 +56,7 @@
             display: none;
         }
         #legend {
+            position: relative;
             display: block;
             vertical-align: top;
             float: right;
@@ -73,18 +75,17 @@
             height: 1em;
             overflow: hidden;
         }
-        .perfect {
+        .pass {
             background: none rgb(0, 200, 0);
         }
         .fail {
             background: none rgb(240, 59, 32);
         }
-        .pass {
-            background: none rgb(255, 237, 160);
-            background: none #faca2c;
+        svg .pass {
+            fill: rgb(0, 200, 0);
         }
-        .blind {
-            background: none rgb(0, 0, 0);
+        svg .fail {
+            fill: rgb(240, 59, 32);
         }
         div#chart-buttons {
             float: right;
@@ -111,24 +112,16 @@
         svg#timeliness-art {
             fill: transparent;
         }
-
-        g.bar rect.bar {
-            fill: blue;
-        }
-
-        g.bar text {
-            fill: white;
-        }
     </style>
 {% endblock %}
 {% block bodyclass %}timeliness{% endblock bodyclass %}
 {% block content %}
 <div id="pageMain">
 	<div id="ltColumn">
-		<h3>Results</h3>
+		<h3>Timeliness</h3>
 
 		<p>
-		When the federal government spends money through grants or direct payments programs, they must report that spending within 30 days. To the right you can see an illustration of how well each progra meets this requirement.
+		When the federal government spends money through grants or direct payments programs, they must report that spending within 30 days. To the right you can see an illustration of how well each agency meets this requirement.
 		</p>
 		<p>
 		</p>
@@ -152,7 +145,7 @@
 			<div class="clear"></div>
 			<div id="status-con">
 				<div id="status">
-					Move your cursor over the diagram for details on each federal spending program.
+                    <!-- Move your cursor over the diagram for details on each federal spending program.-->
 				</div>
 				<div id="program-description">
 				</div>
@@ -164,10 +157,8 @@
 
     <div id="legend">
         <span id="legend-title">Legend</span> <br>
-        <span class="swatch blind" id="blind-swatch">&nbsp;</span> Non-reporting programs <br>
-        <span class="swatch fail" id="bad-swatch">&nbsp;</span> Failing programs <br>
-        <span class="swatch pass" id="ok-swatch">&nbsp;</span> Passing programs <br>
-        <span class="swatch perfect" id="perfect-swatch">&nbsp;</span> Best programs <br>
+        <span class="swatch fail" id="bad-swatch">&nbsp;</span> Failing programs 
+        <span class="swatch pass" id="ok-swatch">&nbsp;</span> Passing programs 
     </div>
 
 </div>
