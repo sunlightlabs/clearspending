@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block scripts %}
+    {{ block.super }}
+    <script src="{{ STATIC_URL }}scripts/d3.v2.js"></script>
+    <script src="{{ STATIC_URL }}scripts/programs.js"></script>
+    <script src="{{ STATIC_URL }}scripts/charts.js"></script>
+    <style type="text/css">
+        .clear {
+            clear: both;
+        }
+        div.chart-loading {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            height: 48px;
+            margin-top: -24px;
+            font-weight: bold;
+            color: #6C6764;
+            font-size: 24px;
+            vertical-align: middle;
+            text-align: center;
+        }
+        div.chart-loading div {
+            display: inline-block;
+            margin: 0 auto;
+        }
+        #chart-con {
+            position: relative;
+            width: 840px;
+            margin: auto auto;
+        }
+        #status-con {
+            position: relative;
+            font-size: 12px;
+            width: 840px;
+            height: 8em;
+        }
+        #status, #program-description {
+            font-weight: bold;
+        }
+        #program-description {
+            display: none;
+        }
+        #legend {
+            position: relative;
+            display: block;
+            vertical-align: top;
+            float: right;
+            background: none rgb(255, 255, 255);
+            border-radius: 7px;
+            -moz-border-radius: 7px;
+            border-color: black;
+            border-width: 1px;
+            border-style: solid;
+            padding: 1em;
+            margin: 0 1em 1em 1em;
+        }
+        span.swatch {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            overflow: hidden;
+        }
+        .pass {
+            background: none rgb(0, 200, 0);
+        }
+        .fail {
+            background: none rgb(240, 59, 32);
+        }
+        svg rect.pass {
+            fill: rgb(0, 200, 0);
+        }
+        svg rect.fail {
+            fill: rgb(240, 59, 32);
+        }
+        div#chart-buttons {
+            float: right;
+        }
+        span.fiscal_year_chooser {
+            text-align: right;
+            color: #68A31D;
+            margin: 0 0.5em;
+            cursor: pointer;
+        }
+        span.fiscal_year_chooser:hover {
+        }
+        span.fiscal_year_chooser.selected {
+            color: #68A31D;
+            font-weight: bold;
+        }
+        span.title {
+            display: inline;
+            float: left;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        svg#timeliness-art {
+            fill: transparent;
+        }
+
+        svg text.agency-name {
+            fill: black;
+        }
+
+        rect.column {
+            fill: rgb(0, 200, 0);
+            stroke-width: 1px;
+            stroke: black;
+        }
+    </style>
+{% endblock %}
+{% block bodyclass %}completeness{% endblock bodyclass %}
+{% block content %}
+<div id="pageMain">
+    <h3>Completeness</h3>
+
+    <p>
+    </p>
+
+    <div id="chart-con">
+        <span class="title">Completeness of Federal Direct Assistance Reporting</span>
+        <div id="chart-buttons">
+            {% for fy in FISCAL_YEARS %}
+            <span class="fiscal_year_chooser">{{ fy }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="clear"></div>
+
+        <div id="chart">
+        </div>
+
+        <div class="clear"></div>
+        <div id="status-con">
+            <div id="status">
+                <!-- Move your cursor over the diagram for details on each federal spending program.-->
+            </div>
+            <div id="program-description">
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+
+    <div id="legend">
+        <span id="legend-title">Legend</span> <br>
+        <span class="swatch fail" id="bad-swatch">&nbsp;</span> Failing columns 
+        <span class="swatch pass" id="ok-swatch">&nbsp;</span> Passing columns
+    </div>
+</div>
+
+</div>
+{% endblock %}
+
+
+

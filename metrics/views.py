@@ -1,5 +1,5 @@
 
-import json
+import simplejson
 from operator import attrgetter
 from cfda.models import Program, ProgramObligation, Agency
 from metrics.models import *
@@ -31,7 +31,7 @@ def agency_timeliness_data(request, fiscal_year):
         }
         for t in timeliness
     ]
-    return HttpResponse(json.dumps(timeliness_records), content_type='application/json')
+    return HttpResponse(simplejson.dumps(timeliness_records), content_type='application/json')
 
 def program_timeliness_data(request, fiscal_year):
     timeliness = ProgramTimeliness.objects.select_related().filter(fiscal_year=fiscal_year)
@@ -44,10 +44,74 @@ def program_timeliness_data(request, fiscal_year):
         }
         for t in timeliness
     ]
-    return HttpResponse(json.dumps(timeliness_records), content_type='application/json')
+    return HttpResponse(simplejson.dumps(timeliness_records), content_type='application/json')
 
 def timeliness(request):
     return render(request, 'timeliness.html', {})
+
+def agency_completeness_data(request, fiscal_year):
+    # MONSTER QUERY OF DOOOOOOOOM!
+    # Just sum up all fields by agency code
+    completeness_aggregates = (ProgramCompletenessDetail.objects
+                                                        .filter(fiscal_year=fiscal_year)
+                                                        .values('agency__code', 'agency__name')
+                                                        .annotate(recipient_type=Sum('recipient_type_is_not_empty'),
+                                                                  federal_agency_code=Sum('federal_agency_code_is_not_empty'),
+                                                                  cfda_program_num=Sum('cfda_program_num_is_descriptive'),
+                                                                  federal_funding_amount=Sum('federal_funding_amount_is_not_empty'),
+                                                                  recipient_name=Sum('recipient_name_not_empty'),
+                                                                  principal_place_code=Sum('principal_place_code_not_empty'),
+                                                                  recipient_state=Sum('recipient_state_code_not_empty'),
+                                                                  recipient_county_code=Sum('recipient_county_code_not_empty_or_too_long'),
+                                                                  recipient_county_name=Sum('recipient_county_name_not_empty'),
+                                                                  recipient_city_code=Sum('recipient_city_code_not_empty'),
+                                                                  principal_place_state=Sum('principal_place_state_not_empty'),
+                                                                  record_type=Sum('record_type_is_not_empty'),
+                                                                  action_type=Sum('action_type_is_not_empty'),
+                                                                  recipient_cong_district=Sum('recipient_cong_district_is_not_empty'),
+                                                                  obligation_action_date=Sum('obligation_action_date_is_properly_formatted'),
+                                                                  principal_place_cc=Sum('principal_place_cc_not_empty'),
+                                                                  assistance_type=Sum('assistance_type_is_not_empty'),
+                                                                  federal_award_id=Sum('federal_award_id_is_not_empty'),
+                                                                  recipient_city_name=Sum('recipient_city_name_not_empty')))
+    completeness_table = dict(((comp['agency__code'], comp)
+                               for comp in completeness_aggregates))
+
+
+    completeness_summary_aggregates = (ProgramCompleteness.objects
+                                                          .filter(fiscal_year=fiscal_year)
+                                                          .values('agency__code', 'agency__name')
+                                                          .annotate(failed_dollars=Sum('completeness_failed_dollars'),
+                                                                    total_dollars=Sum('completeness_total_dollars')))
+    for comp_summ_agg in completeness_summary_aggregates:
+        comp = completeness_table.get(comp_summ_agg['agency__code'])
+        if comp is not None:
+            comp['failed_dollars'] = comp_summ_agg['failed_dollars']
+            comp['total_dollars'] = comp_summ_agg['total_dollars']
+
+            for (k, v) in comp.items():
+                if v != 0 and k not in ('agency__code', 'agency__name', 
+                                        'obligations', 'failed_dollars',
+                                        'total_dollars'):
+                    pct_k = unicode(k) + u"_pct"
+                    if comp['failed_dollars'] != 0:
+                        comp[pct_k] = v / comp['failed_dollars']
+
+    completeness_records = [v
+                            for (k, v) in completeness_table.iteritems()
+                            if 'failed_dollars' in v]
+
+    obligation_aggregates = ProgramObligation.objects.filter(fiscal_year=fiscal_year).values('program__agency__code').annotate(obligations=Sum('obligation'))
+    for ob_agg in obligation_aggregates:
+        comp = completeness_table.get(ob_agg['program__agency__code'])
+        if comp is not None:
+            comp['obligations'] = ob_agg['obligations']
+    return HttpResponse(simplejson.dumps(completeness_records), content_type='application/json')
+
+
+def completeness(request):
+    return render(request, "completeness.html", {})
+
 
 def contact(request):
     #submission of contact form

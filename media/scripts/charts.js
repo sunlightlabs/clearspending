@@ -1,5 +1,11 @@
 $(document).ready(function(){
 
+    var itemgetter = function (k) {
+        return function (o) {
+            return o[k];
+        };
+    };
+
     var short_money = function (n) {
         var sizes = [
             ['trillion', Math.pow(10, 12)],
@@ -272,10 +278,133 @@ $(document).ready(function(){
         show_timeliness_chart(default_chart_year());
     };
 
+
+    var completeness_diagram = function (options) {
+        var options = options || {};
+        var default_to = function (opt, val) { options[opt] = options[opt] || val; };
+        default_to("width", 840);
+        default_to("height", 380);
+        default_to("element", "#chart");
+
+        var chart = d3.select(options['element'])
+                      .append("svg")
+                      .attr("id", "timeliness-art")
+                      .style("width", options["width"] + "px")
+                      .style("height", options["height"] + "px");
+
+        var show_completeness_diagram = function (fiscal_year) {
+            //$(options["element"]).css("width", options["width"]).css("height", options["height"]).empty().append('<div class="chart-loading"></div>');
+            $("svg", options["element"]).empty();
+            setTimeout(function(){
+                var url = "" + fiscal_year + "/";
+                var generic_compare = function (a, b) {
+                    if (a == b) { return 0; }
+                    else if (a < b) { return -1; }
+                    else { return 1; }
+                };
+                d3.json(url, function(json){
+                    json.sort(function(a,b){
+                        var a_inits = initials(a.agency__name);
+                        var b_inits = initials(b.agency__name);
+                        return generic_compare(a_inits, b_inits);
+                    });
+
+                    var y = d3.scale
+                              .ordinal()
+                              .rangeRoundBands([0, options["height"]], 0.3)
+                              .domain(json.map(itemgetter('agency__name')));
+
+                    var col_fields = [
+                        'principal_place_state', 'record_type',
+                        'cfda_program_num', 'recipient_type',
+                        'recipient_state', 'principal_place_cc',
+                        'principal_place_code', 'recipient_county_code',
+                        'assistance_type', 'federal_funding_amount',
+                        'federal_agency_code', 'recipient_city_code',
+                        'recipient_county_name', 'recipient_name',
+                        'obligation_action_date', 'recipient_cong_district',
+                        'recipient_city_name', 'federal_award_id',
+                        'action_type' ];
+                  
+                    var x = d3.scale
+                              .ordinal()
+                              .rangeRoundBands([0, options["width"]], 0.15)
+                              .domain(["agency__name"].concat(col_fields));
+
+                    var bars = chart.selectAll("g.bar")
+                                    .data(json)
+                                    .enter()
+                                    .append("g")
+                                    .attr("class", "bar")
+                                    .attr("transform", function(d){
+                                        return "translate(0, Y)".replace("Y", y(d.agency__name));
+                                    });
+
+                    bars.append("rect")
+                        .attr("class", "agency-name")
+                        .attr("x", x("agency__name"))
+                        .attr("y", 0)
+                        .attr("width", x.rangeBand())
+                        .attr("height", y.rangeBand());
+
+                    bars.append("text")
+                        .attr("class", "agency-name")
+                        .attr("x", 1)
+                        .attr("y", y.rangeBand() / 2)
+                        .attr("dy", "0.35em")
+                        .text(function(d){
+                            return initials(d.agency__name);
+                        });
+
+                    for (var ix = 0; ix < col_fields.length; ix++) {
+                        var col = col_fields[ix];
+                        var pct_col = col + "_pct";
+
+                        bars.append("rect")
+                            .attr("class", function(d){
+                                var val = d[pct_col] || 0;
+                                var grade = (val == 0) ? "pass" : "fail";
+                                return ["column", col,  grade].join(" ");
+                            })
+                            .attr("x", x(col))
+                            .attr("y", 0)
+                            .attr("width", x.rangeBand())
+                            .attr("height", y.rangeBand())
+                            .attr("opacity", function(d){
+                                var val = d[pct_col];
+                                if (val == null)
+                                    val = 0;
+                                if (val == 0)
+                                    return 1;
+                                return val;
+                            });
+                    }
+                });
+            }, 0);
+
+            $("span.fiscal_year_chooser").each(function(){
+                $(this).removeClass("selected");
+                var year = parseInt($(this).text());
+                if (year == fiscal_year) {
+                    $(this).addClass("selected");
+                }
+            });
+        };
+
+        $("span.fiscal_year_chooser").click(function(event){
+            show_completeness_diagram(parseInt($(this).text()));
+        });
+
+        show_completeness_diagram(default_chart_year());
+    };
+
     if ($("body.consistency").length > 0) {
         consistency_treemap();
     };
     if ($("body.timeliness").length > 0) {
         timeliness_chart();
+    };
+    if ($("body.completeness").length > 0) {
+        completeness_diagram();
     };
 });
