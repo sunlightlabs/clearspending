@@ -349,7 +349,8 @@ def programDetail(request, program_id=None, cfda_number=None, unit='dollars'):
         'desc': description,
         'unit': unit,
         'program_totals': total_obs,
-        'caveat': program.caveat
+        'caveat': program.caveat,
+        'MAX_YEAR': settings.FISCAL_YEARS[-1]
     }) 
     
 def getRowClass(count):

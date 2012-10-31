@@ -153,7 +153,7 @@ span#keyTitle { padding-top:2px; font-weight: bold; margin-right: 10px;}
 .agency-title > a:link,
 .agency-title > a:active,
 .agency-title > a:visited,
-.agency-title > a:hover { color: #645253; text-decoration: underline; font-weight: normal; }
+.agency-title > a:hover { color: #645253; text-decoration: underline;  }
 .program-title { vertical-align: bottom; }
 .agency-title { vertical-align: bottom; }
 h3.program-title, h3.agency-title { font-size: 20px; line-height: 22px; }
