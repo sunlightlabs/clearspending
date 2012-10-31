@@ -67,21 +67,21 @@
                 </li>
                 <li id="scorecard"><a href="{% url scorecard-index %}">Scorecard</a></li>
                 <li id="analysis"><a href="{% url analysis %}">Results</a></li>
-                <li id="resources"><a href="#">Resources</a>
+                <li><a href="#">Resources</a>
                     <ul>
-                        <li><a href="{% url resources %}">Links & Data</a></li>
+                        <li id="resources"><a href="{% url resources %}">Links & Data</a></li>
                         <li id="media"><a href="{% url media-index %}">Media</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
-        <div id="subnav" class="clear">
+        <!--<div id="subnav" class="clear">
             <ul>
                 <li><a href="#">subnav #1</a></li>
                 <li><a href="#">subnav #1</a></li>
                 <li><a href="#">subnav #1</a></li>
             </ul>    
-        </div>    
+        </div>-->    
     </div>
     <div id="mainContainer" class="clear">
             {% block content %}
