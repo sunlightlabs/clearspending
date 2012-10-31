@@ -1,3 +1,17 @@
 The code used to generate the results on http://sunlightfoundation.com/clearspending
 
-Please email klee@sunlightfoundation for questions about use.
+There's a series of steps to perform the analysis:
+
+    ./manage.py syncdb
+    python cfda_loader.py
+    python -m consistency.import_usaspending
+    python -m consistency.consistency
+    ./manage.py download_timeliness
+    ./manage.py parse_timeliness
+    ./manage.py analyze_timeliness
+    ./manage.py run_completeness_generate_csv
+    ./manage.py completeness_all
+    ./manage.py completeness_import
+    ./manage.py completeness_report
+    python failed_dollars.py
+

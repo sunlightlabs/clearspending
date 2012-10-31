@@ -1,7 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta name="description" content="Clearspending compares the federal spending reporting found in USASpending.gov with alternate reporting sources to create a scorecard that shows how effective each agency and program are in three metrics: consistency, timeliness and completeness.">
+    <meta name="keywords" content="federal spending, federal spending reporting, financial transparency, clearspending, clear spending, financial, transparency, open government">
+
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/clearspending.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/header.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/footer.css">
@@ -31,9 +34,6 @@
     {% endblock %}
 
     
-    	<meta charset="utf-8" />
-        <meta name="description" content="Clearspending compares the federal spending reporting found in USASpending.gov with alternate reporting sources to create a scorecard that shows how effective each agency and program are in three metrics: consistency, timeliness and completeness.">
-        <meta name="keywords" content="federal spending, federal spending reporting, financial transparency, clearspending, clear spending, financial, transparency, open government">
     	<!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
         <!--[if IE]><link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/footer.css"><![endif]-->
     	<style>
@@ -45,24 +45,24 @@
 
 <body class="{% block bodyclass %}home{% endblock %}">
     <div class="sf-header">
-		<div class="container">
+        <div class="container">
             {% block sf-header %}
             <a class="sf-logo" href="http://www.sunlightfoundation.com">Sunlight Foundation</a>
             {% endblock sf-header %}
         </div>
-	</div>
-   <!-- ends top container -->
-<div id="contentWrapper">
-    <div id="header">
-        <h2><a href="{% url clearspending-index %}"><big>Clearspending</big><small>Making Sense of the Federal Checkbook</small></a></h2>
-        <span id="updated">2012 Report</span>
-        <div id="nav" class="clear">
-            <ul>
-                <li id="about"><a href="#">About</a>
+    </div>
+    <!-- ends top container -->
+    <div id="contentWrapper">
+        <div id="header">
+            <h2><a href="{% url clearspending-index %}"><span class="big">Clearspending</span><span class="small">Making Sense of the Federal Checkbook</span></a></h2>
+            <span id="updated">2012 Report</span>
+            <div id="nav" class="clear">
+                <ul>
+                    <li id="about"><a href="#">About</a>
                     <ul>
-                    <li id="background"><a href="{% url background %}">Background</a></li>
-                    <li id="methodology"><a href="{% url methodology %}">Methodology</a></li>
-                    <li class="last" id="feedback"><a href="{% url feedback %}">Feedback</a></li>
+                        <li id="background"><a href="{% url background %}">Background</a></li>
+                        <li id="methodology"><a href="{% url methodology %}">Methodology</a></li>
+                        <li class="last" id="feedback"><a href="{% url feedback %}">Feedback</a></li>
                     </ul>
                 </li>
                 <li id="scorecard"><a href="{% url scorecard-index %}">Scorecard</a></li>
@@ -86,26 +86,27 @@
     <div id="mainContainer" class="clear">
             {% block content %}
             {% endblock content %}
-    </div>
-    <div class="sf-footerWrapper">
-        <div class="sf-footer container">
-            <div class="row">
-                <div class="span6 signup span-divider">
-                    <h4>Like this Project and Want to Discover Others Like It?</h4>
-                    <span class="tip">Join the Sunlight Foundation's open government community to learn more</span>
-                    <form action="/subscribe/" method="post" id="sfapp-subscribe-form" class="form-inline">
-                        {% csrf_token %}
-                        <input type="text" name="email" placeholder="your email address">
-                        <input type="text" name="zipcode" placeholder="your zip code">
-                        <button type="submit" class="btn btn-sunlight">Sign Up</button>
-                    </form>
-                </div>
-                <div class="span6 terms">
-                    <p>Our <a href="http://sunlightfoundation.com/legal/privacy/">privacy policy</a> details how personally identifiable information that is collected on our web sites is handled. Read our <a href="http://sunlightfoundation.com/legal/terms/">terms of service</a>.</p>
-                    <p>This work by <a href="http://sunlightfoundation.com">Sunlight Foundation</a>, unless <a href="http://sunlightfoundation.com/colophon/">otherwise noted</a>, is licensed under a <a href="http://creativecommons.org/licenses/by/3.0/us/">Creative Commons Attribution 3.0 United States License</a>.</p>
+        </div> <!-- mainContainer -->
+        <div class="sf-footerWrapper">
+            <div class="sf-footer container">
+                <div class="row">
+                    <div class="span6 signup span-divider">
+                        <h4>Like this Project and Want to Discover Others Like It?</h4>
+                        <span class="tip">Join the Sunlight Foundation's open government community to learn more</span>
+                        <form action="/subscribe/" method="post" id="sfapp-subscribe-form" class="form-inline">
+                            {% csrf_token %}
+                            <input type="text" name="email" placeholder="your email address">
+                            <input type="text" name="zipcode" placeholder="your zip code">
+                            <button type="submit" class="btn btn-sunlight">Sign Up</button>
+                        </form>
+                    </div>
+                    <div class="span6 terms">
+                        <p>Our <a href="http://sunlightfoundation.com/legal/privacy/">privacy policy</a> details how personally identifiable information that is collected on our web sites is handled. Read our <a href="http://sunlightfoundation.com/legal/terms/">terms of service</a>.</p>
+                        <p>This work by <a href="http://sunlightfoundation.com">Sunlight Foundation</a>, unless <a href="http://sunlightfoundation.com/colophon/">otherwise noted</a>, is licensed under a <a href="http://creativecommons.org/licenses/by/3.0/us/">Creative Commons Attribution 3.0 United States License</a>.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-</body></html>
+        </div> <!-- sf-footerWrapper -->
+    </div> <!-- contentWrapper -->
+</body>
+</html>

@@ -3,87 +3,89 @@
 {% load humanize %}
 {% block title %} <title>Clearspending.org - {{agency_name}}</title> {% endblock %}
 {% block header %}
-<div id="pageMain">
-    <div id="fullColumn">
-        <h3>{{agency_name}}</h3>
+<h3>{{agency_name}}</h3>
 {% endblock %}
 
-        {% block scorecard %}
-        <div id="agency_data">
-            <div id="description">
-                <img id="graph" alt="agency trends" src="{{ STATIC_URL }}/images/charts/agency_chart_{{agency}}.png" />
-                <ul class="legend">
-                    <li><span style="background-color: #e9dd53;"></span> Over Reported (grants)</li>
-                    <li><span style="background-color: #EE9F2E;"></span> Under Reported (grants)</li>
-                    <li><span style="background-color: #DF5D26;"></span> Non Reported (grants)</li>
-                    <li><span style="background-color: #991C1F;"></span> Over Reported (loans)</li>
-                    <li><span style="background-color: #79BBD3;"></span> Under Reported (loans)</li>
-                    <li><span style="background-color: #438B9E;"></span> Non Reported (loans)</li>
-                    <li><span style="background-color: #636566;"></span> Late</li>
-                    <li><span style="background-color: #2B2826;"></span> Incomplete</li>
-                </ul>
-                <div class="clear"></div>
-            </div>
-            <ul id="bignumbers">
-                {% for num in summary_numbers %}
-                    <li>${{num|floatformat:0|intcomma}}<span class="bignumberstext">{% cycle 'Total' 'Over Reported' 'Under Reported' 'Not Reported' 'Late' 'Incomplete' %}</span></li>
-                {% endfor %}
-            </ul>
-            <div class="clear"></div>
-        </div>
-        {% block agency-key %}
-            {{ block.super }}
-        {% endblock %}
+{% block filter_years %}
+{% for fy in FISCAL_YEARS_UNICODE %}
+<li><a href="{% url agency_detail agency fy unit %}" {% ifequal fy fiscal_year %}class="active"{% endifequal %}>{{ fy }}</a></li>
+{% endfor %}
+{% endblock filter_years %}
 
-            {% if caveat %}
-                <span class="caveat">{{caveat}}</span>
-            {% endif %}
-        <div id="programtablecontainer">
-            <table class="programtable" id="programtable">
-            <thead>
-                <tr id="titles">
-                    <th class="sort sm">Program Number</th>
-                    <th class="sort lg">Program Name</th>
-                    <th class="sort med">Over  reported</th>
-                    <th class="sort med">Under reported</th>
-                    <th class="sort med">Not reported</th>
-                    <th class="sort med">Late</th>
-                    <th class="sort last-cell med">Incomplete</th>
-                </tr>   
-            </thead>
-            <tbody>
+{% block scorecard %}
+<div id="agency_data">
+    <div id="description">
+        <img id="graph" alt="agency trends" src="{{ STATIC_URL }}/images/charts/agency_chart_{{agency}}.png" />
+        <ul class="legend">
+            <li><span style="background-color: #e9dd53;"></span> Over Reported (grants)</li>
+            <li><span style="background-color: #EE9F2E;"></span> Under Reported (grants)</li>
+            <li><span style="background-color: #DF5D26;"></span> Non Reported (grants)</li>
+            <li><span style="background-color: #991C1F;"></span> Over Reported (loans)</li>
+            <li><span style="background-color: #79BBD3;"></span> Under Reported (loans)</li>
+            <li><span style="background-color: #438B9E;"></span> Non Reported (loans)</li>
+            <li><span style="background-color: #636566;"></span> Late</li>
+            <li><span style="background-color: #2B2826;"></span> Incomplete</li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <ul id="bignumbers">
+        {% for num in summary_numbers %}
+        <li>${{num|floatformat:0|intcomma}}<span class="bignumberstext">{% cycle 'Total' 'Over Reported' 'Under Reported' 'Not Reported' 'Late' 'Incomplete' %}</span></li>
+        {% endfor %}
+    </ul>
+    <div class="clear"></div>
+</div>
+{% block agency-key %}
+    {{ block.super }}
+{% endblock %}
+
+{% if caveat %}
+<span class="caveat">{{caveat}}</span>
+{% endif %}
+<div id="programtablecontainer">
+    <table class="programtable" id="programtable">
+        <thead>
+            <tr id="titles">
+                <th class="sort sm">Program Number</th>
+                <th class="sort lg">Program Name</th>
+                <th class="sort med">Over  reported</th>
+                <th class="sort med">Under reported</th>
+                <th class="sort med">Not reported</th>
+                <th class="sort med">Late</th>
+                <th class="sort last-cell med">Incomplete</th>
+            </tr>   
+        </thead>
+        <tbody>
             {% autoescape off %}
             {% for row in table_data %}
-                <tr class="{% cycle 'odd' 'even' %}">
-                    <td class="prog-num sm">{{row.0}}</td>
-                    <td class="title lg"><a class="name" href="{% url program_detail_by_cfda row.0 unit %}" alt="{{row.2}}">{{row.2}}</a></td>
-                    <td class="metric-cell {{row.4}} med">
-                        {% if row.3%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.3|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %} {% else %}-{% endif %}
-                    </td>
-                    <td class="metric-cell {{row.6}} med">
-                        {% if row.5%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.5|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
-                    </td>
-                    <td class="metric-cell {{row.8}} med">
-                        {% if row.7%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.7|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
-                    </td>
-                    <td class="metric-cell {{row.10}} med">
-                        {% if row.9%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.9|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
-                    </td>
-                    <td class="last-cell metric-cell {{row.12}} med">
-                        {% if row.11%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.11|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
-                    </td>
-            
-                </tr>
-        
+            <tr class="{% cycle 'odd' 'even' %}">
+                <td class="prog-num sm" data-program-number="{{row.0}}">{{row.0}}</td>
+                <td class="title lg"><a class="name" href="{% url program_detail_by_cfda row.0 unit %}" data-program-title="{{row.2}}">{{row.2}}</a></td>
+                <td class="metric-cell {{row.4}} med">
+                    {% if row.3%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.3|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %} {% else %}-{% endif %}
+                </td>
+                <td class="metric-cell {{row.6}} med">
+                    {% if row.5%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.5|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
+                </td>
+                <td class="metric-cell {{row.8}} med">
+                    {% if row.7%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.7|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
+                </td>
+                <td class="metric-cell {{row.10}} med">
+                    {% if row.9%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.9|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
+                </td>
+                <td class="last-cell metric-cell {{row.12}} med">
+                    {% if row.11%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.11|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %}{% else %}-{% endif %}
+                </td>
+
+            </tr>
+
             {% endfor %}
             {% endautoescape%}
-            </tbody>
-            </table>
-        </div>
-
-    </div>
+        </tbody>
+    </table>
 </div>
-    <script type="text/javascript" charset="utf-8">
+
+    <script type="text/javascript">
         $(document).ready(function() {
 
             $("#programtable").tablesorter({

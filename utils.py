@@ -151,3 +151,12 @@ def izip_with(xs, ys, combine):
     for (x, y) in izip(xs, ys):
         yield combine(x, y)
 
+
+def highlight_matches(pattern, s):
+    sgr_reverse = "\x1b[7m"
+    sgr_reset = "\x1b[0m"
+    boundaries = [m.span() for m in pattern.finditer(s)]
+    reverses = [fro for (fro, _) in boundaries]
+    resets = [to for (_, to) in boundaries]
+    rope = flattened(((sgr_reset if n in resets else '', sgr_reverse if n in reverses else '', c) for (n, c) in enumerate(s)))
+    return "".join(rope) + sgr_reset

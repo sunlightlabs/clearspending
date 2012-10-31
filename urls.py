@@ -12,6 +12,10 @@ urlpatterns = patterns('',
 #    (r'^scorecard/agency/(?P<agency_id>\d+)/', 'metrics.views.get_agency_detail'),
 #    (r'^scorecard/program/(?P<program_id>\d+)/', 'metrics.views.get_program_detail'),
     url(r'^consistency/$', 'metrics.views.consistency', name='consistency'),
+    url(r'^timeliness/$', 'metrics.views.timeliness', name='timeliness'),
+    url(r'^timeliness/(?P<fiscal_year>\d{4})/$', 'metrics.views.agency_timeliness_data'),
+    url(r'^completeness/$', 'metrics.views.completeness', name='completeness'),
+    url(r'^completeness/(?P<fiscal_year>\d{4})/$', 'metrics.views.agency_completeness_data'),
     url(r'^scorecard/$', 'metrics.views.index', name='scorecard-index'),
     url(r'^scorecard/(?P<unit>\w+)/(?P<fiscal_year>\d{4})/', 'metrics.views.index', name='scorecard-index-extra'),
     url(r'^bestprograms/(?P<fiscal_year>\d{4})/', 'metrics.views.list_best_programs', name='list-best-programs'),
@@ -29,8 +33,11 @@ urlpatterns = patterns('',
     url(r'^program/(?P<cfda_number>\d{2}\.\d{3})/(?P<unit>\w+)/', 'metrics.views.programDetail', name='program_detail_by_cfda'),
     url(r'^program/(?P<program_id>\d+)/(?P<unit>\w+)/', 'metrics.views.programDetail', name='program_detail'),
     url(r'^search/(?P<search_string>[\w\+%\d\s]+)/(?P<unit>\w+)/(?P<fiscal_year>\d{4})/', 'metrics.views.search_results', name='search-request'),
+    url(r'^search/', 'metrics.views.search_query', name='search-query'),
     url(r'^$', direct_to_template, {'template':'index.html'}, name='clearspending-index'),
 )
 
-
-
+if settings.SUB_SITE:
+    urlpatterns = patterns('',
+        url(r'^clearspending/', include(urlpatterns))
+    )

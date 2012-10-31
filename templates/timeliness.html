@@ -40,13 +40,14 @@
         }
         #chart-con {
             position: relative;
-            width: 840px;
+            width: 280px;
             margin: auto auto;
         }
         #status-con {
             position: relative;
-            width: 840px;
-            height: 3em;
+            font-size: 12px;
+            width: 280px;
+            height: 8em;
         }
         #status, #program-description {
             font-weight: bold;
@@ -55,6 +56,7 @@
             display: none;
         }
         #legend {
+            position: relative;
             display: block;
             vertical-align: top;
             float: right;
@@ -73,18 +75,17 @@
             height: 1em;
             overflow: hidden;
         }
-        .perfect {
+        .pass {
             background: none rgb(0, 200, 0);
         }
         .fail {
             background: none rgb(240, 59, 32);
         }
-        .pass {
-            background: none rgb(255, 237, 160);
-            background: none #faca2c;
+        svg .pass {
+            fill: rgb(0, 200, 0);
         }
-        .blind {
-            background: none rgb(0, 0, 0);
+        svg .fail {
+            fill: rgb(240, 59, 32);
         }
         div#chart-buttons {
             float: right;
@@ -107,53 +108,60 @@
             font-weight: bold;
             font-size: 14px;
         }
+
+        svg#timeliness-art {
+            fill: transparent;
+        }
     </style>
 {% endblock %}
-{% block bodyclass %}consistency{% endblock bodyclass %}
+{% block bodyclass %}timeliness{% endblock bodyclass %}
 {% block content %}
 <div id="pageMain">
+	<div id="ltColumn">
+		<h3>Timeliness</h3>
 
-    <p>
-    The federal government reports a portion of it's spending in two ways. The Catalog of Federal Domestic Assistance (CFDA) reports estimates for each federal spending program for the current fiscal year and actual expenditures for two previous years. USASpending.gov provides an interface to the Federal Assistance Award Data System (FAADS). If agencies are properly reporting their spending to the FAADS system, the aggregate spending reported for each program should be consistent with the CFDA data. Unfotunately it's not.
-    </p>
+		<p>
+		When the federal government spends money through grants or direct payments programs, they must report that spending within 30 days. To the right you can see an illustration of how well each agency meets this requirement.
+		</p>
+		<p>
+		</p>
 
-    <div id="chart-con">
-        <span class="title">Consistency of Federal Direct Assistance Reporting</span>
-        <div id="chart-buttons">
-            {% for fy in FISCAL_YEARS %}
-            <span class="fiscal_year_chooser">{{ fy }}</span>
-            {% endfor %}
-        </div>
+	</div>
 
-        <div class="clear"></div>
+	<div id="rtColumn">
+		<div id="chart-con">
+			<span class="title">Timeliness of Federal Direct Assistance Reporting</span>
+			<div id="chart-buttons">
+				{% for fy in FISCAL_YEARS %}
+				<span class="fiscal_year_chooser">{{ fy }}</span>
+				{% endfor %}
+			</div>
 
-        <div id="chart">
-        </div>
+			<div class="clear"></div>
 
-        <div class="clear"></div>
-        <div id="status-con">
-            <div id="status">
-                Move your cursor over the diagram for details on each federal spending program.
-            </div>
-            <div id="program-description">
-            </div>
-        </div>
-    </div>
-        <div class="clear"></div>
+			<div id="chart">
+			</div>
+
+			<div class="clear"></div>
+			<div id="status-con">
+				<div id="status">
+                    <!-- Move your cursor over the diagram for details on each federal spending program.-->
+				</div>
+				<div id="program-description">
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
 
 
     <div id="legend">
         <span id="legend-title">Legend</span> <br>
-        <span class="swatch blind" id="blind-swatch">&nbsp;</span> Non-reporting programs <br>
-        <span class="swatch fail" id="bad-swatch">&nbsp;</span> Failing programs <br>
-        <span class="swatch pass" id="ok-swatch">&nbsp;</span> Passing programs <br>
-        <span class="swatch perfect" id="perfect-swatch">&nbsp;</span> Best programs <br>
+        <span class="swatch fail" id="bad-swatch">&nbsp;</span> Failing programs 
+        <span class="swatch pass" id="ok-swatch">&nbsp;</span> Passing programs 
     </div>
-
-    <p>
-    In the diagram you can see a rectangle for each spending program, sized relative to the amount of spending it represents. The black area represents programs that completely fail to report their spending to the FAADS. The yellow area represents programs for which the deviation between the CFDA and the FAADS is less than 50%, while programs with more than a 50% deviation represented by red.
-    </p>
 
 </div>
 {% endblock %}
+
 

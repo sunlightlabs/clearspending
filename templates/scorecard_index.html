@@ -4,10 +4,14 @@
 {% load humanize %}
 {% load smarterif %}
 {% block header %}
-<div id="pageMain">
-    <div id="fullColumn">
-        <h3>Agencies</h3>
+<h3>Agencies</h3>
 {% endblock %}
+
+{% block filter_years %}
+{% for fy in FISCAL_YEARS_UNICODE %}
+<li><a href="{% url scorecard-index-extra unit fy %}" {% if fy == fiscal_year %}class="active"{% endif %}>{{ fy }}</a></li>
+{% endfor %}
+{% endblock filter_years %}
 
 {% block scorecard %}
     <div id="scorecard-intro">
@@ -15,11 +19,11 @@
         <ul>
             <li>
                 <span>Choose your fiscal year:</span>
-                <img src="{{ STATIC_URL }}/images/chooseyear.png" />
+                <img src="{{ STATIC_URL }}/images/chooseyear.png" alt="Choose year" />
             </li>
             <li>
                 <span>Choose display unit:</span>
-                <img src="{{ STATIC_URL }}/images/chooseunit.png" />
+                <img src="{{ STATIC_URL }}/images/chooseunit.png" alt="Choose unit" />
             </li>     
             <li>
                 <span>Sort by the metric values:</span>
@@ -66,7 +70,7 @@
                     
                 {% else %}
                 <tr class="{% cycle 'odd' 'even' %}">
-                    <td class="title lg"><a class="name" href="{% url agency_detail row.0 fiscal_year unit %}" alt="{{row.2}}">{{row.3}}<span title="number of programs in agency"> ({{row.1}}) </span></a></td>
+                    <td class="title lg"><a class="name" href="{% url agency_detail row.0 fiscal_year unit %}" data-agency="{{row.2}}">{{row.3}}<span title="number of programs in agency"> ({{row.1}}) </span></a></td>
                     <td class="{{row.5}} med">
                         {% if row.4%}{% ifequal unit 'dollars' %}${% endifequal %}{{row.4|floatformat|intcomma}}{% ifequal unit 'pct' %}%{% endifequal %} {% else %}-{% endif %}
                     </td>
@@ -88,9 +92,8 @@
             </tbody>
         </table>        
     </div>
-</div>
-</div>
-    <script type="text/javascript" charset="utf-8">
+
+    <script type="text/javascript">
         $(document).ready(function() {
             
             $("#agencytable").tablesorter({
