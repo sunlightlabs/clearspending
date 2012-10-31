@@ -2,8 +2,8 @@
 {% block title %} <title>Clearspending.org - {{title}}</title> {% endblock %}
 {% block bodyclass %}scorecard program-detail{% endblock %}
 {% block header %}
-<h4 class="program-title"><a href="{{ program_url }}">{{program_number}} {{title}}</a></h4>
-<h3 class="agency-title"><a href="{% url agency_detail agency_id MAX_YEAR unit %}">{{ agency_name }}</a></h3>
+<h3 class="program-title"><a href="{{ program_url }}">{{program_number}} {{title}}</a></h3>
+<h4 class="agency-title"><a href="{% url agency_detail agency_id MAX_YEAR unit %}">{{ agency_name }}</a></h4>
 <p id="programdescription">{{desc|safe}}</p>
 <div class="clear"></div>
 {% endblock %}

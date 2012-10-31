@@ -146,18 +146,20 @@ span#keyTitle { padding-top:2px; font-weight: bold; margin-right: 10px;}
 #department { color: #636466; font-size: 120%; font-weight: bold; }
 #title { float: left; width: 670px; }
 
+.program-title > a,
 .program-title > a:link,
 .program-title > a:active,
 .program-title > a:visited,
 .program-title > a:hover 
+.agency-title > a,
 .agency-title > a:link,
 .agency-title > a:active,
 .agency-title > a:visited,
-.agency-title > a:hover { color: #645253; text-decoration: underline;  }
+.agency-title > a:hover { color: #645253; font-weight: normal; }
 .program-title { vertical-align: bottom; }
 .agency-title { vertical-align: bottom; }
-h3.program-title, h3.agency-title { font-size: 20px; line-height: 22px; }
-h4.program-title, h4.agency-title { font-size: 26px; line-height: 28px; }
+h3.program-title, h3.agency-title { font-size: 26px; line-height: 28px; font-weight: normal; }
+h4.program-title, h4.agency-title { font-size: 20px; line-height: 22px; font-weight: normal; }
 
 #program-total-value { float: right; width: 210px; margin: 0; }
 #program-total-value span { font-size: 95%; font-weight: normal; margin-bottom: 10px; display: block;}
