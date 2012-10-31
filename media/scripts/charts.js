@@ -6,6 +6,21 @@ $(document).ready(function(){
         };
     };
 
+    var identity = function (x) {
+        return x;
+    };
+
+    var fn_sequence = function () {
+        var args = arguments;
+        return function(){
+            var ret = null;
+            for (var ix = 0; ix < args.length; ix++) {
+                ret = args[ix].apply(this, arguments);
+            }
+            return ret;
+        }
+    };
+
     var short_money = function (n) {
         var sizes = [
             ['trillion', Math.pow(10, 12)],
@@ -64,7 +79,7 @@ $(document).ready(function(){
 
         var show_program_label = function (d) {
             if (d.children) {
-                console.log(this);
+                /* no-op */
             } else {
                 var ag_prefix = d.number.split('.')[0];
                 var ag_name = agencies[ag_prefix];
@@ -283,8 +298,134 @@ $(document).ready(function(){
         var options = options || {};
         var default_to = function (opt, val) { options[opt] = options[opt] || val; };
         default_to("width", 840);
-        default_to("height", 380);
+        default_to("height", 480);
+        default_to("text_width", 105);
+        default_to("min_opacity", 0.5);
+        default_to("max_opacity", 1.0);
         default_to("element", "#chart");
+
+        var agency_names = {
+            '10': 'Agriculture',
+            '11': 'Commerce',
+            '12': 'Defense',
+            '14': 'Housing',
+            '15': 'Interior',
+            '16': 'Justice',
+            '17': 'Labor',
+            '19': 'State',
+            '20': 'Transportation',
+            '21': 'Treasury',
+            '23': 'Appalachian Comm.',
+            '27': 'Office of Personnel Management',
+            '29': 'Commission on Civil Rights',
+            '30': 'Equal Employment Opportunity Commission',
+            '31': 'Export Import Bank',
+            '32': 'FCC',
+            '33': 'Federal Maritime Commission',
+            '34': 'Federal Mediation and Concillation Service',
+            '36': 'Federal Trade Commission',
+            '39': 'General Services Administration',
+            '40': 'Government Printing Office',
+            '42': 'Library of Congress',
+            '43': 'NASA',
+            '44': 'NCUA',
+            '45': 'NEA',
+            '46': 'NLRB',
+            '47': 'NSF',
+            '57': 'Railroad Retirement Board',
+            '58': 'SEC',
+            '59': 'Small Business',
+            '64': 'Veterans Affairs',
+            '66': 'EPA',
+            '68': 'National Gallery of Art',
+            '70': 'OPIC',
+            '77': 'NRC',
+            '78': 'CFTC',
+            '81': 'Energy',
+            '84': 'Education',
+            '85': 'Various Scholarship and Fellowship Foundations',
+            '86': 'Pension Benefit Guaranty Corp.',
+            '88': 'Architectural and Transportation Barriers Compliance Board',
+            '89': 'National Archives',
+            '90': 'Other',
+            '91': 'Institute of Peace',
+            '93': 'HHS',
+            '94': 'Community Service',
+            '95': 'Office of the President',
+            '96': 'Social Security',
+            '97': 'Homeland Security',
+            '98': 'USAID'
+        };
+
+        var show_cell_details = function (d, col, target) {
+            var val = d[col] || 0;
+
+            if (val == 0) {
+                $(target).text(col + ": no errors");
+            } else {
+                var pct_col = "" + col + "_pct";
+                var pct_val = d[pct_col];
+                $(target).text(col + ": "
+                               + short_money(val)
+                               + " ("
+                               + Math.round(pct_val * 100)
+                               + "%) reported incompletely by "
+                               + d.agency__name
+                               );
+            }
+            $("#status").hide();
+            $(target).css("visibility", "visible");
+        };
+
+        var reset_program_label = function (d) {
+            $("#hovered-details").css("visibility", "hidden");
+        };
+
+        var hover_column = function () {
+            var column_check = $(this).attr("data-column-check");
+            d3.selectAll("svg rect.column-bg").classed("hovered", function(d){
+                return $(this).attr("data-column-check") == column_check;
+            });
+        };
+
+        var hover_bar = function () {
+            var agency_code = $(this).attr("data-agency-code");
+            d3.selectAll("svg rect.bar-bg").classed("hovered", function(d){
+                return d.agency__code == agency_code;
+            });
+        };
+
+        var hover_cell = function (d) {
+            var col = $(this).attr("data-column-check");
+            show_cell_details(d, col, "#hovered-details");
+        };
+
+        var select_column = function () {
+            var column_check = $(this).attr("data-column-check");
+            d3.selectAll("svg rect.column-bg").classed("selected", function(d){
+                return $(this).attr("data-column-check") == column_check;
+            });
+        };
+
+        var select_bar = function () {
+            var agency_code = $(this).attr("data-agency-code");
+            d3.selectAll("svg rect.bar-bg").classed("selected", function(d){
+                return d.agency__code == agency_code;
+            });
+        };
+
+        var select_cell = function (d) {
+            var col = $(this).attr("data-column-check");
+            show_cell_details(d, col, "#selected-details");
+        };
+
+        var unselect_bars_and_columns = function () {
+            $("svg rect.bar-bg, svg rect.column-bg").attr("fill", "transparent");
+            $("#program-description").hide();
+            $("#status").show();
+        };
+
+        $(options["element"]).bind("mouseleave", unselect_bars_and_columns);
 
         var chart = d3.select(options['element'])
                       .append("svg")
@@ -293,7 +434,7 @@ $(document).ready(function(){
                       .style("height", options["height"] + "px");
 
         var show_completeness_diagram = function (fiscal_year) {
-            //$(options["element"]).css("width", options["width"]).css("height", options["height"]).empty().append('<div class="chart-loading"></div>');
+            $(options["element"]).css("height", options["height"] + "px");
             $("svg", options["element"]).empty();
             setTimeout(function(){
                 var url = "" + fiscal_year + "/";
@@ -303,10 +444,12 @@ $(document).ready(function(){
                     else { return 1; }
                 };
                 d3.json(url, function(json){
+                    json.forEach(function(d){
+                        d['short_name'] = agency_names[d.agency__code];
+                    });
+
                     json.sort(function(a,b){
-                        var a_inits = initials(a.agency__name);
-                        var b_inits = initials(b.agency__name);
-                        return generic_compare(a_inits, b_inits);
+                        return generic_compare(a.short_name, b.short_name);
                     });
 
                     var y = d3.scale
@@ -325,17 +468,40 @@ $(document).ready(function(){
                         'obligation_action_date', 'recipient_cong_district',
                         'recipient_city_name', 'federal_award_id',
                         'action_type' ];
-                  
+ 
                     var x = d3.scale
                               .ordinal()
-                              .rangeRoundBands([0, options["width"]], 0.15)
+                              .rangeRoundBands([options["text_width"], options["width"]], 0.15)
                               .domain(["agency__name"].concat(col_fields));
+
+                    chart.selectAll("rect.column-bg")
+                         .data(col_fields)
+                         .enter()
+                         .append("rect")
+                         .attr("data-column-check", identity)
+                         .attr("class", function(d){ return ["column-bg", d].join(" "); })
+                         .attr("x", function(d){ return x(d) - x.rangeBand() * 0.15; })
+                         .attr("y", 0)
+                         .attr("width", x.rangeBand() * 1.3)
+                         .attr("height", options["height"] + "px");
+
+                    chart.selectAll("rect.bar-bg")
+                         .data(json)
+                         .enter()
+                         .append("rect")
+                         .attr("class", function(d){ return "bar-bg agency-" + d.agency__code; })
+                         .attr("data-agency-code", itemgetter("agency__code"))
+                         .attr("x", 0)
+                         .attr("y", function(d){ return y(d.agency__name) - y.rangeBand() * 0.15; })
+                         .attr("width", options["width"] + "px")
+                         .attr("height", y.rangeBand() * 1.30);
 
                     var bars = chart.selectAll("g.bar")
                                     .data(json)
                                     .enter()
                                     .append("g")
-                                    .attr("class", "bar")
+                                    .attr("class", function(d){ return "bar agency-" + d.agency__code; })
+                                    .attr("data-agency-code", itemgetter("agency__code"))
                                     .attr("transform", function(d){
                                         return "translate(0, Y)".replace("Y", y(d.agency__name));
                                     });
@@ -347,13 +513,16 @@ $(document).ready(function(){
                         .attr("width", x.rangeBand())
                         .attr("height", y.rangeBand());
 
-                    bars.append("text")
+                    bars.append("a")
+                        .attr("xlink:href", function(d){ return "../agency/" + d.agency__code + "/" + fiscal_year + "/dollars/"; })
+                        .append("text")
                         .attr("class", "agency-name")
                         .attr("x", 1)
                         .attr("y", y.rangeBand() / 2)
+                        .attr("dx", "0.6em")
                         .attr("dy", "0.35em")
                         .text(function(d){
-                            return initials(d.agency__name);
+                            return d.short_name;
                         });
 
                     for (var ix = 0; ix < col_fields.length; ix++) {
@@ -366,18 +535,27 @@ $(document).ready(function(){
                                 var grade = (val == 0) ? "pass" : "fail";
                                 return ["column", col,  grade].join(" ");
                             })
+                            .on("mouseover", fn_sequence(hover_column, hover_bar, hover_cell))
+                            .on("mouseout", reset_program_label)
+                            .on("click", fn_sequence(select_column, select_bar, select_cell))
+                            .attr("data-column-check", col)
+                            .attr("data-agency-code", itemgetter("agency__code"))
                             .attr("x", x(col))
                             .attr("y", 0)
                             .attr("width", x.rangeBand())
                             .attr("height", y.rangeBand())
                             .attr("opacity", function(d){
-                                var val = d[pct_col];
-                                if (val == null)
-                                    val = 0;
-                                if (val == 0)
+                                var val_pct = d[pct_col];
+                                if (val_pct == null)
+                                    val_pct = 0;
+                                if (val_pct == 0)
                                     return 1;
-                                return val;
+                                var opacity_range = (options["max_opacity"]
+                                                     - options["min_opacity"]);
+                                var opacity = opacity_range * val_pct + options["min_opacity"];
+                                return opacity;
                             });
+
                     }
                 });
             }, 0);

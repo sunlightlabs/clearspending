@@ -5,41 +5,34 @@
     <script src="{{ STATIC_URL }}scripts/programs.js"></script>
     <script src="{{ STATIC_URL }}scripts/charts.js"></script>
     <style type="text/css">
-        .clear {
-            clear: both;
-        }
-        div.chart-loading {
-            position: absolute;
-            width: 100%;
-            top: 50%;
-            height: 48px;
-            margin-top: -24px;
-            font-weight: bold;
-            color: #6C6764;
-            font-size: 24px;
-            vertical-align: middle;
-            text-align: center;
-        }
-        div.chart-loading div {
-            display: inline-block;
-            margin: 0 auto;
-        }
         #chart-con {
             position: relative;
             width: 840px;
-            margin: auto auto;
+            margin: 0 auto;
         }
         #status-con {
             position: relative;
             font-size: 12px;
+            margin: 0;
             width: 840px;
-            height: 8em;
+            height: 3em;
+            background: none #6C6764;
+            background: none rgb(206, 209, 210);
         }
-        #status, #program-description {
+        #status {
             font-weight: bold;
+            color: black;
         }
-        #program-description {
-            display: none;
+        #hovered-details, #selected-details {
+            float: left;
+            width: 50%;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            visibility: hidden;
+            font-weight: bold;
+            border: 1px solid blue;
+            border-radius: 5px;
         }
         #legend {
             position: relative;
@@ -66,12 +59,20 @@
         }
         .fail {
             background: none rgb(240, 59, 32);
+            opacity: 0.5 * attr(data-fail-pct) + 0.5;
+        }
+        #chart > svg {
+            height: 100%;
         }
         svg rect.pass {
+            cursor: pointer;
             fill: rgb(0, 200, 0);
+            stroke: #10622E;
         }
         svg rect.fail {
+            cursor: pointer;
             fill: rgb(240, 59, 32);
+            stroke: #F03B20;
         }
         div#chart-buttons {
             float: right;
@@ -104,9 +105,19 @@
         }
 
         rect.column {
-            fill: rgb(0, 200, 0);
-            stroke-width: 1px;
-            stroke: black;
+            stroke-width: 0;
+            stroke-linejoin: round;
+        }
+
+        rect.column-bg, rect.bar-bg {
+            fill: transparent;
+        }
+        rect.column-bg.selected, rect.bar-bg.selected {
+            fill: rgb(166, 169, 170);
+            fill: rgb(206, 209, 210);
+        }
+        rect.column-bg.hovered, rect.bar-bg.hovered {
+            fill: rgb(206, 209, 210);
         }
     </style>
 {% endblock %}
@@ -136,8 +147,13 @@
             <div id="status">
                 <!-- Move your cursor over the diagram for details on each federal spending program.-->
             </div>
-            <div id="program-description">
+            <div id="hovered-details">
+            Hovered
             </div>
+            <div id="selected-details">
+            Selected
+            </div>
+            <div class="clear"></div>
         </div>
     </div>
     <div class="clear"></div>
