@@ -43,10 +43,10 @@ h2 a { background: url(../images/logo.png) top left no-repeat; width: 354px; hei
 
 #nav { width: 940px; height: 35px; background: #85BE3D url(../images/bg_nav.jpg) bottom left repeat-x; }
 
-#nav li {  float: left;  text-transform: uppercase; padding: 0px; background: url(../images/bg_navLine.png) right 5px no-repeat; width:130px; }
+#nav li {  float: left;  text-transform: uppercase; padding: 0px; background: url(../images/bg_navLine.png) right 5px no-repeat; width:150px; }
 /*#nav li.last { background: none; }*/
 #nav li a { color: #F8F6EC; text-decoration: none; font-weight: normal; padding: 8px 20px; display: block; text-align: center; }
-body.scorecard #nav li#scorecard, body.scorecard #nav li#scorecard a, body.background #nav li#background, body.background #nav li#background a, body.analysis #nav li#analysis, body.analysis #nav li#analysis a, body.methodology #nav li#methodology, body.methodology #nav li#methodology a,  body.media #nav li#media, body.media #nav li#media a, body.corrections #nav li#corrections, body.corrections #nav li#corrections a, body.resources #nav li#resources, body.resources #nav li#resources a, body.feedback #nav li#feedback, body.feedback #nav li#feedback a, body.summary #nav li#summary, body.summary #nav li#summary a, body.results-consistency #nav li#consistency a, body.results-completeness #nav li#completeness a, body.results-timeliness #nav li#timeliness a { color: #fff; background-color: #609819; }
+body.scorecard #nav li#scorecard, body.scorecard #nav li#scorecard a, body.background #nav li#background, body.background #nav li#background a, body.analysis #nav li#analysis, body.analysis #nav li#analysis a, body.methodology #nav li#methodology, body.methodology #nav li#methodology a,  body.media #nav li#media, body.media #nav li#media a, body.corrections #nav li#corrections, body.corrections #nav li#corrections a, body.resources #nav li#resources, body.resources #nav li#resources a, body.feedback #nav li#feedback, body.feedback #nav li#feedback a, body.summary #nav li#summary, body.summary #nav li#summary a, body.results-consistency #nav li#consistency a, body.results-completeness #nav li#completeness a, body.results-timeliness #nav li#timeliness a, body.data-act #nav li#data-act a { color: #fff; background-color: #609819; }
 
 
 #subnav { border-bottom: 1px solid #f3f2f2; }
@@ -55,8 +55,8 @@ body.scorecard #nav li#scorecard, body.scorecard #nav li#scorecard a, body.backg
 #subnav li:hover a { color: #807c77; font-weight: bold;  }
 #subnav li:hover { border-bottom: 3px solid #f3f2f2;  }
 
-#nav ul li ul {left: -9999px; position:absolute; list-style: none; width:130px; z-index:2147483647; }
-#nav ul li ul li { background-color: #84BC3D; padding:0px; float: none; width:130px; margin: 0;}
+#nav ul li ul {left: -9999px; position:absolute; list-style: none; width:150px; z-index:2147483647; }
+#nav ul li ul li { background-color: #84BC3D; padding:0px; float: none; width:150px; margin: 0;}
 #nav ul li:hover ul {left: auto;  }
 #nav ul li ul li:hover {background-color:#609819;}
 
