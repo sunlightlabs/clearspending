@@ -359,21 +359,25 @@ $(document).ready(function(){
 
         var show_cell_details = function (d, col, target) {
             var val = d[col] || 0;
+            var pct_col = "" + col + "_pct";
+            var pct_val = d[pct_col] || 0;
+
+            var tmpl = $("#cell-details-tmpl").html();
+            tmpl = tmpl.replace("__agency__", d.agency__name);
+            tmpl = tmpl.replace("__column__", col);
+            tmpl = tmpl.replace("__totaldollars__", short_money(d.total_dollars));
+            tmpl = tmpl.replace("__faileddollars__", short_money(d.failed_dollars));
+            tmpl = tmpl.replace("__val__", short_money(val));
+            tmpl = tmpl.replace("__pct__", Math.round(pct_val * 100, 2));
+            $(target).html(tmpl);
 
             if (val == 0) {
-                $(target).text(col + ": no errors");
+                $(target).addClass("pass");
+                $(target).removeClass("fail");
             } else {
-                var pct_col = "" + col + "_pct";
-                var pct_val = d[pct_col];
-                $(target).text(col + ": "
-                               + short_money(val)
-                               + " ("
-                               + Math.round(pct_val * 100)
-                               + "%) reported incompletely by "
-                               + d.agency__name
-                               );
+                $(target).addClass("fail");
+                $(target).removeClass("pass");
             }
-            $("#status").hide();
             $(target).css("visibility", "visible");
         };
 
@@ -422,7 +426,6 @@ $(document).ready(function(){
         var unselect_bars_and_columns = function () {
             $("svg rect.bar-bg, svg rect.column-bg").attr("fill", "transparent");
             $("#program-description").hide();
-            $("#status").show();
         };
 
         $(options["element"]).bind("mouseleave", unselect_bars_and_columns);
@@ -432,6 +435,12 @@ $(document).ready(function(){
                       .attr("id", "timeliness-art")
                       .style("width", options["width"] + "px")
                       .style("height", options["height"] + "px");
+
+        d3.selectAll("#status-con, #chart-con")
+          .style("width", options["width"] + "px");
+
+        d3.selectAll("#chart-con")
+          .style("height", options["height"] + "px");
 
         var show_completeness_diagram = function (fiscal_year) {
             $(options["element"]).css("height", options["height"] + "px");
@@ -583,6 +592,10 @@ $(document).ready(function(){
         timeliness_chart();
     };
     if ($("body.completeness").length > 0) {
-        completeness_diagram();
+        completeness_diagram({
+            "width": (/narrow/.test(window.location.href)) ? 550 : 840,
+            "min_opacity": 0.50,
+            "max_opacity": 1.00
+        });
     };
 });

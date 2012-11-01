@@ -110,7 +110,10 @@ def agency_completeness_data(request, fiscal_year):
 
 
 def completeness(request):
-    return render(request, "completeness.html", {})
+    if request.GET.get('narrow'):
+        return render(request, "completeness_narrow.html", {})
+    else:
+        return render(request, "completeness.html", {})
 
 
 def contact(request):

@@ -127,53 +127,70 @@
 {% block bodyclass %}completeness{% endblock bodyclass %}
 {% block content %}
 <div id="pageMain">
-    <h3>Completeness</h3>
+    <div id="ltColumn">
+        <h3>Completeness</h3>
 
-    <p>
-    When the government publishes spending data they are required to fill out data fields in a particular manner. These requirements are spelled out in the <a href="http://usaspending.gov/sites/all/themes/usaspendingv2/Archives_Data_Feeds_Data_Dictionary.pdf">data dictionary</a>. If you want to analyze or audit this spending you will need to know basic information like which agency spent the money, which program it was spent on, where the money was spent, and who received the money. Unfortunately these basic pieces of information are missing from much of the spending data.
-    </p>
+        <p>
+        When the government publishes spending data they are required to fill out data fields in a particular manner. These requirements are spelled out in the <a href="http://usaspending.gov/sites/all/themes/usaspendingv2/Archives_Data_Feeds_Data_Dictionary.pdf">data dictionary</a>. If you want to analyze or audit this spending you will need to know basic information like which agency spent the money, which program it was spent on, where the money was spent, and who received the money. Unfortunately these basic pieces of information are missing from much of the spending data.
+        </p>
 
-    <p>
-    While most of the data meets basic completeness criteria, there are areas that are particularly egregious. In the diagram below you can see these data quality hot spots. Each column in the diagram represents a column in the data released by USASpending.gov. You can move your cursor over each cell for more details.
-    </p>
+        <p>
+        While most of the data meets basic completeness criteria, there are areas that are particularly egregious. In the diagram below you can see these data quality hot spots. Each column in the diagram represents a column in the data released by USASpending.gov. You can move your cursor over each cell for more details.
+        </p>
 
-    <div id="chart-con">
-        <span class="title">Completeness of Federal Direct Assistance Reporting</span>
-        <div id="chart-buttons">
-            {% for fy in FISCAL_YEARS %}
-            <span class="fiscal_year_chooser">{{ fy }}</span>
-            {% endfor %}
+        <div id="chart-con">
+            <span class="title">Completeness of Federal Direct Assistance Reporting</span>
+            <div id="chart-buttons">
+                {% for fy in FISCAL_YEARS %}
+                <span class="fiscal_year_chooser">{{ fy }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="clear"></div>
+
+            <div id="chart">
+            </div>
+
+            <div class="clear"></div>
         </div>
+    </div>
 
-        <div class="clear"></div>
-
-        <div id="chart">
-        </div>
-
-        <div class="clear"></div>
-
+    <div id="rtColumn">
         <div id="status-con">
             <div id="selected-details">
             Selected
             </div>
+            <div class="clear"></div>
+
             <div id="hovered-details">
             Hovered
             </div>
+            <div class="clear"></div>
+
             <div id="cell-details-tmpl">
-                <div class="cell-details-row">
+                <div class="cell-details-row details-agency-row">
                     <span class="cell-details-label">Agency:</span>
                     <span class="cell-details-value">__agency__</span>
                 </div>
-                <div class="cell-details-row">
+                <div class="cell-details-row details-totaldollars-row">
+                    <span class="cell-details-label">Agency spending represented:</span>
+                    <span class="cell-details-value">__totaldollars__</span>
+                </div>
+                <div class="cell-details-row details-faileddollars-row">
+                    <span class="cell-details-label">Dollars represented:</span>
+                    <span class="cell-details-value">__faileddollars__</span>
+                </div>
+                <div class="cell-details-row details-celldollars-row">
+                    <span class="cell-details-label">Dollars misrepresented in this column:</span>
+                    <span class="cell-details-value">__val__ (__pct__%)</span>
+                </div>
+                <div class="cell-details-row details-field-row">
                     <span class="cell-details-label">Field:</span>
                     <span class="cell-details-value">__column__</span>
                 </div>
-                <div class="cell-details-row">
-                    <span class="cell-details-label">Dollars misreported:</span>
-                    <span class="cell-details-value">__val__ (__pct__%)</span>
-                </div>
             </div>
             <div class="clear"></div>
+
             <div id="legend">
                 <span id="legend-title">Legend</span> <br>
                 <span class="swatch fail" id="bad-swatch">&nbsp;</span> Failing columns 
@@ -186,6 +203,7 @@
 
 </div>
 {% endblock %}
+
 
 
 
