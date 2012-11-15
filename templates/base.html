@@ -15,6 +15,13 @@
     <script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery.tablesorter.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery.cookie.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}scripts/clearspending.js"></script>
+    <script type="text/javascript">
+        var STATIC_URL = '{{ STATIC_URL }}';
+        var PROGRAM_URL_PATTERN = '{{ PROGRAM_URL_PATTERN }}';
+        var program_url = function (cfda_number) {
+            return PROGRAM_URL_PATTERN.replace('00.000', cfda_number);
+        };
+    </script>
     <script type="text/javascript" src="//use.typekit.net/ktu4xpo.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
     <!-- added by timball  Tue Sep  7 15:12:38 UTC 2010 -->

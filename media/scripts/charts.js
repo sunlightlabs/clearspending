@@ -153,7 +153,7 @@ $(document).ready(function(){
                        .on("mouseover", show_program_label)
                        .on("mouseout", reset_program_label)
                        .on("click", function(d){
-                           window.location.href = "/program/" + d.number + "/pct/";
+                           window.location.href = program_url(d.number);
                        })
                        .attr("class", classify_datum)
                        .attr("id", id_from_program_number)
