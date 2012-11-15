@@ -14,6 +14,7 @@ ipython
 numpy
 plac==0.9.0
 python-memcached
+pytz
 stream==0.8
 wsgiref
 requests>=0.14.1
