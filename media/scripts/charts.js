@@ -214,6 +214,27 @@ $(document).ready(function(){
 
                     map.exit().remove();
 
+                    var shell_background = function (cls) {
+                        var $inner = $("#chart > div");
+                        var $cells = $("." + cls, $inner);
+                        var left = Math.min.apply(null, $cells.map(function(ix,n){ return $(n).position().left; }));
+                        var top = Math.min.apply(null, $cells.map(function(ix,n){ return $(n).position().top; }));
+                        var right = Math.max.apply(null, $cells.map(function(ix,n){ return $(n).position().left + $(n).width(); }));
+                        var bottom = Math.max.apply(null, $cells.map(function(ix,n){ return $(n).position().top + $(n).height(); }));
+                        var $shell = $("<div></div>").css("position", "absolute")
+                                                     .css("top", top + "px")
+                                                     .css("left", left + "px")
+                                                     .css("width", right - left + "px")
+                                                     .css("height", bottom - top + "px")
+                                                     .css("z-index", -99999)
+                                                     .addClass(cls)
+                                                     .addClass("bg-shell")
+                                                     .prependTo($inner);
+                    };
+                    shell_background("fail");
+                    shell_background("pass");
+                    shell_background("blind");
+                    shell_background("perfect");
                 });
             }, 0);
 
