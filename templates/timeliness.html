@@ -36,20 +36,44 @@
         }
         #chart-con {
             position: relative;
-            width: 280px;
+            width: 580px;
             margin: auto auto;
         }
         #status-con {
+            display: inline-block;
             position: relative;
             font-size: 12px;
+            padding: 12px;
             width: 280px;
-            height: 8em;
+            height: 100px;
+            top: -150px;
+            left: 30px;
+            border-width: 2px;
+            border-style: solid;
+            border-color: #b0b0b0;
+            background: none rgb(232, 230, 227);
+            border-radius: 6px;
         }
         #status, #program-description {
             font-weight: bold;
         }
         #program-description {
             display: none;
+            font-size: 12px;
+            color: #6C6764;
+        }
+        #days-delta {
+            display: none;
+            background: none transparent;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 0.1em;
+        }
+        #days-delta.pass {
+            color: rgb(0, 200, 0);
+        }
+        #days-delta.fail {
+            color: rgb(240, 59, 32);
         }
         #legend {
             position: relative;
@@ -103,6 +127,22 @@
             float: left;
             font-weight: bold;
             font-size: 14px;
+            margin-bottom: 1em;
+        }
+        g#pos-axis, g#neg-axis {
+            stroke: #cccccc;
+            shape-rendering: crispEdges;
+        }
+        g#pos-axis path, g#neg-axis path {
+            display: none;
+        }
+        g#pos-axis text, g#neg-axis text {
+            stroke: none;
+            fill: black;
+        }
+        svg text {
+            stroke: none;
+            fill: black;
         }
 
         svg#timeliness-art {
@@ -122,39 +162,41 @@
 		<p>
 		</p>
 
-	</div>
 
-	<div id="rtColumn">
-		<div id="chart-con">
-			<span class="title">Timeliness of Federal Direct Assistance Reporting</span>
-			<div id="chart-buttons">
-				{% for fy in FISCAL_YEARS %}
-				<span class="fiscal_year_chooser">{{ fy }}</span>
-				{% endfor %}
-			</div>
+        <div id="chart-con">
+            <span class="title">Timeliness of Federal Direct Assistance Reporting</span>
+            <div id="chart-buttons">
+                {% for fy in FISCAL_YEARS %}
+                <span class="fiscal_year_chooser">{{ fy }}</span>
+                {% endfor %}
+            </div>
 
-			<div class="clear"></div>
+            <div class="clear"></div>
 
-			<div id="chart">
-			</div>
+            <div id="chart">
+            </div>
 
-			<div class="clear"></div>
-			<div id="status-con">
-				<div id="status">
-                    <!-- Move your cursor over the diagram for details on each federal spending program.-->
-				</div>
-				<div id="program-description">
-				</div>
-			</div>
-		</div>
-		<div class="clear"></div>
-	</div>
+            <div class="clear"></div>
+            <div id="status-con">
+                <div id="status">
+                    Move your cursor over the diagram for details on each federal spending program.
+                </div>
+                <div id="days-delta"></div>
+                <div id="program-description">
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        <!--<div id="legend">
+            <span id="legend-title">Legend</span> <br>
+            <span class="swatch fail" id="bad-swatch">&nbsp;</span> Failing programs 
+            <span class="swatch pass" id="ok-swatch">&nbsp;</span> Passing programs 
+        </div>-->
+    </div>
 
 
-    <div id="legend">
-        <span id="legend-title">Legend</span> <br>
-        <span class="swatch fail" id="bad-swatch">&nbsp;</span> Failing programs 
-        <span class="swatch pass" id="ok-swatch">&nbsp;</span> Passing programs 
+    <div id="rtColumn">
     </div>
 
 </div>

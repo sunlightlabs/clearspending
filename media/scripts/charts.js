@@ -236,8 +236,9 @@ $(document).ready(function(){
     var timeliness_chart = function (options) {
         var options = options || {};
         var default_to = function (opt, val) { options[opt] = options[opt] || val; };
-        default_to("width", 280);
+        default_to("width", 580);
         default_to("height", 380);
+        default_to("axisPadding", 30);
         default_to("element", "#chart");
 
         var show_timeliness_chart = function (fiscal_year) {
@@ -260,14 +261,14 @@ $(document).ready(function(){
 
                     var x = d3.scale
                               .ordinal()
-                              .rangeRoundBands([0, options["width"]], 0.1)
+                              .rangeRoundBands([options["axisPadding"], options["width"] - options["axisPadding"]], 0.1)
                               .domain(json.map(function(d){ return d.title; }));
 
-                    y_min = d3.min(json.map(function(d){ return d.delta_rows; }));
-                    y_max= d3.max(json.map(function(d){ return d.delta_rows; }));
-                    y = d3.scale
+                    var y_min = d3.min(json.map(function(d){ return d.delta_rows; }));
+                    var y_max = d3.max(json.map(function(d){ return d.delta_rows; }));
+                    var y = d3.scale
                               .linear()
-                              .range([0, options["width"]])
+                              .range([options["axisPadding"], options["height"] - options["axisPadding"]])
                               .domain([y_min, y_max]);
                     var on_time_xcoord = y(0);
 
@@ -281,16 +282,16 @@ $(document).ready(function(){
                                     .attr("transform", function(d){
                                         return "translate(X, 0)".replace("X", '' + x(d.title));
                                     }).on("mouseover", function(d){
-                                        $("#program-description").html(
-                                            d.title
-                                            + "<br> "
+                                        var early_or_late = ((d.delta_rows >= 0) ? "late" : "early");
+                                        $("#days-delta").html(
                                             + Math.abs(d.delta_rows)
                                             + " days "
-                                            + ((d.delta_rows >= 0) ? "late" : "early")
-                                        );
-                                        $("#status, #program-description").toggle();
+                                            + early_or_late
+                                        ).attr("class", ((d.delta_rows >= 0) ? "fail" : "pass"));
+                                        $("#program-description").html(d.title);
+                                        $("#status, #program-description, #days-delta").toggle();
                                     }).on("mouseout", function(d){
-                                        $("#status, #program-description").toggle();
+                                        $("#status, #program-description, #days-delta").toggle();
                                     });
 
                     bars.append("rect")
@@ -318,14 +319,47 @@ $(document).ready(function(){
                         })
                         .attr("width", x.rangeBand());
 
-/*
-                    bars.append("text")
-                        .attr("class", "delta-label")
-                        .attr("x", 1)
-                        .attr("y", y.rangeBand() / 2)
-                        .attr("dy", "0.35em")
-                        .attr("text-anchor", function(d){ return (d.delta_rows >= 0) ? "end" : "start"; })
-                        .text(function(d){ return "" + d.delta_rows + " days"; }) */
+                    var neg_axis = d3.svg.axis()
+                                         .scale(y)
+                                         .orient("left")
+                                         .tickValues([Math.min.apply(null, y.domain())]);
+
+                    var pos_axis = d3.svg.axis()
+                                         .scale(y)
+                                         .orient("right")
+                                         .tickValues([Math.max.apply(null, y.domain())]);
+
+                    var early_block = chart.append("g")
+                         .attr("id", "early-annotation")
+                         .attr("transform", "translate(X, Y)".replace("X", x.range()[0]).replace("Y", y.range()[0] - 2));
+                    early_block.append("text")
+                               .attr("x", 70)
+                               .text(Math.abs(y_min) + " days early");
+                    early_block.append("line")
+                               .attr("stroke", "black")
+                               .attr("strokeWidth", 1)
+                               .attr("x1", 0)
+                               .attr("x2", 70)
+                               .attr("y1", 0)
+                               .attr("y2", 0);
+
+                    var late_block = chart.append("g")
+                                          .attr("id", "late-annotation")
+                                          .attr("transform", "translate(X, Y)".replace("X", x.range().slice(-1)[0] + x.rangeBand() - 50).replace("Y", y.range()[1] + 2));
+                    late_block.append("text")
+                              .attr("x", 0)
+                              .text(Math.abs(y_max) + " days late");
+                    late_block.select("text")
+                              .attr("dx", function(d){
+                                  return "-" + this.getComputedTextLength();
+                              });
+                    late_block.append("line")
+                              .attr("stroke", "black")
+                              .attr("strokeWidth", 1)
+                              .attr("x1", 0)
+                              .attr("x2", 50)
+                              .attr("y1", 0)
+                              .attr("y2", 0);
                 });
 
             }, 0);
@@ -642,7 +676,11 @@ $(document).ready(function(){
         consistency_treemap();
     };
     if ($("body.timeliness").length > 0) {
-        timeliness_chart();
+        timeliness_chart({
+            "width": 580,
+            "height": 380,
+            "axisPadding": 15
+        });
     };
     if ($("body.completeness").length > 0) {
         completeness_diagram({
