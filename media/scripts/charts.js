@@ -262,6 +262,22 @@ $(document).ready(function(){
         default_to("axisPadding", 30);
         default_to("element", "#chart");
 
+
+        var show_agency_label = function (d) {
+            var early_or_late = ((d.delta_rows >= 0) ? "late" : "early");
+            $("#days-delta").html(
+                + Math.abs(d.delta_rows)
+                + " days "
+                + early_or_late
+            ).attr("class", ((d.delta_rows >= 0) ? "fail" : "pass"));
+            $("#program-description").html(d.title);
+            $("#status, #program-description, #days-delta").toggle();
+        };
+
+        var reset_agency_label = function (d) {
+            $("#status, #program-description, #days-delta").toggle();
+        };
+
         var show_timeliness_chart = function (fiscal_year) {
             $(options["element"]).css("width", options["width"]).css("height", options["height"]).empty().append('<div class="chart-loading"></div>');
             setTimeout(function(){
@@ -302,18 +318,17 @@ $(document).ready(function(){
                                     .attr("class", "bar")
                                     .attr("transform", function(d){
                                         return "translate(X, 0)".replace("X", '' + x(d.title));
-                                    }).on("mouseover", function(d){
-                                        var early_or_late = ((d.delta_rows >= 0) ? "late" : "early");
-                                        $("#days-delta").html(
-                                            + Math.abs(d.delta_rows)
-                                            + " days "
-                                            + early_or_late
-                                        ).attr("class", ((d.delta_rows >= 0) ? "fail" : "pass"));
-                                        $("#program-description").html(d.title);
-                                        $("#status, #program-description, #days-delta").toggle();
-                                    }).on("mouseout", function(d){
-                                        $("#status, #program-description, #days-delta").toggle();
-                                    });
+                                    })
+                                    .on("mouseover", show_agency_label)
+                                    .on("mouseout", reset_agency_label);
+
+                    bars.append("rect")
+                        .attr("x", 0)
+                        .attr("y", 0)
+                        .attr("fill", "none")
+                        .attr("pointer-events", "all")
+                        .attr("height", options["height"])
+                        .attr("width", x.rangeBand());
 
                     bars.append("rect")
                         .attr("class", function(d){
