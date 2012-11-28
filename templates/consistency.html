@@ -108,10 +108,23 @@
 {% block bodyclass %}consistency{% endblock bodyclass %}
 {% block content %}
 <div id="pageMain">
+<h3>Consistency Results</h3>
+<p>While it would be ideal to measure the accuracy of the grants data in USASpending.gov, that is not possible on a large scale because of the opaqueness of the path from budget appropriations in the legislative branch to obligations in the executive branch. Essentially, agencies take prose descriptions of appropriations and divide them into CFDA programs. Because that process can vary by agency and isn't public, we can't know exactly what the amount in USASpending.gov should be. Because of this, we compare the yearly aggregates for each CFDA program in USASpending with the yearly estimates provided in the CFDA online catalog. Essentially, we are comparing two different sources of government reporting of financial obligations that should be within a reasonable range of each other. If there is greater than a 50% difference, then we mark it as failing.
 
-    <p>
-    The federal government reports a portion of it's spending in two ways. The Catalog of Federal Domestic Assistance (CFDA) reports estimates for each federal spending program for the current fiscal year and actual expenditures for two previous years. USASpending.gov provides an interface to the Federal Assistance Award Data System (FAADS). If agencies are properly reporting their spending to the FAADS system, the aggregate spending reported for each program should be consistent with the CFDA data. Unfotunately it's not.
-    </p>
+        <h5 class="table-header">Failed Dollars, Consistency Metric Only, By Fiscal Year</h5>
+        <table class="results-table">
+            <thead>
+                <tr><th>Fiscal Year</th><th>Inconsistent Dollars</th><th>Total Dollars</th><th>% Inconsistent</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>2009</td><td>$513,684,900,256</td><td>$1,625,257,115,439</td><td>31.6%</td></tr>
+                <tr class="even"><td>2010</td><td>$887,303,764,481</td><td>$1,437,032,472,474</td><td>61.8%</td></tr>
+                <tr><td>2011</td><td>$1,135,588,492,032</td><td>$1,639,826,026,452</td><td>69.3%</td></tr>
+            </tbody>
+        </table>
+
+        <p> As illustrated in the table above, the amount failing due to inconsistency has increased over the past few years. This is largely due to several Medicare insurance programs that had been reporting data to USASpending.gov, but stopped reporting altogether in FY 2010. It's not clear why these programs stopped reporting, but the public database for the Department of Health and Human Services (<a href="http://taggs.hhs.gov">TAGGS</a>) also does not have this spending reported. Requests for comments from agency officials were not returned.</p>
+
 
     <div id="chart-con">
         <span class="title">Consistency of Federal Direct Assistance Reporting</span>
