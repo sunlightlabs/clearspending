@@ -127,17 +127,25 @@
 {% block content %}
 <div id="pageMain">
     <h3>Completeness</h3>
-
     <p>
-    When the government publishes spending data they are required to fill out data fields in a particular manner. These requirements are spelled out in the <a href="http://usaspending.gov/sites/all/themes/usaspendingv2/Archives_Data_Feeds_Data_Dictionary.pdf">data dictionary</a>. If you want to analyze or audit this spending you will need to know basic information like which agency spent the money, which program it was spent on, where the money was spent, and who received the money. Unfortunately these basic pieces of information are missing from much of the spending data.
-    </p>
+    When the government publishes spending data, certain data fields are mandatory. These requirements are spelled out in the <a href="http://usaspending.gov/sites/all/themes/usaspendingv2/Archives_Data_Feeds_Data_Dictionary.pdf">USASpending.gov data dictionary</a>. This required information generally refers to details of the agency obligating the money or the recipient's identity and location. Since our last report, the number of obligations with completeness errors has gone down quite a bit, falling from a high of 66% of all measured obligations in 2010 to 26% in 2011. 
 
-    <p>
-    While most of the data meets basic completeness criteria, there are areas that are particularly egregious. In the diagram below you can see these data quality hot spots. Each column in the diagram represents a column in the data released by USASpending.gov. You can move your cursor over each cell for more details.
+        <table class="results-table">
+            <thead>
+                <tr><th>Fiscal Year</th><th>Spending Failing on Completeness</th><th>Total Spending</th><th>% Failed</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>2009</td><td>$949,832,896,527</td><td>$1,625,257,115,439</td><td>58.4%</td></tr>
+                <tr class="even"><td>2010</td><td>$954,316,971,593</td><td>$1,437,032,472,474</td><td>66.4%</td></tr>
+                <tr><td>2011</td><td>$428,362,322,077</td><td>$1,639,826,026,452</td><td>26.1%</td></tr>
+            </tbody>
+        </table>
+</p>
+    <p>As you can see from the chart below, some fields (and agencies) are more problematic than others. In most cases, there are few problems with the obligated amount, obligation date, recipient name, or agency code. Many of the problems are centered around geographic information regarding the recipient, such as recipient county, city, and congressional district, as well as the place of performance field (generally where the money ends up, even if the grantee is in another location). Each column in the diagram represents a column in the data released by USASpending.gov. You can move your cursor over each cell for more details.
     </p>
 
     <div id="chart-con">
-        <span class="title">Completeness of Federal Direct Assistance Reporting</span>
+        <span class="title">Completeness of Federal Direct Assistance Reporting By Required Column and Agency</span>
         <div id="chart-buttons">
             {% for fy in FISCAL_YEARS %}
             <span class="fiscal_year_chooser">{{ fy }}</span>
