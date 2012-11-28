@@ -51,6 +51,60 @@ var agencies = {
     '98':'United States Agency for International Development'
 };
 
+var short_agency_names = {
+    '10': 'Agriculture',
+    '11': 'Commerce',
+    '12': 'Defense',
+    '14': 'Housing',
+    '15': 'Interior',
+    '16': 'Justice',
+    '17': 'Labor',
+    '19': 'State',
+    '20': 'Transportation',
+    '21': 'Treasury',
+    '23': 'Appalachian Comm.',
+    '27': 'Office of Personnel Management',
+    '29': 'Commission on Civil Rights',
+    '30': 'Equal Employment Opportunity Commission',
+    '31': 'Export Import Bank',
+    '32': 'FCC',
+    '33': 'Federal Maritime Commission',
+    '34': 'Federal Mediation and Concillation Service',
+    '36': 'Federal Trade Commission',
+    '39': 'General Services Administration',
+    '40': 'Government Printing Office',
+    '42': 'Library of Congress',
+    '43': 'NASA',
+    '44': 'NCUA',
+    '45': 'NEA',
+    '46': 'NLRB',
+    '47': 'NSF',
+    '57': 'Railroad Retirement Board',
+    '58': 'SEC',
+    '59': 'Small Business',
+    '64': 'Veterans Affairs',
+    '66': 'EPA',
+    '68': 'National Gallery of Art',
+    '70': 'OPIC',
+    '77': 'NRC',
+    '78': 'CFTC',
+    '81': 'Energy',
+    '84': 'Education',
+    '85': 'Various Scholarship and Fellowship Foundations',
+    '86': 'Pension Benefit Guaranty Corp.',
+    '88': 'Architectural and Transportation Barriers Compliance Board',
+    '89': 'National Archives',
+    '90': 'Other',
+    '91': 'Institute of Peace',
+    '93': 'HHS',
+    '94': 'Community Service',
+    '95': 'Office of the President',
+    '96': 'Social Security',
+    '97': 'Homeland Security',
+    '98': 'USAID'
+};
+
+
 $(document).ready(function(){
 
     var itemgetter = function (k) {
@@ -283,12 +337,13 @@ $(document).ready(function(){
             setTimeout(function(){
                 var flare_url = "" + fiscal_year + "/";
                 d3.json(flare_url, function(json){
-                    json.forEach(function(d){
+                    var records = json.agencies;
+                    records.forEach(function(d){
                         d['delta_rows'] = d.lag_rows - 30;
                         d['delta_dollars'] = d.lag_dollars - 30;
                     });
 
-                    json.sort(function(a,b){ return a.delta_rows - b.delta_rows; });
+                    records.sort(function(a,b){ return a.delta_rows - b.delta_rows; });
 
                     var chart = d3.select(options['element'])
                                   .append("svg")
@@ -299,18 +354,18 @@ $(document).ready(function(){
                     var x = d3.scale
                               .ordinal()
                               .rangeRoundBands([options["axisPadding"], options["width"] - options["axisPadding"]], 0.1)
-                              .domain(json.map(function(d){ return d.title; }));
+                              .domain(records.map(function(d){ return d.title; }));
 
-                    var y_min = d3.min(json.map(function(d){ return d.delta_rows; }));
-                    var y_max = d3.max(json.map(function(d){ return d.delta_rows; }));
+                    var y_min = d3.min(records.map(function(d){ return d.delta_rows; }));
+                    var y_max = d3.max(records.map(function(d){ return d.delta_rows; }));
                     var y = d3.scale
                               .linear()
                               .range([options["axisPadding"], options["height"] - options["axisPadding"]])
-                              .domain([y_min, y_max]);
+                              .domain([json.earliest - 30, json.latest - 30]);
                     var on_time_xcoord = y(0);
 
                     var bars = chart.selectAll("g.bar")
-                                    .data(json)
+                                    .data(records)
                                     .enter()
                                     .append("g")
                                     .attr("data-agency-code", function(d){ return d.number; })
@@ -363,11 +418,11 @@ $(document).ready(function(){
                     var pos_axis = d3.svg.axis()
                                          .scale(y)
                                          .orient("right")
-                                         .tickValues([Math.max.apply(null, y.domain())]);
+                                         .tickValues([y_max]);
 
                     var early_block = chart.append("g")
                          .attr("id", "early-annotation")
-                         .attr("transform", "translate(X, Y)".replace("X", x.range()[0]).replace("Y", y.range()[0] - 2));
+                         .attr("transform", "translate(X, Y)".replace("X", x.range()[0]).replace("Y", Math.round(y(y_min)) - 2));
                     early_block.append("text")
                                .attr("x", 70)
                                .text(Math.abs(y_min) + " days early");
@@ -381,7 +436,7 @@ $(document).ready(function(){
 
                     var late_block = chart.append("g")
                                           .attr("id", "late-annotation")
-                                          .attr("transform", "translate(X, Y)".replace("X", x.range().slice(-1)[0] + x.rangeBand() - 50).replace("Y", y.range()[1] + 2));
+                                          .attr("transform", "translate(X, Y)".replace("X", x.range().slice(-1)[0] + x.rangeBand() - 50).replace("Y", Math.round(y(y_max)) + 2));
                     late_block.append("text")
                               .attr("x", 0)
                               .text(Math.abs(y_max) + " days late");
@@ -391,7 +446,7 @@ $(document).ready(function(){
                               });
                     late_block.append("line")
                               .attr("stroke", "black")
-                              .attr("strokeWidth", 1)
+                              .attr("stroke-width", 1)
                               .attr("x1", 0)
                               .attr("x2", 50)
                               .attr("y1", 0)
@@ -426,59 +481,6 @@ $(document).ready(function(){
         default_to("min_opacity", 0.5);
         default_to("max_opacity", 1.0);
         default_to("element", "#chart");
-
-        var agency_names = {
-            '10': 'Agriculture',
-            '11': 'Commerce',
-            '12': 'Defense',
-            '14': 'Housing',
-            '15': 'Interior',
-            '16': 'Justice',
-            '17': 'Labor',
-            '19': 'State',
-            '20': 'Transportation',
-            '21': 'Treasury',
-            '23': 'Appalachian Comm.',
-            '27': 'Office of Personnel Management',
-            '29': 'Commission on Civil Rights',
-            '30': 'Equal Employment Opportunity Commission',
-            '31': 'Export Import Bank',
-            '32': 'FCC',
-            '33': 'Federal Maritime Commission',
-            '34': 'Federal Mediation and Concillation Service',
-            '36': 'Federal Trade Commission',
-            '39': 'General Services Administration',
-            '40': 'Government Printing Office',
-            '42': 'Library of Congress',
-            '43': 'NASA',
-            '44': 'NCUA',
-            '45': 'NEA',
-            '46': 'NLRB',
-            '47': 'NSF',
-            '57': 'Railroad Retirement Board',
-            '58': 'SEC',
-            '59': 'Small Business',
-            '64': 'Veterans Affairs',
-            '66': 'EPA',
-            '68': 'National Gallery of Art',
-            '70': 'OPIC',
-            '77': 'NRC',
-            '78': 'CFTC',
-            '81': 'Energy',
-            '84': 'Education',
-            '85': 'Various Scholarship and Fellowship Foundations',
-            '86': 'Pension Benefit Guaranty Corp.',
-            '88': 'Architectural and Transportation Barriers Compliance Board',
-            '89': 'National Archives',
-            '90': 'Other',
-            '91': 'Institute of Peace',
-            '93': 'HHS',
-            '94': 'Community Service',
-            '95': 'Office of the President',
-            '96': 'Social Security',
-            '97': 'Homeland Security',
-            '98': 'USAID'
-        };
 
         var show_cell_details = function (d, col, target) {
             var val = d[col] || 0;
@@ -577,7 +579,7 @@ $(document).ready(function(){
                 };
                 d3.json(url, function(json){
                     json.forEach(function(d){
-                        d['short_name'] = agency_names[d.agency__code];
+                        d['short_name'] = short_agency_names[d.agency__code];
                     });
 
                     json.sort(function(a,b){
