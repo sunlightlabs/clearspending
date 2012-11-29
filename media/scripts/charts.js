@@ -104,6 +104,57 @@ var short_agency_names = {
     '98': 'USAID'
 };
 
+var zip_arrays = function () {
+    var args = [].slice.call(arguments);
+    var longest = args.reduce(function(a,b){
+        return a.length>b.length ? a : b
+    }, []);
+
+    return longest.map(function(_,i){
+        return args.map(function(array){return array[i]})
+    });
+};
+
+var transform = function () {
+    if ((arguments.length === 0) || ((arguments.length === 1) && (arguments[0].length === 0))) {
+        return "";
+    }
+
+    var transforms = ["scale", "translate", "matrix", "rotate", "skewX", "skewY"];
+    var is_transform = function (s) {
+        return transforms.indexOf(s) !== -1;
+    };
+
+    var ix = 0;
+    var args = Array.apply(null, arguments);
+    var arg_pairs = zip_arrays(args, args.slice(1));
+    var rope = arg_pairs.map(function(pair){
+        var curr = pair[0];
+        var next = pair[1];
+
+        if (curr === undefined)
+            throw "undefined transform argument";
+
+        if (is_transform(curr)) {
+            if (is_transform(next) || (next === undefined)) {
+                return [curr, "() "];
+            } else {
+                return [curr, "("];
+            }
+        } else {
+            if (is_transform(next) || (next === undefined)) {
+                return [curr.toString(), ") "];
+            } else {
+                return [curr.toString(), ","];
+            }
+        }
+    });
+
+    rope = rope.reduce(function(a, b) {
+        return a.concat(b);
+    });
+    return rope.join("").trim();
+};
 
 $(document).ready(function(){
 
@@ -710,6 +761,68 @@ $(document).ready(function(){
         show_completeness_diagram(default_chart_year());
     };
 
+
+    var venn_diagram = function (options) {
+        var options = options || {};
+        var default_to = function (opt, val) { options[opt] = options[opt] || val; };
+        default_to("size", 840);
+        default_to("element", "#chart");
+
+        var circles = [
+            [-0.19811119,  0.00319773, 0.4828593439062896],
+            [ 0.51264974,  0.00319773, 0.29656219033435582],
+            [ 0.2198261 , -0.20461201, 0.070839795183324353]
+        ];
+        var min_x = circles.reduce(function(accum, curr){
+            return Math.min(accum, curr[0] - curr[2]);
+        }, 1);
+        var max_x = circles.reduce(function(accum, curr){
+            return Math.max(accum, curr[0] + curr[2]);
+        }, 0);
+        var min_y = circles.reduce(function(accum, curr){
+            return Math.min(accum, curr[1] - curr[2]);
+        }, 1);
+        var max_y = circles.reduce(function(accum, curr){
+            return Math.max(accum, curr[1] + curr[2]);
+        }, 0);
+        var unit_height = max_y - min_y;
+        var unit_width = max_x - min_x;
+
+        var aspect_ratio = unit_width / unit_height;
+        var width = (aspect_ratio >= 1) ? options["size"] : options["size"] * aspect_ratio;
+        var height = (aspect_ratio <= 1) ? options["size"] : options["size"] / aspect_ratio;
+        var scale = height / unit_height;
+
+        var colors = [ "#dec703", "#85BE3D", "#EB4724" ];
+        var labels = [ "completeness", "consistency", "timeliness" ];
+
+        var venn = d3.select("svg#venn").attr("width", width)
+                                        .attr("height", height);
+
+        venn.select("g").append("rect").attr("fill", "none")
+                                       .attr("width", width)
+                                       .attr("height", height)
+                                       .attr("stroke", "none")
+                                       .attr("stroke-width", 1);
+
+
+        var circles = venn.append("g")
+                          .attr("id", "circles-group")
+                          .attr("transform", transform("scale", scale,
+                                                       "translate", Math.abs(min_x), unit_height / 2))
+                          .selectAll("circle").data(circles);
+
+        circles.enter()
+               .append("circle")
+               .attr("fill", function(d){ return colors.shift(); })
+               .attr("opacity", 0.5)
+               .attr("r", function(d){ return d[2]; })
+               .attr("cx", function(d){ return d[0]; })
+               .attr("cy", function(d){ return d[1]; });
+
+        circles.exit().remove();
+    };
+
     if ($("body.consistency").length > 0) {
         consistency_treemap();
     };
@@ -725,6 +838,11 @@ $(document).ready(function(){
             "width": (/narrow/.test(window.location.href)) ? 550 : 840,
             "min_opacity": 0.50,
             "max_opacity": 1.00
+        });
+    };
+    if ($("body.home").length > 0) {
+        venn_diagram({
+            "size": 500
         });
     };
 });

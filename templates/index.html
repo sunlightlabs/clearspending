@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% block scripts %}
+    {{ block.super }}
+    <script src="{{ STATIC_URL }}scripts/d3.v2.js"></script>
+    <script src="{{ STATIC_URL }}scripts/charts.js"></script>
+{% endblock scripts %}
 {% block content %}
 <div id="featureBox">
     <div id="ltColumn">
@@ -10,6 +15,10 @@
 <div id="pageMain">
     <div class="module">
         <h3>Federal Waste by Metric</h3>
+
+        <svg id="venn">
+            <g></g>
+        </svg>
     </div>
     <div class="ltColumn">
         <div class="module">
