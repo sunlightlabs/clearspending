@@ -240,7 +240,7 @@ def generate_graphs():
                               padding=20,
                               units=True,
                               use_zero_minimum=True)
-            line_chart.output("%sagency_chart_%s.svg" % (settings.GRAPH_DIR, a.code)) 
+            line_chart.output("%s/agency_chart_%s.svg" % (os.path.join(os.getcwd(), 'media', 'images', 'charts'), a.code)) 
     
 
 def generate_category_flare_data():
