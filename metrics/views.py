@@ -5,7 +5,7 @@ from cfda.models import Program, ProgramObligation, Agency
 from metrics.models import *
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.db.models import Count, Sum
+from django.db.models import Count, Sum, Min, Max
 from django.db.models.query import QuerySet
 from decimal import Decimal
 from django.core.mail import send_mail
@@ -21,6 +21,10 @@ def consistency(request):
     return render(request, 'consistency.html', {})
 
 def agency_timeliness_data(request, fiscal_year):
+    timeliness_scale = (AgencyTimeliness.objects
+                                        .filter(avg_lag_rows__gt=0)
+                                        .aggregate(earliest=Min('avg_lag_rows'),
+                                                   latest=Max('avg_lag_rows')))
     timeliness = AgencyTimeliness.objects.select_related().filter(fiscal_year=fiscal_year)
     timeliness_records = [
         {
@@ -31,7 +35,12 @@ def agency_timeliness_data(request, fiscal_year):
         }
         for t in timeliness
     ]
-    return HttpResponse(simplejson.dumps(timeliness_records), content_type='application/json')
+    result = {
+        'earliest': timeliness_scale['earliest'],
+        'latest': timeliness_scale['latest'],
+        'agencies': timeliness_records
+    }
+    return HttpResponse(simplejson.dumps(result), content_type='application/json')
 
 def program_timeliness_data(request, fiscal_year):
     timeliness = ProgramTimeliness.objects.select_related().filter(fiscal_year=fiscal_year)
