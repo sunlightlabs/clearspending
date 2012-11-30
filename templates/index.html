@@ -13,6 +13,30 @@
     <div class="clear"></div>
 </div>
 <div id="pageMain">
+    <div class="module">
+        <h3>Federal Waste by Metric</h3>
+
+        <!--[if lte IE 8]>
+        <img src="{{ STATIC_URL }}images/metricvenn.png">
+        <![endif]-->
+
+        <!--[if IE 9]>
+        <iframe border="0"
+                width="500"
+                height="324"
+                style="border-width: 0; overflow: hidden;"
+                src="{{ STATIC_URL }}images/metricvenn.svg"></iframe>
+        <![endif]-->
+
+        <!--[if !IE]> -->
+        <iframe border="0"
+                width="500"
+                height="324"
+                style="border-width: 0; overflow: hidden;"
+                src="{{ STATIC_URL }}images/metricvenn.svg"></iframe>
+        <!--[if !IE]>
+
+    </div>
     <div class="ltColumn">
         <div class="module">
             <h3>Federal Waste by Metric</h3>

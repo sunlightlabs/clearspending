@@ -768,21 +768,21 @@ $(document).ready(function(){
         default_to("size", 840);
         default_to("element", "#chart");
 
-        var circles = [
-            [-0.19811119,  0.00319773, 0.4828593439062896],
-            [ 0.51264974,  0.00319773, 0.29656219033435582],
-            [ 0.2198261 , -0.20461201, 0.070839795183324353]
+        var circle_data = [
+            [-0.19811119,  0.00319773, 0.4828593439062896, "Consistency"],
+            [ 0.51264974,  0.00319773, 0.29656219033435582, "Completeness"],
+            [ 0.2198261 , -0.20461201, 0.070839795183324353, "Timeliness"]
         ];
-        var min_x = circles.reduce(function(accum, curr){
+        var min_x = circle_data.reduce(function(accum, curr){
             return Math.min(accum, curr[0] - curr[2]);
         }, 1);
-        var max_x = circles.reduce(function(accum, curr){
+        var max_x = circle_data.reduce(function(accum, curr){
             return Math.max(accum, curr[0] + curr[2]);
         }, 0);
-        var min_y = circles.reduce(function(accum, curr){
+        var min_y = circle_data.reduce(function(accum, curr){
             return Math.min(accum, curr[1] - curr[2]);
         }, 1);
-        var max_y = circles.reduce(function(accum, curr){
+        var max_y = circle_data.reduce(function(accum, curr){
             return Math.max(accum, curr[1] + curr[2]);
         }, 0);
         var unit_height = max_y - min_y;
@@ -806,11 +806,13 @@ $(document).ready(function(){
                                        .attr("stroke-width", 1);
 
 
-        var circles = venn.append("g")
-                          .attr("id", "circles-group")
-                          .attr("transform", transform("scale", scale,
-                                                       "translate", Math.abs(min_x), unit_height / 2))
-                          .selectAll("circle").data(circles);
+        var circles_group = venn.append("g")
+                                .attr("id", "circles-group")
+                                .attr("transform", transform("scale", scale,
+                                                             "translate", Math.abs(min_x), unit_height / 2));
+
+        var circles = circles_group.selectAll("circle")
+                                   .data(circle_data);
 
         circles.enter()
                .append("circle")
