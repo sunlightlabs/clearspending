@@ -15,8 +15,10 @@
 <div id="pageMain">
     <div class="ltColumn">
         <div class="module">
-            <h3>Federal Waste by Metric</h3>
-
+            <h3>Failed Spending by Metric</h3>
+            <p>
+            How much spending fails more than one metric? This graphic depicts the overlap between metrics for the misreported spending. Overall, most spending only fails one metric, not multiple metrics.  
+            </p>
             <!--[if lte IE 8]>
             <img src="{{ STATIC_URL }}images/metricvenn.png">
             <![endif]-->
@@ -42,12 +44,13 @@
         <div class="module">
             <h3>Federal Spending We Measured</h3>
             <p>USASpending.gov doesn't include all government spending, and of the spending it does include, we only have comparison data for the grants and direct payments data. Below is a breakdown of federal spending and what portion of it Clearspending addresses. </p>
+            <img src="{{STATIC_URL }}images/spendingpie.png" />
         </div>
     </div>
     <div class="rtColumn">
         <div class="module" id="scorecardPromo">
             <h4>See how Government Agencies Measure Up</h4>
-            <a class="textReplace" href="#">View our Scorecard</a>
+            <a class="textReplace" href="/clearspending/scorecard">View our Scorecard</a>
         </div>
         <div class="module">
             <h4>Download Previous Reports</h4>
