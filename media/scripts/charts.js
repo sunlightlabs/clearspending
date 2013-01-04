@@ -215,7 +215,7 @@ $(document).ready(function(){
     };
 
     var default_chart_year = function () {
-        var years = $("span.fiscal_year_chooser").map(function(){ return $(this).text(); });
+        var years = $(".fiscal_year_chooser").map(function(){ return $(this).text(); });
         var max_year = Math.max.apply(null, years);
         return max_year;
     };
@@ -343,7 +343,7 @@ $(document).ready(function(){
                 });
             }, 0);
 
-            $("span.fiscal_year_chooser").each(function(){
+            $(".fiscal_year_chooser").each(function(){
                 $(this).removeClass("selected");
                 var year = parseInt($(this).text());
                 if (year == fiscal_year) {
@@ -352,7 +352,7 @@ $(document).ready(function(){
             });
         };
 
-        $("span.fiscal_year_chooser").click(function(event){
+        $(".fiscal_year_chooser").click(function(event){
             show_consistency_flare(parseInt($(this).text()));
         });
         
@@ -506,7 +506,7 @@ $(document).ready(function(){
 
             }, 0);
 
-            $("span.fiscal_year_chooser").each(function(){
+            $(".fiscal_year_chooser").each(function(){
                 $(this).removeClass("selected");
                 var year = parseInt($(this).text());
                 if (year == fiscal_year) {
@@ -515,7 +515,7 @@ $(document).ready(function(){
             });
         };
 
-        $("span.fiscal_year_chooser").click(function(event){
+        $(".fiscal_year_chooser").click(function(event){
             show_timeliness_chart(parseInt($(this).text()));
         });
 
@@ -745,7 +745,7 @@ $(document).ready(function(){
                 });
             }, 0);
 
-            $("span.fiscal_year_chooser").each(function(){
+            $(".fiscal_year_chooser").each(function(){
                 $(this).removeClass("selected");
                 var year = parseInt($(this).text());
                 if (year == fiscal_year) {
@@ -754,7 +754,7 @@ $(document).ready(function(){
             });
         };
 
-        $("span.fiscal_year_chooser").click(function(event){
+        $(".fiscal_year_chooser").click(function(event){
             show_completeness_diagram(parseInt($(this).text()));
         });
 
@@ -826,7 +826,10 @@ $(document).ready(function(){
     };
 
     if ($("body.consistency").length > 0) {
-        consistency_treemap();
+        consistency_treemap({
+        	"width": 890,
+            "height": 380,
+        });
     };
     if ($("body.timeliness").length > 0) {
         timeliness_chart({
