@@ -11,12 +11,11 @@
         }
         #status-con {
             position: relative;
-            font-size: 12px;
-            margin: 0;
-            width: 840px;
-            height: 3em;
-            background: none #6C6764;
-            background: none rgb(206, 209, 210);
+            margin: 6px 0 20px 0;
+            border-top: 1px solid #E9E8E8;
+            background: #F3F7F3;
+            padding: 10px;
+			box-sizing: border-box;
         }
         #status {
             font-weight: bold;
@@ -27,28 +26,27 @@
             width: 50%;
             box-sizing: border-box;
             margin: 0;
-            padding: 0;
+            padding: 10px;
             visibility: hidden;
-            font-weight: bold;
-            border: 1px solid blue;
-            border-radius: 5px;
         }
         #cell-details-tmpl {
             display: none;
         }
+        #status-con dt{
+        	float: left;
+        	font-weight: bold;
+        }
         #legend {
-            position: relative;
             display: block;
-            vertical-align: top;
-            float: left;
             background: none rgb(255, 255, 255);
-            border-radius: 7px;
-            -moz-border-radius: 7px;
-            border-color: black;
-            border-width: 1px;
-            border-style: solid;
+            border: 2px dotted #E9E8E8;
             padding: 1em;
-            margin: 0 1em 1em 1em;
+
+        }
+        #pageMain #legend ul li{
+        	list-style-type: none;
+      		margin: 0;
+      		display: inline;
         }
         span.swatch {
             display: inline-block;
@@ -57,7 +55,7 @@
             overflow: hidden;
         }
         .pass {
-            background: none rgb(0, 200, 0);
+            border: 2px solid rgb(131,169,63);
         }
         .fail {
             background: none #000000;
@@ -68,12 +66,12 @@
         }
         svg rect.pass {
             cursor: pointer;
-            fill: rgb(0, 200, 0);
+            fill: rgb(131,169,63);
             stroke: #10622E;
         }
         svg rect.fail {
             cursor: pointer;
-            fill: rgb(240, 59, 32);
+            fill: rgb(235,71,36);
             stroke: #F03B20;
         }
         div#chart-buttons {
@@ -103,7 +101,11 @@
         }
 
         svg text.agency-name {
-            fill: black;
+            fill: #6C6764;
+        }
+        .agency-name  {
+        	font-family: "Helvetica Neue", Helvetica, sans-serif;
+        	color: #6C6764;
         }
 
         rect.column {
@@ -145,12 +147,13 @@
     </p>
 
     <div id="chart-con">
-        <span class="title">Completeness of Federal Direct Assistance Reporting By Required Column and Agency</span>
-        <div id="chart-buttons">
+        <h4 class="title">Completeness of Federal Direct Assistance Reporting By Required Column and Agency</h4>
+        <span class="tip">Move your cursor over the diagram for details on each federal spending program.</span>
+        <ul id="chart-buttons">
             {% for fy in FISCAL_YEARS %}
-            <span class="fiscal_year_chooser">{{ fy }}</span>
+            <li class="fiscal_year_chooser">{{ fy }}</li>
             {% endfor %}
-        </div>
+        </ul>
 
         <div class="clear"></div>
 
@@ -160,6 +163,12 @@
         <div class="clear"></div>
 
         <div id="status-con">
+            <div id="legend">
+				<ul>
+                	<li><span class="swatch fail" id="bad-swatch">&nbsp;</span> Failing columns</li>
+                	<li><span class="swatch pass" id="ok-swatch">&nbsp;</span> Passing columns</li>
+				</ul>
+			</div>
             <div id="selected-details">
             Selected
             </div>
@@ -167,25 +176,19 @@
             Hovered
             </div>
             <div id="cell-details-tmpl">
-                <div class="cell-details-row">
-                    <span class="cell-details-label">Agency:</span>
-                    <span class="cell-details-value">__agency__</span>
-                </div>
-                <div class="cell-details-row">
-                    <span class="cell-details-label">Field:</span>
-                    <span class="cell-details-value">__column__</span>
-                </div>
-                <div class="cell-details-row">
-                    <span class="cell-details-label">Dollars misreported:</span>
-                    <span class="cell-details-value">__val__ (__pct__%)</span>
-                </div>
+            	<dl>
+                    <dt>Agency: </dt>
+                    <dd>__agency__</dd>
+
+                    <dt>Field: </dt>
+                    <dd>__column__</dd>
+
+                    <dt>Dollars misreported: </dt>
+                    <dd>__val__ (__pct__%)</dd>
+                </dl>
             </div>
             <div class="clear"></div>
-            <div id="legend">
-                <span id="legend-title">Legend</span> <br>
-                <span class="swatch fail" id="bad-swatch">&nbsp;</span> Failing columns 
-                <span class="swatch pass" id="ok-swatch">&nbsp;</span> Passing columns
-            </div>
+
             <div class="clear"></div>
         </div>
     </div>
