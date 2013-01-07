@@ -16,6 +16,7 @@
             background: #F3F7F3;
             padding: 10px;
 			box-sizing: border-box;
+			min-height: 245px;
         }
         #status {
             font-weight: bold;
@@ -23,11 +24,17 @@
         }
         #hovered-details, #selected-details {
             float: left;
-            width: 50%;
+            width: 405px;
             box-sizing: border-box;
             margin: 0;
             padding: 10px;
             visibility: hidden;
+        }
+        #selected-details{
+        	margin-right: 5px;
+        }
+        #hovered-details{
+        	margin-left: 5px;
         }
         #cell-details-tmpl {
             display: none;
@@ -35,12 +42,14 @@
         #status-con dt{
         	float: left;
         	font-weight: bold;
+        	padding-right: 10px;
         }
         #legend {
             display: block;
             background: none rgb(255, 255, 255);
             border: 2px dotted #E9E8E8;
             padding: 1em;
+            margin-bottom: 10px;
 
         }
         #pageMain #legend ul li{
@@ -54,12 +63,19 @@
             height: 1em;
             overflow: hidden;
         }
+
         .pass {
             border: 2px solid rgb(131,169,63);
         }
+        span.swatch.pass{
+        	background: rgb(131,169,63);
+        }
         .fail {
-            background: none #000000;
+            border: 2px solid rgb(235,71,36);
             opacity: 0.5 * attr(data-fail-pct) + 0.5;
+        }
+        span.swatch.fail{
+        	background: none rgb(235,71,36);	
         }
         #chart > svg {
             height: 100%;
@@ -143,11 +159,11 @@
             </tbody>
         </table>
 </p>
-    <p>As you can see from the chart below, some fields (and agencies) are more problematic than others. In most cases, there are few problems with the obligated amount, obligation date, recipient name, or agency code. Many of the problems are centered around geographic information regarding the recipient, such as recipient county, city, and congressional district, as well as the place of performance field (generally where the money ends up, even if the grantee is in another location). Each column in the diagram represents a column in the data released by USASpending.gov. You can move your cursor over each cell for more details.
+    <p>As you can see from the chart below, some fields (and agencies) are more problematic than others. In most cases, there are few problems with the obligated amount, obligation date, recipient name, or agency code. Many of the problems are centered around geographic information regarding the recipient, such as recipient county, city, and congressional district, as well as the place of performance field (generally where the money ends up, even if the grantee is in another location). Each column in the diagram represents a field in the data released by USASpending.gov. You can move your cursor over each cell for more details.
     </p>
 
     <div id="chart-con">
-        <h4 class="title">Completeness of Federal Direct Assistance Reporting By Required Column and Agency</h4>
+        <h4 class="title">Completeness of Federal Direct Assistance Reporting By Required Field and Agency</h4>
         <span class="tip">Move your cursor over the diagram for details on each federal spending program.</span>
         <ul id="chart-buttons">
             {% for fy in FISCAL_YEARS %}
@@ -165,8 +181,8 @@
         <div id="status-con">
             <div id="legend">
 				<ul>
-                	<li><span class="swatch fail" id="bad-swatch">&nbsp;</span> Failing columns</li>
-                	<li><span class="swatch pass" id="ok-swatch">&nbsp;</span> Passing columns</li>
+                	<li><span class="swatch fail" id="bad-swatch">&nbsp;</span> Failing fields</li>
+                	<li><span class="swatch pass" id="ok-swatch">&nbsp;</span> Passing fields</li>
 				</ul>
 			</div>
             <div id="selected-details">
@@ -175,6 +191,7 @@
             <div id="hovered-details">
             Hovered
             </div>
+            <div class="clear"></div>
             <div id="cell-details-tmpl">
             	<dl>
                     <dt>Agency: </dt>
@@ -187,9 +204,6 @@
                     <dd>__val__ (__pct__%)</dd>
                 </dl>
             </div>
-            <div class="clear"></div>
-
-            <div class="clear"></div>
         </div>
     </div>
 </div>

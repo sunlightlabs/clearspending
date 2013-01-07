@@ -615,8 +615,7 @@ $(document).ready(function(){
         d3.selectAll("#status-con, #chart-con")
           .style("width", options["width"] + "px");
 
-        d3.selectAll("#chart-con")
-          .style("height", options["height"] + "px");
+
 
         var show_completeness_diagram = function (fiscal_year) {
             $(options["element"]).css("height", options["height"] + "px");
@@ -833,8 +832,7 @@ $(document).ready(function(){
     };
     if ($("body.timeliness").length > 0) {
         timeliness_chart({
-            "width": 580,
-            "height": 380,
+            "width": 890,
             "axisPadding": 15
         });
     };

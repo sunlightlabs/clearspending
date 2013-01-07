@@ -36,23 +36,16 @@
         }
         #chart-con {
             position: relative;
-            width: 580px;
             margin: auto auto;
         }
         #status-con {
-            display: inline-block;
             position: relative;
-            font-size: 12px;
-            padding: 12px;
-            width: 280px;
-            height: 100px;
-            top: -150px;
-            left: 30px;
-            border-width: 2px;
-            border-style: solid;
-            border-color: #b0b0b0;
-            background: none rgb(232, 230, 227);
-            border-radius: 6px;
+            margin: 6px 0 20px 0;
+            border-top: 1px solid #E9E8E8;
+            background: #F3F7F3;
+            padding: 10px;
+			box-sizing: border-box;
+			min-height: 80px;
         }
         #status, #program-description {
             font-weight: bold;
@@ -70,10 +63,10 @@
             letter-spacing: 0.1em;
         }
         #days-delta.pass {
-            color: rgb(0, 200, 0);
+            color: rgb(131,169,63);
         }
         #days-delta.fail {
-            color: rgb(240, 59, 32);
+            color: #EB4724;
         }
         #legend {
             position: relative;
@@ -96,16 +89,16 @@
             overflow: hidden;
         }
         .pass {
-            background: none rgb(0, 200, 0);
+            background: none rgb(131,169,63);
         }
         .fail {
-            background: none rgb(240, 59, 32);
+            background: none #EB4724;
         }
         svg .pass {
-            fill: rgb(0, 200, 0);
+            fill: rgb(131,169,63);
         }
         svg .fail {
-            fill: rgb(240, 59, 32);
+            fill: #EB4724;
         }
         div#chart-buttons {
             float: right;
@@ -119,7 +112,7 @@
         span.fiscal_year_chooser:hover {
         }
         span.fiscal_year_chooser.selected {
-            color: #68A31D;
+            color: #10622E;
             font-weight: bold;
         }
         span.title {
@@ -138,11 +131,11 @@
         }
         g#pos-axis text, g#neg-axis text {
             stroke: none;
-            fill: black;
+            fill: #6C6764;
         }
         svg text {
             stroke: none;
-            fill: black;
+            fill: #6C6764;
         }
 
         svg#timeliness-art {
@@ -153,62 +146,57 @@
 {% block bodyclass %}timeliness{% endblock bodyclass %}
 {% block content %}
 <div id="pageMain">
-	<div id="ltColumn">
-		<h3>Timeliness</h3>
-        <p>The Federal Funding Accountability and Transparency Act (FFATA) requires that all federal spending be reported within 30 days of its obligation. For the purposes of our analysis, we use a window of 45 days. Note that we do not have comparison data for every transaction when measuring timeliness, only those presented in the raw agency submissions on USASpending.gov. As such, the following numbers are based on that sample (for more information on the makeup of this sample, see our <a href="/clearspending/methodology/">methodology</a>). Below are two tables, one showing the percentage of spending and the other showing the percentage of transactions that fail the timeliness metric. </p>
+	<h3>Timeliness</h3>
+    <p>The Federal Funding Accountability and Transparency Act (FFATA) requires that all federal spending be reported within 30 days of its obligation. For the purposes of our analysis, we use a window of 45 days. Note that we do not have comparison data for every transaction when measuring timeliness, only those presented in the raw agency submissions on USASpending.gov. As such, the following numbers are based on that sample (for more information on the makeup of this sample, see our <a href="/clearspending/methodology/">methodology</a>). Below are two tables, one showing the percentage of spending and the other showing the percentage of transactions that fail the timeliness metric. </p>
 
-    <p>In our last report, we saw the number of obligations failing from timeliness drop precipitously. This year, it has dropped even further, with just 1.5% of all obligations failing from timeliness in FY 2011. The percentage of total obligations that we measured for the timeliness metric did fall four points between 2010 and 2011. It's likely that the drop in failures in this metric is a combination of more timely reporting and and smaller overall sample size of raw data to use for the metric. </p>
-    
-    <h5 class="table-header">Failed Dollars, Timeliness Metric Only, By Fiscal Year</h5>
-        <table class="results-table">
-            <thead>
-                <tr><th>Fiscal Year</th><th>Late Program Dollars</th><th>Total Dollars</th><th>% Late</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>2009</td><td>$562,972,451,827</td><td>$1,625,257,115,439</td><td>34.6%</td></tr>
-                <tr class="even"><td>2010</td><td>$210,307,221,618</td><td>$1,437,032,472,474</td><td>14.6%</td></tr>
-                <tr><td>2011</td><td>$24,441,862,500</td><td>$1,639,826,026,452</td><td>1.5%</td></tr>
-            </tbody>
-        </table>
+	<p>In our last report, we saw the number of obligations failing from timeliness drop precipitously. This year, it has dropped even further, with just 1.5% of all obligations failing from timeliness in FY 2011. The percentage of total obligations that we measured for the timeliness metric did fall four points between 2010 and 2011. It's likely that the drop in failures in this metric is a combination of more timely reporting and and smaller overall sample size of raw data to use for the metric. </p>
 
-        <p> To get an idea of which agencies are particularly tardy, you can view the chart below to see the average lag time in reporting for each agency. Curiously, the Appalachian regional commission went from being the earliest reporting agency in 2009, to the tardiest agency in 2010 and 2011. The best performing agencies were the Environmental Protection Agency, the Department of Housing and Urban Development, the Corporation for National and Community Service, and the National Endowment for the Arts, who had an average reporting time under the 30 day mark for all three fiscal years. Conversely, the Department of Homeland Security, the Department of Defense, and the Department of the State consistently exceed 30 days for their average reporting time for all three years. 
+	<h5 class="table-header">Failed Dollars, Timeliness Metric Only, By Fiscal Year</h5>
+    <table class="results-table">
+        <thead>
+            <tr><th>Fiscal Year</th><th>Late Program Dollars</th><th>Total Dollars</th><th>% Late</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>2009</td><td>$562,972,451,827</td><td>$1,625,257,115,439</td><td>34.6%</td></tr>
+            <tr class="even"><td>2010</td><td>$210,307,221,618</td><td>$1,437,032,472,474</td><td>14.6%</td></tr>
+            <tr><td>2011</td><td>$24,441,862,500</td><td>$1,639,826,026,452</td><td>1.5%</td></tr>
+        </tbody>
+    </table>
+
+    <p> To get an idea of which agencies are particularly tardy, you can view the chart below to see the average lag time in reporting for each agency. Curiously, the Appalachian regional commission went from being the earliest reporting agency in 2009, to the tardiest agency in 2010 and 2011. The best performing agencies were the Environmental Protection Agency, the Department of Housing and Urban Development, the Corporation for National and Community Service, and the National Endowment for the Arts, who had an average reporting time under the 30 day mark for all three fiscal years. Conversely, the Department of Homeland Security, the Department of Defense, and the Department of the State consistently exceed 30 days for their average reporting time for all three years. 
 
 
-        <div id="chart-con">
-            <span class="title">Average Reporting Lag By Agency, in Days</span>
-            <div id="chart-buttons">
-                {% for fy in FISCAL_YEARS %}
-                <span class="fiscal_year_chooser">{{ fy }}</span>
-                {% endfor %}
-            </div>
+    <div id="chart-con">
+        <h4 class="title">Average Reporting Lag By Agency, in Days</h4>
+        <ul id="chart-buttons">
+            {% for fy in FISCAL_YEARS %}
+            <li class="fiscal_year_chooser">{{ fy }}</li>
+            {% endfor %}
+        </ul>
 
-            <div class="clear"></div>
-
-            <div id="chart">
-            </div>
-
-            <div class="clear"></div>
-            <div id="status-con">
-                <div id="status">
-                    Move your cursor over each column for details on each federal agency.
-                </div>
-                <div id="days-delta"></div>
-                <div id="program-description">
-                </div>
-            </div>
-        </div>
         <div class="clear"></div>
 
-        <!--<div id="legend">
-            <span id="legend-title">Legend</span> <br>
-            <span class="swatch fail" id="bad-swatch">&nbsp;</span> Failing programs 
-            <span class="swatch pass" id="ok-swatch">&nbsp;</span> Passing programs 
-        </div>-->
-    </div>
+        <div id="chart">
+        </div>
 
-
-    <div id="rtColumn">
+        <div class="clear"></div>
+        <div id="status-con">
+            <div id="status">
+                Move your cursor over each column for details on each federal agency.
+            </div>
+            <div id="days-delta"></div>
+            <div id="program-description">
+            </div>
+        </div>
     </div>
+    <div class="clear"></div>
+
+    <!--<div id="legend">
+        <span id="legend-title">Legend</span> <br>
+        <span class="swatch fail" id="bad-swatch">&nbsp;</span> Failing programs 
+        <span class="swatch pass" id="ok-swatch">&nbsp;</span> Passing programs 
+    </div>-->
+
 
 </div>
 {% endblock %}
