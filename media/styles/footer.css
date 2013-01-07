@@ -13,6 +13,7 @@
 .withBorder { border: 1px solid #F0EDED; }
 
 .sf-footer .tip { margin-bottom: 20px; display: block;  }
+.sf-footer a{ font-weight: normal;}
 
 .terms { margin-top: 30px; }
 
@@ -22,26 +23,95 @@
     font-style: oblique;
     line-height: 18px;
 }
+.signup .tip{ font-size: 13px;}
+.span6 { width: 460px; float: left; padding-left: 20px;  }
 
+#sfapp-subscribe-form label { font-family: Georgia, "Times New Roman", Times, serif; font-size: 110%; }
 #sfapp-subscribe-form li { float: left; margin-right: 10px; }
 #sfapp-subscribe-form input[name=email] { width: 140px; }
 #sfapp-subscribe-form input[name=zipcode] { width: 95px; }
-#sfapp-subscribe-form input { border: 2px solid #E7E4DC; height: 18px; padding: 4px;margin-bottom: 9px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;}
+#sfapp-subscribe-form input, #sfapp-subscribe-form textarea {
+	font-family: Georgia, "Times New Roman", Times, serif; font-size: 110%;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-webkit-transition: border linear .2s,box-shadow linear .2s;
+	-moz-transition: border linear .2s,box-shadow linear .2s;
+	-ms-transition: border linear .2s,box-shadow linear .2s;
+	-o-transition: border linear .2s,box-shadow linear .2s;
+	transition: border linear .2s,box-shadow linear .2s;
+}
+#sfapp-subscribe-form input, #sfapp-subscribe-form textarea, #sfapp-subscribe-form select, #sfapp-subscribe-form .uneditable-input {
+	display: inline-block;
+	width: 210px;
+	height: 18px;
+	padding: 4px;
+	margin-bottom: 9px;
+	font-size: 13px;
+	line-height: 18px;
+	color: #555;
+	background-color: white;
+	border: 2px solid #E7E4DC;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+button.btn-sunlight {
+	height: inherit;
+	border: 3px solid #E9E8E3;
+	font-family: "Georgia", "Times New Roman", "Times", serif;
+	font-style: normal;
+	font-weight: normal;
+	padding: 4px 15px 4px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	-ms-border-radius: 6px;
+	-o-border-radius: 6px;
+	border-radius: 6px;
+	border: 3px solid rgba(0, 0, 0, 0.0976563);
+	border-bottom: 3px solid rgba(0, 0, 0, 0.246094);
+	text-indent: 0;
+	display: inline-block;
+	padding: 4px 15px 4px;
+	margin-bottom: 0;
+	font-size: 13px;
+	line-height: 18px;
+	color: #FDFCFB;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(186, 83, 0, 0.75);
+	vertical-align: middle;
+	cursor: pointer;
+	background-color: #CE6100;
+	background-image: -moz-linear-gradient(top, #CE6100, #BA5300);
+	background-image: -ms-linear-gradient(top, #CE6100, #BA5300);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#CE6100), to(#BA5300));
+	background-image: -webkit-linear-gradient(top, #CE6100, #BA5300);
+	background-image: -o-linear-gradient(top, #CE6100, #BA5300);
+	background-image: linear-gradient(top, #CE6100, #BA5300);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ce6100', endColorstr='#ba5300', GradientType=0);
+	filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+	-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
+	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
+}
 
-.span6 { width: 460px; float: left; padding-left: 20px;  }
-
-.btn, .btn:link, .btn:active, .btn:visited {
-    color: #333;
-    border: 3px solid #e9e8e3;
-    font-family: "Georgia", "Times New Roman", "Times", serif;
-    font-style: normal;
-    font-weight: normal;
-    padding: 4px 15px 4px;
-    -webkit-border-radius: 6px;
-       -moz-border-radius: 6px;
-        -ms-border-radius: 6px;
-         -o-border-radius: 6px;
-            border-radius: 6px;
-    text-indent: 0;
-    color: #fff;
+button.btn-sunlight:hover {
+	color: #333;
+	text-decoration: none;
+	background-color: #E6E6E6;
+	background-position: 0 -15px;
+	-webkit-transition: background-position .1s linear;
+	-moz-transition: background-position .1s linear;
+	-ms-transition: background-position .1s linear;
+	-o-transition: background-position .1s linear;
+	transition: background-position .1s linear;
+}
+button.btn-sunlight:hover, button.btn-sunlight:active, button.btn-sunlight.active, button.btn-sunlight.disabled, button.btn-sunlight[disabled] {
+	color: #FDFCFB;
+	background-color: #BA5300;
+}
+button.btn-sunlight:active, button.btn-sunlight.active {
+	background-color: #BA5300;
+	background-color: #BA5300 9;
 }
