@@ -104,6 +104,28 @@ var short_agency_names = {
     '98': 'USAID'
 };
 
+var sequence = function (start, stop, step) {
+    var vals = [];
+    if (step == 0)
+        throw 'sequence: step must not be 0';
+    if ((start < stop) && (step < 0))
+        throw 'sequence: step must be positive when start < stop';
+    if ((start > stop) && (step > 0))
+        throw 'sequence: step must be negative when start > stop';
+    var cmp = (start < stop)
+              ? function(a,b){ return a <= b; }
+              : function(a,b){ return a >= b; };
+    for (var ix = start; cmp(ix, stop); ix = ix + step) {
+        vals.push(ix);
+    }
+    return vals;
+};
+
+var next_multiple = function (m, x) {
+    var f = x / m;
+    return Math.ceil(f) * m;
+};
+
 var zip_arrays = function () {
     var args = [].slice.call(arguments);
     var longest = args.reduce(function(a,b){
@@ -402,18 +424,39 @@ $(document).ready(function(){
                                   .style("width", options["width"] + "px")
                                   .style("height", options["height"] + "px");
 
-                    var x = d3.scale
+                    x = d3.scale
                               .ordinal()
                               .rangeRoundBands([options["axisPadding"], options["width"] - options["axisPadding"]], 0.1)
                               .domain(records.map(function(d){ return d.title; }));
 
-                    var y_min = d3.min(records.map(function(d){ return d.delta_rows; }));
-                    var y_max = d3.max(records.map(function(d){ return d.delta_rows; }));
-                    var y = d3.scale
+                    y_min = d3.min(records.map(function(d){ return d.delta_rows; }));
+                    y_max = d3.max(records.map(function(d){ return d.delta_rows; }));
+                    y = d3.scale
                               .linear()
                               .range([options["axisPadding"], options["height"] - options["axisPadding"]])
                               .domain([json.earliest - 30, json.latest - 30]);
-                    var on_time_xcoord = y(0);
+                    tick_scale = d3.scale.linear()
+                                         .range([0, options["height"]])
+                                         .domain([json.earliest - 30 - y.invert(options["axisPadding"]),
+                                                  json.latest - 30 + y.invert(options["axisPadding"])]);
+
+                    var on_time_ycoord = y(0);
+                    
+                    var tick_marks = sequence(-90, Math.min(y_min, -90), -90).reverse().concat(sequence(90, next_multiple(90, y_max), 90));
+                    chart.append("g")
+                         .attr("class", "neg-ticks")
+                         .selectAll("line.neg-tick")
+                         .data(tick_marks)
+                         .enter()
+                         .append("line")
+                         .each(function(d){console.log(d, this);})
+                         .attr("class", "pos-tick")
+                         .attr("x1", 0)
+                         .attr("x2", options["width"])
+                         .attr("y1", y)
+                         .attr("y2", y)
+                         .attr("style", "stroke: #d8d6d6;")
+                         .attr("stroke-dasharray", "5, 5");
 
                     var bars = chart.selectAll("g.bar")
                                     .data(records)
@@ -447,29 +490,19 @@ $(document).ready(function(){
                         .attr("x", 0)
                         .attr("y", function(d){
                             if (d.delta_rows > 0) {
-                                return on_time_xcoord - 1;
+                                return on_time_ycoord - 1;
                             } else {
                                 return y(d.delta_rows) - 1;
                             }
                         })
                         .attr("height", function(d){
                             if (d.delta_rows > 0) {
-                                return y(d.delta_rows) - on_time_xcoord + 2;
+                                return y(d.delta_rows) - on_time_ycoord + 2;
                             } else {
-                                return on_time_xcoord - y(d.delta_rows) + 2;
+                                return on_time_ycoord - y(d.delta_rows) + 2;
                             }
                         })
                         .attr("width", x.rangeBand());
-
-                    var neg_axis = d3.svg.axis()
-                                         .scale(y)
-                                         .orient("left")
-                                         .tickValues([Math.min.apply(null, y.domain())]);
-
-                    var pos_axis = d3.svg.axis()
-                                         .scale(y)
-                                         .orient("right")
-                                         .tickValues([y_max]);
 
                     var early_block = chart.append("g")
                          .attr("id", "early-annotation")
@@ -502,6 +535,20 @@ $(document).ready(function(){
                               .attr("x2", 50)
                               .attr("y1", 0)
                               .attr("y2", 0);
+
+                    chart.append("g")
+                         .attr("class", "y-threshold")
+                         .selectAll("line.y-threshold")
+                         .data(tick_marks)
+                         .enter()
+                         .append("line")
+                         .each(function(d){console.log(d, this);})
+                         .attr("class", "y-threshold")
+                         .attr("x1", 0)
+                         .attr("x2", options["width"])
+                         .attr("y1", on_time_ycoord)
+                         .attr("y2", on_time_ycoord)
+                         .attr("style", "stroke: #c4c0c0;");
                 });
 
             }, 0);
@@ -833,7 +880,7 @@ $(document).ready(function(){
     if ($("body.timeliness").length > 0) {
         timeliness_chart({
             "width": 890,
-            "axisPadding": 15
+            "axisPadding": 40
         });
     };
     if ($("body.completeness").length > 0) {
