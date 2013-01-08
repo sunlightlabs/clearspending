@@ -386,7 +386,8 @@ $(document).ready(function(){
         var default_to = function (opt, val) { options[opt] = options[opt] || val; };
         default_to("width", 580);
         default_to("height", 380);
-        default_to("axisPadding", 30);
+        default_to("hAxisPadding", 30);
+        default_to("vAxisPadding", 30);
         default_to("element", "#chart");
 
 
@@ -424,25 +425,27 @@ $(document).ready(function(){
                                   .style("width", options["width"] + "px")
                                   .style("height", options["height"] + "px");
 
-                    x = d3.scale
+                    var x = d3.scale
                               .ordinal()
-                              .rangeRoundBands([options["axisPadding"], options["width"] - options["axisPadding"]], 0.1)
+                              .rangeRoundBands([options["hAxisPadding"], options["width"] - options["hAxisPadding"]], 0.1)
                               .domain(records.map(function(d){ return d.title; }));
 
-                    y_min = d3.min(records.map(function(d){ return d.delta_rows; }));
-                    y_max = d3.max(records.map(function(d){ return d.delta_rows; }));
-                    y = d3.scale
+                    var y_min = d3.min(records.map(function(d){ return d.delta_rows; }));
+                    var y_max = d3.max(records.map(function(d){ return d.delta_rows; }));
+                    var y = d3.scale
                               .linear()
-                              .range([options["axisPadding"], options["height"] - options["axisPadding"]])
+                              .range([options["vAxisPadding"], options["height"] - options["vAxisPadding"]])
                               .domain([json.earliest - 30, json.latest - 30]);
-                    tick_scale = d3.scale.linear()
-                                         .range([0, options["height"]])
-                                         .domain([json.earliest - 30 - y.invert(options["axisPadding"]),
-                                                  json.latest - 30 + y.invert(options["axisPadding"])]);
+                    var y_rounded = function (_) { return Math.round(y(_)); };
+                    var tick_scale = d3.scale.linear()
+                                             .range([0, options["height"]])
+                                             .domain([json.earliest - 30 - y.invert(options["vAxisPadding"]),
+                                                      json.latest - 30 + y.invert(options["vAxisPadding"])]);
 
                     var on_time_ycoord = y(0);
                     
-                    var tick_marks = sequence(-90, Math.min(y_min, -90), -90).reverse().concat(sequence(90, next_multiple(90, y_max), 90));
+                    // This draws a horizontal dotted line to provide a sense of scale
+                    var tick_marks = sequence(-90, Math.min(y_min, -90), -90).reverse().concat(sequence(90, next_multiple(90, y.domain()[1]), 90));
                     chart.append("g")
                          .attr("class", "neg-ticks")
                          .selectAll("line.neg-tick")
@@ -453,11 +456,12 @@ $(document).ready(function(){
                          .attr("class", "pos-tick")
                          .attr("x1", 0)
                          .attr("x2", options["width"])
-                         .attr("y1", y)
-                         .attr("y2", y)
+                         .attr("y1", y_rounded)
+                         .attr("y2", y_rounded)
                          .attr("style", "stroke: #d8d6d6;")
                          .attr("stroke-dasharray", "5, 5");
 
+                    // Draw ther vertical bars representing each agency's timeliness
                     var bars = chart.selectAll("g.bar")
                                     .data(records)
                                     .enter()
@@ -504,6 +508,7 @@ $(document).ready(function(){
                         })
                         .attr("width", x.rangeBand());
 
+                    // Draw the annotation for the earliest agency
                     var early_block = chart.append("g")
                          .attr("id", "early-annotation")
                          .attr("transform", "translate(X, Y)".replace("X", x.range()[0]).replace("Y", Math.round(y(y_min)) - 2));
@@ -518,6 +523,7 @@ $(document).ready(function(){
                                .attr("y1", 0)
                                .attr("y2", 0);
 
+                    // Draw the annotation for the latest agency
                     var late_block = chart.append("g")
                                           .attr("id", "late-annotation")
                                           .attr("transform", "translate(X, Y)".replace("X", x.range().slice(-1)[0] + x.rangeBand() - 50).replace("Y", Math.round(y(y_max)) + 2));
@@ -536,6 +542,7 @@ $(document).ready(function(){
                               .attr("y1", 0)
                               .attr("y2", 0);
 
+                    // Draw a hostizontal line representing the crossover point
                     chart.append("g")
                          .attr("class", "y-threshold")
                          .selectAll("line.y-threshold")
@@ -880,7 +887,8 @@ $(document).ready(function(){
     if ($("body.timeliness").length > 0) {
         timeliness_chart({
             "width": 890,
-            "axisPadding": 40
+            "hAxisPadding": 1,
+            "vAxisPadding": 31
         });
     };
     if ($("body.completeness").length > 0) {
