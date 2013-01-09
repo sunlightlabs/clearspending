@@ -43,5 +43,5 @@ urlpatterns = patterns('',
 
 if settings.SUB_SITE:
     urlpatterns = patterns('',
-        url(r'^clearspending/', include(urlpatterns))
+        url(r'^{0}/'.format(settings.SUB_SITE), include(urlpatterns))
     )
