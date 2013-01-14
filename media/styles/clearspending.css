@@ -114,7 +114,7 @@ body.program-detail #filters { float: left; width: 100%; max-width: 600px; margi
 
 #pageMain input.radio { position: static; margin-right: 5px;}
 
-#radios, #program-search { margin-left: 25px; padding-left: 25px; border-left: 1px solid #D6D2C4; float: left; }
+#radios, #program-search { margin-left: 25px; padding-left: 15px; border-left: 1px solid #D6D2C4; float: left; }
 #contentWrapper #program-search input.submit { background: url("http://assets.sunlightfoundation.com/site/3.1/images/magnifier.png") left top no-repeat; border: none; height: 16px; width: 16px; cursor: pointer; display: block; margin-top: 7px; margin-left: 10px;}
 #contentWrapper #program-search input { border: 1px solid #c8c4b7; float: left;}
 #program-search label { margin-right: 10px; float: left; margin-top: 7px;}
