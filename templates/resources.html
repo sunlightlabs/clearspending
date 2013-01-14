@@ -15,14 +15,8 @@
 			<li>The <a href="http://www.cfda.gov">Catalog of Federal Domestic Assistance</a> is the source of the program obligations we use to measure USASpending.gov's consistency, though we make a few <a href="{% url corrections %}">manual corrections to the data.</a></li>
             <li><a href="https://www.fpds.gov/fpdsng_cms/">Federal Procurement Data System - Next Generation</a></li>
         </ul>
-        <h4>Downloadable Data:</h4>
-        <ul class="resources">
-            <li><a href="{{ STATIC_URL }}/docs/agency_grants.csv">Consistency metrics by agency by fiscal year (grants)</a></li>
-            <li><a href="{{ STATIC_URL }}/docs/agency_loans.csv">Consistency metrics by agency by fiscal year (loans)</a></li>
-            <li><a href="{{ STATIC_URL }}/docs/program_grants.csv">Consistency metrics by program by fiscal year (grants)</a></li>
-			<li><a href="{{ STATIC_URL }}/docs/program_loans.csv">Consistency metrics by program by fiscal year (loans)</a></li>
-        </ul>
-        <h4>Total Broken Reporting by Fiscal Year</h4>
+
+        <h4>Downloadable Data</h4><h5>Total Broken Reporting by Fiscal Year</h5>
         <p>Want to know how we arrived at our $1.3 trillion figure for broken reporting? It's determined on a program level. If any program misreports more than 50% of the total program value (according to the CFDA) or is nonreporting, we consider that program's reporting unreliable and classify it as "broken." This includes direct payments and grant programs, but not loan programs. Here is the data used to calculate the total in broken reporting for each fiscal year, including the failing metric.</p>
 
         <ul>

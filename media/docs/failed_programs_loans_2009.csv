@@ -1,16 +1,13 @@
 CFDA number,CFDA Program Title,Failed Metric,CFDA Program Obligation,USASpending Obligation
-10.417,Very Low-Income Housing Repair Loans and Grants,completeness,30008242.00
-10.444,Direct Housing_Natural Disaster Loans and Grants,completeness,0.00
-10.766,Community Facilities Loans and Grants,completeness,575695282.00
-10.780,Community Facilities Loans and Grants,timeliness,204369381.00
-10.781,Water and Waste Disposal Systems for Rural Communities - ARRA,timeliness,884193114.00
 10.855,Distance Learning and Telemedicine Loans and Grants,timeliness,16256779.00
-10.051,Commodity Loans and Loan Deficiency Payments,completeness,8290909000.00
+10.444,Direct Housing_Natural Disaster Loans and Grants,completeness,0.00
+10.781,Water and Waste Disposal Systems for Rural Communities - ARRA,timeliness,884193114.00
+10.780,Community Facilities Loans and Grants,timeliness,204369381.00
+10.766,Community Facilities Loans and Grants,completeness,575695282.00
+10.417,Very Low-Income Housing Repair Loans and Grants,completeness,30008242.00
+10.051,Commodity Loans and Loan Deficiency Payments,completeness,8436406000.00
+10.868,Rural Energy for America Program,timeliness,303014.00
 93.264,Nurse Faculty Loan Program (NFLP),timeliness,10679570.00
 93.936,National Institutes of Health Acquired Immunodeficiency Syndrome Research Loan Repayment Program,completeness,720000.00
-93.770,Medicare_Prescription Drug Coverage,completeness,54869000000.00
-93.773,Medicare_Hospital Insurance,completeness,241866000000.00
-93.774,Medicare_Supplementary Medical Insurance,completeness,200277000000.00
-97.022,Flood Insurance,completeness,142000000.00
 15.124,Indian Loans_Economic Development,completeness,84172203.00
 31.007,Export - Loan Guarantee/Insured Loans,timeliness,17500000000.00

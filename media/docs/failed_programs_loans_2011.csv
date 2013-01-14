@@ -1,44 +1,5 @@
 CFDA number,CFDA Program Title,Failed Metric,CFDA Program Obligation,USASpending Obligation
-10.405,Farm Labor Housing Loans and Grants,consistency,37000000.00,4153139.00
-10.415,Rural Rental Housing Loans,consistency,63000000.00,3257844.00
-10.417,Very Low-Income Housing Repair Loans and Grants,consistency,34004226.00,6591718.00
-10.760,Water and Waste Disposal Systems for Rural Communities,consistency,1097161804.00,105194992.00
-10.766,Community Facilities Loans and Grants,consistency,490000000.00,48314201.00
-10.404,Emergency Loans,consistency,86402000.00,2577380.00
-10.406,Farm Operating Loans,consistency,2400000000.00,531015562.00
-10.407,Farm Ownership Loans,consistency,21382711000.00,580820937.00
-10.410,Very Low to Moderate Income Housing Loans,consistency,25200000000.00,4318549959.00
-10.411,Rural Housing Site Loans and Self_Help Housing Land Development Loans,consistency,10017063.00,
-10.449,Boll Weevil Eradication Loan Program,consistency,60000000.00,
-10.767,Intermediary Relending Program,consistency,37000000.00,
-10.850,Rural Electrification Loans and Loan Guarantees,consistency,4100000000.00,430551000.00
-10.851,Rural Telephone Loans and Loan Guarantees,consistency,690000000.00,9932000.00
-10.886,Rural Broadband Access Loans and Loan Guarantees,consistency,400000000.00,
-10.099,Conservation Loans ,consistency,150000000.00,4633070.00
-10.437,Interest Assistance Program,consistency,144000000.00,
-10.438,Section 538 Rural Rental Housing Guaranteed Loans,consistency,129000000.00,
-10.768,Business and Industry Loans,consistency,942000000.00,315698623.00
-84.268,Federal Direct Student Loans,consistency,133959000000.00,1637673051534.00
-84.409,Civil Legal Assistance Attorney Student Loan Repayment Program,consistency,2500000.00,
-81.126,Federal Loan Guarantees for Innovative Energy Technologies,consistency,5660000000.00,
-93.264,Nurse Faculty Loan Program (NFLP),consistency,23480276.00,
-93.342,"Health Professions Student Loans, Including Primary Care Loans/Loans for Disadvantaged Students",consistency,22000000.00,
-93.364,Nursing Student Loans,consistency,1073242.00,
-14.323,Emergency Homeowners Loan Program ,consistency,1000000000.00,
-14.110,Manufactured Home Loan Insurance_Financing Purchase of Manufactured Homes as Principal Residences of Borrowers,consistency,126000000.00,
-14.117,Mortgage Insurance_Homes,consistency,222867868000.00,
-14.128,Mortgage Insurance_Hospitals,consistency,4040000000.00,
-14.129,"Mortgage Insurance_Nursing Homes, Intermediate Care Facilities, Board and Care Homes and Assisted Living Facilities",consistency,3030000000.00,
-14.135,"Mortgage Insurance_Rental and Cooperative Housing for Moderate Income Families and Elderly, Market Interest Rate",consistency,64000000.00,
-14.142,Property Improvement Loan Insurance for Improving All Existing Structures and Building of New Nonresidential Structures,consistency,63000000.00,
-14.151,Supplemental Loan Insurance_Multifamily Rental Housing,consistency,25000000.00,
-14.155,Mortgage Insurance for the Purchase or Refinancing of Existing Multifamily Housing Projects,consistency,34000000.00,
-14.167,"Mortgage Insurance_Two Year Operating Loss Loans, Section 223(d)",consistency,2000000.00,
-14.183,Home Equity Conversion Mortgages,consistency,15970860590.00,
-14.188,Housing Finance Agencies (HFA) Risk Sharing,consistency,370000000.00,
-14.189,Qualified Participating Entities (QPE) Risk Sharing,consistency,35000000.00,
-14.248,Community Development Block Grants_Section 108 Loan Guarantees,consistency,500000000.00,
-14.865,Public and Indian Housing_Indian Loan Guarantee Program,consistency,994000000.00,
-14.869,Title VI Federal Guarantees for Financing Tribal Housing Activities,consistency,20000000.00,
-14.874,Loan Guarantees for Native Hawaiian Housing ,consistency,41504000.00,
-20.316,Railroad Rehabilitation and Improvement Financing Program,consistency,600000000.00,
+10.417,Very Low-Income Housing Repair Loans and Grants,completeness,21851027.00
+10.051,Commodity Loans and Loan Deficiency Payments,completeness,7133109000.00
+93.264,Nurse Faculty Loan Program (NFLP),completeness,24848000.00
+14.323,Emergency Homeowners Loan Program ,completeness,210000000.00
