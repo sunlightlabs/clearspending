@@ -141,7 +141,7 @@ def search_query(request):
     unit = request.POST.get('unit')
     unit = unit if unit in ('pct', 'dollars') else 'pct'
     q = request.POST.get('search-text', '')
-    return redirect('search-request', unit=unit, fiscal_year=fiscal_year, search_string=q)
+    return redirect('search-request', unit=unit, fiscal_year=str(fiscal_year), search_string=q)
 
 def search_results(request, search_string, unit='pct', fiscal_year=None):
     if fiscal_year is None:
