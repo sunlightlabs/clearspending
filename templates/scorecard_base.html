@@ -64,16 +64,17 @@
     </div>
 </div>
 
-    <script type="text/javascript">
-    /*
-        $(document).ready(function () {
-            $("#program-search").submit(function() {
-                var search_text = $(this).find('input[name="search-text"]').val()
-                if (search_text) {
-				    document.location = '{{ SUB_SITE }}/search/' + search_text + '/{{unit}}/{{fiscal_year}}/';
-                }
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("form#program-search").submit(function(event){
+            var search_text = $("#search-text").val();
+            if (search_text.toString() === '') {
+                console.log('Prevented blank search.');
+                event.preventDefault();
+                event.stopPropagation();
                 return false;
-            });
-        }); */
-    </script>
+            }
+        });
+    });
+</script>
 {% endblock %}
