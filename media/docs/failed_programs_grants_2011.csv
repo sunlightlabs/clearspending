@@ -34,13 +34,12 @@ CFDA number,CFDA Program Title,Failed Metric,CFDA Program Obligation,USASpending
 10.206,Grants for Agricultural Research_Competitive Research Grants,consistency,0.00,-814520.00
 10.443,Outreach and Assistance for Socially Disadvantaged Farmers and Ranchers,consistency,19000000.00,-12428.00
 10.441,Technical and Supervisory Assistance Grants,timeliness,0.00
-10.447,The Rural Development (RD) Multi-Family Housing  Revitalization Demonstration Program  (MPR),consistency,81355314.00,
+10.447,The Rural Development (RD) Multi-Family Housing  Revitalization Demonstration Program  (MPR),consistency,81355314.00,8543243.00
 10.308,Resident Instruction Grants for Insular Area Activities,consistency,861232.00,1575491.00
 10.310,Agriculture and Food Research Initiative (AFRI) ,consistency,244109220.00,380553451.00
 10.787,Broadband Initiatives Program,consistency,0.00,-123601302.00
 10.780,Community Facilities Loans and Grants,consistency,0.00,-1519204.00
-10.766,Community Facilities Loans and Grants,consistency,16224882.00,
-10.760,Water and Waste Disposal Systems for Rural Communities,consistency,440950610.00,
+10.766,Community Facilities Loans and Grants,consistency,16224882.00,31083883.00
 10.567,Food Distribution Program on Indian Reservations,consistency,0.00,37279426.00
 10.961,Scientific Cooperation and Research,consistency,196095.00,
 10.777,Norman E. Borlaug International Agricultural Science and Technology Fellowship,consistency,1033276.00,
@@ -58,7 +57,7 @@ CFDA number,CFDA Program Title,Failed Metric,CFDA Program Obligation,USASpending
 10.435,State Mediation Grants,consistency,3634000.00,412021.00
 10.923,Emergency Watershed Protection Program,consistency,53774042.00,19109264.00
 10.771,Rural Cooperative Development Grants,consistency,79000000.00,10453040.00
-10.417,Very Low-Income Housing Repair Loans and Grants,consistency,31244176.00,
+10.417,Very Low-Income Housing Repair Loans and Grants,completeness,31244176.00
 10.250,"Agricultural and Rural Economic Research, Cooperative Agreements and Collaborations",consistency,5182000.00,2324295.00
 10.652,Forestry Research,consistency,11451874.00,19221485.00
 10.479,Food Safety Cooperative Agreements,consistency,4150463.00,

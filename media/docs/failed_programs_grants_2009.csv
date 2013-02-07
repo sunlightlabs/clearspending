@@ -32,23 +32,22 @@ CFDA number,CFDA Program Title,Failed Metric,CFDA Program Obligation,USASpending
 10.690,Lake Tahoe Erosion Control Grant Program,timeliness,10000000.00
 10.219,Biotechnology Risk Assessment Research,consistency,2391511.00,3714643.00
 10.216,1890 Institution Capacity Building Grants,consistency,0.00,338644.00
-10.855,Distance Learning and Telemedicine Loans and Grants,consistency,36287654.00,
+10.855,Distance Learning and Telemedicine Loans and Grants,timeliness,36287654.00
 10.858,Denali Commission Grants and Loans ,timeliness,8500000.00
 10.685,Community Wood Energy Program,consistency,5000000.00,
 10.686,Forest Biomass for Energy,consistency,15000000.00,
 10.206,Grants for Agricultural Research_Competitive Research Grants,consistency,0.00,97954277.00
-10.447,The Rural Development (RD) Multi-Family Housing  Revitalization Demonstration Program  (MPR),consistency,101165955.00,
+10.447,The Rural Development (RD) Multi-Family Housing  Revitalization Demonstration Program  (MPR),consistency,101165955.00,211323.00
 10.446,Rural Community Development Initiative,consistency,4241055.00,
-10.444,Direct Housing_Natural Disaster Loans and Grants,completeness,0.00
+10.444,Direct Housing_Natural Disaster Loans and Grants,consistency,0.00,3937231.00
 10.309,Specialty Crop Research Initiative,consistency,46653354.00,95187598.00
-10.781,Water and Waste Disposal Systems for Rural Communities - ARRA,consistency,554556697.00,
+10.781,Water and Waste Disposal Systems for Rural Communities - ARRA,timeliness,554556697.00
 10.220,Higher Education Multicultural Scholars Program,consistency,0.00,1456000.00
 10.312,Biomass Research and Development Initiative Competitive Grants Program (BRDI),consistency,19136786.00,50089775.00
 10.310,Agriculture and Food Research Initiative (AFRI) ,consistency,143804230.00,49808783.00
-10.780,Community Facilities Loans and Grants,consistency,31117651.00,
+10.780,Community Facilities Loans and Grants,timeliness,31117651.00
 10.783,Rural Business Enterprise Grants - ARRA,consistency,38227000.00,15314425.00
-10.766,Community Facilities Loans and Grants,consistency,59065754.00,
-10.760,Water and Waste Disposal Systems for Rural Communities,consistency,236199229.00,
+10.766,Community Facilities Loans and Grants,completeness,59065754.00
 10.769,Rural Business Enterprise Grants,completeness,40200000.00
 10.961,Scientific Cooperation and Research,consistency,300000.00,
 10.156,Federal-State Marketing Improvement Program,timeliness,1672000.00
@@ -64,7 +63,7 @@ CFDA number,CFDA Program Title,Failed Metric,CFDA Program Obligation,USASpending
 10.435,State Mediation Grants,timeliness,4369000.00
 10.433,Rural Housing Preservation Grants,completeness,10088166.00
 10.420,Rural Self-Help Housing Technical Assistance,completeness,26800000.00
-10.417,Very Low-Income Housing Repair Loans and Grants,consistency,31205527.00,
+10.417,Very Low-Income Housing Repair Loans and Grants,consistency,31205527.00,12022116.00
 10.250,"Agricultural and Rural Economic Research, Cooperative Agreements and Collaborations",consistency,1866197.00,2825549.00
 10.479,Food Safety Cooperative Agreements,consistency,9302882.00,
 10.089,Livestock Forage Disaster Program,consistency,0.00,33589.00
