@@ -3,7 +3,7 @@ import simplejson
 from operator import attrgetter
 from cfda.models import Program, ProgramObligation, Agency
 from metrics.models import *
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Count, Sum, Min, Max
 from django.db.models.query import QuerySet
@@ -141,7 +141,10 @@ def search_query(request):
     unit = request.POST.get('unit')
     unit = unit if unit in ('pct', 'dollars') else 'pct'
     q = request.POST.get('search-text', '')
-    return redirect('search-request', unit=unit, fiscal_year=str(fiscal_year), search_string=q)
+    if q == '':
+        raise Http404
+    else:
+        return redirect('search-request', unit=unit, fiscal_year=str(fiscal_year), search_string=q)
 
 
 def search_results(request, search_string, unit='pct', fiscal_year=None):
