@@ -134,14 +134,15 @@ def contact(request):
     return render(request, 'contact_thankyou.html')
 
 def search_query(request):
-    fiscal_year = int(request.POST.get('fiscal-year'))
-    fiscal_year = (fiscal_year
+    fiscal_year = request.POST.get('fiscal-year')
+    fiscal_year = (int(fiscal_year)
                    if fiscal_year in settings.FISCAL_YEARS
                    else max(settings.FISCAL_YEARS))
     unit = request.POST.get('unit')
     unit = unit if unit in ('pct', 'dollars') else 'pct'
     q = request.POST.get('search-text', '')
     return redirect('search-request', unit=unit, fiscal_year=str(fiscal_year), search_string=q)
+
 
 def search_results(request, search_string, unit='pct', fiscal_year=None):
     if fiscal_year is None:
@@ -153,7 +154,6 @@ def search_results(request, search_string, unit='pct', fiscal_year=None):
     table_data = generic_program_table(programs, fiscal_year, unit)
     
     return render(request, 'generic_program_list.html', { 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'search_string': search, 'result_count': result_count })
-    
  
 
 def get_css_color(pct, metric):
