@@ -10,6 +10,7 @@
         <p>Have a question or comment? Want to update your program's obligation in our data? Please send us a message using the form below.</p>
 
         <form class="normalForm" method="POST" id="contact-form" action="{% url contact-post %}">
+		{% csrf_token %}
             <ul>
                 <li>
                     <label for="name">Name</label>
