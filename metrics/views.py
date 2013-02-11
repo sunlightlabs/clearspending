@@ -11,7 +11,7 @@ from decimal import Decimal
 from django.core.mail import send_mail
 from helpers.format import moneyfmt
 import math
-from urllib import unquote
+from urllib import unquote, quote
 from haystack.query import SearchQuerySet
 from haystack.models import SearchResult
 from django.conf import settings
@@ -140,11 +140,14 @@ def search_query(request):
                    else max(settings.FISCAL_YEARS))
     unit = request.POST.get('unit')
     unit = unit if unit in ('pct', 'dollars') else 'pct'
-    q = request.POST.get('search-text', '')
+    q = unquote(request.POST.get('search-text', ''))
     if q == '':
         raise Http404
     else:
-        return redirect('search-request', unit=unit, fiscal_year=str(fiscal_year), search_string=q)
+        return redirect('search-request',
+                        unit=unit,
+                        fiscal_year=str(fiscal_year),
+                        search_string=quote(q))
 
 
 def search_results(request, search_string, unit='pct', fiscal_year=None):
@@ -156,7 +159,14 @@ def search_results(request, search_string, unit='pct', fiscal_year=None):
     result_count = programs.count()
     table_data = generic_program_table(programs, fiscal_year, unit)
     
-    return render(request, 'generic_program_list.html', { 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'search_string': search, 'result_count': result_count })
+    ctx = {
+        'table_data': table_data,
+        'fiscal_year': fiscal_year,
+        'unit': unit,
+        'search_string': search,
+        'result_count': result_count
+    }
+    return render(request, 'generic_program_list.html', ctx)
  
 
 def get_css_color(pct, metric):
