@@ -144,7 +144,7 @@ h4 .tip{
 
 #agency_data { margin: 40px 0; padding-bottom: 40px; border-bottom: 1px solid #e8e6e1;}
 
-#pageMain #bignumbers li, #program-total-value { color: #7ABDD4; font-size: 120%; float: left; display: block; text-align: center; margin: 0 20px 0 0; width: 108px; font-weight: bold; }
+#pageMain #bignumbers li, #program-total-value { color: #7ABDD4; font-size: 120%; float: left; display: block; text-align: center; margin: 0 20px 0 0; width: 128px; font-weight: bold; }
 #bignumbers li span { font-weight: normal;}
 .bignumberstext { display: block; font-size: 80%; }
 

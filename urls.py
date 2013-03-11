@@ -36,7 +36,7 @@ urlpatterns = patterns('',
     url(r'^agency/(?P<agency_id>\d+)/(?P<fiscal_year>\d{4})/(?P<unit>\w+)/', 'metrics.views.agencyDetail', name="agency_detail"),
     url(r'^program/(?P<cfda_number>\d{2}\.\d{3})/(?P<unit>\w+)/', 'metrics.views.programDetail', name='program_detail_by_cfda'),
     url(r'^program/(?P<program_id>\d+)/(?P<unit>\w+)/', 'metrics.views.programDetail', name='program_detail'),
-    url(r'^search/(?P<search_string>[\w\+%\d\s]+)/(?P<unit>\w+)/(?P<fiscal_year>\d{4})/', 'metrics.views.search_results', name='search-request'),
+    url(r'^search/(?P<search_string>[+.%\'\"\w\d\s/]+)/(?P<unit>\w+)/(?P<fiscal_year>\d{4})/', 'metrics.views.search_results', name='search-request'),
     url(r'^search/', 'metrics.views.search_query', name='search-query'),
     url(r'^$', direct_to_template, {'template':'index.html'}, name='clearspending-index'),
 )

@@ -146,19 +146,18 @@ if __name__ == '__main__':
             if row['cfda_program_num']:
                 usaspending_total[row['fiscal_year']] += row['fed_funding_amount']
                 program = Program.objects.get(program_number=row['cfda_program_num'])
-                this_type = 1
+                if row['fed_funding_amount'] > 0:
+                    cfda_ob = ProgramObligation.objects.get(program=program,
+                                                            fiscal_year=row['fiscal_year'],
+                                                            obligation_type=1)
+                    cfda_ob.usaspending_obligation = row['fed_funding_amount']
+                    cfda_ob.save()
                 if row['face_loan_guran'] > 0:
-                    this_type =2 
-
-                cfda_ob = ProgramObligation.objects.get(program=program, fiscal_year=row['fiscal_year'], obligation_type=this_type)
-                
-                if cfda_ob.obligation_type == 1:
-                    #its direct spending/grants
-                    obligation = row['fed_funding_amount']
-                else:
-                    obligation = row['face_loan_guran']
-                cfda_ob.usaspending_obligation = obligation
-                cfda_ob.save()
+                    cfda_ob = ProgramObligation.objects.get(program=program,
+                                                            fiscal_year=row['fiscal_year'],
+                                                            obligation_type=2)
+                    cfda_ob.usaspending_obligation = row['face_loan_guran']
+                    cfda_ob.save()
 
                     #print "MATCH: %s - %s - %s - %s diff %s" % (row[0], row[1], cfda_ob.obligation, cfda_ob.usaspending_obligation, cfda_ob.delta)
             else:

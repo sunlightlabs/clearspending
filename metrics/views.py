@@ -3,15 +3,15 @@ import simplejson
 from operator import attrgetter
 from cfda.models import Program, ProgramObligation, Agency
 from metrics.models import *
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.http import HttpResponse, Http404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Count, Sum, Min, Max
 from django.db.models.query import QuerySet
 from decimal import Decimal
 from django.core.mail import send_mail
 from helpers.format import moneyfmt
 import math
-from urllib import unquote
+from urllib import unquote, quote
 from haystack.query import SearchQuerySet
 from haystack.models import SearchResult
 from django.conf import settings
@@ -134,14 +134,21 @@ def contact(request):
     return render(request, 'contact_thankyou.html')
 
 def search_query(request):
-    fiscal_year = int(request.POST.get('fiscal-year'))
-    fiscal_year = (fiscal_year
+    fiscal_year = request.POST.get('fiscal-year')
+    fiscal_year = (int(fiscal_year)
                    if fiscal_year in settings.FISCAL_YEARS
                    else max(settings.FISCAL_YEARS))
     unit = request.POST.get('unit')
     unit = unit if unit in ('pct', 'dollars') else 'pct'
-    q = request.POST.get('search-text', '')
-    return redirect('search-request', unit=unit, fiscal_year=fiscal_year, search_string=q)
+    q = unquote(request.POST.get('search-text', ''))
+    if q == '':
+        raise Http404
+    else:
+        return redirect('search-request',
+                        unit=unit,
+                        fiscal_year=str(fiscal_year),
+                        search_string=quote(q))
+
 
 def search_results(request, search_string, unit='pct', fiscal_year=None):
     if fiscal_year is None:
@@ -152,8 +159,14 @@ def search_results(request, search_string, unit='pct', fiscal_year=None):
     result_count = programs.count()
     table_data = generic_program_table(programs, fiscal_year, unit)
     
-    return render(request, 'generic_program_list.html', { 'table_data': table_data, 'fiscal_year': fiscal_year, 'unit': unit, 'search_string': search, 'result_count': result_count })
-    
+    ctx = {
+        'table_data': table_data,
+        'fiscal_year': fiscal_year,
+        'unit': unit,
+        'search_string': search,
+        'result_count': result_count
+    }
+    return render(request, 'generic_program_list.html', ctx)
  
 
 def get_css_color(pct, metric):
@@ -307,9 +320,9 @@ def agencyDetail(request, agency_id, unit='dollars', fiscal_year=None):
 
 
 def programDetail(request, program_id=None, cfda_number=None, unit='dollars'):
-    program = (Program.objects.get(id=program_id)
+    program = (get_object_or_404(Program, id=program_id)
                if program_id is not None
-               else Program.objects.get(program_number=cfda_number))
+               else get_object_or_404(Program, program_number=cfda_number))
     program_total_obs = ProgramObligation.objects.filter(program=program, fiscal_year__in=settings.FISCAL_YEARS).order_by('fiscal_year')
     total_obs = []
     curr_year = None

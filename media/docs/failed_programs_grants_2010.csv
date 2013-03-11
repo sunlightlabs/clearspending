@@ -35,17 +35,13 @@ CFDA number,CFDA Program Title,Failed Metric,CFDA Program Obligation,USASpending
 10.689,Community Forest and Open Space Conservation Program (CFP),consistency,500000.00,
 10.206,Grants for Agricultural Research_Competitive Research Grants,consistency,0.00,-1004114.00
 10.443,Outreach and Assistance for Socially Disadvantaged Farmers and Ranchers,consistency,19000000.00,-81157.00
-10.447,The Rural Development (RD) Multi-Family Housing  Revitalization Demonstration Program  (MPR),consistency,172616712.00,
+10.447,The Rural Development (RD) Multi-Family Housing  Revitalization Demonstration Program  (MPR),consistency,172616712.00,243301.00
 10.446,Rural Community Development Initiative,consistency,6511766.00,
-10.444,Direct Housing_Natural Disaster Loans and Grants,consistency,1711000.00,
+10.444,Direct Housing_Natural Disaster Loans and Grants,consistency,1711000.00,3363691.00
 10.308,Resident Instruction Grants for Insular Area Activities,consistency,900000.00,1543754.00
-10.781,Water and Waste Disposal Systems for Rural Communities - ARRA,consistency,505540000.00,
 10.220,Higher Education Multicultural Scholars Program,consistency,2230000.00,958000.00
 10.312,Biomass Research and Development Initiative Competitive Grants Program (BRDI),consistency,28800000.00,
-10.787,Broadband Initiatives Program,consistency,2337246311.00,
-10.780,Community Facilities Loans and Grants,consistency,70440941.00,
-10.766,Community Facilities Loans and Grants,consistency,60741405.00,
-10.760,Water and Waste Disposal Systems for Rural Communities,consistency,54907138.00,
+10.760,Water and Waste Disposal Systems for Rural Communities,consistency,54907138.00,605226399.00
 10.567,Food Distribution Program on Indian Reservations,consistency,0.00,37536621.00
 10.961,Scientific Cooperation and Research,consistency,350000.00,
 10.777,Norman E. Borlaug International Agricultural Science and Technology Fellowship,consistency,1128449.00,
@@ -57,7 +53,7 @@ CFDA number,CFDA Program Title,Failed Metric,CFDA Program Obligation,USASpending
 10.614,Scientific Cooperation Exchange Program with China,consistency,350000.00,
 10.613,Faculty Exchange Program,consistency,600000.00,
 10.435,State Mediation Grants,consistency,4369000.00,385729.00
-10.417,Very Low-Income Housing Repair Loans and Grants,consistency,31781000.00,
+10.417,Very Low-Income Housing Repair Loans and Grants,completeness,31781000.00
 10.479,Food Safety Cooperative Agreements,consistency,9475334.00,
 10.089,Livestock Forage Disaster Program,timeliness,263262939.00
 10.866,Repowering Assistance ,consistency,0.00,1955272.00
@@ -497,7 +493,7 @@ CFDA number,CFDA Program Title,Failed Metric,CFDA Program Obligation,USASpending
 14.316,Housing Counseling Training Program,consistency,5000000.00,
 14.315,Emergency Capital Repair Grants for Multifamily Housing Projects Designated for Occupancy,consistency,0.00,-755.00
 14.314,Assisted Living Conversion for Eligible Multifamily Housing Projects,consistency,0.00,5856890.00
-14.318,Assisted Housing Stability and Energy and Green Retrofit Investments Program (Recovery Act Funded),consistency,235000000.00,
+14.318,Assisted Housing Stability and Energy and Green Retrofit Investments Program (Recovery Act Funded),consistency,235000000.00,76504269.00
 14.252,Section 4 Capacity Building for Community Development and Affordable Housing,consistency,49500000.00,
 14.250,Rural Housing and Economic Development,consistency,0.00,22606281.00
 14.251,"Economic Development Initiative-Special Project, Neighborhood Initiative and Miscellaneous Grants",consistency,22088000.00,138135433.00

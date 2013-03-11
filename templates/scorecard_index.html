@@ -19,11 +19,11 @@
         <ul>
             <li>
                 <span>Choose your fiscal year:</span>
-                <img src="{{ STATIC_URL }}/images/chooseyear.png" alt="Choose year" />
+                <img src="{{ STATIC_URL }}images/chooseyear.png" alt="Choose year" />
             </li>
             <li>
                 <span>Choose display unit:</span>
-                <img src="{{ STATIC_URL }}/images/chooseunit.png" alt="Choose unit" />
+                <img src="{{ STATIC_URL }}images/chooseunit.png" alt="Choose unit" />
             </li>     
             <li>
                 <span>Sort by the metric values:</span>
@@ -115,21 +115,6 @@
             $("#pct_radio").change(function(){
                 $(document)[0].location = "{% url scorecard-index %}pct/{{ fiscal_year }}/";
             });
-            if ($.cookie('clearspending_scorecard') != "true"){
-                $("#scorecard-intro").css( 'display', 'block')
-                $("#scorecard-intro .close").click(function(){
-                    $("#scorecard-intro").css('display', 'none')
-                })
-                $("#scorecard-intro .do-not-show").click(function(){
-                    $("#scorecard-intro").css('display', 'none')
-                    $.cookie('clearspending_scorecard', true, {expires: 10000}); 
-                })
-            }
-
-                                                //buttons: {
-                                                  //          "OK": function(){ $(this).dialog("close");}, 
-                                                    //        "Don't show this again": function() { $.cookie('clearspending_scorecard', true, {expires: 10000});  $(this).dialog("close");}
-                                                //}
         });
     </script>   
 {% endblock %}
