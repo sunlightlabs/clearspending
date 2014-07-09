@@ -130,7 +130,7 @@ def contact(request):
     name = request.POST.get('name', '')
     email = request.POST.get('email', '')
     msg = request.POST.get('message', '')
-    send_mail('Clearspending Feedback from '+name, msg, email, ['klee@sunlightfoundation.com'], fail_silently=True)
+    send_mail('Clearspending Feedback from '+name, msg, email, ['tlee@sunlightfoundation.com'], fail_silently=True)
     return render(request, 'contact_thankyou.html')
 
 def search_query(request):
