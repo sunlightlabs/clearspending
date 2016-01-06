@@ -139,7 +139,7 @@ SUB_SITE = 'clearspending'
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = 'http://assets.sunlightfoundation.com/admin/8961/'
+ADMIN_MEDIA_PREFIX = 'https://assets.sunlightfoundation.com/admin/8961/'
 
 MEDIASYNC = {
     'BACKEND': 'mediasync.backends.s3',
